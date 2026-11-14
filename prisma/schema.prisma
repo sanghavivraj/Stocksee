@@ -1,0 +1,93 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum Language {
+  en
+  hi
+  gu
+}
+
+enum AlertDirection {
+  up
+  down
+}
+
+/// PRICE_MOVE: day change >= threshold %   | GAP: opening gap >= threshold %
+/// VOLUME_SPIKE: volume >= threshold x 20-day average
+/// NEW_52W_HIGH / NEW_52W_LOW: breaks the previous 52-week high/low (threshold unused)
+enum AlertType {
+  PRICE_MOVE
+  GAP
+  VOLUME_SPIKE
+  NEW_52W_HIGH
+  NEW_52W_LOW
+}
+
+/// An anonymous visitor (no sign-up). Identified only by a random, httpOnly session cookie,
+/// created the first time they save something (watchlist, alert, Telegram link, language).
+model User {
+  id           Int      @id @default(autoincrement())
+  language     Language @default(en)
+
+  // Telegram companion (linked via a one-time deep-link token)
+  telegramChatId          String?   @unique
+  telegramUsername        String?
+  telegramLinkedAt        DateTime?
+  telegramLinkToken       String?   @unique
+  telegramLinkTokenExpires DateTime?
+
+  createdAt  DateTime    @default(now())
+  updatedAt  DateTime    @updatedAt
+  watchlists Watchlist[]
+  alerts     Alert[]
+
+  @@map("users")
+}
+
+model Watchlist {
+  id        Int      @id @default(autoincrement())
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId    Int
+  symbol    String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@unique([userId, symbol])
+  @@map("watchlists")
+}
+
+model MarketNarrative {
+  id        Int      @id @default(autoincrement())
+  language  String
+  content   String
+  date      DateTime @default(now())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("market_narratives")
+}
+
+/// Fires at most once per IST trading day (tracked by lastTriggeredAt).
+model Alert {
+  id              Int            @id @default(autoincrement())
+  user            User           @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId          Int
+  symbol          String
+  type            AlertType      @default(PRICE_MOVE)
+  threshold       Float
+  direction       AlertDirection
+  active          Boolean        @default(true)
+  lastTriggeredAt DateTime?
+  createdAt       DateTime       @default(now())
+  updatedAt       DateTime       @updatedAt
+
+  @@index([userId])
+  @@index([active, symbol])
+  @@map("alerts")
+}

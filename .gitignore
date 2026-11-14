@@ -1,0 +1,32 @@
+# Dependencies & Builds
+node_modules/
+dist/
+frontend/dist/
+
+# Environment
+.env
+
+
+# Logs
+logs/
+*.log
+
+# IDE
+.vscode/
+.idea/
+
+# Test coverage
+coverage/
+
+# macOS
+.DS_Store
+
+# Local
+local/
+
+# Temporary
+*.tmp
+*.bak
+
+# Local data files (may contain personal data)
+src/data/*.json

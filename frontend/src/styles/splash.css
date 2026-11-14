@@ -1,0 +1,169 @@
+/* "Noise to Signal" intro. Animates only transform and opacity (GPU-friendly).
+   Colours and delays come from CSS variables set in NoiseToSignalSplash.jsx (TIMING / COLORS). */
+
+.n2s {
+  position: fixed;
+  inset: 0;
+  z-index: 200;
+  overflow: hidden;
+  cursor: pointer;
+  color: #fff7ea;
+  background: radial-gradient(ellipse at 50% 45%, var(--n2s-bg-inner) 0%, var(--n2s-bg-outer) 78%);
+  opacity: 0;
+  transition: opacity var(--n2s-fade-in) ease-out;
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
+}
+.n2s.is-in { opacity: 1; }
+.n2s.is-leaving { opacity: 0; transition: opacity var(--n2s-exit) ease-in; }
+.n2s.is-leaving .n2s-center { transform: scale(1.06); transition: transform var(--n2s-exit) ease-in; }
+
+.n2s-canvas { position: absolute; inset: 0; display: block; }
+
+/* ---------- Hype words (the noise) ---------- */
+.n2s-tips { position: absolute; inset: 0; pointer-events: none; }
+.n2s-tip {
+  position: absolute;
+  transform: rotate(var(--tilt));
+  transition: opacity 280ms ease, transform 280ms ease;
+  will-change: transform, opacity;
+}
+.n2s-tip.is-cleared { opacity: 0; transform: rotate(var(--tilt)) translateY(-10px) scale(0.9); }
+.n2s-tip-inner {
+  display: inline-block;
+  font-weight: 700;
+  font-size: clamp(0.68rem, 2.2vw, 0.92rem);
+  font-family: var(--font-mono, monospace), 'Noto Sans Devanagari', 'Noto Sans Gujarati', monospace;
+  letter-spacing: 0.06em;
+  white-space: nowrap;
+  color: rgba(255, 255, 255, 0.78);
+  padding: 3px 9px;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 4px;
+  background: rgba(248, 113, 113, 0.1);
+  /* static RGB split = "glitchy" look without flashing */
+  text-shadow: 1.5px 0 rgba(255, 60, 110, 0.55), -1.5px 0 rgba(60, 220, 255, 0.45);
+  opacity: 0;
+  animation:
+    n2s-glitch 2s ease-in-out var(--d) infinite,
+    n2s-jitter 0.45s steps(3) var(--d) infinite;
+}
+
+/* One gentle dip per 1.4s: well under the 3-flashes-per-second seizure guideline */
+@keyframes n2s-glitch {
+  0% { opacity: 0; }
+  14% { opacity: 0.85; }
+  55% { opacity: 0.85; }
+  64% { opacity: 0.35; }
+  74% { opacity: 0.8; }
+  100% { opacity: 0.8; }
+}
+@keyframes n2s-jitter {
+  0% { transform: translate(0, 0); }
+  33% { transform: translate(-2px, 1px); }
+  66% { transform: translate(2px, -1px); }
+  100% { transform: translate(0, 0); }
+}
+
+/* ---------- Centre: logo, name, tagline (the signal) ---------- */
+.n2s-center {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 0 16px;
+  pointer-events: none;
+}
+
+.n2s-stamp {
+  position: relative;
+  width: 84px;
+  height: 84px;
+  border-radius: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--n2s-gold);
+  color: #24123f;
+  font: 800 2rem var(--font-mono, monospace);
+  letter-spacing: -0.04em;
+  /* starts as the thin gold signal line, then grows into the square */
+  opacity: 0;
+  transform: scaleY(0.05);
+  animation: n2s-stamp var(--n2s-stamp-dur) cubic-bezier(0.2, 1.3, 0.4, 1) var(--n2s-stamp-at) forwards;
+}
+.n2s-stamp span { opacity: 0; animation: n2s-fade 220ms ease-out calc(var(--n2s-stamp-at) + var(--n2s-stamp-dur) * 0.55) forwards; }
+.n2s-stamp::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: 20px;
+  border: 2px solid var(--n2s-gold);
+  opacity: 0;
+  animation: n2s-ring 900ms ease-out calc(var(--n2s-stamp-at) + var(--n2s-stamp-dur)) forwards;
+}
+@keyframes n2s-stamp {
+  0% { opacity: 1; transform: scaleY(0.05); }
+  100% { opacity: 1; transform: scaleY(1); }
+}
+@keyframes n2s-ring {
+  0% { opacity: 0.7; transform: scale(1); }
+  100% { opacity: 0; transform: scale(1.7); }
+}
+@keyframes n2s-fade { to { opacity: 1; } }
+@keyframes n2s-rise { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: none; } }
+
+.n2s-name {
+  margin-top: 16px;
+  font-family: var(--font-serif, serif);
+  font-size: clamp(1.7rem, 6vw, 2.3rem);
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  opacity: 0;
+  animation: n2s-rise 450ms ease-out var(--n2s-name-at) forwards;
+}
+
+.n2s-tagline {
+  margin: 10px 0 0;
+  font-family: var(--font-sans);
+  font-size: clamp(1rem, 3.6vw, 1.2rem);
+  line-height: 1.6;
+  color: #ddd2ec;
+}
+.n2s-line { display: block; min-height: 1.6em; }
+.n2s-accent { color: var(--n2s-gold); font-weight: 700; }
+.n2s-ghost { visibility: hidden; } /* reserves space so the text never shifts while typing */
+.n2s-caret {
+  display: inline-block;
+  width: 2px;
+  height: 1.05em;
+  margin: 0 1px -0.15em;
+  background: var(--n2s-gold);
+  animation: n2s-blink 1s steps(2, start) infinite;
+}
+.n2s-caret.is-done { animation: n2s-blink 1s steps(2, start) 2 forwards; }
+@keyframes n2s-blink { to { opacity: 0; } }
+
+.n2s-hint {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: max(20px, env(safe-area-inset-bottom));
+  text-align: center;
+  font-size: 0.72rem;
+  letter-spacing: 0.04em;
+  color: rgba(255, 247, 234, 0.45);
+  opacity: 0;
+  animation: n2s-fade 400ms ease-out 700ms forwards;
+}
+
+/* ---------- Reduced motion: static card, just fades ---------- */
+.n2s.is-reduced .n2s-stamp,
+.n2s.is-reduced .n2s-stamp span,
+.n2s.is-reduced .n2s-name,
+.n2s.is-reduced .n2s-hint { animation: none; opacity: 1; transform: none; }
+.n2s.is-reduced .n2s-stamp::after,
+.n2s.is-reduced .n2s-caret { display: none; }

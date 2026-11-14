@@ -1,0 +1,260 @@
+import { useState, useEffect, useContext, useCallback } from 'react';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
+import {
+  LayoutDashboard,
+  Eye,
+  Bell,
+  SlidersHorizontal,
+  Sun,
+  Moon,
+  ShieldAlert,
+} from 'lucide-react';
+import { UserContext } from '../context/UserContext';
+import { t } from '../utils/i18n';
+import marketService from '../services/marketService';
+import AskAssistant from './AskAssistant';
+import NoiseToSignalSplash from './NoiseToSignalSplash';
+import { formatPrice, formatPercent, hasValue } from '../utils/formatPrice';
+
+const benchmarkKeys = [
+  { symbol: '^NSEI', label: 'NIFTY 50' },
+  { symbol: '^BSESN', label: 'SENSEX' },
+  { symbol: 'NIFTYBANK', label: 'BANK NIFTY' },
+  { symbol: 'GOLD', label: 'GOLD (COMEX)' },
+  { symbol: 'CRUDEOIL', label: 'CRUDE (WTI)' },
+];
+
+const INTRO_KEY = 'stocksee_intro_seen';
+
+const Layout = ({ children }) => {
+  const location = useLocation();
+  const navigate = useNavigate();
+  const [splash, setSplash] = useState(false);
+  const closeSplash = useCallback(() => setSplash(false), []);
+  // Intro plays once per browser session; clicking the logo replays it on purpose
+  useEffect(() => {
+    try {
+      if (!sessionStorage.getItem(INTRO_KEY)) {
+        sessionStorage.setItem(INTRO_KEY, '1');
+        setSplash(true);
+      }
+    } catch { /* storage blocked (private mode): just skip the intro */ }
+  }, []);
+  const onLogoClick = (e) => {
+    e.preventDefault();
+    navigate('/');
+    setSplash(true);
+  };
+  const { theme, toggleTheme, language, updateUserLanguage } = useContext(UserContext);
+  const [assistantOpen, setAssistantOpen] = useState(false);
+  const [pulseData, setPulseData] = useState([]);
+  const [pulseLoading, setPulseLoading] = useState(true);
+
+  const [assistantPrompt, setAssistantPrompt] = useState(null);
+
+  // Any page can open the assistant with a ready question: dispatch 'open-stocksee-assistant' with { prompt }
+  useEffect(() => {
+    const handleOpen = (e) => {
+      setAssistantPrompt(e.detail?.prompt ? { text: e.detail.prompt, id: Date.now() } : null);
+      setAssistantOpen(true);
+    };
+    window.addEventListener('open-stocksee-assistant', handleOpen);
+    return () => window.removeEventListener('open-stocksee-assistant', handleOpen);
+  }, []);
+
+  // Fetch real market pulse data
+  useEffect(() => {
+    let isMounted = true;
+    const fetchPulse = async () => {
+      try {
+        const results = await Promise.all(
+          benchmarkKeys.map(async (item) => {
+            try {
+              const res = await marketService.getMarketData(item.symbol);
+              return {
+                symbol: item.label,
+                price: formatPrice(res?.price, res?.currency) + (res?.unit ? ` ${res.unit.replace('per ', '/')}` : ''),
+                change: hasValue(res?.changePercent) ? formatPercent(res.changePercent) : '—',
+                isUp: (res?.changePercent || 0) >= 0,
+              };
+            } catch (err) {
+              return {
+                symbol: item.label,
+                price: '—',
+                change: '—',
+                isUp: true,
+              };
+            }
+          })
+        );
+        if (isMounted) {
+          setPulseData(results);
+          setPulseLoading(false);
+        }
+      } catch (e) {
+        if (isMounted) setPulseLoading(false);
+      }
+    };
+
+    fetchPulse();
+    // Refresh every minute, but not while the tab is hidden (saves battery and API calls)
+    const interval = setInterval(() => { if (!document.hidden) fetchPulse(); }, 60000);
+    const onVisible = () => { if (!document.hidden) fetchPulse(); };
+    document.addEventListener('visibilitychange', onVisible);
+    return () => {
+      isMounted = false;
+      clearInterval(interval);
+      document.removeEventListener('visibilitychange', onVisible);
+    };
+  }, []);
+
+  // 4 Core Navigation Items (Watchlist replaces Portfolio, no auth required)
+  const navItems = [
+    { path: '/', label: t('dashboard', language), icon: LayoutDashboard },
+    { path: '/watchlist', label: language === 'en' ? 'My Watchlist' : t('watchlist', language), icon: Eye },
+    { path: '/alerts', label: t('alerts', language), icon: Bell },
+    { path: '/tip-check', label: t('tipCheck', language), icon: ShieldAlert },
+    { path: '/settings', label: t('settings', language), icon: SlidersHorizontal },
+  ];
+
+  return (
+    <div className="app-shell">
+      {splash && <NoiseToSignalSplash language={language} onDone={closeSplash} />}
+      {/* Top Header */}
+      <header className="top-navbar">
+        <div className="navbar-container">
+          {/* Brand Logo & Stamp */}
+          <Link to="/" className="navbar-brand-wrap" aria-label="StockSee Home" onClick={onLogoClick}>
+            <div className="brand-stamp">SS</div>
+            <div className="brand-info">
+              <span className="brand-title">StockSee</span>
+              <span className="brand-subtitle">Market Intelligence</span>
+            </div>
+          </Link>
+
+          {/* Desktop Navigation Links */}
+          <nav className="desktop-navbar-links" aria-label="Desktop Navigation">
+            {navItems.map((item) => {
+              const isActive = location.pathname === item.path;
+              return (
+                <Link
+                  key={item.path}
+                  to={item.path}
+                  className={`desktop-nav-item ${isActive ? 'active' : ''}`}
+                >
+                  <item.icon size={15} />
+                  <span>{item.label}</span>
+                </Link>
+              );
+            })}
+          </nav>
+
+          {/* Quick Header Controls (Language & Theme) */}
+          <div className="navbar-controls">
+            {/* Language Selector */}
+            <div className="lang-button-group" role="group" aria-label="Select Language">
+              <button
+                type="button"
+                className={`lang-btn ${language === 'en' ? 'active' : ''}`}
+                onClick={() => updateUserLanguage('en')}
+                title="English"
+              >
+                EN
+              </button>
+              <button
+                type="button"
+                className={`lang-btn ${language === 'hi' ? 'active' : ''}`}
+                onClick={() => updateUserLanguage('hi')}
+                title="हिन्दी"
+              >
+                हिन्दी
+              </button>
+              <button
+                type="button"
+                className={`lang-btn ${language === 'gu' ? 'active' : ''}`}
+                onClick={() => updateUserLanguage('gu')}
+                title="ગુજરાતી"
+              >
+                ગુજરાતી
+              </button>
+            </div>
+
+            {/* Theme Toggle Button */}
+            <button
+              type="button"
+              className="theme-toggle-btn"
+              onClick={toggleTheme}
+              title={`Switch to ${theme === 'dark' ? 'Light' : 'Dark'} Mode`}
+              aria-label="Toggle Theme"
+            >
+              {theme === 'dark' ? <Sun size={15} /> : <Moon size={15} />}
+            </button>
+          </div>
+        </div>
+      </header>
+
+      {/* Market Pulse Ribbon (Real Benchmark Tape) */}
+      <div className="market-pulse-ribbon" aria-label="Market Pulse">
+        <div className="pulse-inner">
+          <div className="pulse-header">
+            <span className="pulse-dot"></span>
+            <span>Market Pulse</span>
+          </div>
+
+          <div className="pulse-items-track">
+            {pulseLoading ? (
+              <span className="pulse-loading-text">Loading exchange benchmarks...</span>
+            ) : (
+              pulseData.map((item) => (
+                <div key={item.symbol} className="pulse-item">
+                  <span className="pulse-symbol">{item.symbol}</span>
+                  <span className="pulse-price">{item.price}</span>
+                  {item.change !== '—' && (
+                    <span className={`pulse-change ${item.isUp ? 'up' : 'down'}`}>
+                      {item.change}
+                    </span>
+                  )}
+                </div>
+              ))
+            )}
+          </div>
+        </div>
+      </div>
+
+      {/* Main Page Viewport */}
+      <main className="main-content">
+        {children}
+      </main>
+
+      {/* Mobile Fixed Bottom Navigation Bar */}
+      <nav className="mobile-bottom-nav" aria-label="Mobile Bottom Navigation">
+        {navItems.map((item) => {
+          const isActive = location.pathname === item.path;
+          const IconComponent = item.icon;
+          return (
+            <Link
+              key={item.path}
+              to={item.path}
+              className={`mobile-nav-tab ${isActive ? 'active' : ''}`}
+              aria-current={isActive ? 'page' : undefined}
+            >
+              <div className="tab-icon-wrap">
+                <IconComponent size={20} strokeWidth={isActive ? 2.3 : 1.8} />
+              </div>
+              <span className="tab-label">{item.label}</span>
+            </Link>
+          );
+        })}
+      </nav>
+
+      {/* Floating Ask StockSee Assistant & Mobile Bottom Sheet */}
+      <AskAssistant
+        isOpen={assistantOpen}
+        initialPrompt={assistantPrompt}
+        onToggle={() => setAssistantOpen((prev) => !prev)}
+      />
+    </div>
+  );
+};
+
+export default Layout;

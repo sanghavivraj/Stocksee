@@ -1,0 +1,62 @@
+const { z } = require('zod');
+
+const symbol = z.string().trim().toUpperCase()
+  .regex(/^[A-Z0-9^.=&_-]{1,20}$/, 'Invalid symbol');
+const language = z.enum(['en', 'hi', 'gu']);
+const idParam = z.object({ id: z.coerce.number().int().positive() });
+
+const direction = z.enum(['up', 'down']);
+const percent = z.coerce.number().positive().max(50);
+
+/**
+ * A smart-alert rule. Old clients that send no `type` get a PRICE_MOVE alert.
+ * Output always has { type, symbol, direction, threshold } (unused fields get fixed values).
+ */
+const alertRule = z.preprocess(
+  (v) => ({ type: 'PRICE_MOVE', ...(v && typeof v === 'object' ? v : {}) }),
+  z.discriminatedUnion('type', [
+    z.object({ type: z.literal('PRICE_MOVE'), symbol, direction, threshold: percent }),
+    z.object({ type: z.literal('GAP'), symbol, direction, threshold: percent }),
+    z.object({ type: z.literal('VOLUME_SPIKE'), symbol, threshold: z.coerce.number().min(1.5).max(50) }),
+    z.object({ type: z.literal('NEW_52W_HIGH'), symbol }),
+    z.object({ type: z.literal('NEW_52W_LOW'), symbol }),
+  ]),
+).transform((r) => {
+  if (r.type === 'VOLUME_SPIKE') return { ...r, direction: 'up' };
+  if (r.type === 'NEW_52W_HIGH') return { ...r, direction: 'up', threshold: 0 };
+  if (r.type === 'NEW_52W_LOW') return { ...r, direction: 'down', threshold: 0 };
+  return r;
+});
+
+module.exports = {
+  idParam,
+  updatePreferences: z.object({ language }),
+  briefQuery: z.object({ language: language.default('en') }),
+  watchlistAdd: z.object({ symbol }),
+  watchlistImport: z.object({ symbols: z.array(symbol).max(50) }),
+  alertRule,
+  alertUpdate: z.object({ active: z.boolean() }),
+  // A message, a symbol, or both: a symbol alone checks only the stock's market patterns
+  tipCheck: z.object({
+    text: z.string().trim().max(2000).default(''),
+    symbol: z.preprocess((v) => (v === '' ? undefined : v), symbol.optional()),
+    language: language.default('en'),
+  }).refine((v) => v.text.length >= 3 || v.symbol, {
+    message: 'Paste the tip message or enter a stock symbol',
+    path: ['text'],
+  }),
+  symbolSearch: z.object({
+    q: z.string().trim().min(1).max(40),
+    limit: z.coerce.number().int().min(1).max(15).default(8),
+  }),
+  ask: z.object({
+    question: z.string().trim().min(1).max(500),
+    language: language.default('en'),
+    conversationHistory: z.array(z.object({
+      role: z.string().max(20).optional(),
+      text: z.string().max(2000).optional(),
+      symbol: z.string().max(30).nullable().optional(),
+      instrument: z.string().max(120).nullable().optional(),
+    }).passthrough()).max(20).default([]),
+  }),
+};

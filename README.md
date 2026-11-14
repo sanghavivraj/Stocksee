@@ -6,16 +6,45 @@ StockSee is a mobile-first financial companion for Indian retail investors that 
 
 ## Architecture
 
-- **Runtime**: Node.js LTS
-- **Backend**: Express.js
-- **Database**: PostgreSQL
-- **ORM**: Prisma
-- **Telegram**: Telegraf
-- **AI**: Google Gemini (with Groq fallback)
-- **Market Data**: yahoo-finance2 (development), Upstox/Angel One (production)
-- **Scheduling**: node-cron
-- **Caching**: Redis
-- **Monitoring**: Sentry
+| Layer | Technology |
+|---|---|
+| Runtime | Node.js 18.17+ |
+| Backend | Express 4, zod validation, central error middleware, express-rate-limit |
+| Database | PostgreSQL via Prisma (committed migrations) |
+| Frontend | React 18, Vite, React Router, lightweight-charts |
+| Telegram | Telegraf |
+| AI | Google Gemini, Groq fallback, then verified templates |
+| Market data | yahoo-finance2 + Yahoo chart API (development) |
+| Scheduling | node-cron (Asia/Kolkata) |
+| Caching | In-memory by default, Redis if `REDIS_URL` is set |
+| Monitoring | Sentry if `SENTRY_DSN` is set |
+| Tests | Jest + Supertest (backend, real test database), Vitest (frontend logic) |
+
+**Planned, not built yet:** a paid market-data feed (Upstox / Angel One) for production.
+
+```
+src/
+  routes/ controllers/   HTTP layer (zod schemas in controllers/schemas.js)
+  services/              market data, AI, Tip Check, symbol search, Telegram, alerts
+  analytics/             pure functions shared by alerts, backtests, chart markers, Tip Check
+  jobs/                  morning brief, weekly digest, alert evaluation (dependency-injected)
+  middleware/            anonymous-visitor cookie, error handling, symbol validation
+frontend/src/            pages, components, context providers, services (API clients)
+prisma/                  schema + migrations
+tests/                   backend tests
+docs/screenshots/        images used below
+```
+
+## Screenshots
+
+| | |
+|---|---|
+| ![Dashboard with the live market brief](docs/screenshots/dashboard.png) | ![Stock search with highlighted matches and keyboard selection](docs/screenshots/stock-search.png) |
+| Dashboard: live brief; gold and crude converted to rupees | Typeahead search: highlighted matches, keyboard selection |
+| ![Tip Check on a single stock](docs/screenshots/tip-check.png) | ![Watchlist showing gold in rupees per 10 g](docs/screenshots/watchlist-gold-inr.png) |
+| Tip Check: warning signs from real market data | Watchlist: gold in ₹ per 10 g (international price, converted) |
+| ![Intro animation: scan line clearing the noise](docs/screenshots/intro-scan.png) | ![Intro animation tagline in Hindi](docs/screenshots/intro-hindi.png) |
+| Intro: a scan line clears the noise | Intro: tagline in Hindi |
 
 ## Setup
 
@@ -28,13 +57,16 @@ cd frontend && npm install && cd ..
 
 2. Start PostgreSQL (e.g. Postgres.app) and create two databases: `stocksee` and `stocksee_test`.
 
-3. Copy `.env.example` to `.env` and fill in `DATABASE_URL`, `TEST_DATABASE_URL` and `JWT_SECRET`.
+3. Copy `.env.example` to `.env` and fill in `DATABASE_URL`, `TEST_DATABASE_URL` and `JWT_SECRET` (at least 32 characters;
+   it signs the visitor cookie). Optional: `PORT` (default 3000), `CORS_ORIGINS` (default `http://localhost:5173`),
+   `TELEGRAM_BOT_TOKEN`, AI keys, `REDIS_URL`, `SENTRY_DSN`.
 
-4. Create the tables:
+4. Create the tables (and optionally refresh the NSE company list used by the search):
 
 ```bash
 npm run db:migrate      # development (creates/applies migrations)
 npm run db:deploy       # production (applies committed migrations only)
+npm run symbols:update  # optional: re-download the NSE company list (src/constants/nseEquities.json)
 ```
 
 5. Run the API and the web app:
@@ -43,6 +75,29 @@ npm run db:deploy       # production (applies committed migrations only)
 npm run dev                  # API on http://localhost:3000
 cd frontend && npm run dev   # web app on http://localhost:5173 (proxies /api to :3000)
 ```
+
+## API
+
+All routes are under `/api`; `GET /health` is outside it. Public routes need no cookie. Routes marked * save data, so they
+create the anonymous visitor on first use.
+
+| Method & path | What it does |
+|---|---|
+| `GET /markets/:symbol` | latest quote (gold / crude converted to ₹) |
+| `GET /markets/:symbol/history?range=` | real daily candles + chart events |
+| `GET /markets/:symbol/scorecard` | price snapshot (returns, ranges, risk notes) |
+| `GET /search?q=` | stock / index / commodity suggestions |
+| `GET /brief?language=` | today's market brief |
+| `POST /ask` | grounded AI answer |
+| `POST /tip-check` | pump-and-dump warning-sign check (message and / or symbol) |
+| `POST /alerts/backtest` | how often a rule would have fired in 12 months |
+| `GET /me`, `PATCH /me`* | visitor language and Telegram status |
+| `GET /watchlists`, `POST /watchlists`*, `POST /watchlists/import`*, `DELETE /watchlists/:id` | watchlist (symbols must be real listed stocks, otherwise `400`) |
+| `GET /alerts`, `POST /alerts`*, `PATCH /alerts/:id`, `DELETE /alerts/:id` | smart alerts |
+| `POST /telegram/link`*, `GET /telegram/status`, `DELETE /telegram/link` | connect / disconnect Telegram |
+
+Errors are JSON: `{ "error": "message" }` (validation errors also include `details`). Rate limits apply to search, ask,
+tip-check, backtest and every route that saves data.
 
 ## Features
 
@@ -57,6 +112,15 @@ cd frontend && npm run dev   # web app on http://localhost:5173 (proxies /api to
 - **Grounded AI answers**: Gemini → Groq → template. Every AI answer is checked before it is shown: all numbers must come
   from the live data, no buy/sell/target language, correct language script; otherwise the verified template answer is used.
   "Why is X moving?" answers compare with NIFTY, today's volume and recent events.
+- **Stock search with validation**: typeahead from the first letter (symbol or company name, case-insensitive,
+  matches highlighted, keyboard + screen-reader friendly). Only real listed stocks can be added: the UI needs a picked
+  suggestion (or an exact symbol), and the API rejects anything else with `400` (`POST /api/watchlists`, `/api/alerts`).
+  Suggestions come from a bundled NSE company list plus Yahoo search for BSE-only / new listings.
+- **Gold, silver and crude in rupees**: these are international USD futures, so they are converted at the live USD/INR
+  rate (gold per 10 g, silver per kg, crude per barrel) and labelled as converted. They are **not** MCX or jeweller prices
+  (import duty, GST and premiums differ). If the exchange rate is unavailable the original USD price is shown.
+- **Intro animation** ("Noise to Signal"): plays once per session and on logo click; skippable, respects
+  reduced-motion, tagline follows the language switcher (EN / HI / GU).
 
 ## No sign-up (watch-only)
 
@@ -70,7 +134,7 @@ browser's watchlist and alerts, so nobody can see or delete anyone else's data. 
 1. Create a bot with [@BotFather](https://t.me/BotFather) and put its token in `TELEGRAM_BOT_TOKEN`.
 2. In the web app: **Settings → Connect Telegram**. This opens the bot with a one-time link (valid 15 minutes); tap **Start**.
 
-Commands: `/price <symbol>`, `/ask <question>`, `/language`, `/unlink`, `/help`.
+Commands: `/price <symbol>`, `/ask <question>`, `/check <tip>` (or forward any message), `/language`, `/unlink`, `/help`.
 
 Scheduled messages (Asia/Kolkata time), sent only to users who connected Telegram:
 
@@ -82,17 +146,29 @@ Scheduled messages (Asia/Kolkata time), sent only to users who connected Telegra
 
 ## AI Configuration
 
-Configure the AI providers by setting the appropriate environment variables for Google Gemini and Groq.
+Set `GEMINI_API_KEY` and/or `GROQ_API_KEY` (models via `GEMINI_MODEL`, default `gemini-2.5-flash`, and `GROQ_MODEL`,
+default `llama-3.3-70b-versatile`). Without keys, answers come from the built-in verified templates.
 
 ## Market Data Configuration
 
-For development, the application uses yahoo-finance2. For production, configure Upstox or Angel One SmartAPI.
+For development, the application uses yahoo-finance2 (prices may be delayed). For production, configure Upstox or Angel One SmartAPI.
+Search suggestions use the bundled NSE list (`npm run symbols:update` refreshes it).
 
 ## Supported Languages
 
 - English
 - Hindi
 - Gujarati
+
+## Known limitations
+
+- **Market data is delayed and unofficial.** Yahoo Finance is fine for development, not for a production product; results-date lookups are best-effort because that endpoint is rate-limited.
+- **Gold / crude are international prices converted to rupees**, not MCX or jeweller prices. The stock-popup chart for them stays in USD.
+- **AI answers are tested with mocked providers.** No live Gemini/Groq key was used in testing, so check the default model names in `.env` when you add keys; until then answers come from the verified templates.
+- **Tip Check is a warning-sign screen, not proof.** It does not yet use NSE surveillance (ASM / GSM) lists.
+- **No accounts by design.** Data is tied to a browser cookie, so clearing cookies or switching browser starts a fresh watchlist.
+- **Run the scheduled jobs on one server instance**, otherwise each instance sends the messages.
+- **Frontend tests cover logic only** (stock selection rules); there are no component or end-to-end tests yet.
 
 ## Compliance
 
@@ -103,7 +179,8 @@ StockSee is informational/educational and is not a SEBI-registered investment ad
 Tests run against the `TEST_DATABASE_URL` database (Postgres must be running):
 
 ```bash
-npm test
+npm test                      # backend (Jest + Supertest)
+cd frontend && npm test       # frontend unit tests (Vitest)
 ```
 
 Run a scheduled Telegram job right now (preview with `--dry-run`, no bot token needed):

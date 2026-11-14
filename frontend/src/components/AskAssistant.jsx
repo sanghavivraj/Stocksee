@@ -230,7 +230,7 @@ const AskAssistant = ({ isOpen, onToggle, initialPrompt }) => {
                   Your vernacular market companion.
                 </p>
                 <p className="assistant-intro-subtext">
-                  Ask in English, हिन्दी, or ગુજરાતી about Indian stocks, Nifty/Sensex, gold, crude oil, or gainers/losers. Paste a stock tip you received and I'll check it for pump-and-dump warning signs.
+                  Ask in English, हिन्दी, or ગુજરાતી about Indian stocks, Nifty/Sensex, gold, crude oil, or gainers/losers. Paste a stock tip you received and I&apos;ll check it for pump-and-dump warning signs.
                 </p>
 
                 <div className="assistant-presets-section">

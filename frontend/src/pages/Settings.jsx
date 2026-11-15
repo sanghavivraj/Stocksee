@@ -1,4 +1,5 @@
 import { useContext, useState, useEffect } from 'react';
+import { tr } from '../utils/uiStrings';
 import {
   Sun,
   Moon,
@@ -98,12 +99,12 @@ const Settings = () => {
       {/* Page Header */}
       <header className="editorial-lead-header">
         <div className="lead-meta-row">
-          <span className="editorial-kicker">APPLICATION PREFERENCES</span>
-          <span className="lead-date-stamp">Profile & Language Config</span>
+          <span className="editorial-kicker">{tr("APPLICATION PREFERENCES", language)}</span>
+          <span className="lead-date-stamp">{tr("Profile & Language Config", language)}</span>
         </div>
         <h1 className="lead-headline">{t('settings', language)}</h1>
         <p className="lead-description">
-          Customize your display language, appearance theme, and Telegram Bot companion synchronization.
+          {tr("Customize your display language, appearance theme, and Telegram Bot companion synchronization.", language)}
         </p>
       </header>
 
@@ -112,14 +113,14 @@ const Settings = () => {
         <section className="editorial-flow-section" aria-label="Language Preferences">
           <div className="flow-section-header">
             <div>
-              <span className="flow-kicker">VERNACULAR LOCALIZATION</span>
-              <h3 className="flow-title">Primary Display Language</h3>
+              <span className="flow-kicker">{tr("VERNACULAR LOCALIZATION", language)}</span>
+              <h3 className="flow-title">{tr("Primary Display Language", language)}</h3>
             </div>
           </div>
 
           <div className="settings-card">
             <p className="settings-card-intro">
-              Select your preferred language for the Daily Market Brief, conversational explanations, and Telegram push updates.
+              {tr("Select your preferred language for the Daily Market Brief, conversational explanations, and Telegram push updates.", language)}
             </p>
 
             <div className="language-options-grid">
@@ -147,7 +148,7 @@ const Settings = () => {
             </div>
 
             <div className="settings-preview-banner">
-              <span className="preview-label">Live Preview:</span>
+              <span className="preview-label">{tr("Live Preview:", language)}</span>
               <span className="preview-content">{previewTexts[selectedLang]}</span>
             </div>
           </div>
@@ -157,8 +158,8 @@ const Settings = () => {
         <section className="editorial-flow-section" aria-label="Theme Preferences">
           <div className="flow-section-header">
             <div>
-              <span className="flow-kicker">VISUAL IDENTITY</span>
-              <h3 className="flow-title">Appearance Theme</h3>
+              <span className="flow-kicker">{tr("VISUAL IDENTITY", language)}</span>
+              <h3 className="flow-title">{tr("Appearance Theme", language)}</h3>
             </div>
           </div>
 
@@ -171,8 +172,8 @@ const Settings = () => {
               >
                 <Sun size={20} className="theme-option-icon" />
                 <div className="theme-option-info">
-                  <span className="theme-option-title">Aubergine & Warm Cream (Light)</span>
-                  <span className="theme-option-desc">Deep aubergine navigation with warm cream paper canvas</span>
+                  <span className="theme-option-title">{tr("Aubergine & Warm Cream (Light)", language)}</span>
+                  <span className="theme-option-desc">{tr("Deep aubergine navigation with warm cream paper canvas", language)}</span>
                 </div>
               </button>
 
@@ -183,8 +184,8 @@ const Settings = () => {
               >
                 <Moon size={20} className="theme-option-icon" />
                 <div className="theme-option-info">
-                  <span className="theme-option-title">Light Black & Emerald (Dark)</span>
-                  <span className="theme-option-desc">Sleek charcoal obsidian with emerald growth accents and restrained coral red</span>
+                  <span className="theme-option-title">{tr("Light Black & Emerald (Dark)", language)}</span>
+                  <span className="theme-option-desc">{tr("Sleek charcoal obsidian with emerald growth accents and restrained coral red", language)}</span>
                 </div>
               </button>
             </div>
@@ -195,8 +196,8 @@ const Settings = () => {
         <section className="editorial-flow-section" aria-label="Telegram Sync">
           <div className="flow-section-header">
             <div>
-              <span className="flow-kicker">ONE-CLICK TELEGRAM INTEGRATION</span>
-              <h3 className="flow-title">Telegram Financial Companion</h3>
+              <span className="flow-kicker">{tr("ONE-CLICK TELEGRAM INTEGRATION", language)}</span>
+              <h3 className="flow-title">{tr("Telegram Financial Companion", language)}</h3>
             </div>
           </div>
 
@@ -204,18 +205,18 @@ const Settings = () => {
             <div className="telegram-sync-layout">
               <div className="telegram-info">
                 <div className="telegram-badge-row">
-                  <h4 className="telegram-handle">StockSee Telegram bot</h4>
+                  <h4 className="telegram-handle">{tr("StockSee Telegram bot", language)}</h4>
                   {telegram.connected ? (
                     <span className="telegram-status-pill" style={{ background: 'rgba(30,138,79,0.15)', color: 'var(--fg-positive)' }}>
                       CONNECTED{telegram.username ? ` • @${telegram.username}` : ''}
                     </span>
                   ) : waitingForTelegram ? (
                     <span className="telegram-status-pill" style={{ background: 'rgba(255, 185, 56, 0.15)', color: 'var(--fg-accent)' }}>
-                      WAITING FOR TELEGRAM…
+                      {tr("WAITING FOR TELEGRAM…", language)}
                     </span>
                   ) : (
                     <span className="telegram-status-pill" style={{ background: 'var(--fg-border-subtle)', color: 'var(--fg-text-muted)' }}>
-                      NOT CONNECTED
+                      {tr("NOT CONNECTED", language)}
                     </span>
                   )}
                 </div>
@@ -237,7 +238,7 @@ const Settings = () => {
               <div style={{ display: 'flex', gap: '0.75rem', flexWrap: 'wrap', alignItems: 'center' }}>
                 {telegram.connected ? (
                   <button type="button" onClick={handleDisconnectTelegram} className="btn-editorial btn-editorial-secondary">
-                    Disconnect
+                    {tr("Disconnect", language)}
                   </button>
                 ) : (
                   <button

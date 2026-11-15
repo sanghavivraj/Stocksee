@@ -1,0 +1,470 @@
+{
+ "ui": {
+  "en": {
+   "question": "When will you need this money?",
+   "pick": "Pick a time above to see the general principle.",
+   "principle": "General principle, not personal advice.",
+   "broad": "These are broad types of instruments, not recommendations of any product, fund or stock.",
+   "whatMatters": "What matters most for this time",
+   "four": "Four things we look at",
+   "factors": {
+    "liquidity": "Easy access (liquidity)",
+    "volatility": "Ups and downs (volatility)",
+    "inflation": "Inflation",
+    "capital": "Keeping the money safe"
+   },
+   "associated": "Broad types generally associated with this time",
+   "lessSuited": "Generally less suited, and why",
+   "openCard": "Open the card",
+   "caution": "No investment is risk-free. Market-linked ones can lose money, and past returns do not promise future returns.",
+   "legend": "Time horizon"
+  },
+  "hi": {
+   "question": "आपको यह पैसा कब चाहिए होगा?",
+   "pick": "सामान्य सिद्धांत देखने के लिए ऊपर कोई समय चुनें।",
+   "principle": "सामान्य सिद्धांत, व्यक्तिगत सलाह नहीं।",
+   "broad": "ये साधनों के व्यापक प्रकार हैं, किसी उत्पाद, फंड या शेयर की सिफारिश नहीं।",
+   "whatMatters": "इस समय के लिए सबसे ज़रूरी क्या है",
+   "four": "हम चार बातें देखते हैं",
+   "factors": {
+    "liquidity": "आसानी से निकासी (लिक्विडिटी)",
+    "volatility": "उतार-चढ़ाव",
+    "inflation": "महंगाई",
+    "capital": "पैसे को सुरक्षित रखना"
+   },
+   "associated": "इस समय से आमतौर पर जुड़े व्यापक प्रकार",
+   "lessSuited": "आमतौर पर कम उपयुक्त, और क्यों",
+   "openCard": "कार्ड खोलें",
+   "caution": "कोई भी निवेश जोखिम-मुक्त नहीं है। बाज़ार से जुड़े निवेश में घाटा हो सकता है, और पुराना रिटर्न भविष्य के रिटर्न का वादा नहीं है।",
+   "legend": "समय-सीमा"
+  }
+ },
+ "horizons": [
+  {
+   "id": "lt1",
+   "label": {
+    "en": "Less than 1 year",
+    "hi": "1 साल से कम"
+   },
+   "headline": {
+    "en": "The money has to be there, in full, when you need it.",
+    "hi": "ज़रूरत के समय पैसा पूरा मौजूद होना चाहिए।"
+   },
+   "matters": {
+    "en": [
+     "Keeping the amount safe",
+     "Being able to take it out easily"
+    ],
+    "hi": [
+     "रकम को सुरक्षित रखना",
+     "आसानी से निकाल पाना"
+    ]
+   },
+   "factors": {
+    "liquidity": {
+     "en": "You may need it soon, so it should be easy to take out without a penalty.",
+     "hi": "आपको जल्दी चाहिए हो सकता है, इसलिए बिना जुर्माने के निकालना आसान होना चाहिए।"
+    },
+    "volatility": {
+     "en": "A short time leaves no room to wait out a fall, and market-linked prices can fall sharply within a year.",
+     "hi": "कम समय में गिरावट का इंतज़ार करने की जगह नहीं होती, और बाज़ार से जुड़े भाव एक साल में तेज़ी से गिर सकते हैं।"
+    },
+    "inflation": {
+     "en": "Over a few months inflation changes little, so safety matters more than beating it.",
+     "hi": "कुछ महीनों में महंगाई कम बदलती है, इसलिए उसे हराने से ज़्यादा सुरक्षा मायने रखती है।"
+    },
+    "capital": {
+     "en": "Protecting the amount you put in is the main goal.",
+     "hi": "लगाई गई रकम को बचाना मुख्य लक्ष्य है।"
+    }
+   },
+   "types": [
+    {
+     "name": {
+      "en": "Savings account and short bank deposits",
+      "hi": "बचत खाता और छोटी अवधि की बैंक जमा"
+     },
+     "why": {
+      "en": "Easy access, and the amount does not swing with the market. Check the deposit's terms and the insurance limit.",
+      "hi": "आसान निकासी, और रकम बाज़ार के साथ नहीं हिलती। जमा की शर्तें और बीमा की सीमा जाँचें।"
+     },
+     "cards": [
+      "fd"
+     ]
+    },
+    {
+     "name": {
+      "en": "Very short-term, low-risk debt products",
+      "hi": "बहुत छोटी अवधि के कम-जोखिम वाले ऋण उत्पाद"
+     },
+     "why": {
+      "en": "Meant to hold money for days or months. Even these are not risk-free: check each product's risk level.",
+      "hi": "दिनों या महीनों के लिए पैसा रखने के लिए बने हैं। ये भी जोखिम-मुक्त नहीं: हर उत्पाद का जोखिम स्तर जाँचें।"
+     },
+     "cards": []
+    }
+   ],
+   "lessSuited": [
+    {
+     "name": {
+      "en": "Stocks, equity funds and equity ETFs",
+      "hi": "शेयर, इक्विटी फंड और इक्विटी ETF"
+     },
+     "why": {
+      "en": "Their price can fall sharply in a short time and may not recover before you need the money.",
+      "hi": "इनका भाव थोड़े समय में तेज़ी से गिर सकता है और आपको पैसे की ज़रूरत से पहले उबर न पाए।"
+     },
+     "cards": [
+      "stocks",
+      "mutual-funds",
+      "etf"
+     ]
+    },
+    {
+     "name": {
+      "en": "PPF",
+      "hi": "PPF"
+     },
+     "why": {
+      "en": "The money is locked for a long period, so it is not easy to reach.",
+      "hi": "पैसा लंबे समय के लिए बँधा होता है, इसलिए आसानी से नहीं निकलता।"
+     },
+     "cards": [
+      "ppf"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "1to3",
+   "label": {
+    "en": "1–3 years",
+    "hi": "1–3 साल"
+   },
+   "headline": {
+    "en": "Mostly safety, with a little care about inflation.",
+    "hi": "ज़्यादातर सुरक्षा, और महंगाई का थोड़ा ध्यान।"
+   },
+   "matters": {
+    "en": [
+     "Keeping the amount safe",
+     "Having it on a known date",
+     "Checking the real return after tax and inflation"
+    ],
+    "hi": [
+     "रकम को सुरक्षित रखना",
+     "तय तारीख पर उपलब्ध होना",
+     "टैक्स और महंगाई के बाद असली रिटर्न देखना"
+    ]
+   },
+   "factors": {
+    "liquidity": {
+     "en": "You will need it on a known date, so the end date matters more than the highest return.",
+     "hi": "आपको यह तय तारीख पर चाहिए होगा, इसलिए सबसे ऊँचे रिटर्न से ज़्यादा अंतिम तारीख मायने रखती है।"
+    },
+    "volatility": {
+     "en": "Three years is still short for market ups and downs. A bad patch can last longer than your time.",
+     "hi": "तीन साल बाज़ार के उतार-चढ़ाव के लिए अभी भी कम हैं। खराब दौर आपके समय से लंबा हो सकता है।"
+    },
+    "inflation": {
+     "en": "Over two or three years inflation starts to eat into plain savings, so the real return is worth checking.",
+     "hi": "दो-तीन साल में महंगाई सामान्य बचत को खाने लगती है, इसलिए असली रिटर्न देखना ज़रूरी है।"
+    },
+    "capital": {
+     "en": "Protecting the amount is still the first goal.",
+     "hi": "रकम को बचाना अब भी पहला लक्ष्य है।"
+    }
+   },
+   "types": [
+    {
+     "name": {
+      "en": "Bank deposits whose end date matches your date",
+      "hi": "बैंक जमा जिनकी अंतिम तारीख आपकी तारीख से मेल खाए"
+     },
+     "why": {
+      "en": "The rate and date are fixed by the deposit's terms, so you know what you will have. Check tax and the insurance limit.",
+      "hi": "दर और तारीख जमा की शर्तों से तय होती है, इसलिए आपको पता रहता है कि क्या मिलेगा। टैक्स और बीमा की सीमा जाँचें।"
+     },
+     "cards": [
+      "fd"
+     ]
+    },
+    {
+     "name": {
+      "en": "Short- to medium-term debt products",
+      "hi": "छोटी से मध्यम अवधि के ऋण उत्पाद"
+     },
+     "why": {
+      "en": "Often used for goals a few years away. Their value can move a little when interest rates change, and they are not guaranteed.",
+      "hi": "कुछ साल दूर के लक्ष्यों के लिए अक्सर इस्तेमाल होते हैं। ब्याज दरें बदलने पर उनका मूल्य थोड़ा हिल सकता है, और वे गारंटीशुदा नहीं हैं।"
+     },
+     "cards": []
+    }
+   ],
+   "lessSuited": [
+    {
+     "name": {
+      "en": "Stocks and equity funds for money you need on a date",
+      "hi": "तय तारीख के पैसे के लिए शेयर और इक्विटी फंड"
+     },
+     "why": {
+      "en": "The window is short, so a fall near the end can leave you with less than you put in.",
+      "hi": "समय कम है, इसलिए अंत के पास गिरावट आपको लगाए पैसे से कम पर छोड़ सकती है।"
+     },
+     "cards": [
+      "stocks",
+      "mutual-funds"
+     ]
+    },
+    {
+     "name": {
+      "en": "Gold as the main holding",
+      "hi": "सोना मुख्य निवेश के रूप में"
+     },
+     "why": {
+      "en": "It pays no interest and its price can stay flat or fall for years.",
+      "hi": "यह ब्याज नहीं देता और इसका भाव सालों तक सपाट या नीचे रह सकता है।"
+     },
+     "cards": [
+      "gold"
+     ]
+    },
+    {
+     "name": {
+      "en": "PPF",
+      "hi": "PPF"
+     },
+     "why": {
+      "en": "Locked for a long period.",
+      "hi": "लंबे समय के लिए बँधा है।"
+     },
+     "cards": [
+      "ppf"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "3to5",
+   "label": {
+    "en": "3–5 years",
+    "hi": "3–5 साल"
+   },
+   "headline": {
+    "en": "A bridge: part safety, part growth, with each rupee matched to its date.",
+    "hi": "एक पुल: कुछ सुरक्षा, कुछ बढ़त, हर रुपया अपनी तारीख से जुड़ा।"
+   },
+   "matters": {
+    "en": [
+     "Matching each part of the money to when it is needed",
+     "Some protection from inflation",
+     "Only taking ups and downs you can sit through"
+    ],
+    "hi": [
+     "पैसे के हर हिस्से को उसकी ज़रूरत की तारीख से जोड़ना",
+     "महंगाई से कुछ बचाव",
+     "सिर्फ वही उतार-चढ़ाव लेना जो आप सह सकें"
+    ]
+   },
+   "factors": {
+    "liquidity": {
+     "en": "Some of the money may be needed along the way, so the part you need soonest belongs in easier-to-reach places.",
+     "hi": "कुछ पैसा बीच में चाहिए हो सकता है, इसलिए जो हिस्सा सबसे पहले चाहिए वह आसानी से मिलने वाली जगह पर होना चाहिए।"
+    },
+    "volatility": {
+     "en": "Five years is long enough that mild ups and downs often smooth out, but a deep fall is still possible and can come at the end.",
+     "hi": "पाँच साल इतने लंबे हैं कि हल्के उतार-चढ़ाव अक्सर सँभल जाते हैं, पर गहरी गिरावट अब भी संभव है और अंत में भी आ सकती है।"
+    },
+    "inflation": {
+     "en": "Inflation now matters: over four or five years it can reduce what plain deposits can buy.",
+     "hi": "अब महंगाई मायने रखती है: चार-पाँच साल में वह सामान्य जमा की खरीदने की ताकत घटा सकती है।"
+    },
+    "capital": {
+     "en": "Protect the part you cannot afford to lose, and take more ups and downs only with money you can leave alone.",
+     "hi": "जिस हिस्से को खोने का जोखिम आप नहीं उठा सकते उसे बचाएँ, और ज़्यादा उतार-चढ़ाव सिर्फ उस पैसे के साथ लें जिसे आप छोड़ सकते हैं।"
+    }
+   },
+   "types": [
+    {
+     "name": {
+      "en": "Bank deposits and debt products for the amount needed on the end date",
+      "hi": "अंतिम तारीख पर चाहिए रकम के लिए बैंक जमा और ऋण उत्पाद"
+     },
+     "why": {
+      "en": "They keep the part with a deadline steadier.",
+      "hi": "ये तय समय-सीमा वाले हिस्से को ज़्यादा स्थिर रखते हैं।"
+     },
+     "cards": [
+      "fd"
+     ]
+    },
+    {
+     "name": {
+      "en": "Hybrid products (a mix of equity and debt)",
+      "hi": "हाइब्रिड उत्पाद (इक्विटी और ऋण का मिश्रण)"
+     },
+     "why": {
+      "en": "Often discussed for this window because they mix growth and steadiness. They can still fall.",
+      "hi": "इस अवधि के लिए अक्सर चर्चा में आते हैं क्योंकि इनमें बढ़त और स्थिरता का मेल होता है। ये फिर भी गिर सकते हैं।"
+     },
+     "cards": [
+      "mutual-funds"
+     ]
+    },
+    {
+     "name": {
+      "en": "A small equity-oriented part, bought regularly (for example by SIP)",
+      "hi": "एक छोटा इक्विटी-उन्मुख हिस्सा, नियमित रूप से खरीदा गया (जैसे SIP से)"
+     },
+     "why": {
+      "en": "Only for money that can wait out a bad patch.",
+      "hi": "सिर्फ उस पैसे के लिए जो खराब दौर का इंतज़ार कर सके।"
+     },
+     "cards": [
+      "sip",
+      "mutual-funds"
+     ]
+    },
+    {
+     "name": {
+      "en": "Gold as a small part",
+      "hi": "सोना एक छोटे हिस्से के रूप में"
+     },
+     "why": {
+      "en": "It can move differently from other assets, but pays no interest and can stay flat.",
+      "hi": "यह दूसरी संपत्तियों से अलग चल सकता है, पर ब्याज नहीं देता और सपाट रह सकता है।"
+     },
+     "cards": [
+      "gold"
+     ]
+    }
+   ],
+   "lessSuited": [
+    {
+     "name": {
+      "en": "All the money in stocks",
+      "hi": "सारा पैसा शेयर में"
+     },
+     "why": {
+      "en": "One bad stretch can land right when you need the money.",
+      "hi": "एक खराब दौर ठीक तभी आ सकता है जब आपको पैसा चाहिए।"
+     },
+     "cards": [
+      "stocks"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "5plus",
+   "label": {
+    "en": "5+ years",
+    "hi": "5+ साल"
+   },
+   "headline": {
+    "en": "Time is on your side, so inflation becomes the bigger enemy.",
+    "hi": "समय आपके साथ है, इसलिए महंगाई बड़ा दुश्मन बन जाती है।"
+   },
+   "matters": {
+    "en": [
+     "Growing faster than prices rise",
+     "Being able to sit through falls without selling in panic"
+    ],
+    "hi": [
+     "दामों के बढ़ने से तेज़ बढ़ना",
+     "बिना घबराकर बेचे गिरावट को सह पाना"
+    ]
+   },
+   "factors": {
+    "liquidity": {
+     "en": "You do not need it soon, so it is acceptable to lock part of it for a long time.",
+     "hi": "आपको यह जल्दी नहीं चाहिए, इसलिए उसका कुछ हिस्सा लंबे समय के लिए बाँध देना स्वीकार्य है।"
+    },
+    "volatility": {
+     "en": "Long periods give equity-linked investments time to recover from falls, but there is no promise that they will.",
+     "hi": "लंबी अवधि इक्विटी से जुड़े निवेश को गिरावट से उबरने का समय देती है, पर ऐसा होगा इसका कोई वादा नहीं।"
+    },
+    "inflation": {
+     "en": "Over many years inflation can quietly cut the buying power of money kept only in deposits.",
+     "hi": "कई सालों में महंगाई सिर्फ जमा में रखे पैसे की खरीदने की ताकत चुपचाप घटा सकती है।"
+    },
+    "capital": {
+     "en": "Ups and downs on paper are normal over long periods. The real damage is selling in a panic or taking more risk than you can bear.",
+     "hi": "लंबी अवधि में कागज़ पर उतार-चढ़ाव सामान्य हैं। असली नुकसान घबराकर बेचने या सहने से ज़्यादा जोखिम लेने में है।"
+    }
+   },
+   "types": [
+    {
+     "name": {
+      "en": "Equity-oriented investments (stocks, equity mutual funds, index funds, ETFs), often bought regularly",
+      "hi": "इक्विटी-उन्मुख निवेश (शेयर, इक्विटी म्यूचुअल फंड, इंडेक्स फंड, ETF), अक्सर नियमित रूप से खरीदे गए"
+     },
+     "why": {
+      "en": "They are the types most often linked with beating inflation over long periods, with large ups and downs on the way and no guarantee.",
+      "hi": "लंबी अवधि में महंगाई को हराने से ये प्रकार सबसे ज़्यादा जोड़े जाते हैं, रास्ते में बड़े उतार-चढ़ाव के साथ और बिना किसी गारंटी के।"
+     },
+     "cards": [
+      "stocks",
+      "mutual-funds",
+      "etf",
+      "sip"
+     ]
+    },
+    {
+     "name": {
+      "en": "Government-backed long-term saving (PPF)",
+      "hi": "सरकार-समर्थित लंबी अवधि की बचत (PPF)"
+     },
+     "why": {
+      "en": "Steady and locked, suited to money you will not touch. The rate can change.",
+      "hi": "स्थिर और बँधी, उस पैसे के लिए जिसे आप छुएँगे नहीं। दर बदल सकती है।"
+     },
+     "cards": [
+      "ppf"
+     ]
+    },
+    {
+     "name": {
+      "en": "Gold as a small part",
+      "hi": "सोना एक छोटे हिस्से के रूप में"
+     },
+     "why": {
+      "en": "A small holding can add variety. It earns nothing while you wait.",
+      "hi": "छोटा हिस्सा विविधता जोड़ सकता है। इंतज़ार के दौरान यह कुछ नहीं कमाता।"
+     },
+     "cards": [
+      "gold"
+     ]
+    },
+    {
+     "name": {
+      "en": "Bank deposits for the safety part",
+      "hi": "सुरक्षा वाले हिस्से के लिए बैंक जमा"
+     },
+     "why": {
+      "en": "For money you may need earlier than planned.",
+      "hi": "उस पैसे के लिए जो आपको योजना से पहले चाहिए हो सकता है।"
+     },
+     "cards": [
+      "fd"
+     ]
+    }
+   ],
+   "lessSuited": [
+    {
+     "name": {
+      "en": "Keeping everything in a savings account",
+      "hi": "सब कुछ बचत खाते में रखना"
+     },
+     "why": {
+      "en": "Over many years inflation can make it buy much less.",
+      "hi": "कई सालों में महंगाई इसे बहुत कम खरीदने लायक बना सकती है।"
+     },
+     "cards": [
+      "fd"
+     ]
+    }
+   ]
+  }
+ ]
+}

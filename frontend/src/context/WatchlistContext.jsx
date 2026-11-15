@@ -1,10 +1,10 @@
 import { createContext, useCallback, useContext, useEffect, useMemo, useRef, useState } from 'react';
 import { UserContext } from './UserContext';
 import watchlistService from '../services/watchlistService';
+import marketService from '../services/marketService';
 
 const STORAGE_KEY = 'stocksee_my_watchlist';
 const LEGACY_KEY = 'finguru_my_watchlist';
-const DEFAULT_SYMBOLS = ['RELIANCE.NS', 'TCS.NS', 'HDFCBANK.NS', 'INFY.NS'];
 
 const readLocal = () => {
   try {
@@ -49,11 +49,22 @@ export function WatchlistProvider({ children }) {
     let active = true;
 
     if (!hasVisitor) {
-      const shown = readLocal() || DEFAULT_SYMBOLS;
-      anonSymbolsRef.current = shown;
-      setItems(shown.map((symbol) => ({ symbol })));
+      const local = readLocal();
+      anonSymbolsRef.current = local || [];
+      setItems((local || []).map((symbol) => ({ symbol })));
       setLoading(false);
-      return undefined;
+      if (!local) {
+        // Nothing saved yet: show the most traded companies right now as a starting point (not saved until you change something)
+        marketService.getPopular(4)
+          .then((res) => {
+            if (!active) return;
+            const symbols = (res.items || []).map((i) => i.symbol);
+            anonSymbolsRef.current = symbols;
+            setItems(symbols.map((symbol) => ({ symbol })));
+          })
+          .catch(() => {}); // unavailable: the list simply stays empty
+      }
+      return () => { active = false; };
     }
 
     setLoading(true);
@@ -111,7 +122,20 @@ export function WatchlistProvider({ children }) {
     }
   }, [hasVisitor, items, symbols, saveFirstTime]);
 
-  const value = useMemo(() => ({ symbols, loading, has, add, remove }), [symbols, loading, has, add, remove]);
+  /** Replace the whole list (used by the first-time setup). */
+  const replaceAll = useCallback(async (list) => {
+    const next = [...new Set(list.map(normalizeSymbol).filter(Boolean))];
+    if (!hasVisitor) {
+      await saveFirstTime(next);
+      return;
+    }
+    await Promise.all(items.filter((i) => !next.includes(i.symbol)).map((i) => watchlistService.remove(i.id)));
+    const created = [];
+    for (const symbol of next.filter((s) => !symbols.includes(s))) created.push(await watchlistService.add(symbol));
+    setItems((prev) => [...created, ...prev.filter((i) => next.includes(i.symbol))]);
+  }, [hasVisitor, items, symbols, saveFirstTime]);
+
+  const value = useMemo(() => ({ symbols, loading, has, add, remove, replaceAll }), [symbols, loading, has, add, remove, replaceAll]);
 
   return <WatchlistContext.Provider value={value}>{children}</WatchlistContext.Provider>;
 }

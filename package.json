@@ -10,7 +10,8 @@
     "db:migrate": "prisma migrate dev",
     "db:deploy": "prisma migrate deploy",
     "job": "node scripts/run-job.js",
-    "symbols:update": "node scripts/update-symbols.js"
+    "symbols:update": "node scripts/update-symbols.js",
+    "surveillance:import": "node scripts/import-surveillance.js"
   },
   "dependencies": {
     "@prisma/client": "^5.12.1",

@@ -9,6 +9,7 @@ const watchlist = require('../controllers/watchlistController');
 const alerts = require('../controllers/alertController');
 const ask = require('../controllers/askController');
 const tipCheck = require('../controllers/tipCheckController');
+const samajh = require('../controllers/samajhController');
 
 const limiter = (windowMinutes, max) => rateLimit({
   windowMs: windowMinutes * 60 * 1000,
@@ -32,6 +33,8 @@ router.get('/search', limiter(1, 120), validate(s.symbolSearch, 'query'), h(asyn
   res.json({ results: await require('../services/symbolSearchService').search(req.query.q, { limit: req.query.limit }) });
 }));
 router.post('/tip-check', limiter(1, 10), validate(s.tipCheck), h(tipCheck.check));
+// Samajh (education): explains numbers the browser already calculated; never adds numbers or advice
+router.post('/samajh/explain', limiter(1, 10), validate(s.samajhExplain), h(samajh.explain));
 // Daily market brief (same narrative as the Telegram morning brief), cached per IST day and language
 router.get('/brief', validate(s.briefQuery, 'query'), h(async (req, res) => {
   const narrativeService = require('../services/sharedNarrativeService');

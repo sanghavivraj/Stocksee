@@ -1,0 +1,266 @@
+{
+  "id": "stocks",
+  "kind": "product",
+  "name": {
+    "en": "Stocks (Shares)",
+    "hi": "शेयर (स्टॉक)"
+  },
+  "tag": {
+    "en": "You own a tiny part of a business.",
+    "hi": "आप एक कारोबार के छोटे हिस्से के मालिक बनते हैं।"
+  },
+  "inputs": {
+    "shares": 100,
+    "price": 250,
+    "totalShares": 10000000,
+    "up": 60,
+    "down": 60,
+    "dividend": 5
+  },
+  "controls": [
+    {
+      "key": "up",
+      "min": 10,
+      "max": 100,
+      "step": 5,
+      "unit": "%",
+      "label": {
+        "en": "Price rises by",
+        "hi": "भाव बढ़े"
+      }
+    },
+    {
+      "key": "down",
+      "min": 10,
+      "max": 90,
+      "step": 5,
+      "unit": "%",
+      "label": {
+        "en": "Price falls by",
+        "hi": "भाव गिरे"
+      }
+    }
+  ],
+  "assumptions": {
+    "en": [
+      "A made-up snack company with {{totalShares|n}} shares. The price {{price|inr}} and every number here are made up to show the idea.",
+      "Rise and fall of {{up|pct0}} and {{down|pct0}} are examples, not forecasts. Nobody can tell which will happen.",
+      "The dividend of {{dividend|inr}} a share is optional: companies may pay less, more or nothing.",
+      "Brokerage, taxes and charges are not included."
+    ],
+    "hi": [
+      "{{totalShares|n}} शेयरों वाली एक काल्पनिक स्नैक कंपनी। भाव {{price|inr}} और यहाँ की हर संख्या समझाने के लिए बनाई गई है।",
+      "{{up|pct0}} की बढ़त और {{down|pct0}} की गिरावट उदाहरण हैं, पूर्वानुमान नहीं। कोई नहीं बता सकता कि कौन-सा होगा।",
+      "प्रति शेयर {{dividend|inr}} का लाभांश ज़रूरी नहीं: कंपनी कम, ज़्यादा या कुछ नहीं दे सकती।",
+      "ब्रोकरेज, टैक्स और शुल्क शामिल नहीं हैं।"
+    ]
+  },
+  "sources": [
+    {
+      "label": "SEBI (sebi.gov.in)",
+      "url": "https://www.sebi.gov.in"
+    },
+    {
+      "label": "NSE India (nseindia.com)",
+      "url": "https://www.nseindia.com"
+    }
+  ],
+  "levels": {
+    "basic": {
+      "explain": {
+        "en": "A share is a small piece of ownership in a company. If the company does well over time its share price may rise, and some companies share profits as dividends. If it does badly, you can lose money.",
+        "hi": "शेयर किसी कंपनी की मालिकी का छोटा हिस्सा है। अगर कंपनी समय के साथ अच्छा करे तो शेयर का भाव बढ़ सकता है, और कुछ कंपनियाँ मुनाफा लाभांश के रूप में बाँटती हैं। खराब करे तो आपको घाटा हो सकता है।"
+      },
+      "example": {
+        "en": "Meena buys {{shares|n}} shares of a packaged-snacks company at {{price|inr}} each, paying {{invested|inr}} in total.",
+        "hi": "मीना एक पैकेज्ड-स्नैक्स कंपनी के {{shares|n}} शेयर {{price|inr}} प्रति शेयर पर खरीदती है, कुल {{invested|inr}} देकर।"
+      },
+      "steps": {
+        "en": [
+          "She pays {{invested|inr}} and now owns {{ownership|d2}}% of a company with {{totalShares|n}} shares: a real, tiny part of the business.",
+          "The company's snacks sell well and the price rises {{up|pct0}} to {{goodPrice|inr}}. Her holding is worth {{goodValue|inr}}.",
+          "A year later the company has a bad quarter and the price falls {{down|pct0}} to {{badPrice|inr}}. Her holding is worth {{badValue|inr}}.",
+          "If the company pays {{dividend|inr}} a share, she gets {{dividend|inr}} × {{shares|n}} = a dividend of {{dividendTotal|inr}} in that year."
+        ],
+        "hi": [
+          "वह {{invested|inr}} देती है और अब {{totalShares|n}} शेयरों वाली कंपनी के {{ownership|d2}}% की मालिक है: कारोबार का असली, छोटा हिस्सा।",
+          "कंपनी के स्नैक्स खूब बिकते हैं और भाव {{up|pct0}} बढ़कर {{goodPrice|inr}} हो जाता है। उसके शेयरों का मूल्य {{goodValue|inr}} है।",
+          "एक साल बाद कंपनी की तिमाही खराब रहती है और भाव {{down|pct0}} गिरकर {{badPrice|inr}} हो जाता है। उसके शेयरों का मूल्य {{badValue|inr}} है।",
+          "अगर कंपनी {{dividend|inr}} प्रति शेयर देती है, तो उस साल उसे {{dividend|inr}} × {{shares|n}} = {{dividendTotal|inr}} का लाभांश मिलता है।"
+        ]
+      },
+      "positive": {
+        "en": "In the good case her {{invested|inr}} becomes {{goodValue|inr}}, a gain of {{goodGain|inr}}, plus any dividend.",
+        "hi": "अच्छे हाल में उसके {{invested|inr}} बढ़कर {{goodValue|inr}} हो जाते हैं, यानी {{goodGain|inr}} का फायदा, और साथ में लाभांश।"
+      },
+      "negative": {
+        "en": "In the bad case her {{invested|inr}} becomes {{badValue|inr}}, a loss of {{badLoss|inr}}. In the worst case a company can fail and the shares can become worth almost nothing.",
+        "hi": "बुरे हाल में उसके {{invested|inr}} घटकर {{badValue|inr}} रह जाते हैं, यानी {{badLoss|inr}} का घाटा। सबसे बुरे हाल में कंपनी डूब सकती है और शेयर लगभग बेकार हो सकते हैं।"
+      },
+      "wrong": {
+        "en": [
+          "Market risk: prices move every day and no one controls them.",
+          "A business can do badly, and then you share the loss as an owner.",
+          "You may need the money when prices are low and be forced to sell.",
+          "Some shares are hard to sell quickly at a fair price."
+        ],
+        "hi": [
+          "बाज़ार जोखिम: भाव रोज़ बदलते हैं और कोई उन्हें नियंत्रित नहीं करता।",
+          "कारोबार खराब चल सकता है, और तब मालिक के तौर पर घाटा आप भी उठाते हैं।",
+          "जब भाव कम हों तब पैसे की ज़रूरत पड़ सकती है और बेचना पड़ सकता है।",
+          "कुछ शेयर सही भाव पर जल्दी बेचना मुश्किल होता है।"
+        ]
+      },
+      "influencers": {
+        "en": [
+          "They show only the stock that went up, not the many that did not.",
+          "They post profit screenshots and skip the losing trades.",
+          "They say 'only stocks make money' and skip what a {{down|pct0}} fall does."
+        ],
+        "hi": [
+          "वे सिर्फ वही शेयर दिखाते हैं जो चढ़ा, उन कई को नहीं जो नहीं चढ़े।",
+          "वे मुनाफे के स्क्रीनशॉट डालते हैं और घाटे वाले सौदे छोड़ देते हैं।",
+          "वे कहते हैं 'सिर्फ शेयर से पैसा बनता है' और यह नहीं बताते कि {{down|pct0}} गिरावट क्या करती है।"
+        ]
+      },
+      "takeaway": {
+        "en": "A share is ownership, not a ticket to profit.",
+        "hi": "शेयर मालिकी है, मुनाफे का टिकट नहीं।"
+      }
+    },
+    "medium": {
+      "explain": {
+        "en": "The share price is what buyers and sellers agree on today, based on what they expect from the business. The business and the price are linked but not the same: the price can move without the business changing.",
+        "hi": "शेयर का भाव वह है जिस पर आज खरीदार और विक्रेता सहमत होते हैं, कारोबार से उनकी उम्मीदों के आधार पर। कारोबार और भाव जुड़े हैं पर एक नहीं: कारोबार बदले बिना भी भाव हिल सकता है।"
+      },
+      "example": {
+        "en": "Meena now looks at what a fall does to her {{invested|inr}} and what it takes to get back.",
+        "hi": "मीना अब देखती है कि गिरावट उसके {{invested|inr}} पर क्या असर डालती है और वापस पहुँचने के लिए क्या चाहिए।"
+      },
+      "steps": {
+        "en": [
+          "Price falls {{down|pct0}}: {{invested|inr}} becomes {{badValue|inr}}.",
+          "To get back to {{invested|inr}} she needs the price to rise {{recovery|pct0}}, not {{down|pct0}}, because the base is now smaller.",
+          "Meanwhile, the {{shares|n}} shares still give her {{ownership|d2}}% of the company and a possible {{dividendTotal|inr}} dividend.",
+          "If instead the price rises {{up|pct0}}, the holding is {{goodValue|inr}}. Both outcomes are possible; neither is predictable."
+        ],
+        "hi": [
+          "भाव {{down|pct0}} गिरता है: {{invested|inr}} घटकर {{badValue|inr}} रह जाते हैं।",
+          "{{invested|inr}} तक वापस आने के लिए भाव को {{down|pct0}} नहीं, {{recovery|pct0}} बढ़ना होगा, क्योंकि आधार अब छोटा है।",
+          "इस बीच {{shares|n}} शेयर उसे कंपनी का {{ownership|d2}}% और संभावित {{dividendTotal|inr}} लाभांश देते रहते हैं।",
+          "अगर भाव {{up|pct0}} बढ़े, तो मूल्य {{goodValue|inr}} है। दोनों हो सकते हैं; कोई पहले से नहीं बता सकता।"
+        ]
+      },
+      "positive": {
+        "en": "Over many years a good business can grow its profits and its share price. For illustration, a {{up|pct0}} rise turns {{invested|inr}} into {{goodValue|inr}}, plus any dividend ({{dividendTotal|inr}} in this example). This is possible, not promised.",
+        "hi": "कई सालों में अच्छा कारोबार अपना मुनाफा और शेयर का भाव बढ़ा सकता है। उदाहरण: {{up|pct0}} की बढ़त से {{invested|inr}} बढ़कर {{goodValue|inr}} हो जाते हैं, साथ में कोई भी लाभांश (इस उदाहरण में {{dividendTotal|inr}})। यह संभव है, वादा नहीं।"
+      },
+      "negative": {
+        "en": "A {{down|pct0}} fall needs a {{recovery|pct0}} rise to recover. Some companies never recover.",
+        "hi": "{{down|pct0}} की गिरावट से उबरने के लिए {{recovery|pct0}} की बढ़त चाहिए। कुछ कंपनियाँ कभी नहीं उबरतीं।"
+      },
+      "wrong": {
+        "en": [
+          "Concentration: owning one or two shares of businesses puts all your risk in the same place.",
+          "Leverage and borrowed money can turn a fall into a bigger loss.",
+          "Fear or excitement can make people buy high and sell low.",
+          "Costs and taxes reduce what you keep."
+        ],
+        "hi": [
+          "केंद्रीकरण: एक-दो कंपनियों के शेयर रखने से सारा जोखिम एक ही जगह आ जाता है।",
+          "उधार का पैसा गिरावट को बड़े घाटे में बदल सकता है।",
+          "डर या उत्साह में लोग ऊँचे पर खरीदते और नीचे पर बेच देते हैं।",
+          "खर्च और टैक्स आपके हाथ में बचने वाला पैसा घटाते हैं।"
+        ]
+      },
+      "influencers": {
+        "en": [
+          "They say 'this stock will 10x' as if the price were a promise.",
+          "They skip that recovering from a {{down|pct0}} fall needs {{recovery|pct0}}.",
+          "They avoid saying how many such tips failed."
+        ],
+        "hi": [
+          "वे कहते हैं 'यह शेयर 10 गुना होगा' जैसे भाव कोई वादा हो।",
+          "वे नहीं बताते कि {{down|pct0}} गिरावट से उबरने के लिए {{recovery|pct0}} चाहिए।",
+          "वे नहीं बताते कि ऐसी कितनी टिप्स फेल हुईं।"
+        ]
+      },
+      "takeaway": {
+        "en": "When you buy a share you take on the business's risk, not only its dream.",
+        "hi": "शेयर खरीदने पर आप कारोबार का जोखिम भी लेते हैं, सिर्फ उसका सपना नहीं।"
+      }
+    }
+  },
+  "checks": [
+    {
+      "what": {
+        "en": "How does this company make its money?",
+        "hi": "यह कंपनी पैसा कैसे कमाती है?"
+      },
+      "why": {
+        "en": "If you cannot say it in one line, you are buying a name, not a business.",
+        "hi": "अगर आप एक लाइन में नहीं बता सकते, तो आप नाम खरीद रहे हैं, कारोबार नहीं।"
+      },
+      "story": {
+        "en": "Raju hears a tip about a company. His friend asks, \"What do they sell?\" Raju has no idea. He was about to put money in something he could not explain.",
+        "hi": "राजू को एक कंपनी की टिप मिलती है। दोस्त पूछता है, \"वो बेचते क्या हैं?\" राजू को पता ही नहीं। वह उस चीज़ में पैसा लगाने जा रहा था जो वह समझा भी नहीं सकता।"
+      }
+    },
+    {
+      "what": {
+        "en": "How big is the company's loan?",
+        "hi": "कंपनी पर कर्ज़ कितना बड़ा है?"
+      },
+      "why": {
+        "en": "A company with a big loan must still pay the bank when sales drop.",
+        "hi": "बड़े कर्ज़ वाली कंपनी को बिक्री घटने पर भी बैंक को पैसा देना पड़ता है।"
+      },
+      "story": {
+        "en": "Shop A owes nothing. Shop B owes the bank a lot. Sales drop for a few months. Shop A is fine, but Shop B still pays its instalment every month. A company is the same.",
+        "hi": "दुकान A पर कोई कर्ज़ नहीं है। दुकान B पर बैंक का बहुत कर्ज़ है। कुछ महीने बिक्री गिरती है। दुकान A ठीक रहती है, पर दुकान B को हर महीने किस्त फिर भी भरनी पड़ती है। कंपनी भी ऐसी ही होती है।"
+      }
+    },
+    {
+      "what": {
+        "en": "When will I need this money?",
+        "hi": "मुझे यह पैसा कब चाहिए होगा?"
+      },
+      "why": {
+        "en": "A share price can stay low for a long time.",
+        "hi": "शेयर का भाव लंबे समय तक नीचे रह सकता है।"
+      },
+      "story": {
+        "en": "Kavita buys shares with her daughter's fee money, due in 6 months. The price falls 20% in that time. The fee is still due, so she has to sell at a loss.",
+        "hi": "कविता बेटी की फीस के पैसों से शेयर खरीदती है, जो 6 महीने में देनी है। इस बीच भाव 20% गिर जाता है। फीस तो फिर भी देनी है, इसलिए उसे नुकसान में बेचना पड़ता है।"
+      }
+    },
+    {
+      "what": {
+        "en": "How much of my savings is in this one share?",
+        "hi": "मेरी कितनी बचत इस एक शेयर में है?"
+      },
+      "why": {
+        "en": "One company can fall sharply for reasons you cannot see.",
+        "hi": "एक कंपनी ऐसे कारणों से तेज़ गिर सकती है जो आपको दिखते नहीं।"
+      },
+      "story": {
+        "en": "Imran has ₹1.2 lakh in savings and puts ₹1 lakh into one company. It falls 30%, so he loses ₹30,000. That is a quarter of everything he has saved.",
+        "hi": "इमरान की बचत ₹1.2 लाख है और वह ₹1 लाख एक ही कंपनी में लगा देता है। वह 30% गिरती है, तो उसके ₹30,000 डूबते हैं। यह उसकी पूरी बचत का एक-चौथाई है।"
+      }
+    },
+    {
+      "what": {
+        "en": "Who is telling me about this share?",
+        "hi": "मुझे इस शेयर के बारे में कौन बता रहा है?"
+      },
+      "why": {
+        "en": "People who tell you to buy often gain when you buy.",
+        "hi": "खरीदने को कहने वालों को अक्सर आपके खरीदने से फायदा होता है।"
+      },
+      "story": {
+        "en": "A Telegram group says, \"This share will double by Friday.\" The admin bought it earlier. When many members buy, the price rises, and he sells. You can check on the SEBI website whether an adviser is registered.",
+        "hi": "एक टेलीग्राम ग्रुप कहता है, \"यह शेयर शुक्रवार तक दोगुना होगा।\" एडमिन ने यह पहले ही खरीद रखा है। जब कई सदस्य खरीदते हैं, भाव चढ़ता है और वह बेच देता है। सलाहकार पंजीकृत है या नहीं, यह SEBI की वेबसाइट पर देख सकते हैं।"
+      }
+    }
+  ]
+}

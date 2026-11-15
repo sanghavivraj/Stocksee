@@ -1,4 +1,5 @@
 import { useContext, useEffect, useRef, useState } from 'react';
+import { tr } from '../utils/uiStrings';
 import { Link, useSearchParams } from 'react-router-dom';
 import { ShieldAlert, Loader2, Send } from 'lucide-react';
 import { UserContext } from '../context/UserContext';
@@ -54,7 +55,7 @@ const TipCheck = () => {
   const T = COPY[language] || COPY.en;
   const [searchParams] = useSearchParams();
   const [text, setText] = useState(() => (searchParams.get('text') || '').slice(0, 2000));
-  const [symbol, setSymbol] = useState('');
+  const [symbol, setSymbol] = useState(() => (searchParams.get('symbol') || '').toUpperCase().slice(0, 20));
   const [result, setResult] = useState(null);
   const [checking, setChecking] = useState(false);
   const resultRef = useRef(null);
@@ -74,9 +75,9 @@ const TipCheck = () => {
     }
   };
 
-  // A shared link (/tip-check?text=...) checks the tip straight away
+  // A shared link (/tip-check?text=... or ?symbol=...) checks straight away
   useEffect(() => {
-    if (searchParams.get('text')) runCheck();
+    if (searchParams.get('text') || searchParams.get('symbol')) runCheck();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -84,8 +85,8 @@ const TipCheck = () => {
     <div className="editorial-page-container">
       <header className="editorial-lead-header">
         <div className="lead-meta-row">
-          <span className="editorial-kicker">INVESTOR PROTECTION</span>
-          <span className="lead-date-stamp">Pump-and-dump warning signs</span>
+          <span className="editorial-kicker">{tr("INVESTOR PROTECTION", language)}</span>
+          <span className="lead-date-stamp">{tr("Pump-and-dump warning signs", language)}</span>
         </div>
         <h1 className="lead-headline" style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
           <ShieldAlert size={30} aria-hidden="true" /> {T.title}
@@ -125,7 +126,7 @@ const TipCheck = () => {
               <span>{checking ? T.checking : T.button}</span>
             </button>
           </div>
-          <p className="risk-disclaimer">{T.privacy} {T.telegram} <Link to="/settings">Telegram →</Link></p>
+          <p className="risk-disclaimer">{T.privacy} {T.telegram} <Link to="/settings">{tr("Telegram →", language)}</Link></p>
         </form>
       </section>
 

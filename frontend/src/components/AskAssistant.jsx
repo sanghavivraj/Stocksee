@@ -1,4 +1,5 @@
 import { useState, useEffect, useContext, useRef } from 'react';
+import { tr } from '../utils/uiStrings';
 import {
   Sparkles,
   X,
@@ -61,7 +62,7 @@ const SingleQuoteCard = ({ quote }) => {
       </div>
       <div className="assistant-quote-metrics">
         <div className="assistant-quote-metric-item">
-          <span>Day Range</span>
+          <span>{tr("Day Range", language)}</span>
           <span className="assistant-quote-metric-val">
             {sym}{quote.dayLow} — {sym}{quote.dayHigh}
           </span>
@@ -187,7 +188,7 @@ const AskAssistant = ({ isOpen, onToggle, initialPrompt }) => {
         title="Ask StockSee AI Assistant"
       >
         <Sparkles size={15} className="assistant-btn-sparkle" />
-        <span className="assistant-btn-text">✦ StockSee</span>
+        <span className="assistant-btn-text">StockSee AI</span>
       </button>
 
       {/* Backdrop for Mobile Bottom Sheet */}
@@ -206,7 +207,7 @@ const AskAssistant = ({ isOpen, onToggle, initialPrompt }) => {
             <div className="assistant-panel-title">
               <span className="assistant-dot"></span>
               <span className="serif-title assistant-heading-title">✦ StockSee</span>
-              <span className="assistant-badge">Companion</span>
+              <span className="assistant-badge">{tr("Companion", language)}</span>
             </div>
             <button
               type="button"
@@ -227,14 +228,14 @@ const AskAssistant = ({ isOpen, onToggle, initialPrompt }) => {
                   <span className="serif-title assistant-intro-brand">StockSee</span>
                 </div>
                 <p className="assistant-intro-headline">
-                  Your vernacular market companion.
+                  {tr("Your vernacular market companion.", language)}
                 </p>
                 <p className="assistant-intro-subtext">
-                  Ask in English, हिन्दी, or ગુજરાતી about Indian stocks, Nifty/Sensex, gold, crude oil, or gainers/losers. Paste a stock tip you received and I&apos;ll check it for pump-and-dump warning signs.
+                  {tr("Ask in English, हिन्दी, or ગુજરાતી about Indian stocks, Nifty/Sensex, gold, crude oil, or gainers/losers. Paste a stock tip you received and I'll check it for pump-and-dump warning signs.", language)}
                 </p>
 
                 <div className="assistant-presets-section">
-                  <span className="presets-label">Suggested Inquiries:</span>
+                  <span className="presets-label">{tr("Suggested Inquiries:", language)}</span>
                   <div className="assistant-preset-chips">
                     {promptPresets.map((preset, idx) => (
                       <button
@@ -303,7 +304,7 @@ const AskAssistant = ({ isOpen, onToggle, initialPrompt }) => {
                 {loading && (
                   <div className="assistant-msg-bubble assistant loading">
                     <Loader2 size={15} className="spinner" />
-                    <span>Checking live NSE/BSE data…</span>
+                    <span>{tr("Checking live NSE/BSE data…", language)}</span>
                   </div>
                 )}
                 <div ref={messagesEndRef} />
@@ -343,7 +344,7 @@ const AskAssistant = ({ isOpen, onToggle, initialPrompt }) => {
             </div>
             <div className="assistant-compliance-note">
               <ShieldCheck size={11} className="compliance-shield" />
-              <span>Educational market context only. Not SEBI investment advice.</span>
+              <span>{tr("Educational market context only. Not SEBI investment advice.", language)}</span>
             </div>
           </form>
         </aside>

@@ -1,0 +1,278 @@
+{
+  "id": "etf",
+  "kind": "product",
+  "name": {
+    "en": "ETF (Exchange Traded Fund)",
+    "hi": "ETF (एक्सचेंज ट्रेडेड फंड)"
+  },
+  "tag": {
+    "en": "A fund you buy and sell like a share.",
+    "hi": "ऐसा फंड जिसे आप शेयर की तरह खरीदते-बेचते हैं।"
+  },
+  "inputs": {
+    "units": 20,
+    "price": 250,
+    "nav": 248,
+    "brokerage": 20,
+    "spread": 0.1,
+    "up": 10,
+    "down": 10
+  },
+  "controls": [
+    {
+      "key": "up",
+      "min": 5,
+      "max": 30,
+      "step": 5,
+      "unit": "%",
+      "label": {
+        "en": "Index rises by",
+        "hi": "इंडेक्स बढ़े"
+      }
+    },
+    {
+      "key": "down",
+      "min": 5,
+      "max": 30,
+      "step": 5,
+      "unit": "%",
+      "label": {
+        "en": "Index falls by",
+        "hi": "इंडेक्स गिरे"
+      }
+    },
+    {
+      "key": "brokerage",
+      "min": 0,
+      "max": 100,
+      "step": 5,
+      "unit": "₹",
+      "label": {
+        "en": "Brokerage per trade",
+        "hi": "प्रति सौदा ब्रोकरेज"
+      }
+    }
+  ],
+  "assumptions": {
+    "en": [
+      "An index ETF whose units trade at {{price|inr}} while the value behind each unit (NAV) is {{nav|inr}}. All numbers are made up to show the idea.",
+      "Brokerage {{brokerage|inr}} per trade and a buy-sell price gap (spread) of {{spread|pct2}} are examples. Real charges depend on your broker and the ETF.",
+      "The index rising {{up|pct0}} or falling {{down|pct0}} are examples, not forecasts.",
+      "Taxes and the ETF's own yearly cost are not included."
+    ],
+    "hi": [
+      "एक इंडेक्स ETF जिसकी यूनिट {{price|inr}} पर कारोबार करती है जबकि हर यूनिट के पीछे का मूल्य (NAV) {{nav|inr}} है। सभी संख्याएँ समझाने के लिए बनाई गई हैं।",
+      "प्रति सौदा {{brokerage|inr}} ब्रोकरेज और खरीद-बिक्री भाव का अंतर (स्प्रेड) {{spread|pct2}} उदाहरण हैं। असली शुल्क आपके ब्रोकर और ETF पर निर्भर है।",
+      "इंडेक्स का {{up|pct0}} बढ़ना या {{down|pct0}} गिरना उदाहरण हैं, पूर्वानुमान नहीं।",
+      "टैक्स और ETF का अपना सालाना खर्च शामिल नहीं हैं।"
+    ]
+  },
+  "sources": [
+    {
+      "label": "SEBI (sebi.gov.in)",
+      "url": "https://www.sebi.gov.in"
+    },
+    {
+      "label": "NSE India (nseindia.com)",
+      "url": "https://www.nseindia.com"
+    }
+  ],
+  "levels": {
+    "basic": {
+      "explain": {
+        "en": "An ETF is a fund that trades on the stock exchange, so you buy and sell its units through a demat and trading account, like a share. Most ETFs simply follow an index or an asset such as gold.",
+        "hi": "ETF ऐसा फंड है जो शेयर बाज़ार में कारोबार करता है, इसलिए आप डीमैट और ट्रेडिंग खाते से उसकी यूनिट शेयर की तरह खरीदते-बेचते हैं। ज़्यादातर ETF बस किसी इंडेक्स या सोने जैसी चीज़ को फॉलो करते हैं।"
+      },
+      "example": {
+        "en": "Sunita wants to own 'the whole market' in one go. She buys {{units|n}} units of an index ETF at {{price|inr}} through her trading app.",
+        "hi": "सुनीता 'पूरे बाज़ार' का मालिक एक साथ बनना चाहती है। वह अपने ट्रेडिंग ऐप से {{price|inr}} पर एक इंडेक्स ETF की {{units|n}} यूनिट खरीदती है।"
+      },
+      "steps": {
+        "en": [
+          "She pays {{units|n}} × {{price|inr}} = {{invested|inr}}, plus brokerage and a small price gap: about {{oneWay|inr}} to buy.",
+          "The ETF's units are worth {{navValue|inr}} at NAV ({{nav|inr}} each). She paid a little more than NAV: the premium is {{premium|inr}} a unit.",
+          "If the index rises {{up|pct0}} and she sells, she gets about {{goodValue|inr}} after costs on both trades.",
+          "If it falls {{down|pct0}} and she sells, she gets about {{badValue|inr}}."
+        ],
+        "hi": [
+          "वह {{units|n}} × {{price|inr}} = {{invested|inr}} देती है, साथ में ब्रोकरेज और छोटा भाव अंतर: खरीदने में लगभग {{oneWay|inr}}।",
+          "ETF की यूनिट का NAV पर मूल्य {{navValue|inr}} है (प्रत्येक {{nav|inr}})। उसने NAV से थोड़ा ज़्यादा दिया: प्रति यूनिट प्रीमियम {{premium|inr}}।",
+          "अगर इंडेक्स {{up|pct0}} बढ़े और वह बेचे, तो दोनों सौदों के खर्च के बाद उसे लगभग {{goodValue|inr}} मिलते हैं।",
+          "अगर वह {{down|pct0}} गिरे और वह बेचे, तो उसे लगभग {{badValue|inr}} मिलते हैं।"
+        ]
+      },
+      "positive": {
+        "en": "If the index rises {{up|pct0}}, her {{invested|inr}} becomes about {{goodValue|inr}} after costs: a gain of about {{goodGain|inr}}.",
+        "hi": "अगर इंडेक्स {{up|pct0}} बढ़े, तो खर्च के बाद उसके {{invested|inr}} लगभग {{goodValue|inr}} बनते हैं: लगभग {{goodGain|inr}} का फायदा।"
+      },
+      "negative": {
+        "en": "If the index falls {{down|pct0}}, her {{invested|inr}} becomes about {{badValue|inr}}: a loss of about {{badLoss|inr}}. An ETF does not protect you in a falling market.",
+        "hi": "अगर इंडेक्स {{down|pct0}} गिरे, तो उसके {{invested|inr}} लगभग {{badValue|inr}} रह जाते हैं: लगभग {{badLoss|inr}} का घाटा। गिरते बाज़ार में ETF आपको नहीं बचाता।"
+      },
+      "wrong": {
+        "en": [
+          "The ETF falls when its index falls.",
+          "Its exchange price can be a little above or below its NAV.",
+          "Each trade has brokerage and a price gap, which hurt small, frequent trades.",
+          "Some ETFs are traded rarely, so selling at a fair price can take time."
+        ],
+        "hi": [
+          "इंडेक्स गिरने पर ETF भी गिरता है।",
+          "एक्सचेंज पर उसका भाव NAV से थोड़ा ऊपर या नीचे हो सकता है।",
+          "हर सौदे पर ब्रोकरेज और भाव का अंतर लगता है, जो छोटे और बार-बार के सौदों को चोट पहुँचाता है।",
+          "कुछ ETF कम कारोबार वाले होते हैं, इसलिए सही भाव पर बेचने में समय लग सकता है।"
+        ]
+      },
+      "influencers": {
+        "en": [
+          "They say ETFs are 'risk-free diversification'. They are diversified, not safe.",
+          "They skip the brokerage, price gap and yearly cost.",
+          "They show one rising year of an index."
+        ],
+        "hi": [
+          "वे कहते हैं ETF 'बिना जोखिम का विविधीकरण' हैं। वे विविध हैं, सुरक्षित नहीं।",
+          "वे ब्रोकरेज, भाव अंतर और सालाना खर्च छोड़ देते हैं।",
+          "वे इंडेक्स का सिर्फ एक बढ़ता हुआ साल दिखाते हैं।"
+        ]
+      },
+      "takeaway": {
+        "en": "An ETF is a fund with a share's trading, and a share's ups and downs.",
+        "hi": "ETF में फंड जैसा निवेश है, और शेयर जैसा कारोबार और उतार-चढ़ाव।"
+      }
+    },
+    "medium": {
+      "explain": {
+        "en": "The ETF's NAV is the value of what it holds per unit. Its exchange price is what buyers pay today and can differ slightly from NAV. The gap between the best buy price and the best sell price (the spread) is a cost you pay every time you trade.",
+        "hi": "ETF का NAV प्रति यूनिट उसकी होल्डिंग का मूल्य है। उसका एक्सचेंज भाव वह है जो खरीदार आज देते हैं और NAV से थोड़ा अलग हो सकता है। सबसे अच्छे खरीद भाव और बिक्री भाव का अंतर (स्प्रेड) हर सौदे पर आपकी लागत है।"
+      },
+      "example": {
+        "en": "Sunita counts what a round trip costs her: buying {{invested|inr}} of units and selling them again.",
+        "hi": "सुनीता गिनती है कि पूरा चक्कर उसे कितने का पड़ता है: {{invested|inr}} की यूनिट खरीदना और फिर बेचना।"
+      },
+      "steps": {
+        "en": [
+          "One trade: brokerage {{brokerage|inr}} + price gap {{spreadCost|inr}} = {{oneWay|inr}}.",
+          "Buy and sell: {{roundTrip|inr}}, which is {{roundTripPct|pct2}} of the {{invested|inr}} invested.",
+          "If the index does not move at all, she still ends with about {{flat|inr}}: the cost is a sure loss before any market move.",
+          "With the index at +{{up|pct0}} or −{{down|pct0}}, she ends at {{goodValue|inr}} or {{badValue|inr}}."
+        ],
+        "hi": [
+          "एक सौदा: ब्रोकरेज {{brokerage|inr}} + भाव अंतर {{spreadCost|inr}} = {{oneWay|inr}}।",
+          "खरीदना और बेचना: {{roundTrip|inr}}, यानी निवेश किए {{invested|inr}} का {{roundTripPct|pct2}}।",
+          "अगर इंडेक्स बिल्कुल न हिले, तब भी उसके पास लगभग {{flat|inr}} बचते हैं: बाज़ार के किसी भी बदलाव से पहले खर्च एक पक्का घाटा है।",
+          "इंडेक्स +{{up|pct0}} या −{{down|pct0}} रहे तो उसके पास {{goodValue|inr}} या {{badValue|inr}} बचते हैं।"
+        ]
+      },
+      "positive": {
+        "en": "A cheap, widely traded ETF held for the long term spreads the one-time {{roundTrip|inr}} cost over many years. With the index at +{{up|pct0}} the holding ends near {{goodValue|inr}} after costs.",
+        "hi": "सस्ता और खूब कारोबार वाला ETF लंबे समय तक रखने पर {{roundTrip|inr}} का एक बार का खर्च कई सालों में बँट जाता है। इंडेक्स +{{up|pct0}} पर खर्च के बाद होल्डिंग लगभग {{goodValue|inr}} पर खत्म होती है।"
+      },
+      "negative": {
+        "en": "Frequent small trades turn a {{roundTripPct|pct2}} round-trip cost into a steady drag. And in a {{down|pct0}} fall the loss is about {{badLoss|inr}}.",
+        "hi": "बार-बार के छोटे सौदे {{roundTripPct|pct2}} के आने-जाने के खर्च को लगातार बोझ बना देते हैं। और {{down|pct0}} गिरावट में घाटा लगभग {{badLoss|inr}} होता है।"
+      },
+      "wrong": {
+        "en": [
+          "Tracking difference: the ETF may trail its index slightly.",
+          "Thinly traded ETFs can have wide price gaps.",
+          "The ETF's price can swing intraday even when the index barely moves.",
+          "A broker's account charges and taxes are extra."
+        ],
+        "hi": [
+          "ट्रैकिंग अंतर: ETF अपने इंडेक्स से थोड़ा पीछे रह सकता है।",
+          "कम कारोबार वाले ETF में भाव का अंतर चौड़ा हो सकता है।",
+          "इंडेक्स मुश्किल से हिले तब भी ETF का भाव दिन में हिल सकता है।",
+          "ब्रोकर के खाता शुल्क और टैक्स अलग हैं।"
+        ]
+      },
+      "influencers": {
+        "en": [
+          "They show a 'cheapest ETF' list without liquidity or tracking difference.",
+          "They imply that buying an ETF means you can sell at NAV any time.",
+          "They skip the effect of trading often."
+        ],
+        "hi": [
+          "वे बिना लिक्विडिटी या ट्रैकिंग अंतर के 'सबसे सस्ते ETF' की सूची दिखाते हैं।",
+          "वे संकेत देते हैं कि ETF खरीदने का मतलब है कि कभी भी NAV पर बेच सकते हैं।",
+          "वे बार-बार कारोबार का असर छोड़ देते हैं।"
+        ]
+      },
+      "takeaway": {
+        "en": "Every trade has a price tag, even when there is no 'fee' line.",
+        "hi": "हर सौदे की एक कीमत होती है, भले 'फीस' की लाइन न दिखे।"
+      }
+    }
+  },
+  "checks": [
+    {
+      "what": {
+        "en": "How closely does it follow its index?",
+        "hi": "यह अपने इंडेक्स का कितना सही पीछा करता है?"
+      },
+      "why": {
+        "en": "An ETF is meant to copy an index. The gap shows what you lose.",
+        "hi": "ETF को इंडेक्स की नकल करनी होती है। अंतर दिखाता है कि आपको क्या खोना पड़ा।"
+      },
+      "story": {
+        "en": "The index rose 12% in a year, but the ETF gave 11.8%. That 0.2% gap is the cost and small slips. A smaller gap is better.",
+        "hi": "इंडेक्स साल में 12% बढ़ा, पर ETF ने 11.8% दिया। यह 0.2% का अंतर खर्च और छोटी चूकों का है। अंतर जितना छोटा, उतना बेहतर।"
+      }
+    },
+    {
+      "what": {
+        "en": "Do many people trade it every day?",
+        "hi": "क्या इसमें रोज़ बहुत लोग कारोबार करते हैं?"
+      },
+      "why": {
+        "en": "If few people trade it, the buy price and sell price are far apart.",
+        "hi": "कम लोग कारोबार करें तो खरीद और बिक्री का भाव दूर-दूर होता है।"
+      },
+      "story": {
+        "en": "Asha buys an ETF at ₹101. If she sells right back, buyers offer only ₹99. She loses ₹2 on the same day because few people trade it.",
+        "hi": "आशा एक ETF ₹101 में खरीदती है। तुरंत वापस बेचे, तो खरीदार सिर्फ़ ₹99 देते हैं। कम लोग इसमें कारोबार करते हैं, इसलिए उसी दिन उसे ₹2 का नुकसान हो जाता है।"
+      }
+    },
+    {
+      "what": {
+        "en": "Which index does it copy?",
+        "hi": "यह किस इंडेक्स की नकल करता है?"
+      },
+      "why": {
+        "en": "ETF only copies the index. If the index is risky, so is the ETF.",
+        "hi": "ETF सिर्फ़ इंडेक्स की नकल करता है। इंडेक्स जोखिम भरा हो, तो ETF भी वैसा ही है।"
+      },
+      "story": {
+        "en": "An ETF follows an index of just 10 companies from one sector. If that sector falls, the ETF falls too, even though the word \"ETF\" sounds safe.",
+        "hi": "एक ETF सिर्फ़ एक सेक्टर की 10 कंपनियों वाले इंडेक्स को फॉलो करता है। वह सेक्टर गिरे तो ETF भी गिरेगा, भले \"ETF\" शब्द सुरक्षित लगे।"
+      }
+    },
+    {
+      "what": {
+        "en": "Do I have a demat account? What will the broker charge?",
+        "hi": "क्या मेरे पास डीमैट खाता है? ब्रोकर कितना शुल्क लेगा?"
+      },
+      "why": {
+        "en": "ETFs are bought through a broker, and charges apply each time.",
+        "hi": "ETF ब्रोकर के ज़रिए खरीदे जाते हैं, और हर बार शुल्क लगता है।"
+      },
+      "story": {
+        "en": "Rohan buys ₹5,000 of an ETF. Say his broker charges ₹20 plus taxes on every buy and every sell. Small amounts, but they add up if he trades often.",
+        "hi": "रोहन ₹5,000 का ETF खरीदता है। मान लीजिए उसका ब्रोकर हर खरीद और बिक्री पर ₹20 और टैक्स लेता है। रकम छोटी है, पर बार-बार करने पर जुड़ जाती है।"
+      }
+    },
+    {
+      "what": {
+        "en": "Can I stay calm when the price moves all day?",
+        "hi": "क्या मैं तब शांत रह पाऊँगा जब भाव दिन भर बदलता है?"
+      },
+      "why": {
+        "en": "The price changes every minute, so panic selling is easy.",
+        "hi": "भाव हर मिनट बदलता है, इसलिए घबराकर बेच देना आसान है।"
+      },
+      "story": {
+        "en": "The market drops hard at 11am and Meena sells her ETF in a panic. By evening the price comes back. She sold at the low point and made her loss permanent.",
+        "hi": "सुबह 11 बजे बाज़ार तेज़ गिरता है और मीना घबराकर अपना ETF बेच देती है। शाम तक भाव वापस आ जाता है। उसने सबसे नीचे बेचा और नुकसान पक्का कर लिया।"
+      }
+    }
+  ]
+}

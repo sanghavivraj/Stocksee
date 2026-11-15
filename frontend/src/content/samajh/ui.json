@@ -1,0 +1,128 @@
+{
+  "en": {
+    "nav": "Samajh",
+    "kicker": "SAMAJH · समझ",
+    "title": "Samajh",
+    "tagline": "No tips. Only understanding.",
+    "disclaimerTop": "Education, not investment advice. StockSee is not a SEBI-registered advisor.",
+    "footer": "Education, not investment advice. StockSee is not a SEBI-registered advisor.",
+    "jump": {
+      "cards": "Money Cards",
+      "hype": "Hype Check",
+      "guide": "Money-Time Guide"
+    },
+    "cards": {
+      "title": "Money Cards",
+      "sub": "Real-life stories with real numbers. Every figure is a hypothetical illustration, never a promise.",
+      "pickHint": "Tap a card to open it. Each one shows what to check before you act, and why.",
+      "level": {
+        "basic": "Basic",
+        "medium": "Medium"
+      },
+      "kind": {
+        "product": "Product",
+        "method": "Method"
+      },
+      "blocks": {
+        "explain": "In simple words",
+        "example": "A real-life situation",
+        "steps": "What happens to the money, step by step",
+        "positive": "If things go well",
+        "negative": "If things go badly",
+        "wrong": "What can go wrong",
+        "influencers": "What influencers don’t tell you",
+        "takeaway": "Remember this"
+      },
+      "assumptions": "Assumptions behind these numbers",
+      "sources": "Where to check the facts",
+      "hypothetical": "Hypothetical illustration. Not a forecast, not a promise.",
+      "tryIt": "Try it yourself",
+      "seeNumbers": "See the numbers as a table",
+      "close": "Close",
+      "otherLanguage": "In Hindi",
+      "unitsTitle": "NAV and units, month by month (made-up NAVs)",
+      "timing": {
+        "month-end": "End of each month",
+        "month-start": "Start of each month",
+        "year-end": "End of each year"
+      },
+      "chart": {
+        "year": "Year",
+        "tableOf": "Table of values"
+      },
+      "empty": "No cards to show.",
+      "error": "This card could not be loaded.",
+      "checks": {
+        "title": "Check before you act",
+        "why": "Why",
+        "badge": "checks",
+        "button": "Check first",
+        "story": "Real life"
+      },
+      "checksNote": "These are things to look at, not a recommendation."
+    }
+  },
+  "hi": {
+    "nav": "समझ",
+    "kicker": "SAMAJH · समझ",
+    "title": "समझ",
+    "tagline": "कोई टिप नहीं। सिर्फ समझ।",
+    "disclaimerTop": "शिक्षा, निवेश सलाह नहीं। StockSee सेबी-पंजीकृत सलाहकार नहीं है।",
+    "footer": "शिक्षा, निवेश सलाह नहीं। StockSee सेबी-पंजीकृत सलाहकार नहीं है।",
+    "jump": {
+      "cards": "मनी कार्ड",
+      "hype": "हाइप चेक",
+      "guide": "पैसा-समय गाइड"
+    },
+    "cards": {
+      "title": "मनी कार्ड",
+      "sub": "असली ज़िंदगी की कहानियाँ, असली गणित के साथ। हर आँकड़ा एक काल्पनिक उदाहरण है, वादा नहीं।",
+      "pickHint": "कार्ड खोलने के लिए टैप करें। हर कार्ड बताता है कि कुछ करने से पहले क्या जाँचें, और क्यों।",
+      "level": {
+        "basic": "बुनियादी",
+        "medium": "मध्यम"
+      },
+      "kind": {
+        "product": "उत्पाद",
+        "method": "तरीका"
+      },
+      "blocks": {
+        "explain": "आसान शब्दों में",
+        "example": "असली ज़िंदगी की स्थिति",
+        "steps": "पैसे के साथ क्या होता है, कदम दर कदम",
+        "positive": "अगर सब अच्छा रहे",
+        "negative": "अगर सब बुरा रहे",
+        "wrong": "क्या गलत हो सकता है",
+        "influencers": "इन्फ्लुएंसर क्या नहीं बताते",
+        "takeaway": "यह याद रखें"
+      },
+      "assumptions": "इन आँकड़ों के पीछे की मान्यताएँ",
+      "sources": "तथ्य कहाँ जाँचें",
+      "hypothetical": "काल्पनिक उदाहरण। पूर्वानुमान नहीं, वादा नहीं।",
+      "tryIt": "खुद आज़माएँ",
+      "seeNumbers": "आँकड़े तालिका में देखें",
+      "close": "बंद करें",
+      "otherLanguage": "अंग्रेज़ी में",
+      "unitsTitle": "NAV और यूनिट, महीने दर महीने (काल्पनिक NAV)",
+      "timing": {
+        "month-end": "हर महीने के अंत में",
+        "month-start": "हर महीने की शुरुआत में",
+        "year-end": "हर साल के अंत में"
+      },
+      "chart": {
+        "year": "साल",
+        "tableOf": "मानों की तालिका"
+      },
+      "empty": "दिखाने के लिए कोई कार्ड नहीं।",
+      "error": "यह कार्ड लोड नहीं हो सका।",
+      "checks": {
+        "title": "कुछ करने से पहले जाँचें",
+        "why": "क्यों",
+        "badge": "जाँच",
+        "button": "पहले जाँचें",
+        "story": "असली ज़िंदगी में"
+      },
+      "checksNote": "ये देखने की बातें हैं, कोई सलाह नहीं।"
+    }
+  }
+}

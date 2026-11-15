@@ -1,0 +1,280 @@
+{
+  "id": "ppf",
+  "kind": "product",
+  "name": {
+    "en": "PPF (Public Provident Fund)",
+    "hi": "PPF (पब्लिक प्रोविडेंट फंड)"
+  },
+  "tag": {
+    "en": "A government savings scheme for the long term.",
+    "hi": "लंबी अवधि की सरकारी बचत योजना।"
+  },
+  "inputs": {
+    "yearly": 100000,
+    "rate": 7.1,
+    "lowRate": 6,
+    "years": 15,
+    "inflation": 5
+  },
+  "controls": [
+    {
+      "key": "yearly",
+      "min": 5000,
+      "max": 150000,
+      "step": 5000,
+      "unit": "₹",
+      "label": {
+        "en": "Deposit each year",
+        "hi": "हर साल जमा"
+      }
+    },
+    {
+      "key": "rate",
+      "min": 5,
+      "max": 9,
+      "step": 0.1,
+      "unit": "%",
+      "label": {
+        "en": "Illustrative interest rate",
+        "hi": "उदाहरण के लिए ब्याज दर"
+      }
+    },
+    {
+      "key": "inflation",
+      "min": 2,
+      "max": 10,
+      "step": 0.5,
+      "unit": "%",
+      "label": {
+        "en": "Inflation",
+        "hi": "महंगाई"
+      }
+    }
+  ],
+  "assumptions": {
+    "en": [
+      "{{yearly|inr}} deposited at the start of every year for {{years}} years, with interest added yearly at an illustrative {{rate|pct}}.",
+      "The PPF rate is set by the government and can change. Do not treat {{rate|pct}} as today's actual rate: check the current rate at a bank or India Post.",
+      "Yearly deposit limit is {{limit|inr}} and the minimum is {{minimum|inr}} under current rules, which can change.",
+      "Inflation of {{inflation|pct}} is an example. Tax rules for PPF can change: check the Income Tax Department."
+    ],
+    "hi": [
+      "{{years}} साल तक हर साल की शुरुआत में {{yearly|inr}} जमा, उदाहरण के लिए {{rate|pct}} ब्याज के साथ जो हर साल जुड़ता है।",
+      "PPF की दर सरकार तय करती है और बदल सकती है। {{rate|pct}} को आज की असली दर न मानें: बैंक या इंडिया पोस्ट से मौजूदा दर जाँचें।",
+      "मौजूदा नियमों में सालाना जमा की सीमा {{limit|inr}} और न्यूनतम {{minimum|inr}} है, जो बदल सकती है।",
+      "{{inflation|pct}} महंगाई एक उदाहरण है। PPF के टैक्स नियम बदल सकते हैं: इनकम टैक्स विभाग से जाँचें।"
+    ]
+  },
+  "sources": [
+    {
+      "label": "National Savings Institute (nsiindia.gov.in)",
+      "url": "https://www.nsiindia.gov.in"
+    },
+    {
+      "label": "India Post (indiapost.gov.in)",
+      "url": "https://www.indiapost.gov.in"
+    },
+    {
+      "label": "Income Tax Dept (incometax.gov.in)",
+      "url": "https://www.incometax.gov.in"
+    }
+  ],
+  "levels": {
+    "basic": {
+      "explain": {
+        "en": "PPF is a long-term savings scheme run by the Government of India. You deposit money every year, it earns interest set by the government, and it is meant for about 15 years.",
+        "hi": "PPF भारत सरकार की लंबी अवधि की बचत योजना है। आप हर साल पैसा जमा करते हैं, उस पर सरकार द्वारा तय ब्याज मिलता है, और यह लगभग 15 साल के लिए है।"
+      },
+      "example": {
+        "en": "Aman is a delivery rider with an irregular income. In good months he puts money aside and deposits {{yearly|inr}} a year in a PPF account for {{years}} years.",
+        "hi": "अमन डिलीवरी राइडर है और उसकी आमदनी अनियमित है। अच्छे महीनों में वह पैसा बचाता है और {{years}} साल तक हर साल PPF खाते में {{yearly|inr}} जमा करता है।"
+      },
+      "steps": {
+        "en": [
+          "Each year he deposits {{yearly|inr}}: about {{monthlyEquivalent|inr}} a month.",
+          "After {{years}} years he has put in {{invested|inr}}.",
+          "At an illustrative {{rate|pct}} the balance would be about {{maturity|inr}}, of which {{interest|inr}} is interest.",
+          "With {{inflation|pct}} inflation that is worth about {{todays|inr}} in today's money."
+        ],
+        "hi": [
+          "हर साल वह {{yearly|inr}} जमा करता है: लगभग {{monthlyEquivalent|inr}} प्रति माह।",
+          "{{years}} साल बाद उसने कुल {{invested|inr}} जमा किए होंगे।",
+          "उदाहरण के लिए {{rate|pct}} पर बैलेंस लगभग {{maturity|inr}} होगा, जिसमें {{interest|inr}} ब्याज है।",
+          "{{inflation|pct}} महंगाई के साथ यह आज के पैसे में लगभग {{todays|inr}} के बराबर है।"
+        ]
+      },
+      "positive": {
+        "en": "If the rate were {{highRate|pct}}, the balance would be about {{maturityHigh|inr}}. PPF is built for steady saving and the government-set rate gives certainty for the period it applies.",
+        "hi": "अगर दर {{highRate|pct}} रहे, तो बैलेंस लगभग {{maturityHigh|inr}} होगा। PPF नियमित बचत के लिए बनी है और सरकार की तय दर जितने समय लागू रहती है उतने समय निश्चितता देती है।"
+      },
+      "negative": {
+        "en": "If the government lowers the rate to {{lowRate|pct}}, the balance would be about {{maturityLow|inr}}, which is {{diffLow|inr}} less. The rate is reviewed regularly and can go down.",
+        "hi": "अगर सरकार दर घटाकर {{lowRate|pct}} कर दे, तो बैलेंस लगभग {{maturityLow|inr}} होगा, यानी {{diffLow|inr}} कम। दर की नियमित समीक्षा होती है और वह घट सकती है।"
+      },
+      "wrong": {
+        "en": [
+          "Money is locked in for a long time, with only limited early withdrawal after some years.",
+          "The interest rate is not fixed for {{years}} years: it is reviewed and can fall.",
+          "There is a yearly deposit limit, so large sums cannot go in.",
+          "Inflation can still outrun the rate."
+        ],
+        "hi": [
+          "पैसा लंबे समय के लिए बँधा रहता है, कुछ साल बाद ही सीमित निकासी की सुविधा है।",
+          "ब्याज दर {{years}} साल के लिए तय नहीं है: उसकी समीक्षा होती है और वह घट सकती है।",
+          "सालाना जमा की सीमा है, इसलिए बड़ी रकम नहीं जा सकती।",
+          "महंगाई फिर भी दर से आगे निकल सकती है।"
+        ]
+      },
+      "influencers": {
+        "en": [
+          "They call PPF 'boring' and skip that its job is steadiness and tax-saving rules (which depend on your tax regime).",
+          "They quote an old PPF rate as if it were fixed.",
+          "They skip the lock-in."
+        ],
+        "hi": [
+          "वे PPF को 'उबाऊ' कहते हैं और यह छोड़ देते हैं कि उसका काम स्थिरता है और टैक्स की बचत वाले नियम (जो आपके टैक्स शासन पर निर्भर करते हैं)।",
+          "वे PPF की पुरानी दर को ऐसे बताते हैं जैसे वह तय हो।",
+          "वे लॉक-इन छोड़ देते हैं।"
+        ]
+      },
+      "takeaway": {
+        "en": "PPF rewards patience, but the rate can change and the money is locked.",
+        "hi": "PPF धैर्य का फल देती है, पर दर बदल सकती है और पैसा बँधा रहता है।"
+      }
+    },
+    "medium": {
+      "explain": {
+        "en": "Under current rules, a PPF account runs for 15 years with deposits up to {{limit|inr}} a year. The interest rate is announced by the government and reviewed regularly. Whether the interest and deposits get tax benefits depends on the tax rules and the tax regime you choose.",
+        "hi": "मौजूदा नियमों में PPF खाता 15 साल चलता है और सालाना {{limit|inr}} तक जमा हो सकता है। ब्याज दर सरकार घोषित करती है और उसकी नियमित समीक्षा होती है। ब्याज और जमा पर टैक्स लाभ मिलेगा या नहीं, यह टैक्स नियमों और आपके चुने टैक्स शासन पर निर्भर करता है।"
+      },
+      "example": {
+        "en": "Aman checks what the lock-in and the rate changes do to his {{years}}-year plan.",
+        "hi": "अमन देखता है कि लॉक-इन और दर में बदलाव उसकी {{years}} साल की योजना पर क्या असर डालते हैं।"
+      },
+      "steps": {
+        "en": [
+          "Total deposits {{invested|inr}}. Illustrative balance at {{rate|pct}}: {{maturity|inr}}.",
+          "If the rate averages {{lowRate|pct}}: {{maturityLow|inr}} ({{diffLow|inr}} less). If it averages {{highRate|pct}}: {{maturityHigh|inr}}.",
+          "In today's money at {{inflation|pct}} inflation the {{maturity|inr}} is worth about {{todays|inr}}.",
+          "Partial withdrawal is allowed only after {{withdrawFrom}} years under current rules, so this money is not an emergency fund."
+        ],
+        "hi": [
+          "कुल जमा {{invested|inr}}। {{rate|pct}} पर उदाहरण बैलेंस: {{maturity|inr}}।",
+          "अगर दर औसतन {{lowRate|pct}} रहे: {{maturityLow|inr}} ({{diffLow|inr}} कम)। अगर {{highRate|pct}} रहे: {{maturityHigh|inr}}।",
+          "{{inflation|pct}} महंगाई पर आज के पैसे में {{maturity|inr}} लगभग {{todays|inr}} के बराबर हैं।",
+          "मौजूदा नियमों में आंशिक निकासी {{withdrawFrom}} साल बाद ही मिलती है, इसलिए यह पैसा आपातकालीन फंड नहीं है।"
+        ]
+      },
+      "positive": {
+        "en": "A government-set rate gives predictability for long goals. At {{highRate|pct}} the balance would reach {{maturityHigh|inr}} from {{invested|inr}} deposited.",
+        "hi": "सरकार की तय दर लंबे लक्ष्यों के लिए पूर्वानुमेयता देती है। {{highRate|pct}} पर {{invested|inr}} जमा से बैलेंस {{maturityHigh|inr}} तक पहुँचेगा।"
+      },
+      "negative": {
+        "en": "A falling rate lowers the result ({{maturityLow|inr}} at {{lowRate|pct}}), and if inflation exceeds the rate your real return is below zero.",
+        "hi": "दर घटने से नतीजा घटता है ({{lowRate|pct}} पर {{maturityLow|inr}}), और अगर महंगाई दर से ऊपर हो तो आपका असली रिटर्न शून्य से कम होता है।"
+      },
+      "wrong": {
+        "en": [
+          "Missing a year's minimum can make the account inactive until you pay a penalty.",
+          "Rules, limits and tax treatment can change.",
+          "Early closure is allowed only in limited cases.",
+          "It may not beat inflation or equity over very long periods; it is built for stability, not for maximum growth."
+        ],
+        "hi": [
+          "किसी साल की न्यूनतम राशि चूकने पर खाता निष्क्रिय हो सकता है जब तक आप जुर्माना न भरें।",
+          "नियम, सीमाएँ और टैक्स व्यवहार बदल सकते हैं।",
+          "समय से पहले बंद करना सिर्फ सीमित मामलों में अनुमत है।",
+          "बहुत लंबी अवधि में यह महंगाई या इक्विटी को नहीं हरा सकती; यह स्थिरता के लिए बनी है, अधिकतम बढ़त के लिए नहीं।"
+        ]
+      },
+      "influencers": {
+        "en": [
+          "They quote 'tax-free returns' without saying the benefit depends on your tax regime and the current rules.",
+          "They mention a rate without the date it applied.",
+          "They never show the {{lowRate|pct}} case."
+        ],
+        "hi": [
+          "वे 'टैक्स-फ्री रिटर्न' बताते हैं पर यह नहीं कि लाभ आपके टैक्स शासन और मौजूदा नियमों पर निर्भर है।",
+          "वे दर बताते हैं पर वह तारीख नहीं जब वह लागू थी।",
+          "वे {{lowRate|pct}} वाला मामला कभी नहीं दिखाते।"
+        ]
+      },
+      "takeaway": {
+        "en": "Safe is not the same as always rising: PPF is steady, locked and rate-dependent.",
+        "hi": "सुरक्षित का मतलब हमेशा बढ़ना नहीं: PPF स्थिर, बँधी और दर पर निर्भर है।"
+      }
+    }
+  },
+  "checks": [
+    {
+      "what": {
+        "en": "What is the rate today, and can it change?",
+        "hi": "आज दर क्या है, और क्या वह बदल सकती है?"
+      },
+      "why": {
+        "en": "The government reviews the PPF rate every 3 months.",
+        "hi": "सरकार हर 3 महीने में PPF दर की समीक्षा करती है।"
+      },
+      "story": {
+        "en": "Sunil opens a PPF when the rate is, say, 7%. Later it can be higher or lower. The rate he saw on day one is not locked for 15 years.",
+        "hi": "सुनील PPF तब खोलता है जब दर, मान लीजिए, 7% है। बाद में वह ज़्यादा या कम हो सकती है। पहले दिन की दर 15 साल के लिए पक्की नहीं है।"
+      }
+    },
+    {
+      "what": {
+        "en": "Can I take the money out when I need it?",
+        "hi": "जब मुझे पैसा चाहिए, क्या मैं निकाल सकता हूँ?"
+      },
+      "why": {
+        "en": "PPF is locked for 15 years. You cannot take it out like a savings account.",
+        "hi": "PPF 15 साल के लिए बंद रहता है। बचत खाते की तरह नहीं निकाल सकते।"
+      },
+      "story": {
+        "en": "In year 6, Sunil's daughter needs her admission fee. He cannot withdraw it all freely. The rules allow only a part, only after some years. He should read those rules at the start.",
+        "hi": "छठे साल में सुनील की बेटी का एडमिशन फीस चाहिए। वह सारा पैसा आसानी से नहीं निकाल सकता। नियम सिर्फ़ कुछ हिस्सा और कुछ सालों के बाद ही निकालने देते हैं। ये नियम उसे शुरू में ही पढ़ लेने चाहिए।"
+      }
+    },
+    {
+      "what": {
+        "en": "What is the most I can put in each year?",
+        "hi": "साल में ज़्यादा से ज़्यादा कितना डाल सकता हूँ?"
+      },
+      "why": {
+        "en": "There is a yearly cap. Extra money does not earn PPF interest.",
+        "hi": "हर साल की एक सीमा है। उससे ऊपर के पैसे पर PPF ब्याज नहीं मिलता।"
+      },
+      "story": {
+        "en": "Sunil wants to put ₹3 lakh this year. The cap is ₹1.5 lakh a year (check the current limit). The extra ₹1.5 lakh earns no PPF interest.",
+        "hi": "सुनील इस साल ₹3 लाख डालना चाहता है। सीमा साल में ₹1.5 लाख है (मौजूदा सीमा जाँच लें)। बाकी ₹1.5 लाख पर PPF का ब्याज नहीं मिलेगा।"
+      }
+    },
+    {
+      "what": {
+        "en": "When in the month should I deposit?",
+        "hi": "महीने में किस तारीख़ तक जमा करूँ?"
+      },
+      "why": {
+        "en": "A deposit made after the 5th does not earn interest for that month.",
+        "hi": "5 तारीख़ के बाद जमा किया पैसा उस महीने का ब्याज नहीं कमाता।"
+      },
+      "story": {
+        "en": "Sunil deposits on the 12th. That month's interest is worked out without his deposit. If he had paid by the 5th, that month would have counted.",
+        "hi": "सुनील 12 तारीख़ को जमा करता है। उस महीने का ब्याज उसके जमा के बिना गिना जाता है। अगर वह 5 तारीख़ तक जमा करता, तो वह महीना गिना जाता।"
+      }
+    },
+    {
+      "what": {
+        "en": "Does the tax benefit work for me?",
+        "hi": "क्या टैक्स का फ़ायदा मुझे मिलेगा?"
+      },
+      "why": {
+        "en": "Some tax benefits work only in the old tax system.",
+        "hi": "कुछ टैक्स फ़ायदे सिर्फ़ पुराने टैक्स सिस्टम में मिलते हैं।"
+      },
+      "story": {
+        "en": "Sunil assumes PPF will cut his tax. But he has chosen the new tax system, which does not give that deduction. He should check which system he is in.",
+        "hi": "सुनील मानता है कि PPF से उसका टैक्स घटेगा। पर उसने नया टैक्स सिस्टम चुना है, जिसमें यह कटौती नहीं मिलती। उसे देखना चाहिए कि वह किस सिस्टम में है।"
+      }
+    }
+  ]
+}

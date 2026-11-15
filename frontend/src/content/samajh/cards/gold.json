@@ -1,0 +1,282 @@
+{
+  "id": "gold",
+  "kind": "product",
+  "name": {
+    "en": "Gold",
+    "hi": "सोना"
+  },
+  "tag": {
+    "en": "A metal that pays no interest.",
+    "hi": "एक धातु जो कोई ब्याज नहीं देती।"
+  },
+  "inputs": {
+    "grams": 10,
+    "pricePerGram": 7000,
+    "making": 10,
+    "gst": 3,
+    "etfCost": 0.5,
+    "rise": 20,
+    "fall": 15
+  },
+  "controls": [
+    {
+      "key": "making",
+      "min": 0,
+      "max": 20,
+      "step": 1,
+      "unit": "%",
+      "label": {
+        "en": "Making charge",
+        "hi": "मेकिंग चार्ज"
+      }
+    },
+    {
+      "key": "rise",
+      "min": 5,
+      "max": 40,
+      "step": 5,
+      "unit": "%",
+      "label": {
+        "en": "Gold price rises by",
+        "hi": "सोने का भाव बढ़े"
+      }
+    },
+    {
+      "key": "fall",
+      "min": 5,
+      "max": 40,
+      "step": 5,
+      "unit": "%",
+      "label": {
+        "en": "Gold price falls by",
+        "hi": "सोने का भाव गिरे"
+      }
+    }
+  ],
+  "assumptions": {
+    "en": [
+      "{{grams|n}} grams at an illustrative {{pricePerGram|inr}} a gram. Real gold prices move every day: check a current source.",
+      "Jewellery: making charge {{making|pct0}} and GST {{gst|pct0}} on the total, as an example. Real charges differ by jeweller and rules can change.",
+      "A gold-linked fund or ETF: an illustrative {{etfCost|pct}} of cost. Real costs differ.",
+      "Price rise of {{rise|pct0}} and fall of {{fall|pct0}} are examples, not forecasts. On selling jewellery you are usually paid for the gold only, not for making charges."
+    ],
+    "hi": [
+      "उदाहरण के लिए {{pricePerGram|inr}} प्रति ग्राम पर {{grams|n}} ग्राम। असली सोने का भाव रोज़ बदलता है: ताज़ा स्रोत देखें।",
+      "गहने: उदाहरण के तौर पर कुल पर {{making|pct0}} मेकिंग चार्ज और {{gst|pct0}} GST। असली शुल्क ज्वेलर के हिसाब से अलग होते हैं और नियम बदल सकते हैं।",
+      "गोल्ड से जुड़ा फंड या ETF: उदाहरण के लिए {{etfCost|pct}} खर्च। असली खर्च अलग होते हैं।",
+      "भाव में {{rise|pct0}} की बढ़त और {{fall|pct0}} की गिरावट उदाहरण हैं, पूर्वानुमान नहीं। गहने बेचने पर आमतौर पर सिर्फ सोने का पैसा मिलता है, मेकिंग चार्ज का नहीं।"
+    ]
+  },
+  "sources": [
+    {
+      "label": "RBI (rbi.org.in)",
+      "url": "https://www.rbi.org.in"
+    },
+    {
+      "label": "SEBI (sebi.gov.in)",
+      "url": "https://www.sebi.gov.in"
+    },
+    {
+      "label": "Bureau of Indian Standards (bis.gov.in)",
+      "url": "https://www.bis.gov.in"
+    }
+  ],
+  "levels": {
+    "basic": {
+      "explain": {
+        "en": "Gold is a metal people buy to keep value over long periods. It pays no interest or dividend. You only gain if its price rises, and you can buy it as jewellery, coins, or through gold funds and ETFs.",
+        "hi": "सोना एक धातु है जिसे लोग लंबे समय तक मूल्य बचाने के लिए खरीदते हैं। यह कोई ब्याज या लाभांश नहीं देता। आपको तभी फायदा होता है जब उसका भाव बढ़े, और आप इसे गहनों, सिक्कों या गोल्ड फंड और ETF के रूप में ले सकते हैं।"
+      },
+      "example": {
+        "en": "On Akshaya Tritiya the Patil family buys {{grams|n}} grams of gold jewellery at {{pricePerGram|inr}} a gram.",
+        "hi": "अक्षय तृतीया पर पाटिल परिवार {{pricePerGram|inr}} प्रति ग्राम पर {{grams|n}} ग्राम सोने के गहने खरीदता है।"
+      },
+      "steps": {
+        "en": [
+          "The gold itself is {{grams|n}} × {{pricePerGram|inr}} = {{metal|inr}}.",
+          "With a {{making|pct0}} making charge and {{gst|pct0}} GST they pay {{paid|inr}}: {{extraPaid|inr}} more than the gold is worth.",
+          "To only get their money back they need the gold price to rise about {{breakEven|pct}}, since selling returns the gold's value.",
+          "If instead they buy a gold ETF with an illustrative {{etfCost|pct}} cost, the break-even is about {{etfBreakEven|pct}}."
+        ],
+        "hi": [
+          "सोने की कीमत ही {{grams|n}} × {{pricePerGram|inr}} = {{metal|inr}} है।",
+          "{{making|pct0}} मेकिंग चार्ज और {{gst|pct0}} GST के साथ वे {{paid|inr}} देते हैं: सोने के मूल्य से {{extraPaid|inr}} ज़्यादा।",
+          "सिर्फ अपना पैसा वापस पाने के लिए सोने का भाव लगभग {{breakEven|pct}} बढ़ना चाहिए, क्योंकि बेचने पर सोने का मूल्य मिलता है।",
+          "अगर वे उदाहरण के लिए {{etfCost|pct}} खर्च वाला गोल्ड ETF खरीदें, तो बराबरी लगभग {{etfBreakEven|pct}} पर होती है।"
+        ]
+      },
+      "positive": {
+        "en": "If gold rises {{rise|pct0}}, the {{grams|n}} grams are worth {{upValue|inr}} against the {{paid|inr}} paid for the jewellery.",
+        "hi": "अगर सोना {{rise|pct0}} बढ़े, तो गहनों के लिए दिए {{paid|inr}} के सामने {{grams|n}} ग्राम का मूल्य {{upValue|inr}} है।"
+      },
+      "negative": {
+        "en": "If gold falls {{fall|pct0}}, the {{grams|n}} grams are worth {{downValue|inr}} against the {{paid|inr}} paid: a loss of {{downLoss|inr}}.",
+        "hi": "अगर सोना {{fall|pct0}} गिरे, तो दिए {{paid|inr}} के सामने {{grams|n}} ग्राम का मूल्य {{downValue|inr}} है: {{downLoss|inr}} का घाटा।"
+      },
+      "wrong": {
+        "en": [
+          "The price can fall, sometimes for years.",
+          "Jewellery has making charges and GST that you do not get back when you sell.",
+          "Gold gives no interest or dividend, so it earns only if the price rises.",
+          "Purity and weight need checking for jewellery."
+        ],
+        "hi": [
+          "भाव गिर सकता है, कभी-कभी सालों तक।",
+          "गहनों पर मेकिंग चार्ज और GST लगते हैं जो बेचने पर वापस नहीं मिलते।",
+          "सोना ब्याज या लाभांश नहीं देता, इसलिए वह तभी कमाता है जब भाव बढ़े।",
+          "गहनों में शुद्धता और वज़न की जाँच ज़रूरी है।"
+        ]
+      },
+      "influencers": {
+        "en": [
+          "They say gold 'always goes up'. It does not.",
+          "They compare gold with a bad year of stocks only.",
+          "They skip the making charges and GST that jewellery adds."
+        ],
+        "hi": [
+          "वे कहते हैं सोना 'हमेशा चढ़ता है'। ऐसा नहीं है।",
+          "वे सोने की तुलना शेयरों के सिर्फ किसी बुरे साल से करते हैं।",
+          "वे गहनों पर लगने वाले मेकिंग चार्ज और GST छोड़ देते हैं।"
+        ]
+      },
+      "takeaway": {
+        "en": "Buying jewellery and investing in gold are two different things.",
+        "hi": "गहने खरीदना और सोने में निवेश करना दो अलग बातें हैं।"
+      }
+    },
+    "medium": {
+      "explain": {
+        "en": "In India the gold price depends on the international price, the dollar-rupee rate and local duties. Gold behaves differently from stocks and deposits, which is why some people hold a small part of their savings in it. It earns nothing while you hold it.",
+        "hi": "भारत में सोने का भाव अंतरराष्ट्रीय भाव, डॉलर-रुपये की दर और स्थानीय शुल्कों पर निर्भर करता है। सोना शेयरों और जमा से अलग तरह से चलता है, इसलिए कुछ लोग बचत का छोटा हिस्सा इसमें रखते हैं। रखे रहने के दौरान यह कुछ नहीं कमाता।"
+      },
+      "example": {
+        "en": "The Patils compare three ways of buying {{grams|n}} grams: jewellery, and a gold ETF or fund.",
+        "hi": "पाटिल परिवार {{grams|n}} ग्राम खरीदने के तीन तरीके तुलना करता है: गहने, और गोल्ड ETF या फंड।"
+      },
+      "steps": {
+        "en": [
+          "Jewellery cost: {{paid|inr}} (gold {{metal|inr}} + extras {{extraPaid|inr}}).",
+          "Break-even rise: jewellery about {{breakEven|pct}}, gold ETF about {{etfBreakEven|pct}}.",
+          "At +{{rise|pct0}}: the gold is worth {{upValue|inr}}. Jewellery buyer's result: {{upGain|inr}}. ETF buyer's result: {{upGainSaved|inr}}.",
+          "At −{{fall|pct0}}: the gold is worth {{downValue|inr}}. Jewellery buyer loses {{downLoss|inr}}."
+        ],
+        "hi": [
+          "गहनों की लागत: {{paid|inr}} (सोना {{metal|inr}} + अतिरिक्त {{extraPaid|inr}})।",
+          "बराबरी के लिए ज़रूरी बढ़त: गहने लगभग {{breakEven|pct}}, गोल्ड ETF लगभग {{etfBreakEven|pct}}।",
+          "+{{rise|pct0}} पर: सोने का मूल्य {{upValue|inr}}। गहने वाले का नतीजा: {{upGain|inr}}। ETF वाले का नतीजा: {{upGainSaved|inr}}।",
+          "−{{fall|pct0}} पर: सोने का मूल्य {{downValue|inr}}। गहने वाला {{downLoss|inr}} खोता है।"
+        ]
+      },
+      "positive": {
+        "en": "Gold can hold or add value when other assets are weak, though this is not a rule. At +{{rise|pct0}} the {{grams|n}} grams are worth {{upValue|inr}}.",
+        "hi": "जब दूसरी संपत्तियाँ कमज़ोर हों तब सोना मूल्य बचा या बढ़ा सकता है, हालाँकि यह नियम नहीं है। +{{rise|pct0}} पर {{grams|n}} ग्राम का मूल्य {{upValue|inr}} है।"
+      },
+      "negative": {
+        "en": "A {{fall|pct0}} fall in price, plus the {{extraPaid|inr}} of extras paid on jewellery, is a double hit.",
+        "hi": "भाव में {{fall|pct0}} की गिरावट और गहनों पर दिए {{extraPaid|inr}} के अतिरिक्त खर्च, दोहरी चोट हैं।"
+      },
+      "wrong": {
+        "en": [
+          "A weaker rupee can raise the rupee gold price while the dollar price is flat, and the reverse can happen too.",
+          "Storage and safety of physical gold have costs and risks.",
+          "Check how a gold product is regulated before buying.",
+          "A long flat or falling period can leave you with no income and no gain."
+        ],
+        "hi": [
+          "कमज़ोर रुपया डॉलर भाव स्थिर होने पर भी रुपये में सोने का भाव बढ़ा सकता है, और उलटा भी हो सकता है।",
+          "असली सोने के भंडारण और सुरक्षा में खर्च और जोखिम हैं।",
+          "खरीदने से पहले जाँचें कि वह सोने का उत्पाद कैसे नियंत्रित है।",
+          "लंबे समय तक सपाट या गिरता भाव आपको बिना आय और बिना फायदे के छोड़ सकता है।"
+        ]
+      },
+      "influencers": {
+        "en": [
+          "They show gold's best decade and skip long flat periods.",
+          "They call gold a 'guaranteed hedge'. No such guarantee exists.",
+          "They skip the {{extraPaid|inr}} jewellery adds on top of the metal."
+        ],
+        "hi": [
+          "वे सोने का सबसे अच्छा दशक दिखाते हैं और लंबे सपाट दौर छोड़ देते हैं।",
+          "वे सोने को 'गारंटीशुदा बचाव' कहते हैं। ऐसी कोई गारंटी नहीं है।",
+          "वे धातु के ऊपर गहनों में जुड़ने वाले {{extraPaid|inr}} छोड़ देते हैं।"
+        ]
+      },
+      "takeaway": {
+        "en": "Gold keeps its shine, but it does not pay you while you wait.",
+        "hi": "सोना चमक बनाए रखता है, पर इंतज़ार के दौरान आपको कुछ नहीं देता।"
+      }
+    }
+  },
+  "checks": [
+    {
+      "what": {
+        "en": "Does it have the hallmark?",
+        "hi": "क्या इस पर हॉलमार्क है?"
+      },
+      "why": {
+        "en": "The BIS hallmark shows the purity. Without it, you cannot be sure.",
+        "hi": "BIS हॉलमार्क शुद्धता दिखाता है। उसके बिना आप पक्का नहीं जान सकते।"
+      },
+      "story": {
+        "en": "Anita buys a chain from a roadside seller who says \"pure gold\". Later a jeweller tests it and the purity is lower. She paid for gold that was never there.",
+        "hi": "अनीता एक सड़क किनारे वाले से चेन खरीदती है जो कहता है \"शुद्ध सोना\"। बाद में सुनार जाँचता है तो शुद्धता कम निकलती है। उसने उस सोने के पैसे दिए जो था ही नहीं।"
+      }
+    },
+    {
+      "what": {
+        "en": "How much of the price is making charge?",
+        "hi": "कीमत का कितना हिस्सा मेकिंग चार्ज है?"
+      },
+      "why": {
+        "en": "Making charge is usually not paid back when you sell.",
+        "hi": "बेचते समय मेकिंग चार्ज आम तौर पर वापस नहीं मिलता।"
+      },
+      "story": {
+        "en": "Anita's chain costs ₹50,000 for the gold plus ₹5,000 making charge. When she sells, the jeweller pays for the gold only. The ₹5,000 is gone.",
+        "hi": "अनीता की चेन में सोने के ₹50,000 और मेकिंग चार्ज के ₹5,000 लगते हैं। बेचते समय सुनार सिर्फ़ सोने के पैसे देता है। ₹5,000 चले जाते हैं।"
+      }
+    },
+    {
+      "what": {
+        "en": "What is the gap between the buying price and the selling price?",
+        "hi": "खरीद भाव और बिक्री भाव में कितना अंतर है?"
+      },
+      "why": {
+        "en": "You buy at a higher price than you can sell at.",
+        "hi": "आप जिस भाव पर खरीदते हैं, उससे कम पर बेच पाते हैं।"
+      },
+      "story": {
+        "en": "Say Vijay buys a coin at ₹100 and the same shop will buy it back at ₹97. He starts with a ₹3 loss on day one. Gold has to rise that much before he breaks even.",
+        "hi": "मान लीजिए विजय सिक्का ₹100 में खरीदता है और वही दुकान ₹97 में वापस लेगी। पहले ही दिन ₹3 का नुकसान है। बराबरी पर आने के लिए सोना इतना बढ़ना चाहिए।"
+      }
+    },
+    {
+      "what": {
+        "en": "Where will it be kept, and who is holding it?",
+        "hi": "यह कहाँ रखा जाएगा, और इसे कौन रख रहा है?"
+      },
+      "why": {
+        "en": "Gold at home can be stolen. Digital gold depends on the company.",
+        "hi": "घर का सोना चोरी हो सकता है। डिजिटल गोल्ड कंपनी पर निर्भर है।"
+      },
+      "story": {
+        "en": "Anita keeps gold at home and worries about theft. Her cousin buys digital gold. He should check who actually holds it and which rules cover that company.",
+        "hi": "अनीता घर पर सोना रखती है और चोरी से डरती है। उसका कज़िन डिजिटल गोल्ड खरीदता है। उसे देखना चाहिए कि असल में सोना कौन रखता है और उस कंपनी पर कौन से नियम लागू हैं।"
+      }
+    },
+    {
+      "what": {
+        "en": "Does gold pay me anything while I wait?",
+        "hi": "इंतज़ार के दौरान क्या सोना मुझे कुछ देता है?"
+      },
+      "why": {
+        "en": "Gold gives no interest. Your only gain is a higher price later, and that gain can be taxed.",
+        "hi": "सोना ब्याज नहीं देता। आपका फ़ायदा सिर्फ़ बाद में ऊँचा भाव है, और उस मुनाफ़े पर टैक्स लग सकता है।"
+      },
+      "story": {
+        "en": "₹1 lakh in an FD pays interest every year. ₹1 lakh in gold pays nothing until it is sold. If the price is higher then, the profit may be taxed.",
+        "hi": "FD में ₹1 लाख हर साल ब्याज देता है। सोने में ₹1 लाख बिकने तक कुछ नहीं देता। तब भाव ऊँचा हो, तो मुनाफ़े पर टैक्स लग सकता है।"
+      }
+    }
+  ]
+}

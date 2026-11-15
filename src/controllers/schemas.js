@@ -35,6 +35,15 @@ module.exports = {
   watchlistAdd: z.object({ symbol }),
   watchlistImport: z.object({ symbols: z.array(symbol).max(50) }),
   alertRule,
+  // Samajh / Hype Check: the browser has already calculated everything. We only ask the AI to explain it.
+  samajhExplain: z.object({
+    language: language.default('en'),
+    claim: z.string().trim().min(3).max(500),
+    kind: z.enum(['sip-target', 'sip-return', 'multiple-in-time', 'pct-in-time', 'fd-vs-stocks', 'swp-income', 'guaranteed-return', 'multiple-no-time', 'unverifiable']),
+    verdictClass: z.enum(['mathematically_unrealistic', 'misleading', 'incomplete', 'unverifiable', 'possible']),
+    facts: z.record(z.string().max(40), z.union([z.number().finite(), z.string().max(160)])).refine((o) => Object.keys(o).length <= 80, { message: 'Too many facts' }),
+    shown: z.array(z.string().max(400)).max(40).default([]),
+  }),
   alertUpdate: z.object({ active: z.boolean() }),
   // A message, a symbol, or both: a symbol alone checks only the stock's market patterns
   tipCheck: z.object({

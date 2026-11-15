@@ -1,0 +1,287 @@
+{
+  "id": "sip",
+  "kind": "method",
+  "name": {
+    "en": "SIP (Systematic Investment Plan)",
+    "hi": "SIP (सिस्टमैटिक इन्वेस्टमेंट प्लान)"
+  },
+  "tag": {
+    "en": "A METHOD: invest a fixed amount every month.",
+    "hi": "एक तरीका: हर महीने तय रकम निवेश करना।"
+  },
+  "methodNote": {
+    "en": "SIP is a method, not an investment product. It is the way you put money into something (usually a mutual fund) in small monthly parts. What you invest in decides the risk.",
+    "hi": "SIP कोई निवेश उत्पाद नहीं, एक तरीका है। यह पैसे को छोटे मासिक हिस्सों में (आमतौर पर म्यूचुअल फंड में) लगाने का तरीका है। जोखिम इस पर निर्भर है कि आप किसमें निवेश कर रहे हैं।"
+  },
+  "inputs": {
+    "monthly": 5000,
+    "years": 10,
+    "rate": 12,
+    "timing": "month-end"
+  },
+  "controls": [
+    {
+      "key": "monthly",
+      "min": 500,
+      "max": 50000,
+      "step": 500,
+      "unit": "₹",
+      "label": {
+        "en": "Monthly amount",
+        "hi": "मासिक रकम"
+      }
+    },
+    {
+      "key": "years",
+      "min": 1,
+      "max": 30,
+      "step": 1,
+      "unit": "",
+      "label": {
+        "en": "Years",
+        "hi": "साल"
+      }
+    },
+    {
+      "key": "rate",
+      "min": 0,
+      "max": 20,
+      "step": 0.5,
+      "unit": "%",
+      "label": {
+        "en": "Illustrative yearly return",
+        "hi": "उदाहरण के लिए सालाना रिटर्न"
+      }
+    },
+    {
+      "key": "timing",
+      "type": "timing",
+      "label": {
+        "en": "When is each instalment counted?",
+        "hi": "हर किस्त कब गिनी जाए?"
+      }
+    }
+  ],
+  "assumptions": {
+    "en": [
+      "{{monthly|inr}} is invested every month for {{years}} years. Instalment timing is the one you select.",
+      "Illustrative return: {{rate|pct}} a year, compounded monthly. This is NOT a promise or a forecast. Real returns can be higher, lower or negative.",
+      "The NAV values in the unit table are made up to show the idea.",
+      "Fund charges, taxes and the ups and downs along the way are not in the main figure."
+    ],
+    "hi": [
+      "{{monthly|inr}} हर महीने {{years}} साल तक निवेश होते हैं। किस्त का समय वही है जो आप चुनें।",
+      "उदाहरण के लिए रिटर्न: {{rate|pct}} सालाना, मासिक चक्रवृद्धि। यह वादा या पूर्वानुमान नहीं है। असली रिटर्न ज़्यादा, कम या नकारात्मक हो सकता है।",
+      "यूनिट वाली तालिका में NAV के मान समझाने के लिए बनाए गए हैं।",
+      "फंड का खर्च, टैक्स और बीच के उतार-चढ़ाव मुख्य आँकड़े में शामिल नहीं हैं।"
+    ]
+  },
+  "sources": [
+    {
+      "label": "AMFI (amfiindia.com)",
+      "url": "https://www.amfiindia.com"
+    },
+    {
+      "label": "SEBI (sebi.gov.in)",
+      "url": "https://www.sebi.gov.in"
+    }
+  ],
+  "levels": {
+    "basic": {
+      "explain": {
+        "en": "A SIP lets you invest a small fixed amount in a mutual fund every month instead of one big amount. Each time, your money buys 'units' of the fund at that day's price, called NAV.",
+        "hi": "SIP में आप एक बड़ी रकम की जगह हर महीने म्यूचुअल फंड में छोटी तय रकम लगाते हैं। हर बार आपका पैसा उस दिन के भाव (NAV) पर फंड की 'यूनिट' खरीदता है।"
+      },
+      "example": {
+        "en": "Priya, 24, works in Pune. Every month on salary day she puts {{monthly|inr}} into a mutual fund through a SIP.",
+        "hi": "प्रिया, 24 साल की, पुणे में नौकरी करती है। हर महीने सैलरी वाले दिन वह SIP से {{monthly|inr}} म्यूचुअल फंड में लगाती है।"
+      },
+      "steps": {
+        "en": [
+          "Month 1: NAV is ₹{{nav1|n}}. {{monthly|inr}} ÷ ₹{{nav1|n}} = {{u1|d2}} units.",
+          "Month 2: NAV falls to ₹{{nav2|n}}. The same {{monthly|inr}} now buys {{u2|d2}} units, more units when the price is low.",
+          "After {{months}} months she holds {{totalUnits|d2}} units for {{unitInvested|inr}}. Average cost per unit: ₹{{avgCost|d2}}.",
+          "If the NAV is ₹{{lastNav|n}} on the day she checks, her units are worth {{unitValue|inr}}."
+        ],
+        "hi": [
+          "महीना 1: NAV ₹{{nav1|n}} है। {{monthly|inr}} ÷ ₹{{nav1|n}} = {{u1|d2}} यूनिट।",
+          "महीना 2: NAV गिरकर ₹{{nav2|n}} हो जाता है। वही {{monthly|inr}} अब {{u2|d2}} यूनिट खरीदते हैं, भाव कम हो तो ज़्यादा यूनिट।",
+          "{{months}} महीने बाद उसके पास {{unitInvested|inr}} में {{totalUnits|d2}} यूनिट हैं। प्रति यूनिट औसत लागत: ₹{{avgCost|d2}}।",
+          "जिस दिन वह देखती है उस दिन NAV ₹{{lastNav|n}} हो तो उसकी यूनिट का मूल्य {{unitValue|inr}} है।"
+        ]
+      },
+      "positive": {
+        "en": "Suppose (hypothetically) the fund grows {{rate|pct}} a year. {{monthly|inr}} a month for {{years}} years becomes about {{fv|inr}} from {{invested|inr}} put in.",
+        "hi": "मान लें (काल्पनिक रूप से) फंड {{rate|pct}} सालाना बढ़ता है। {{years}} साल तक हर महीने {{monthly|inr}} लगाने पर {{invested|inr}} लगाए पैसे से लगभग {{fv|inr}} बनते हैं।"
+      },
+      "negative": {
+        "en": "If it grows only 4% a year, the same SIP becomes {{fvBad|inr}}. If markets fall 30% halfway, a value of {{halfwayValue|inr}} could drop to {{crashValue|inr}} on paper.",
+        "hi": "अगर यह सिर्फ 4% सालाना बढ़े, तो वही SIP {{fvBad|inr}} बनती है। अगर बीच में बाज़ार 30% गिरे, तो {{halfwayValue|inr}} का मूल्य कागज़ पर {{crashValue|inr}} रह सकता है।"
+      },
+      "wrong": {
+        "en": [
+          "Units are worth less when the NAV falls. A SIP does not protect you from losses.",
+          "Returns are not guaranteed. The fund can lose money.",
+          "Stopping in a fall turns a paper loss into a real one.",
+          "Fund costs and taxes reduce what you finally receive."
+        ],
+        "hi": [
+          "NAV गिरने पर यूनिट का मूल्य घटता है। SIP आपको घाटे से नहीं बचाती।",
+          "रिटर्न की गारंटी नहीं है। फंड में घाटा हो सकता है।",
+          "गिरावट में रुकने से कागज़ का घाटा असली घाटा बन जाता है।",
+          "फंड का खर्च और टैक्स आखिर में मिलने वाली रकम घटाते हैं।"
+        ]
+      },
+      "influencers": {
+        "en": [
+          "'₹5,000 SIP = ₹1 crore' skips the very high return that would need.",
+          "They say a SIP 'removes risk'. It only spreads out your buying dates.",
+          "They show one fund's best past years as if they will repeat."
+        ],
+        "hi": [
+          "'₹5,000 की SIP = ₹1 करोड़' यह नहीं बताता कि उसके लिए कितना ऊँचा रिटर्न चाहिए।",
+          "वे कहते हैं SIP 'जोखिम खत्म' करती है। वह सिर्फ आपकी खरीद की तारीखें बाँटती है।",
+          "वे एक फंड के सबसे अच्छे पुराने साल ऐसे दिखाते हैं जैसे वे दोहराए जाएँगे।"
+        ]
+      },
+      "takeaway": {
+        "en": "A SIP builds a habit. It does not build a guarantee.",
+        "hi": "SIP आदत बनाती है, गारंटी नहीं।"
+      }
+    },
+    "medium": {
+      "explain": {
+        "en": "NAV is the price of one unit: the fund's total value divided by its total units. Units bought = your amount ÷ NAV on the day. What you finally get = total units × NAV on the day you sell.",
+        "hi": "NAV एक यूनिट का भाव है: फंड का कुल मूल्य ÷ कुल यूनिट। खरीदी गई यूनिट = आपकी रकम ÷ उस दिन का NAV। अंत में मिलने वाली रकम = कुल यूनिट × बेचने के दिन का NAV।"
+      },
+      "example": {
+        "en": "Priya's friend Arjun asks why the unit count changes every month even though the amount is fixed. Here are the numbers.",
+        "hi": "प्रिया का दोस्त अर्जुन पूछता है कि रकम तय होने पर भी हर महीने यूनिट की संख्या क्यों बदलती है। ये रहे आँकड़े।"
+      },
+      "steps": {
+        "en": [
+          "The six NAVs are ₹{{nav1|n}}, ₹{{nav2|n}}, ₹{{nav3|n}}, ₹{{nav4|n}}, ₹{{nav5|n}}, ₹{{nav6|n}} (made up).",
+          "Units each month: {{u1|d2}}, {{u2|d2}}, {{u3|d2}}, {{u4|d2}}, {{u5|d2}}, {{u6|d2}}. Total {{totalUnits|d2}}.",
+          "Average cost per unit ₹{{avgCost|d2}} is below the average NAV ₹{{avgNav|d2}}, because more units were bought at low prices.",
+          "Long run: {{monthly|inr}} a month for {{years}} years at an illustrative {{rate|pct}} gives {{fv|inr}} from {{invested|inr}}. Change the timing and the result moves a little."
+        ],
+        "hi": [
+          "छह NAV ये हैं: ₹{{nav1|n}}, ₹{{nav2|n}}, ₹{{nav3|n}}, ₹{{nav4|n}}, ₹{{nav5|n}}, ₹{{nav6|n}} (काल्पनिक)।",
+          "हर महीने की यूनिट: {{u1|d2}}, {{u2|d2}}, {{u3|d2}}, {{u4|d2}}, {{u5|d2}}, {{u6|d2}}। कुल {{totalUnits|d2}}।",
+          "प्रति यूनिट औसत लागत ₹{{avgCost|d2}} औसत NAV ₹{{avgNav|d2}} से कम है, क्योंकि कम भाव पर ज़्यादा यूनिट खरीदी गईं।",
+          "लंबी अवधि: उदाहरण के लिए {{rate|pct}} पर हर महीने {{monthly|inr}}, {{years}} साल में {{invested|inr}} से {{fv|inr}} देते हैं। समय बदलने पर नतीजा थोड़ा बदलता है।"
+        ]
+      },
+      "positive": {
+        "en": "In a steady rise, early units gain the most and the plan reaches {{fv|inr}}, a gain of {{gain|inr}} over what you put in.",
+        "hi": "लगातार बढ़त में शुरुआती यूनिट सबसे ज़्यादा बढ़ती हैं और योजना {{fv|inr}} तक पहुँचती है, यानी लगाए पैसे से {{gain|inr}} ज़्यादा।"
+      },
+      "negative": {
+        "en": "A long fall lets you buy cheaply, but only helps if the fund recovers. At 4% a year the same plan ends at {{fvBad|inr}}, a gain of just {{gainBad|inr}}.",
+        "hi": "लंबी गिरावट में आप सस्ते में खरीदते हैं, पर इसका फायदा तभी है जब फंड उबरे। 4% सालाना पर वही योजना {{fvBad|inr}} पर खत्म होती है, यानी सिर्फ {{gainBad|inr}} का फायदा।"
+      },
+      "wrong": {
+        "en": [
+          "A fund that never recovers leaves you with units worth less than you paid.",
+          "Switching funds often can add costs and tax.",
+          "The expense ratio is taken from the NAV every day, so you never see it as a separate bill.",
+          "Missing instalments (insufficient balance) can stop the SIP."
+        ],
+        "hi": [
+          "जो फंड कभी न उबरे, उसमें आपकी यूनिट का मूल्य आपके दिए पैसे से कम रह सकता है।",
+          "बार-बार फंड बदलने से खर्च और टैक्स बढ़ सकता है।",
+          "खर्च अनुपात हर दिन NAV में से कटता है, इसलिए वह अलग बिल की तरह नहीं दिखता।",
+          "किस्तें छूटने (बैलेंस कम होने) पर SIP रुक सकती है।"
+        ]
+      },
+      "influencers": {
+        "en": [
+          "They show a SIP calculator with 15% or 18% returns and do not say who promised that.",
+          "They skip that equity fund returns come with deep falls along the way.",
+          "They treat 'rupee cost averaging' as if it guarantees a profit. It does not."
+        ],
+        "hi": [
+          "वे 15% या 18% रिटर्न वाला SIP कैलकुलेटर दिखाते हैं और यह नहीं बताते कि यह वादा किसने किया।",
+          "वे नहीं बताते कि इक्विटी फंड के रिटर्न के साथ बीच में गहरी गिरावटें आती हैं।",
+          "वे 'रुपी कॉस्ट एवरेजिंग' को ऐसे दिखाते हैं जैसे मुनाफे की गारंटी हो। ऐसा नहीं है।"
+        ]
+      },
+      "takeaway": {
+        "en": "The method is the easy part. The risk is in what you buy.",
+        "hi": "तरीका आसान हिस्सा है। जोखिम इसमें है कि आप क्या खरीदते हैं।"
+      }
+    }
+  },
+  "checks": [
+    {
+      "what": {
+        "en": "Which fund is my SIP going into?",
+        "hi": "मेरी SIP किस फंड में जा रही है?"
+      },
+      "why": {
+        "en": "SIP is only the way you pay. The fund decides what happens to your money.",
+        "hi": "SIP सिर्फ़ पैसे डालने का तरीका है। पैसे का क्या होगा, यह फंड तय करता है।"
+      },
+      "story": {
+        "en": "Priya and her friend both start a ₹5,000 SIP. Priya picks a fund that holds big safe companies. Her friend picks one that holds small risky ones. Same SIP, very different ups and downs.",
+        "hi": "प्रिया और उसकी सहेली दोनों ₹5,000 की SIP शुरू करती हैं। प्रिया ऐसा फंड चुनती है जो बड़ी मज़बूत कंपनियों में पैसा लगाता है। सहेली ऐसा चुनती है जो छोटी जोखिम वाली कंपनियों में लगाता है। SIP एक जैसी, उतार-चढ़ाव बहुत अलग।"
+      }
+    },
+    {
+      "what": {
+        "en": "Can I pay this every month, even in a tight month?",
+        "hi": "क्या मैं यह रकम हर महीने दे सकता हूँ, तंगी वाले महीने में भी?"
+      },
+      "why": {
+        "en": "If the payment bounces, you may pay a fee, and many people quit.",
+        "hi": "पेमेंट फेल हुआ तो शुल्क लग सकता है, और कई लोग SIP छोड़ देते हैं।"
+      },
+      "story": {
+        "en": "Amit sets a ₹10,000 SIP. One month his salary comes late and the auto-debit fails. The bank may charge a fee, and Amit gets upset and stops the SIP for good. A smaller amount he could always pay would have been easier to keep.",
+        "hi": "अमित ₹10,000 की SIP शुरू करता है। एक महीने तनख़्वाह देर से आती है और ऑटो-डेबिट फेल हो जाता है। बैंक शुल्क ले सकता है, और अमित परेशान होकर SIP बंद कर देता है। छोटी रकम, जो हर बार दे सके, निभाना आसान होती।"
+      }
+    },
+    {
+      "what": {
+        "en": "How long can I leave it untouched?",
+        "hi": "मैं इसे कितने समय तक छुए बिना रख सकता हूँ?"
+      },
+      "why": {
+        "en": "In a short time, the money can be less than you put in.",
+        "hi": "कम समय में रकम, डाली हुई रकम से कम भी हो सकती है।"
+      },
+      "story": {
+        "en": "Neha has put ₹30,000 in over 6 months. The market falls, and it shows ₹27,000. If she needs it today, she gets ₹27,000. If she can wait for years, one bad stretch matters much less.",
+        "hi": "नेहा ने 6 महीने में ₹30,000 डाले हैं। बाज़ार गिरता है और वह ₹27,000 दिखाता है। अगर आज उसे पैसा चाहिए, तो ₹27,000 मिलेंगे। अगर वह सालों इंतज़ार कर सकती है, तो एक बुरा दौर बहुत कम मायने रखता है।"
+      }
+    },
+    {
+      "what": {
+        "en": "How much does the fund charge me every year?",
+        "hi": "फंड मुझसे हर साल कितना शुल्क लेता है?"
+      },
+      "why": {
+        "en": "The fee is cut quietly every year, so a small gap becomes big money.",
+        "hi": "शुल्क चुपचाप हर साल कटता है, इसलिए छोटा अंतर बड़ी रकम बन जाता है।"
+      },
+      "story": {
+        "en": "Fund X charges 2% a year, Fund Y charges 0.5%. On ₹10 lakh, that is ₹20,000 a year against ₹5,000. Same money, ₹15,000 less every single year.",
+        "hi": "फंड X हर साल 2% लेता है, फंड Y 0.5%। ₹10 लाख पर यह ₹20,000 बनाम ₹5,000 सालाना है। वही पैसा, हर साल ₹15,000 कम।"
+      }
+    },
+    {
+      "what": {
+        "en": "Am I expecting a promise that does not exist?",
+        "hi": "क्या मैं ऐसे वादे की उम्मीद कर रहा हूँ जो है ही नहीं?"
+      },
+      "why": {
+        "en": "SIP never promises a return.",
+        "hi": "SIP कभी रिटर्न का वादा नहीं करती।"
+      },
+      "story": {
+        "en": "Neha's cousin says, \"SIP gives 12%.\" That is what some funds gave over some years. One year can be much higher, another year can be below zero. It is an average of the past, not a promise.",
+        "hi": "नेहा का कज़िन कहता है, \"SIP 12% देती है।\" कुछ फंडों ने कुछ सालों में इतना दिया है। एक साल इससे बहुत ज़्यादा हो सकता है, दूसरे साल शून्य से नीचे भी। यह पिछले सालों का औसत है, वादा नहीं।"
+      }
+    }
+  ]
+}

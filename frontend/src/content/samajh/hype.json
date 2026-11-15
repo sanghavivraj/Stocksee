@@ -1,0 +1,1229 @@
+{
+ "ui": {
+  "en": {
+   "title": "Hype Check",
+   "tagline": "Not advice. Just the math the reel skipped.",
+   "placeholder": "Paste something you saw on a reel/post. We check the math, not the hype.",
+   "presetsTitle": "Try one of these",
+   "analyse": "Check the math",
+   "clear": "Clear",
+   "counter": "characters",
+   "working": "Checking…",
+   "empty": "Paste a claim above, or tap an example, to see the math behind it.",
+   "invalid": {
+    "empty": "Paste a claim first.",
+    "too_short": "That is too short to check. Paste the full claim.",
+    "too_long": "That is too long. Please paste up to 500 characters.",
+    "no_meaning": "We could not find words or numbers to check. Paste the claim as text."
+   },
+   "refusal": "We do not predict direction. Nobody can do it reliably, and calling it would be a tip.",
+   "refusalNote": "Hype Check checks the maths of a claim. It does not tell you what to buy or sell, or where a price is going.",
+   "claimHeading": "The claim",
+   "sections": {
+    "math": "1. The math",
+    "hidden": "2. Hidden assumptions",
+    "missing": "3. What’s missing",
+    "realistic": "4. Realistic picture",
+    "flags": "5. Red flags",
+    "verdict": "6. Plain verdict"
+   },
+   "calculated": "Calculated",
+   "estimate": "Illustrative estimate",
+   "formula": "Formula",
+   "assumptionsTitle": "Assumptions used",
+   "normal": "A normal scenario",
+   "bad": "An unfavourable scenario",
+   "noFlags": "No red-flag wording found in this text. That does not make the claim true.",
+   "adjust": "Change the assumptions",
+   "timing": "When is each instalment counted?",
+   "years": "Years",
+   "rate": "Illustrative yearly return",
+   "timings": {
+    "month-end": "End of each month",
+    "month-start": "Start of each month",
+    "year-end": "End of each year"
+   },
+   "ai": {
+    "button": "Explain in simple words (AI)",
+    "loading": "Asking StockSee AI…",
+    "title": "AI explanation of the numbers above",
+    "note": "The AI only explains the calculated numbers. It cannot add numbers of its own.",
+    "unavailable": "The AI explanation is not available right now. The calculations above are complete without it.",
+    "offline": "You seem to be offline. The calculations above still work.",
+    "error": "Could not reach the AI service. The calculations above are unaffected."
+   },
+   "verdictLabels": {
+    "mathematically_unrealistic": "Mathematically unrealistic",
+    "misleading": "Misleading",
+    "incomplete": "Incomplete",
+    "unverifiable": "Unverifiable",
+    "possible": "Possible, not guaranteed"
+   },
+   "footnote": "Not advice. Just the math the reel skipped. All returns shown are hypothetical illustrations."
+  },
+  "hi": {
+   "title": "हाइप चेक",
+   "tagline": "सलाह नहीं। बस वह गणित जो रील ने छोड़ दिया।",
+   "placeholder": "रील/पोस्ट में जो देखा वह यहाँ पेस्ट करें। हम गणित जाँचते हैं, हाइप नहीं।",
+   "presetsTitle": "इनमें से कोई आज़माएँ",
+   "analyse": "गणित जाँचें",
+   "clear": "साफ करें",
+   "counter": "अक्षर",
+   "working": "जाँच हो रही है…",
+   "empty": "ऊपर कोई दावा पेस्ट करें, या कोई उदाहरण दबाएँ, और उसके पीछे का गणित देखें।",
+   "invalid": {
+    "empty": "पहले कोई दावा पेस्ट करें।",
+    "too_short": "यह जाँचने के लिए बहुत छोटा है। पूरा दावा पेस्ट करें।",
+    "too_long": "यह बहुत लंबा है। कृपया 500 अक्षरों तक पेस्ट करें।",
+    "no_meaning": "जाँचने लायक शब्द या संख्याएँ नहीं मिलीं। दावा टेक्स्ट के रूप में पेस्ट करें।"
+   },
+   "refusal": "हम दिशा की भविष्यवाणी नहीं करते। इसे कोई भरोसे से नहीं कर सकता, और बताना टिप देना होगा।",
+   "refusalNote": "हाइप चेक किसी दावे का गणित जाँचता है। यह नहीं बताता कि क्या खरीदें या बेचें, या भाव कहाँ जाएगा।",
+   "claimHeading": "दावा",
+   "sections": {
+    "math": "1. गणित",
+    "hidden": "2. छिपी हुई मान्यताएँ",
+    "missing": "3. क्या छूट गया",
+    "realistic": "4. यथार्थ तस्वीर",
+    "flags": "5. खतरे के संकेत",
+    "verdict": "6. सीधा फैसला"
+   },
+   "calculated": "गणना किया",
+   "estimate": "उदाहरण अनुमान",
+   "formula": "सूत्र",
+   "assumptionsTitle": "प्रयुक्त मान्यताएँ",
+   "normal": "एक सामान्य स्थिति",
+   "bad": "एक प्रतिकूल स्थिति",
+   "noFlags": "इस टेक्स्ट में खतरे के संकेत वाले शब्द नहीं मिले। इसका मतलब यह नहीं कि दावा सही है।",
+   "adjust": "मान्यताएँ बदलें",
+   "timing": "हर किस्त कब गिनी जाए?",
+   "years": "साल",
+   "rate": "उदाहरण के लिए सालाना रिटर्न",
+   "timings": {
+    "month-end": "हर महीने के अंत में",
+    "month-start": "हर महीने की शुरुआत में",
+    "year-end": "हर साल के अंत में"
+   },
+   "ai": {
+    "button": "आसान शब्दों में समझाएँ (AI)",
+    "loading": "StockSee AI से पूछ रहे हैं…",
+    "title": "ऊपर के आँकड़ों की AI व्याख्या",
+    "note": "AI सिर्फ गणना किए गए आँकड़े समझाता है। वह अपनी तरफ से कोई संख्या नहीं जोड़ सकता।",
+    "unavailable": "AI व्याख्या अभी उपलब्ध नहीं है। ऊपर की गणनाएँ उसके बिना भी पूरी हैं।",
+    "offline": "आप ऑफ़लाइन लगते हैं। ऊपर की गणनाएँ फिर भी काम करती हैं।",
+    "error": "AI सेवा तक नहीं पहुँच सके। ऊपर की गणनाओं पर असर नहीं है।"
+   },
+   "verdictLabels": {
+    "mathematically_unrealistic": "गणितीय रूप से अवास्तविक",
+    "misleading": "भ्रामक",
+    "incomplete": "अधूरा",
+    "unverifiable": "जाँचा नहीं जा सकता",
+    "possible": "संभव, गारंटी नहीं"
+   },
+   "footnote": "सलाह नहीं। बस वह गणित जो रील ने छोड़ दिया। दिखाए गए सभी रिटर्न काल्पनिक उदाहरण हैं।"
+  }
+ },
+ "presets": [
+  {
+   "id": "sip-crore",
+   "text": {
+    "en": "₹5,000 SIP = ₹1 crore in 10 years.",
+    "hi": "₹5,000 की SIP = 10 साल में ₹1 करोड़।"
+   }
+  },
+  {
+   "id": "double-25",
+   "text": {
+    "en": "Double your money in 25 days.",
+    "hi": "25 दिन में पैसा दोगुना।"
+   }
+  },
+  {
+   "id": "fd-dead",
+   "text": {
+    "en": "FD is dead, only stocks make money.",
+    "hi": "FD बेकार है, सिर्फ शेयर से पैसा बनता है।"
+   }
+  },
+  {
+   "id": "swp-salary",
+   "text": {
+    "en": "SWP = guaranteed monthly salary.",
+    "hi": "SWP = गारंटीशुदा मासिक सैलरी।"
+   }
+  },
+  {
+   "id": "stock-10x",
+   "text": {
+    "en": "This stock will 10x.",
+    "hi": "यह शेयर 10 गुना होगा।"
+   }
+  }
+ ],
+ "redFlags": {
+  "guaranteed": {
+   "en": "Promises a guaranteed or risk-free return. No market-linked investment can promise that.",
+   "hi": "गारंटीशुदा या बिना जोखिम के रिटर्न का वादा। कोई भी बाज़ार से जुड़ा निवेश ऐसा वादा नहीं कर सकता।"
+  },
+  "urgency": {
+   "en": "Pushes you to act fast (limited time, join now). Pressure stops you from checking.",
+   "hi": "जल्दी करने का दबाव (सीमित समय, अभी जुड़ें)। दबाव आपको जाँचने से रोकता है।"
+  },
+  "screenshot": {
+   "en": "Uses profit screenshots or 'my students made' stories as proof. These can be cherry-picked or made up.",
+   "hi": "सबूत के तौर पर मुनाफे के स्क्रीनशॉट या 'मेरे छात्रों ने कमाया' जैसी कहानियाँ। ये चुनी हुई या बनावटी हो सकती हैं।"
+  },
+  "secret": {
+   "en": "Claims a secret, insider or 'nobody tells you' knowledge. Trading on insider information is illegal.",
+   "hi": "किसी राज़, अंदर की जानकारी या 'कोई नहीं बताता' का दावा। अंदर की जानकारी पर ट्रेड करना गैरकानूनी है।"
+  },
+  "misleading_comparison": {
+   "en": "Makes a one-sided comparison (for example 'FD is dead'). Different products do different jobs.",
+   "hi": "एकतरफा तुलना (जैसे 'FD बेकार है')। अलग-अलग उत्पाद अलग काम करते हैं।"
+  },
+  "manipulation": {
+   "en": "Uses fear of missing out or shaming language ('don't stay poor') to push you.",
+   "hi": "छूट जाने के डर या शर्मिंदा करने वाली भाषा ('गरीब मत रहो') से धकेलना।"
+  },
+  "paid_group": {
+   "en": "Points you to a paid group, course or private message. Only SEBI-registered advisers may charge for advice.",
+   "hi": "पेड ग्रुप, कोर्स या निजी संदेश की ओर ले जाता है। सलाह के पैसे सिर्फ सेबी-पंजीकृत सलाहकार ले सकते हैं।"
+  },
+  "quick_riches": {
+   "en": "Promises very fast or huge gains ('double your money', 'overnight'). Speed and safety rarely go together.",
+   "hi": "बहुत तेज़ या भारी कमाई का वादा ('पैसा दोगुना', 'रातों-रात')। तेज़ी और सुरक्षा शायद ही साथ मिलती हैं।"
+  },
+  "unrealistic_math": {
+   "en": "The numbers do not work at a normal return (see The math).",
+   "hi": "सामान्य रिटर्न पर ये संख्याएँ नहीं बैठतीं (देखें: गणित)।"
+  }
+ },
+ "kinds": {
+  "sip-target": {
+   "title": {
+    "en": "{{monthly|inr}} a month becomes {{target|inr}} in {{years|n}} years?",
+    "hi": "{{monthly|inr}} हर महीने से {{years|n}} साल में {{target|inr}}?"
+   },
+   "formula": {
+    "en": "Future value = monthly amount × [((1 + r)ⁿ − 1) ÷ r], where r = yearly rate ÷ 12 and n = {{months|n}} months. Instalments counted: {{timingLabel}}.",
+    "hi": "भविष्य का मूल्य = मासिक रकम × [((1 + r)ⁿ − 1) ÷ r], जहाँ r = सालाना दर ÷ 12 और n = {{months|n}} महीने। किस्तें गिनी गईं: {{timingLabel}}।"
+   },
+   "assumptions": {
+    "en": [
+     "You invest {{monthly|inr}} every month for {{years|n}} years: {{months|n}} instalments, {{invested|inr}} in total.",
+     "Illustrative return: {{rate|pct}} a year, compounded monthly. It is an assumption, not a forecast. You can change it below.",
+     "Instalments counted: {{timingLabel}}. You can change this below.",
+     "No fees, no taxes, and no bad years."
+    ],
+    "hi": [
+     "आप {{years|n}} साल तक हर महीने {{monthly|inr}} निवेश करते हैं: {{months|n}} किस्तें, कुल {{invested|inr}}।",
+     "उदाहरण के लिए रिटर्न: {{rate|pct}} सालाना, मासिक चक्रवृद्धि। यह मान्यता है, पूर्वानुमान नहीं। आप इसे नीचे बदल सकते हैं।",
+     "किस्तें गिनी गईं: {{timingLabel}}। आप इसे नीचे बदल सकते हैं।",
+     "कोई फीस नहीं, कोई टैक्स नहीं, और कोई बुरा साल नहीं।"
+    ]
+   },
+   "lines": [
+    {
+     "kind": "calculated",
+     "label": {
+      "en": "Total you put in",
+      "hi": "आपका कुल लगाया पैसा"
+     },
+     "value": {
+      "en": "{{invested|inrFull}}",
+      "hi": "{{invested|inrFull}}"
+     }
+    },
+    {
+     "kind": "calculated",
+     "label": {
+      "en": "What the claim asks for",
+      "hi": "दावा क्या माँगता है"
+     },
+     "value": {
+      "en": "{{target|inrFull}}, which is {{multipleOfInvested|d1}}× the money you put in",
+      "hi": "{{target|inrFull}}, यानी लगाए पैसे का {{multipleOfInvested|d1}} गुना"
+     }
+    },
+    {
+     "kind": "estimate",
+     "label": {
+      "en": "At {{rate|pct}} a year, your SIP becomes",
+      "hi": "{{rate|pct}} सालाना पर आपकी SIP बनती है"
+     },
+     "value": {
+      "en": "{{fv|inrFull}} (about {{fv|inr}})",
+      "hi": "{{fv|inrFull}} (लगभग {{fv|inr}})"
+     }
+    },
+    {
+     "kind": "calculated",
+     "label": {
+      "en": "That is this much of the claim",
+      "hi": "यह दावे का इतना हिस्सा है"
+     },
+     "value": {
+      "en": "{{fvPct|pct0}} of {{target|inr}}; the gap is {{gap|inr}}",
+      "hi": "{{target|inr}} का {{fvPct|pct0}}; कमी {{gap|inr}}"
+     }
+    },
+    {
+     "kind": "calculated",
+     "label": {
+      "en": "Return needed to reach {{target|inr}}",
+      "hi": "{{target|inr}} तक पहुँचने के लिए ज़रूरी रिटर्न"
+     },
+     "value": {
+      "en": "{{needNominal|pct}} a year every year ({{needEffective|pct}} effective)",
+      "hi": "हर साल {{needNominal|pct}} ({{needEffective|pct}} प्रभावी)"
+     }
+    },
+    {
+     "kind": "calculated",
+     "label": {
+      "en": "Monthly amount needed at {{rate|pct}}",
+      "hi": "{{rate|pct}} पर ज़रूरी मासिक रकम"
+     },
+     "value": {
+      "en": "{{requiredMonthly|inr}} a month",
+      "hi": "{{requiredMonthly|inr}} प्रति माह"
+     }
+    }
+   ],
+   "hidden": {
+    "en": [
+     "It silently assumes a return of about {{needNominal|pct}} a year, every year, for {{years|n}} years.",
+     "It assumes no bad years. One big fall can undo years of gains.",
+     "It assumes you never pause or stop the SIP.",
+     "It assumes the money keeps its buying power, but prices rise over {{years|n}} years."
+    ],
+    "hi": [
+     "यह चुपचाप मान लेता है कि {{years|n}} साल तक हर साल लगभग {{needNominal|pct}} रिटर्न मिलेगा।",
+     "यह मान लेता है कि कोई बुरा साल नहीं आएगा। एक बड़ी गिरावट सालों की कमाई मिटा सकती है।",
+     "यह मान लेता है कि आप SIP कभी रोकेंगे या बंद नहीं करेंगे।",
+     "यह मान लेता है कि पैसे की खरीदने की ताकत बनी रहेगी, जबकि {{years|n}} साल में दाम बढ़ते हैं।"
+    ]
+   },
+   "missing": {
+    "en": [
+     "Taxes on the gains and fund costs reduce what you keep.",
+     "Inflation: {{target|inr}} in {{years|n}} years will buy less than {{target|inr}} does today.",
+     "Returns are never steady. The path has ups and downs, and the end value depends on when you stop.",
+     "One fund's past returns do not promise future returns."
+    ],
+    "hi": [
+     "मुनाफे पर टैक्स और फंड का खर्च आपके हाथ में बचने वाला पैसा घटाते हैं।",
+     "महंगाई: {{years|n}} साल बाद {{target|inr}} उतना नहीं खरीदेंगे जितना आज खरीदते हैं।",
+     "रिटर्न कभी स्थिर नहीं होता। रास्ते में उतार-चढ़ाव होते हैं और अंतिम मूल्य इस पर निर्भर है कि आप कब रुकते हैं।",
+     "एक फंड का पुराना रिटर्न भविष्य के रिटर्न का वादा नहीं है।"
+    ]
+   },
+   "realistic": {
+    "normal": {
+     "en": "At an illustrative {{rate|pct}} a year, {{monthly|inr}} a month for {{years|n}} years grows to about {{fv|inr}} from {{invested|inr}} put in. That is about {{fvPct|pct0}} of the claim.",
+     "hi": "उदाहरण के लिए {{rate|pct}} सालाना पर, {{years|n}} साल तक हर महीने {{monthly|inr}} लगाने पर {{invested|inr}} से लगभग {{fv|inr}} बनते हैं। यह दावे का लगभग {{fvPct|pct0}} है।"
+    },
+    "bad": {
+     "en": "At an illustrative 4% a year the same SIP is about {{fvBad|inr}}. A sharp fall near the end can make the final value lower still.",
+     "hi": "उदाहरण के लिए 4% सालाना पर वही SIP लगभग {{fvBad|inr}} बनती है। अंत के पास तेज़ गिरावट अंतिम मूल्य और घटा सकती है।"
+    }
+   },
+   "verdicts": {
+    "mathematically_unrealistic": {
+     "en": [
+      "Mathematically unrealistic: it needs about {{needNominal|pct}} a year, every year, for {{years|n}} years.",
+      "At a normal planning assumption of {{rate|pct}} the same SIP reaches about {{fv|inr}}. Nobody can promise the higher return."
+     ],
+     "hi": [
+      "गणितीय रूप से अवास्तविक: इसके लिए {{years|n}} साल तक हर साल लगभग {{needNominal|pct}} चाहिए।",
+      "{{rate|pct}} की सामान्य योजना-मान्यता पर वही SIP लगभग {{fv|inr}} तक पहुँचती है। इससे ऊँचे रिटर्न का वादा कोई नहीं कर सकता।"
+     ]
+    },
+    "misleading": {
+     "en": [
+      "Misleading: it works only with a high return of about {{needNominal|pct}} a year, which is far from certain.",
+      "At {{rate|pct}} the SIP reaches {{fv|inr}}. The claim skips the risk of getting less."
+     ],
+     "hi": [
+      "भ्रामक: यह तभी चलता है जब लगभग {{needNominal|pct}} सालाना का ऊँचा रिटर्न मिले, जो पक्का नहीं है।",
+      "{{rate|pct}} पर SIP {{fv|inr}} तक पहुँचती है। दावा कम मिलने के जोखिम को छोड़ देता है।"
+     ]
+    },
+    "possible": {
+     "en": [
+      "Possible, not guaranteed: it needs about {{needNominal|pct}} a year.",
+      "At {{rate|pct}} you would reach {{fv|inr}}. Real returns can be lower, or negative."
+     ],
+     "hi": [
+      "संभव, गारंटी नहीं: इसके लिए लगभग {{needNominal|pct}} सालाना चाहिए।",
+      "{{rate|pct}} पर आप {{fv|inr}} तक पहुँचेंगे। असली रिटर्न कम या नकारात्मक हो सकता है।"
+     ]
+    }
+   }
+  },
+  "multiple-in-time": {
+   "title": {
+    "en": "{{multiple|d1}}× your money in {{duration}}?",
+    "hi": "{{duration}} में पैसा {{multiple|d1}} गुना?"
+   },
+   "formula": {
+    "en": "Growth needed each day = multiple^(1 ÷ days) − 1. Repeated for a year: multiple^(365 ÷ days). Yearly rate (CAGR) = multiple^(365 ÷ days) − 1.",
+    "hi": "हर दिन चाहिए बढ़त = गुणक^(1 ÷ दिन) − 1। साल भर दोहराने पर: गुणक^(365 ÷ दिन)। सालाना दर (CAGR) = गुणक^(365 ÷ दिन) − 1।"
+   },
+   "assumptions": {
+    "en": [
+     "Your money grows {{multiple|d1}}× in {{duration}}, as the claim says.",
+     "We start with {{start|inr}} only as an example amount.",
+     "The 'normal' picture uses an illustrative 12% a year. It is an assumption, not a forecast.",
+     "No fees, taxes or losses."
+    ],
+    "hi": [
+     "आपका पैसा {{duration}} में {{multiple|d1}} गुना होता है, जैसा दावा कहता है।",
+     "हम सिर्फ उदाहरण के लिए {{start|inr}} से शुरू करते हैं।",
+     "'सामान्य' तस्वीर में उदाहरण के लिए 12% सालाना लिया गया है। यह मान्यता है, पूर्वानुमान नहीं।",
+     "कोई फीस, टैक्स या घाटा नहीं।"
+    ]
+   },
+   "lines": [
+    {
+     "kind": "calculated",
+     "label": {
+      "en": "What the claim asks for",
+      "hi": "दावा क्या माँगता है"
+     },
+     "value": {
+      "en": "{{multiple|d1}}× in {{duration}}",
+      "hi": "{{duration}} में {{multiple|d1}} गुना"
+     }
+    },
+    {
+     "kind": "calculated",
+     "label": {
+      "en": "Growth needed every single day",
+      "hi": "हर एक दिन चाहिए बढ़त"
+     },
+     "value": {
+      "en": "{{perDay|pct2}} a day, every day",
+      "hi": "हर दिन {{perDay|pct2}}"
+     }
+    },
+    {
+     "kind": "calculated",
+     "label": {
+      "en": "If that pace could continue for a year",
+      "hi": "अगर यही रफ्तार साल भर चले"
+     },
+     "value": {
+      "en": "{{start|inr}} would become {{startAfterYear|inr}}, a {{perYear|x}} multiple",
+      "hi": "{{start|inr}} बढ़कर {{startAfterYear|inr}} हो जाएँगे, यानी {{perYear|x}}"
+     },
+     "when": "short"
+    },
+    {
+     "kind": "calculated",
+     "label": {
+      "en": "As a yearly return (CAGR)",
+      "hi": "सालाना रिटर्न के रूप में (CAGR)"
+     },
+     "value": {
+      "en": "{{cagr|pct}} a year",
+      "hi": "{{cagr|pct}} सालाना"
+     },
+     "when": "long"
+    },
+    {
+     "kind": "estimate",
+     "label": {
+      "en": "At an illustrative 12% a year, {{start|inr}} grows in {{duration}} to",
+      "hi": "उदाहरण के लिए 12% सालाना पर {{start|inr}} {{duration}} में बनते हैं"
+     },
+     "value": {
+      "en": "{{normal|inr}}",
+      "hi": "{{normal|inr}}"
+     }
+    }
+   ],
+   "hidden": {
+    "en": [
+     "It assumes the price can multiply {{multiple|d1}}× within {{duration}}.",
+     "It assumes someone is willing to pay that much, and that you can sell at that price.",
+     "It silently assumes there is no chance of loss.",
+     "It assumes the person pitching it has no reason to benefit when you join."
+    ],
+    "hi": [
+     "यह मान लेता है कि भाव {{duration}} में {{multiple|d1}} गुना हो सकता है।",
+     "यह मान लेता है कि कोई इतना देने को तैयार है और आप उस भाव पर बेच सकेंगे।",
+     "यह चुपचाप मान लेता है कि घाटे की कोई संभावना नहीं।",
+     "यह मान लेता है कि इसे बेचने वाले को आपके जुड़ने से कोई फायदा नहीं।"
+    ]
+   },
+   "missing": {
+    "en": [
+     "Anything that could multiply money this fast also carries a matching chance of losing most of it.",
+     "Fees, taxes and exit problems.",
+     "Whether the seller is registered with SEBI (you can check at sebi.gov.in).",
+     "What happens to the promised gain if you need your money back early."
+    ],
+    "hi": [
+     "जो चीज़ पैसे को इतनी तेज़ी से बढ़ा सकती है, उसमें उतनी ही संभावना ज़्यादातर पैसा गँवाने की भी होती है।",
+     "फीस, टैक्स और बाहर निकलने की दिक्कतें।",
+     "बेचने वाला सेबी में पंजीकृत है या नहीं (sebi.gov.in पर जाँचें)।",
+     "अगर आपको पैसा जल्दी वापस चाहिए तो वादा किए गए फायदे का क्या होगा।"
+    ]
+   },
+   "realistic": {
+    "normal": {
+     "en": "At an illustrative 12% a year, {{start|inr}} grows to about {{normal|inr}} in {{duration}}.",
+     "hi": "उदाहरण के लिए 12% सालाना पर {{start|inr}} {{duration}} में लगभग {{normal|inr}} बनते हैं।"
+    },
+    "bad": {
+     "en": "A poor stretch of 10% down leaves {{start|inr}} at {{bad|inr}}, not {{multipleValue|inr}}.",
+     "hi": "10% की गिरावट वाला खराब दौर {{start|inr}} को {{bad|inr}} पर छोड़ता है, {{multipleValue|inr}} पर नहीं।"
+    }
+   },
+   "verdicts": {
+    "mathematically_unrealistic": {
+     "en": [
+      "Mathematically unrealistic: {{multiple|d1}}× in {{duration}} needs {{perDay|pct2}} growth every day.",
+      "Anyone offering this is a red flag. No normal investment works like this."
+     ],
+     "hi": [
+      "गणितीय रूप से अवास्तविक: {{duration}} में {{multiple|d1}} गुना होने के लिए हर दिन {{perDay|pct2}} बढ़त चाहिए।",
+      "जो भी यह ऑफर करे वह खतरे का संकेत है। कोई सामान्य निवेश ऐसे नहीं चलता।"
+     ]
+    },
+    "misleading": {
+     "en": [
+      "Misleading: the pace needed ({{cagr|pct}} a year) cannot be sustained.",
+      "A one-time jump can happen. Repeating it cannot be promised."
+     ],
+     "hi": [
+      "भ्रामक: ज़रूरी रफ्तार ({{cagr|pct}} सालाना) टिकाऊ नहीं है।",
+      "एक बार की उछाल हो सकती है। उसे दोहराने का वादा नहीं किया जा सकता।"
+     ]
+    },
+    "possible": {
+     "en": [
+      "Possible, not guaranteed: it needs {{cagr|pct}} a year.",
+      "Real returns can be lower, or negative."
+     ],
+     "hi": [
+      "संभव, गारंटी नहीं: इसके लिए {{cagr|pct}} सालाना चाहिए।",
+      "असली रिटर्न कम या नकारात्मक हो सकता है।"
+     ]
+    }
+   }
+  },
+  "fd-vs-stocks": {
+   "title": {
+    "en": "“FD is dead, only stocks make money”",
+    "hi": "“FD बेकार है, सिर्फ शेयर से पैसा बनता है”"
+   },
+   "formula": {
+    "en": "FD: amount × (1 + after-tax rate ÷ 4)^(4 × years). Stocks: amount × (1 + yearly return)^years. In today's money: ÷ (1 + inflation)^years.",
+    "hi": "FD: रकम × (1 + टैक्स के बाद की दर ÷ 4)^(4 × साल)। शेयर: रकम × (1 + सालाना रिटर्न)^साल। आज के पैसे में: ÷ (1 + महंगाई)^साल।"
+   },
+   "assumptions": {
+    "en": [
+     "{{principal|inr}} kept for {{years|n}} years.",
+     "FD rate {{fdRate|pct}} a year, taxed at a {{tax|pct0}} slab, with {{inflation|pct}} inflation. These are examples, real numbers change.",
+     "Illustrative stock returns: {{good|pct}} a year in a good case and {{bad|pct}} in a poor case. Not forecasts.",
+     "An unfavourable example: a {{fall|pct0}} fall just before you need the money."
+    ],
+    "hi": [
+     "{{principal|inr}} को {{years|n}} साल रखा गया।",
+     "FD दर {{fdRate|pct}} सालाना, {{tax|pct0}} स्लैब पर टैक्स, और {{inflation|pct}} महंगाई। ये उदाहरण हैं, असली संख्याएँ बदलती हैं।",
+     "उदाहरण के लिए शेयर रिटर्न: अच्छे हाल में {{good|pct}} सालाना और खराब हाल में {{bad|pct}}। पूर्वानुमान नहीं।",
+     "एक प्रतिकूल उदाहरण: पैसे की ज़रूरत से ठीक पहले {{fall|pct0}} की गिरावट।"
+    ]
+   },
+   "lines": [
+    {
+     "kind": "calculated",
+     "label": {
+      "en": "FD, before tax",
+      "hi": "FD, टैक्स से पहले"
+     },
+     "value": {
+      "en": "{{fdPre|inr}}",
+      "hi": "{{fdPre|inr}}"
+     }
+    },
+    {
+     "kind": "calculated",
+     "label": {
+      "en": "FD, after tax",
+      "hi": "FD, टैक्स के बाद"
+     },
+     "value": {
+      "en": "{{fdPost|inr}}",
+      "hi": "{{fdPost|inr}}"
+     }
+    },
+    {
+     "kind": "calculated",
+     "label": {
+      "en": "FD, after tax, in today's money",
+      "hi": "FD, टैक्स के बाद, आज के पैसे में"
+     },
+     "value": {
+      "en": "{{fdToday|inr}}",
+      "hi": "{{fdToday|inr}}"
+     }
+    },
+    {
+     "kind": "estimate",
+     "label": {
+      "en": "Stocks at {{good|pct}} a year (good case)",
+      "hi": "{{good|pct}} सालाना पर शेयर (अच्छा हाल)"
+     },
+     "value": {
+      "en": "{{eqGood|inr}}",
+      "hi": "{{eqGood|inr}}"
+     }
+    },
+    {
+     "kind": "estimate",
+     "label": {
+      "en": "Stocks at {{bad|pct}} a year (poor case)",
+      "hi": "{{bad|pct}} सालाना पर शेयर (खराब हाल)"
+     },
+     "value": {
+      "en": "{{eqBad|inr}}",
+      "hi": "{{eqBad|inr}}"
+     }
+    },
+    {
+     "kind": "estimate",
+     "label": {
+      "en": "Good case, then a {{fall|pct0}} fall at the end",
+      "hi": "अच्छा हाल, फिर अंत में {{fall|pct0}} की गिरावट"
+     },
+     "value": {
+      "en": "{{eqCrash|inr}}",
+      "hi": "{{eqCrash|inr}}"
+     }
+    }
+   ],
+   "hidden": {
+    "en": [
+     "It assumes stock returns stay high and steady for the whole period.",
+     "It judges the FD before tax and inflation, and the stocks before their ups and downs.",
+     "It assumes you can wait out any fall.",
+     "It assumes the same product fits every goal and every time horizon."
+    ],
+    "hi": [
+     "यह मान लेता है कि पूरी अवधि में शेयर का रिटर्न ऊँचा और स्थिर रहेगा।",
+     "यह FD को टैक्स और महंगाई से पहले आँकता है, और शेयरों को उनके उतार-चढ़ाव से पहले।",
+     "यह मान लेता है कि आप किसी भी गिरावट का इंतज़ार कर सकते हैं।",
+     "यह मान लेता है कि एक ही उत्पाद हर लक्ष्य और हर समय-सीमा में फिट होता है।"
+    ]
+   },
+   "missing": {
+    "en": [
+     "Stocks can fall a lot, and sometimes stay low for years.",
+     "Money needed soon should not depend on the market's mood.",
+     "An FD's rate and date are fixed by its terms. Stock returns are market-linked and not fixed at all.",
+     "Stock gains are taxed too."
+    ],
+    "hi": [
+     "शेयर बहुत गिर सकते हैं, और कभी-कभी सालों तक नीचे रह सकते हैं।",
+     "जिस पैसे की जल्दी ज़रूरत है, वह बाज़ार के मूड पर निर्भर नहीं होना चाहिए।",
+     "FD की दर और तारीख उसकी शर्तों से तय होती है। शेयर का रिटर्न बाज़ार से जुड़ा है और बिल्कुल तय नहीं।",
+     "शेयर के मुनाफे पर भी टैक्स लगता है।"
+    ]
+   },
+   "realistic": {
+    "normal": {
+     "en": "Good case: {{principal|inr}} becomes {{eqGood|inr}} in stocks, against {{fdPost|inr}} in the FD after tax.",
+     "hi": "अच्छा हाल: {{principal|inr}} शेयर में {{eqGood|inr}} बनते हैं, जबकि FD में टैक्स के बाद {{fdPost|inr}}।"
+    },
+    "bad": {
+     "en": "Poor case: {{eqBad|inr}}, below the FD's {{fdPost|inr}} after tax. Or, in the good case, a {{fall|pct0}} fall in the last year leaves {{eqCrash|inr}}: a big drop just when you need the money.",
+     "hi": "खराब हाल: {{eqBad|inr}}, जो टैक्स के बाद FD के {{fdPost|inr}} से कम है। या अच्छे हाल में आखिरी साल {{fall|pct0}} की गिरावट {{eqCrash|inr}} छोड़ती है: ठीक तब बड़ी गिरावट जब पैसे की ज़रूरत हो।"
+    }
+   },
+   "verdicts": {
+    "misleading": {
+     "en": [
+      "Misleading: partly true, partly incomplete. Stocks may beat an FD over long periods, but they can also fall sharply.",
+      "The claim skips risk, tax and your time horizon. FDs and stocks do different jobs."
+     ],
+     "hi": [
+      "भ्रामक: कुछ सच, कुछ अधूरा। लंबी अवधि में शेयर FD को हरा सकते हैं, पर वे तेज़ी से गिर भी सकते हैं।",
+      "दावा जोखिम, टैक्स और आपकी समय-सीमा को छोड़ देता है। FD और शेयर अलग-अलग काम करते हैं।"
+     ]
+    }
+   }
+  },
+  "swp-income": {
+   "title": {
+    "en": "“SWP = guaranteed monthly salary”",
+    "hi": "“SWP = गारंटीशुदा मासिक सैलरी”"
+   },
+   "formula": {
+    "en": "Every month: balance = balance × (1 + r ÷ 12) − withdrawal, where r is the yearly return. Repeated month after month.",
+    "hi": "हर महीने: बैलेंस = बैलेंस × (1 + r ÷ 12) − निकासी, जहाँ r सालाना रिटर्न है। महीने दर महीने दोहराया जाता है।"
+   },
+   "assumptions": {
+    "en": [
+     "Starting money: {{corpus|inr}}, withdrawal {{withdraw|inr}} a month{{assumedNote}}.",
+     "Illustrative return {{rate|pct}} a year, steady. Real returns go up and down.",
+     "Look-ahead: {{years|n}} years.",
+     "No tax on the gains part and no fund costs."
+    ],
+    "hi": [
+     "शुरुआती पैसा: {{corpus|inr}}, निकासी {{withdraw|inr}} प्रति माह{{assumedNote}}।",
+     "उदाहरण के लिए रिटर्न {{rate|pct}} सालाना, स्थिर। असली रिटर्न ऊपर-नीचे होता है।",
+     "आगे देखने की अवधि: {{years|n}} साल।",
+     "मुनाफे वाले हिस्से पर टैक्स और फंड का खर्च नहीं।"
+    ]
+   },
+   "lines": [
+    {
+     "kind": "calculated",
+     "label": {
+      "en": "Yearly withdrawal as a share of the starting money",
+      "hi": "साल की निकासी, शुरुआती पैसे का हिस्सा"
+     },
+     "value": {
+      "en": "{{withdrawPct|d1}}%",
+      "hi": "{{withdrawPct|d1}}%"
+     }
+    },
+    {
+     "kind": "calculated",
+     "label": {
+      "en": "Monthly return that only holds the money steady",
+      "hi": "सिर्फ पैसा स्थिर रखने वाला मासिक रिटर्न"
+     },
+     "value": {
+      "en": "{{interestOnly|inr}} a month at {{rate|pct}}",
+      "hi": "{{rate|pct}} पर {{interestOnly|inr}} प्रति माह"
+     }
+    },
+    {
+     "kind": "estimate",
+     "label": {
+      "en": "At {{rate|pct}} a year",
+      "hi": "{{rate|pct}} सालाना पर"
+     },
+     "value": {
+      "en": "{{outcome}}",
+      "hi": "{{outcome}}"
+     }
+    },
+    {
+     "kind": "estimate",
+     "label": {
+      "en": "At 4% a year",
+      "hi": "4% सालाना पर"
+     },
+     "value": {
+      "en": "{{badOutcome}}",
+      "hi": "{{badOutcome}}"
+     }
+    },
+    {
+     "kind": "estimate",
+     "label": {
+      "en": "At {{goodRate|pct}} a year",
+      "hi": "{{goodRate|pct}} सालाना पर"
+     },
+     "value": {
+      "en": "{{goodOutcome}}",
+      "hi": "{{goodOutcome}}"
+     }
+    }
+   ],
+   "hidden": {
+    "en": [
+     "It assumes the investment earns at least what you withdraw, every year.",
+     "It assumes markets never fall in the early years, when a fall hurts the most.",
+     "It assumes the amount you withdraw buys the same thing for years, though prices rise."
+    ],
+    "hi": [
+     "यह मान लेता है कि निवेश हर साल कम से कम उतना कमाएगा जितना आप निकालते हैं।",
+     "यह मान लेता है कि शुरुआती सालों में बाज़ार नहीं गिरेगा, जब गिरावट सबसे ज़्यादा चोट करती है।",
+     "यह मान लेता है कि निकाली गई रकम सालों तक उतना ही खरीदेगी, जबकि दाम बढ़ते हैं।"
+    ]
+   },
+   "missing": {
+    "en": [
+     "An SWP pays you out of your own money. If you take out more than it earns, the corpus shrinks.",
+     "Taxes on the gains part of each withdrawal.",
+     "Nothing is guaranteed: the amount depends on how the investment performs. Only a bank deposit's terms are fixed."
+    ],
+    "hi": [
+     "SWP आपके अपने ही पैसे से भुगतान करता है। अगर आप कमाई से ज़्यादा निकालते हैं तो कॉर्पस घटता है।",
+     "हर निकासी के मुनाफे वाले हिस्से पर टैक्स।",
+     "कुछ भी गारंटीशुदा नहीं है: रकम निवेश के प्रदर्शन पर निर्भर है। सिर्फ बैंक जमा की शर्तें तय होती हैं।"
+    ]
+   },
+   "realistic": {
+    "normal": {
+     "en": "At {{rate|pct}} a year: {{outcome}}.",
+     "hi": "{{rate|pct}} सालाना पर: {{outcome}}।"
+    },
+    "bad": {
+     "en": "At 4% a year: {{badOutcome}}.",
+     "hi": "4% सालाना पर: {{badOutcome}}।"
+    }
+   },
+   "verdicts": {
+    "incomplete": {
+     "en": [
+      "Incomplete: an SWP is not a salary. It pays you out of your own money.",
+      "In this example at {{rate|pct}}, {{outcome}}. At 4%, {{badOutcome}}."
+     ],
+     "hi": [
+      "अधूरा: SWP सैलरी नहीं है। यह आपके अपने पैसे से भुगतान करता है।",
+      "इस उदाहरण में {{rate|pct}} पर {{outcome}}। 4% पर {{badOutcome}}।"
+     ]
+    }
+   }
+  },
+  "guaranteed-return": {
+   "title": {
+    "en": "{{rate|pct}} {{perLabel}}, guaranteed?",
+    "hi": "{{rate|pct}} {{perLabel}}, गारंटी के साथ?"
+   },
+   "formula": {
+    "en": "If the rate is monthly: yearly growth = (1 + monthly rate)^12 − 1. Compare with a fixed deposit rate of {{fdRate|pct}}.",
+    "hi": "अगर दर मासिक है: सालाना बढ़त = (1 + मासिक दर)^12 − 1। {{fdRate|pct}} की FD दर से तुलना करें।"
+   },
+   "assumptions": {
+    "en": [
+     "The claimed return is {{rate|pct}} {{perLabel}}.",
+     "An illustrative FD at {{fdRate|pct}} a year is used only for comparison. Real rates change.",
+     "{{principal|inr}} is an example amount."
+    ],
+    "hi": [
+     "दावा किया गया रिटर्न {{rate|pct}} {{perLabel}} है।",
+     "तुलना के लिए सिर्फ उदाहरण के तौर पर {{fdRate|pct}} सालाना की FD ली गई है। असली दरें बदलती हैं।",
+     "{{principal|inr}} एक उदाहरण रकम है।"
+    ]
+   },
+   "lines": [
+    {
+     "kind": "calculated",
+     "label": {
+      "en": "Claimed return",
+      "hi": "दावा किया गया रिटर्न"
+     },
+     "value": {
+      "en": "{{rate|pct}} {{perLabel}}",
+      "hi": "{{rate|pct}} {{perLabel}}"
+     }
+    },
+    {
+     "kind": "calculated",
+     "label": {
+      "en": "The same thing as a yearly return",
+      "hi": "वही सालाना रिटर्न के रूप में"
+     },
+     "value": {
+      "en": "{{annual|pct}} a year",
+      "hi": "{{annual|pct}} सालाना"
+     }
+    },
+    {
+     "kind": "calculated",
+     "label": {
+      "en": "{{principal|inr}} after one year at that pace",
+      "hi": "उस रफ्तार से एक साल बाद {{principal|inr}}"
+     },
+     "value": {
+      "en": "{{oneYear|inr}}",
+      "hi": "{{oneYear|inr}}"
+     }
+    },
+    {
+     "kind": "calculated",
+     "label": {
+      "en": "Compared with the illustrative FD",
+      "hi": "उदाहरण FD से तुलना"
+     },
+     "value": {
+      "en": "{{timesFd|d1}}× the FD's yearly return",
+      "hi": "FD के सालाना रिटर्न का {{timesFd|d1}} गुना"
+     }
+    }
+   ],
+   "hidden": {
+    "en": [
+     "It assumes someone can truly guarantee a market-linked return.",
+     "It assumes the promise is backed by something you can check and enforce.",
+     "It silently assumes you will get the money back."
+    ],
+    "hi": [
+     "यह मान लेता है कि कोई बाज़ार से जुड़े रिटर्न की सच में गारंटी दे सकता है।",
+     "यह मान लेता है कि वादे के पीछे ऐसी चीज़ है जिसे आप जाँच और लागू करवा सकें।",
+     "यह चुपचाप मान लेता है कि आपको पैसा वापस मिलेगा।"
+    ]
+   },
+   "missing": {
+    "en": [
+     "Only a bank deposit's terms or a government scheme's announced rate are fixed, and only for the period they apply.",
+     "Higher promised returns usually mean higher risk of losing money.",
+     "Whether the seller is registered with SEBI or RBI, and where to complain if it goes wrong."
+    ],
+    "hi": [
+     "सिर्फ बैंक जमा की शर्तें या सरकारी योजना की घोषित दर तय होती है, और वह भी सिर्फ उतने समय के लिए जितना वह लागू है।",
+     "ऊँचे वादे वाले रिटर्न का मतलब आमतौर पर पैसा गँवाने का ऊँचा जोखिम है।",
+     "बेचने वाला सेबी या आरबीआई में पंजीकृत है या नहीं, और गड़बड़ होने पर शिकायत कहाँ करें।"
+    ]
+   },
+   "realistic": {
+    "normal": {
+     "en": "At an illustrative FD rate of {{fdRate|pct}}, {{principal|inr}} becomes about {{fdOneYear|inr}} in a year, with terms fixed by the deposit.",
+     "hi": "उदाहरण के लिए {{fdRate|pct}} की FD दर पर {{principal|inr}} एक साल में लगभग {{fdOneYear|inr}} बनते हैं, शर्तें जमा से तय होती हैं।"
+    },
+    "bad": {
+     "en": "A product that promises {{annual|pct}} a year has to take big risks to try to earn it. If it fails, you can lose most or all of {{principal|inr}}.",
+     "hi": "जो उत्पाद {{annual|pct}} सालाना का वादा करता है उसे इसे कमाने के लिए बड़ा जोखिम उठाना पड़ता है। विफल हुआ तो {{principal|inr}} का ज़्यादातर या पूरा पैसा जा सकता है।"
+    }
+   },
+   "verdicts": {
+    "mathematically_unrealistic": {
+     "en": [
+      "Mathematically unrealistic: {{rate|pct}} {{perLabel}} works out to {{annual|pct}} a year.",
+      "No honest investment can guarantee that. Treat the word 'guaranteed' here as a red flag."
+     ],
+     "hi": [
+      "गणितीय रूप से अवास्तविक: {{rate|pct}} {{perLabel}} का मतलब {{annual|pct}} सालाना है।",
+      "कोई ईमानदार निवेश इसकी गारंटी नहीं दे सकता। यहाँ 'गारंटी' शब्द को खतरे का संकेत मानें।"
+     ]
+    },
+    "misleading": {
+     "en": [
+      "Misleading: a guaranteed {{annual|pct}} a year is well above what fixed-return products usually offer.",
+      "Ask who guarantees it, in writing, and whether they are registered."
+     ],
+     "hi": [
+      "भ्रामक: गारंटीशुदा {{annual|pct}} सालाना उससे काफी ऊपर है जो तय-रिटर्न वाले उत्पाद आमतौर पर देते हैं।",
+      "पूछें कि गारंटी कौन देता है, लिखित में, और क्या वह पंजीकृत है।"
+     ]
+    },
+    "possible": {
+     "en": [
+      "Possible only for a deposit or scheme whose terms fix the rate: {{annual|pct}} a year is within that range.",
+      "Check who guarantees it and for how long. 'Guaranteed' on a market-linked product is not the same."
+     ],
+     "hi": [
+      "सिर्फ ऐसी जमा या योजना में संभव जिसकी शर्तें दर तय करती हों: {{annual|pct}} सालाना उस सीमा में है।",
+      "जाँचें कि गारंटी कौन देता है और कितने समय के लिए। बाज़ार से जुड़े उत्पाद पर 'गारंटी' का मतलब वही नहीं है।"
+     ]
+    }
+   }
+  },
+  "multiple-no-time": {
+   "title": {
+    "en": "“This stock will {{multiple|d1}}×”",
+    "hi": "“यह शेयर {{multiple|d1}} गुना होगा”"
+   },
+   "formula": {
+    "en": "Yearly return needed = multiple^(1 ÷ years) − 1. Years needed at a given return = ln(multiple) ÷ ln(1 + return).",
+    "hi": "ज़रूरी सालाना रिटर्न = गुणक^(1 ÷ साल) − 1। किसी रिटर्न पर ज़रूरी साल = ln(गुणक) ÷ ln(1 + रिटर्न)।"
+   },
+   "assumptions": {
+    "en": [
+     "The claim gives no time, so we show several: 1, 3, 5 and 10 years.",
+     "The 'years needed' line uses an illustrative 12% a year. It is not a forecast.",
+     "No fees or taxes."
+    ],
+    "hi": [
+     "दावा कोई समय नहीं बताता, इसलिए हम कई दिखाते हैं: 1, 3, 5 और 10 साल।",
+     "'ज़रूरी साल' वाली पंक्ति में उदाहरण के लिए 12% सालाना लिया गया है। यह पूर्वानुमान नहीं है।",
+     "कोई फीस या टैक्स नहीं।"
+    ]
+   },
+   "lines": [
+    {
+     "kind": "calculated",
+     "label": {
+      "en": "Return needed if it happens in 1 year",
+      "hi": "अगर 1 साल में हो तो ज़रूरी रिटर्न"
+     },
+     "value": {
+      "en": "{{cagr1|pct}} a year",
+      "hi": "{{cagr1|pct}} सालाना"
+     }
+    },
+    {
+     "kind": "calculated",
+     "label": {
+      "en": "…in 3 years",
+      "hi": "…3 साल में"
+     },
+     "value": {
+      "en": "{{cagr3|pct}} a year",
+      "hi": "{{cagr3|pct}} सालाना"
+     }
+    },
+    {
+     "kind": "calculated",
+     "label": {
+      "en": "…in 5 years",
+      "hi": "…5 साल में"
+     },
+     "value": {
+      "en": "{{cagr5|pct}} a year",
+      "hi": "{{cagr5|pct}} सालाना"
+     }
+    },
+    {
+     "kind": "calculated",
+     "label": {
+      "en": "…in 10 years",
+      "hi": "…10 साल में"
+     },
+     "value": {
+      "en": "{{cagr10|pct}} a year",
+      "hi": "{{cagr10|pct}} सालाना"
+     }
+    },
+    {
+     "kind": "estimate",
+     "label": {
+      "en": "Years needed at an illustrative 12% a year",
+      "hi": "उदाहरण के लिए 12% सालाना पर ज़रूरी साल"
+     },
+     "value": {
+      "en": "about {{yearsAt12|d1}} years",
+      "hi": "लगभग {{yearsAt12|d1}} साल"
+     }
+    }
+   ],
+   "hidden": {
+    "en": [
+     "It assumes the future can be known for one stock.",
+     "It gives no time period, so it can never be proved wrong.",
+     "It assumes the price will not fall on the way."
+    ],
+    "hi": [
+     "यह मान लेता है कि एक शेयर का भविष्य जाना जा सकता है।",
+     "यह कोई समय-अवधि नहीं देता, इसलिए इसे कभी गलत साबित नहीं किया जा सकता।",
+     "यह मान लेता है कि रास्ते में भाव नहीं गिरेगा।"
+    ]
+   },
+   "missing": {
+    "en": [
+     "Who is saying this, and do they gain if you buy?",
+     "What the company earns, owes and sells. A price target is not a reason.",
+     "Most single stocks do not multiply. Some fall to nearly nothing.",
+     "The risk of losing a large part of your money."
+    ],
+    "hi": [
+     "यह कौन कह रहा है, और क्या आपके खरीदने से उसे फायदा है?",
+     "कंपनी क्या कमाती, कितना कर्ज़ रखती और क्या बेचती है। भाव का लक्ष्य कोई कारण नहीं है।",
+     "ज़्यादातर अकेले शेयर कई गुना नहीं होते। कुछ लगभग शून्य तक गिर जाते हैं।",
+     "अपने पैसे का बड़ा हिस्सा गँवाने का जोखिम।"
+    ]
+   },
+   "realistic": {
+    "normal": {
+     "en": "At an illustrative 12% a year, {{multiple|d1}}× would take about {{yearsAt12|d1}} years, not months.",
+     "hi": "उदाहरण के लिए 12% सालाना पर {{multiple|d1}} गुना होने में लगभग {{yearsAt12|d1}} साल लगेंगे, महीने नहीं।"
+    },
+    "bad": {
+     "en": "If the price instead falls 50%, {{start|inr}} becomes {{halved|inr}}, and it needs a {{recovery|pct0}} rise just to return.",
+     "hi": "अगर भाव उल्टा 50% गिर जाए, तो {{start|inr}} घटकर {{halved|inr}} रह जाते हैं, और वापस पहुँचने के लिए ही {{recovery|pct0}} की बढ़त चाहिए।"
+    }
+   },
+   "verdicts": {
+    "unverifiable": {
+     "en": [
+      "Unverifiable: nobody can know that a stock will do this, and the claim gives no time or reason.",
+      "Even in 5 years, {{multiple|d1}}× needs {{cagr5|pct}} a year. A claim with no time and no basis is a hope, not an analysis."
+     ],
+     "hi": [
+      "जाँचा नहीं जा सकता: कोई नहीं जान सकता कि कोई शेयर ऐसा करेगा, और दावा कोई समय या कारण नहीं देता।",
+      "5 साल में भी {{multiple|d1}} गुना होने के लिए {{cagr5|pct}} सालाना चाहिए। बिना समय और बिना आधार का दावा एक उम्मीद है, विश्लेषण नहीं।"
+     ]
+    }
+   }
+  },
+  "sip-return": {
+   "title": {
+    "en": "{{monthly|inr}} a month for {{years|n}} years at {{claimedRate|pct}}?",
+    "hi": "{{years|n}} साल तक हर महीने {{monthly|inr}}, {{claimedRate|pct}} पर?"
+   },
+   "formula": {
+    "en": "Future value = monthly amount × [((1 + r)ⁿ − 1) ÷ r], where r = yearly rate ÷ 12 and n = {{months|n}} months. Instalments counted: {{timingLabel}}.",
+    "hi": "भविष्य का मूल्य = मासिक रकम × [((1 + r)ⁿ − 1) ÷ r], जहाँ r = सालाना दर ÷ 12 और n = {{months|n}} महीने। किस्तें गिनी गईं: {{timingLabel}}।"
+   },
+   "assumptions": {
+    "en": [
+     "You invest {{monthly|inr}} every month for {{years|n}} years: {{invested|inr}} in total.",
+     "The claimed {{claimedRate|pct}} a year is taken as given for the first line. Lower returns follow for comparison.",
+     "Instalments counted: {{timingLabel}}. You can change this below.",
+     "No fees, taxes or bad years."
+    ],
+    "hi": [
+     "आप {{years|n}} साल तक हर महीने {{monthly|inr}} निवेश करते हैं: कुल {{invested|inr}}।",
+     "पहली पंक्ति में दावा किया गया {{claimedRate|pct}} सालाना जस का तस लिया गया है। तुलना के लिए कम रिटर्न आगे हैं।",
+     "किस्तें गिनी गईं: {{timingLabel}}। आप इसे नीचे बदल सकते हैं।",
+     "कोई फीस, टैक्स या बुरा साल नहीं।"
+    ]
+   },
+   "lines": [
+    {
+     "kind": "calculated",
+     "label": {
+      "en": "Total you put in",
+      "hi": "आपका कुल लगाया पैसा"
+     },
+     "value": {
+      "en": "{{invested|inrFull}}",
+      "hi": "{{invested|inrFull}}"
+     }
+    },
+    {
+     "kind": "estimate",
+     "label": {
+      "en": "If the fund really gave {{claimedRate|pct}} a year",
+      "hi": "अगर फंड सच में {{claimedRate|pct}} सालाना दे"
+     },
+     "value": {
+      "en": "{{fvClaim|inrFull}}",
+      "hi": "{{fvClaim|inrFull}}"
+     }
+    },
+    {
+     "kind": "estimate",
+     "label": {
+      "en": "At {{lowerRate|pct}} a year",
+      "hi": "{{lowerRate|pct}} सालाना पर"
+     },
+     "value": {
+      "en": "{{fvLower|inrFull}}",
+      "hi": "{{fvLower|inrFull}}"
+     }
+    },
+    {
+     "kind": "estimate",
+     "label": {
+      "en": "At 4% a year",
+      "hi": "4% सालाना पर"
+     },
+     "value": {
+      "en": "{{fv4|inrFull}}",
+      "hi": "{{fv4|inrFull}}"
+     }
+    }
+   ],
+   "hidden": {
+    "en": [
+     "It assumes the fund earns {{claimedRate|pct}} every year for {{years|n}} years.",
+     "It assumes the past will repeat.",
+     "It assumes no fees, no taxes and no pauses."
+    ],
+    "hi": [
+     "यह मान लेता है कि फंड {{years|n}} साल तक हर साल {{claimedRate|pct}} कमाएगा।",
+     "यह मान लेता है कि अतीत दोहराया जाएगा।",
+     "यह मान लेता है कि कोई फीस, टैक्स या रुकावट नहीं होगी।"
+    ]
+   },
+   "missing": {
+    "en": [
+     "Who promised {{claimedRate|pct}}, and on what basis.",
+     "Costs and taxes, and the ups and downs along the way.",
+     "That a SIP is a method: the return depends on what it invests in."
+    ],
+    "hi": [
+     "{{claimedRate|pct}} का वादा किसने किया, और किस आधार पर।",
+     "खर्च और टैक्स, और बीच के उतार-चढ़ाव।",
+     "कि SIP एक तरीका है: रिटर्न इस पर निर्भर है कि वह किसमें निवेश करती है।"
+    ]
+   },
+   "realistic": {
+    "normal": {
+     "en": "At {{lowerRate|pct}} a year the same SIP reaches {{fvLower|inr}} from {{invested|inr}}.",
+     "hi": "{{lowerRate|pct}} सालाना पर वही SIP {{invested|inr}} से {{fvLower|inr}} तक पहुँचती है।"
+    },
+    "bad": {
+     "en": "At 4% a year it reaches {{fv4|inr}}. A fall near the end can reduce it further.",
+     "hi": "4% सालाना पर यह {{fv4|inr}} तक पहुँचती है। अंत के पास गिरावट इसे और घटा सकती है।"
+    }
+   },
+   "verdicts": {
+    "incomplete": {
+     "en": [
+      "Incomplete: the {{claimedRate|pct}} is assumed, not promised. Only the arithmetic is certain.",
+      "At {{claimedRate|pct}} the SIP gives {{fvClaim|inr}}; at {{lowerRate|pct}} it gives {{fvLower|inr}}."
+     ],
+     "hi": [
+      "अधूरा: {{claimedRate|pct}} मान लिया गया है, वादा नहीं। सिर्फ गणित पक्का है।",
+      "{{claimedRate|pct}} पर SIP {{fvClaim|inr}} देती है; {{lowerRate|pct}} पर {{fvLower|inr}}।"
+     ]
+    }
+   }
+  },
+  "unverifiable": {
+   "title": {
+    "en": "A claim we cannot check",
+    "hi": "एक दावा जिसे हम जाँच नहीं सकते"
+   },
+   "formula": {
+    "en": "There is no amount, time and return together in this text, so there is nothing to calculate.",
+    "hi": "इस टेक्स्ट में रकम, समय और रिटर्न एक साथ नहीं हैं, इसलिए गणना करने को कुछ नहीं है।"
+   },
+   "assumptions": {
+    "en": [
+     "We looked for an amount, a time period and a return or target.",
+     "None of the supported claim types matched."
+    ],
+    "hi": [
+     "हमने रकम, समय-अवधि और रिटर्न या लक्ष्य ढूँढा।",
+     "समर्थित दावा-प्रकारों में से कोई मेल नहीं खाया।"
+    ]
+   },
+   "lines": [],
+   "hidden": {
+    "en": [
+     "It does not say how much, for how long, or what return is expected.",
+     "It leaves you to fill in the gaps with hope."
+    ],
+    "hi": [
+     "यह नहीं बताता कि कितना, कितने समय के लिए, या कौन-सा रिटर्न अपेक्षित है।",
+     "यह खाली जगहें आपकी उम्मीद से भरने के लिए छोड़ देता है।"
+    ]
+   },
+   "missing": {
+    "en": [
+     "Any number you can test: an amount, a time and a return.",
+     "The risks, the costs and what happens if it goes wrong.",
+     "Who is saying it and whether they are registered with SEBI (check at sebi.gov.in)."
+    ],
+    "hi": [
+     "ऐसी कोई संख्या जिसे आप परख सकें: रकम, समय और रिटर्न।",
+     "जोखिम, खर्च और गड़बड़ होने पर क्या होगा।",
+     "कौन कह रहा है और क्या वह सेबी में पंजीकृत है (sebi.gov.in पर जाँचें)।"
+    ]
+   },
+   "realistic": {
+    "normal": {
+     "en": "Without numbers there is no honest scenario to show. Try adding an amount, a time and the return it promises.",
+     "hi": "संख्याओं के बिना दिखाने लायक कोई ईमानदार परिदृश्य नहीं है। रकम, समय और वादा किया गया रिटर्न जोड़कर देखें।"
+    },
+    "bad": {
+     "en": "When a claim cannot be tested, the unfavourable case is simply that it does not happen and you lose the money you put in.",
+     "hi": "जब किसी दावे को परखा नहीं जा सकता, तो प्रतिकूल स्थिति यह है कि वह नहीं होता और आपका लगाया पैसा चला जाता है।"
+    }
+   },
+   "verdicts": {
+    "unverifiable": {
+     "en": [
+      "Unverifiable: we could not find numbers here that can be checked.",
+      "A claim without an amount, a time and a return cannot be tested. Be careful when something sounds sure."
+     ],
+     "hi": [
+      "जाँचा नहीं जा सकता: हमें यहाँ ऐसी संख्याएँ नहीं मिलीं जिन्हें परखा जा सके।",
+      "रकम, समय और रिटर्न के बिना दावे को परखा नहीं जा सकता। जब कुछ पक्का लगे तब सावधान रहें।"
+     ]
+    }
+   }
+  }
+ }
+}

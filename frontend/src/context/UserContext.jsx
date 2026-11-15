@@ -1,5 +1,6 @@
 import { createContext, useState, useEffect, useCallback, useMemo, useRef } from 'react';
 import visitorService from '../services/visitorService';
+import { detectLanguage, browserLanguages } from '../utils/detectLanguage';
 
 /**
  * App-wide state for "this browser". There are no accounts: the server recognises the browser by an
@@ -16,11 +17,16 @@ const UserProvider = ({ children }) => {
   const [visitor, setVisitor] = useState(null); // null until this browser has saved something
   const [loading, setLoading] = useState(true);
   const [theme, setTheme] = useState(() => storage.get('stocksee_theme') || 'light');
-  const [language, setLanguage] = useState(() => storage.get('stocksee_lang') || 'en');
+  const [language, setLanguage] = useState(() => storage.get('stocksee_lang') || detectLanguage(browserLanguages()));
   const [toasts, setToasts] = useState([]);
   const toastId = useRef(0);
   const languageRef = useRef(language);
   languageRef.current = language;
+
+  // Tell the browser which language the page is in (correct fonts, spelling tools, screen readers)
+  useEffect(() => {
+    document.documentElement.setAttribute('lang', language);
+  }, [language]);
 
   useEffect(() => {
     document.documentElement.setAttribute('data-theme', theme);

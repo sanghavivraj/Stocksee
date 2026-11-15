@@ -72,7 +72,7 @@ const SymbolSearchInput = ({
       try {
         const items = await searchService.search(q, { signal: controller.signal, limit: 8 });
         if (controller.signal.aborted) return;
-        setResults(items); setFailed(false); setSearched(true); setActive(-1); setOpen(true);
+        setResults(items); setFailed(false); setSearched(true); setActive(-1); setOpen(Boolean(wrapRef.current?.contains(document.activeElement)));
         onResultsRef.current?.(items);
       } catch (err) {
         if (controller.signal.aborted || err?.code === 'ERR_CANCELED') return;

@@ -1,0 +1,4 @@
+{
+  "_readme": "Hand-maintained list of scheduled market events (RBI policy, exchange holidays, index rebalancing). Add only dates you have verified from the official source (rbi.org.in, nseindia.com). Format of each entry: { \"date\": \"YYYY-MM-DD\", \"title\": \"RBI monetary policy decision\", \"source\": \"https://www.rbi.org.in\" }. The app shows nothing for events that are not listed here and never guesses a date.",
+  "events": []
+}

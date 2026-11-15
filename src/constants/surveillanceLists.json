@@ -1,0 +1,7 @@
+{
+  "_readme": "NSE surveillance lists (ASM and GSM). Load them from the official CSV files you download from nseindia.com with: npm run surveillance:import -- asm path/to/asm.csv   (and gsm). The app shows nothing about surveillance until a list is loaded, and it always shows the list date.",
+  "updated": null,
+  "source": "NSE Additional Surveillance Measure (ASM) and Graded Surveillance Measure (GSM) lists",
+  "asm": [],
+  "gsm": []
+}

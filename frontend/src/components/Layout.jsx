@@ -1,4 +1,5 @@
 import { useState, useEffect, useContext, useCallback } from 'react';
+import { tr } from '../utils/uiStrings';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import {
   LayoutDashboard,
@@ -8,6 +9,8 @@ import {
   Sun,
   Moon,
   ShieldAlert,
+  Radar,
+  BookOpenCheck,
 } from 'lucide-react';
 import { UserContext } from '../context/UserContext';
 import { t } from '../utils/i18n';
@@ -51,6 +54,19 @@ const Layout = ({ children }) => {
   const [pulseLoading, setPulseLoading] = useState(true);
 
   const [assistantPrompt, setAssistantPrompt] = useState(null);
+
+  // How many stocks tripped the unusual-activity rules (shown on the top-bar button). Not essential, so it
+  // waits a moment and stays quiet if the data is unavailable.
+  const [unusualCount, setUnusualCount] = useState(null);
+  useEffect(() => {
+    let alive = true;
+    const timer = setTimeout(() => {
+      marketService.getUnusualActivity(1)
+        .then((d) => alive && setUnusualCount(d.flagged))
+        .catch(() => {});
+    }, 1500);
+    return () => { alive = false; clearTimeout(timer); };
+  }, []);
 
   // Any page can open the assistant with a ready question: dispatch 'open-stocksee-assistant' with { prompt }
   useEffect(() => {
@@ -114,6 +130,7 @@ const Layout = ({ children }) => {
     { path: '/watchlist', label: language === 'en' ? 'My Watchlist' : t('watchlist', language), icon: Eye },
     { path: '/alerts', label: t('alerts', language), icon: Bell },
     { path: '/tip-check', label: t('tipCheck', language), icon: ShieldAlert },
+    { path: '/samajh', label: language === 'hi' ? 'समझ' : 'Samajh', icon: BookOpenCheck },
     { path: '/settings', label: t('settings', language), icon: SlidersHorizontal },
   ];
 
@@ -128,7 +145,7 @@ const Layout = ({ children }) => {
             <div className="brand-stamp">SS</div>
             <div className="brand-info">
               <span className="brand-title">StockSee</span>
-              <span className="brand-subtitle">Market Intelligence</span>
+              <span className="brand-subtitle">{tr("Market Intelligence", language)}</span>
             </div>
           </Link>
 
@@ -141,6 +158,8 @@ const Layout = ({ children }) => {
                   key={item.path}
                   to={item.path}
                   className={`desktop-nav-item ${isActive ? 'active' : ''}`}
+                  title={item.label}
+                  aria-label={item.label}
                 >
                   <item.icon size={15} />
                   <span>{item.label}</span>
@@ -151,6 +170,17 @@ const Layout = ({ children }) => {
 
           {/* Quick Header Controls (Language & Theme) */}
           <div className="navbar-controls">
+            {/* Unusual activity: its own page, with a gentle pulse so it is easy to notice */}
+            <Link
+              to="/unusual"
+              className={`unusual-nav-btn ${location.pathname === '/unusual' ? 'active' : ''}`}
+              title={language === 'hi' ? 'आज असामान्य व्यवहार वाले शेयर' : language === 'gu' ? 'આજે અસામાન્ય વર્તન કરતા શેર' : 'Stocks behaving unusually today'}
+            >
+              <span className="unusual-nav-icon"><Radar size={15} /></span>
+              <span className="unusual-nav-text">{language === 'hi' ? 'असामान्य' : language === 'gu' ? 'અસામાન્ય' : 'Unusual'}</span>
+              {unusualCount > 0 && <span className="unusual-nav-count" aria-label={`${unusualCount}`}>{unusualCount}</span>}
+            </Link>
+
             {/* Language Selector */}
             <div className="lang-button-group" role="group" aria-label="Select Language">
               <button
@@ -198,12 +228,12 @@ const Layout = ({ children }) => {
         <div className="pulse-inner">
           <div className="pulse-header">
             <span className="pulse-dot"></span>
-            <span>Market Pulse</span>
+            <span>{tr("Market Pulse", language)}</span>
           </div>
 
           <div className="pulse-items-track">
             {pulseLoading ? (
-              <span className="pulse-loading-text">Loading exchange benchmarks...</span>
+              <span className="pulse-loading-text">{tr("Loading exchange benchmarks...", language)}</span>
             ) : (
               pulseData.map((item) => (
                 <div key={item.symbol} className="pulse-item">

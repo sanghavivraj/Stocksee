@@ -1,4 +1,5 @@
 import { useContext, useEffect, useMemo, useState } from 'react';
+import { tr } from '../utils/uiStrings';
 import { Link, useSearchParams } from 'react-router-dom';
 import SymbolSearchInput from '../components/SymbolSearchInput';
 import {
@@ -147,14 +148,14 @@ const Alerts = () => {
     <div className="editorial-page-container">
       <header className="editorial-lead-header">
         <div className="lead-meta-row">
-          <span className="editorial-kicker">SMART ALERTS</span>
+          <span className="editorial-kicker">{tr("SMART ALERTS", language)}</span>
           <span className="lead-date-stamp">{activeCount} active of {alerts.length}</span>
         </div>
         <h1 className="lead-headline">{t('alerts', language)}</h1>
         <p className="lead-description">
           Get a Telegram message when a stock does something unusual — checked every 2 minutes during market hours, at most once a day per alert.
           {!visitor?.telegram?.connected && (
-            <>{' '}<Link to="/settings" style={{ fontWeight: 700 }}>Connect Telegram in Settings</Link> to receive them.</>
+            <>{' '}<Link to="/settings" style={{ fontWeight: 700 }}>{tr("Connect Telegram in Settings", language)}</Link> {tr("to receive them.", language)}</>
           )}
         </p>
       </header>
@@ -162,8 +163,8 @@ const Alerts = () => {
       <section className="editorial-flow-section" aria-label="Create an alert">
         <div className="flow-section-header">
           <div>
-            <span className="flow-kicker">NEW ALERT</span>
-            <h3 className="flow-title">What should we watch for?</h3>
+            <span className="flow-kicker">{tr("NEW ALERT", language)}</span>
+            <h3 className="flow-title">{tr("What should we watch for?", language)}</h3>
           </div>
         </div>
 
@@ -186,7 +187,7 @@ const Alerts = () => {
 
           <div className="alerts-form-grid">
             <div className="form-field-group">
-              <label className="form-field-label" htmlFor="alert-symbol">Stock or index</label>
+              <label className="form-field-label" htmlFor="alert-symbol">{tr("Stock or index", language)}</label>
               <SymbolSearchInput
                 id="alert-symbol"
                 placeholder="Type to search: RELIANCE, IOC, GOLD…"
@@ -199,7 +200,7 @@ const Alerts = () => {
 
             {meta.needsDirection && (
               <div className="form-field-group">
-                <span className="form-field-label" id="alert-direction">Direction</span>
+                <span className="form-field-label" id="alert-direction">{tr("Direction", language)}</span>
                 <div className="seg-group" role="radiogroup" aria-labelledby="alert-direction">
                   {['up', 'down'].map((d) => (
                     <button key={d} type="button" role="radio" aria-checked={form.direction === d}
@@ -245,7 +246,7 @@ const Alerts = () => {
                 <>
                   <div className="backtest-headline">
                     <History size={15} aria-hidden="true" />
-                    <span>In the last 12 months this alert would have fired</span>
+                    <span>{tr("In the last 12 months this alert would have fired", language)}</span>
                     <span className="backtest-number">{bt.fires}</span>
                     <span>{bt.fires === 1 ? 'time' : 'times'}</span>
                   </div>
@@ -273,7 +274,7 @@ const Alerts = () => {
 
           <button type="submit" className="btn-editorial btn-editorial-primary alerts-submit-btn" disabled={!rule || saving} style={{ marginTop: '1rem' }}>
             {saving ? <Loader2 size={15} className="spinner" /> : <Plus size={15} />}
-            <span>Create alert</span>
+            <span>{tr("Create alert", language)}</span>
           </button>
         </form>
       </section>
@@ -281,7 +282,7 @@ const Alerts = () => {
       <section className="editorial-flow-section" aria-label="Your alerts">
         <div className="flow-section-header">
           <div>
-            <span className="flow-kicker">TELEGRAM</span>
+            <span className="flow-kicker">{tr("TELEGRAM", language)}</span>
             <h3 className="flow-title">Your Alerts ({activeCount} active)</h3>
           </div>
         </div>
@@ -295,8 +296,8 @@ const Alerts = () => {
           <div className="editorial-banner-box">
             <div className="banner-icon-wrap"><Bell size={22} /></div>
             <div className="banner-content">
-              <h4 className="banner-headline">No alerts yet.</h4>
-              <p className="banner-subtext">Pick a type above — the preview shows how often it would have fired before you save it.</p>
+              <h4 className="banner-headline">{tr("No alerts yet.", language)}</h4>
+              <p className="banner-subtext">{tr("Pick a type above — the preview shows how often it would have fired before you save it.", language)}</p>
             </div>
           </div>
         ) : (
@@ -344,7 +345,7 @@ const Alerts = () => {
                       <button type="button" className="stock-action-pill-btn danger" onClick={() => handleDelete(alert)}
                         aria-label={`Delete alert for ${alert.symbol}`}>
                         <Trash2 size={13} />
-                        <span>Delete</span>
+                        <span>{tr("Delete", language)}</span>
                       </button>
                     </div>
                   </div>

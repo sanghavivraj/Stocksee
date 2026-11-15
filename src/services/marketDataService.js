@@ -664,6 +664,61 @@ class MarketDataService {
   }
 
   /**
+   * 5-minute prices of the latest session as % change from the previous close (for the "market replay").
+   * Cached for one minute. Throws MarketDataUnavailableError when there is no real data.
+   */
+  async getIntraday(symbolOrQuery) {
+    const instrument = await this.resolveInstrument(symbolOrQuery, { allowGuess: false });
+    if (!instrument || !instrument.symbol) {
+      throw new MarketDataUnavailableError(`Could not identify instrument "${symbolOrQuery}"`, 404);
+    }
+    const cacheKey = `INTRADAY_${instrument.symbol.toUpperCase()}`;
+    const cached = cache.get(cacheKey);
+    if (cached && Date.now() - cached.timestamp < 60000) return cached.data;
+
+    for (const candidate of this.exchangeCandidates(instrument.symbol)) {
+      for (const host of ['query2', 'query1']) {
+        try {
+          const json = await fetchJson(`https://${host}.finance.yahoo.com/v8/finance/chart/${encodeURIComponent(candidate)}?interval=5m&range=1d`);
+          const result = json?.chart?.result?.[0];
+          const prev = result?.meta?.chartPreviousClose ?? result?.meta?.previousClose;
+          const stamps = result?.timestamp || [];
+          if (!result || !prev || !stamps.length) continue;
+          const offset = result.meta.gmtoffset || 0;
+          const q = result.indicators?.quote?.[0] || {};
+          const bars = [];
+          stamps.forEach((t, i) => {
+            const close = q.close?.[i];
+            if (close === null || close === undefined) return;
+            const local = new Date((t + offset) * 1000).toISOString();
+            bars.push({
+              time: local.slice(11, 16),
+              close: Number(close.toFixed(2)),
+              percent: Number((((close - prev) / prev) * 100).toFixed(2)),
+              volume: Number.isFinite(q.volume?.[i]) ? q.volume[i] : 0,
+            });
+          });
+          if (!bars.length) continue;
+          const data = {
+            symbol: candidate,
+            name: result.meta.longName || result.meta.shortName || instrument.name,
+            date: toExchangeDate(stamps[0], offset),
+            previousClose: Number(prev.toFixed(2)),
+            bars,
+            source: DATA_SOURCE,
+          };
+          cacheSet(cacheKey, data);
+          return data;
+        } catch (e) {
+          // try the next host / exchange
+        }
+      }
+    }
+    if (cached) return { ...cached.data, stale: true };
+    throw new MarketDataUnavailableError(`Intraday prices for ${instrument.symbol} are unavailable right now`);
+  }
+
+  /**
    * Fetch current market overview snapshot across key indices and commodities
    */
   async getMarketOverview() {
@@ -685,34 +740,23 @@ class MarketDataService {
   }
 
   /**
-   * Fetch top gainers or losers across liquid Indian equities
+   * Top gainers or losers among the most traded stocks of the live Nifty 500 list (see marketSnapshotService).
+   * No stock names are typed into the code. Throws when the market data is unavailable.
    */
   async getTopMovers(type = 'gainers', limit = 10) {
-    const symbols = [
-      'RELIANCE.NS', 'TCS.NS', 'INFY.NS', 'HDFCBANK.NS', 'ICICIBANK.NS',
-      'SBIN.NS', 'IOC.NS', 'JIOFIN.NS', 'TATAMOTORS.NS', 'TATASTEEL.NS',
-      'ITC.NS', 'ADANIENT.NS', 'ADANIPORTS.NS', 'LT.NS', 'AXISBANK.NS',
-      'BHARTIARTL.NS', 'SUNPHARMA.NS', 'MARUTI.NS', 'M&M.NS', 'WIPRO.NS',
-      'BAJFINANCE.NS', 'KOTAKBANK.NS'
-    ];
-
-    const results = await Promise.allSettled(
-      symbols.map(s => this.getTrendData(s))
-    );
-
-    const validQuotes = results
-      .filter(r => r.status === 'fulfilled')
-      .map(r => r.value);
-
-    if (type === 'losers') {
-      return validQuotes
-        .sort((a, b) => a.dayChangePercent - b.dayChangePercent)
-        .slice(0, limit);
-    }
-
-    return validQuotes
-      .sort((a, b) => b.dayChangePercent - a.dayChangePercent)
-      .slice(0, limit);
+    const snapshotService = require('./marketSnapshotService');
+    const snapshot = await snapshotService.getSnapshot();
+    return snapshotService.moversFrom(snapshot, type, limit).map((r) => ({
+      instrument: r.name,
+      symbol: r.symbol,
+      type: 'EQUITY',
+      currentPrice: r.price,
+      currency: 'INR',
+      dayChangePercent: r.changePercent,
+      isPositive: r.changePercent >= 0,
+      industry: r.industry,
+      source: snapshot.source,
+    }));
   }
 }
 

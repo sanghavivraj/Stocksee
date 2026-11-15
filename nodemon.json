@@ -1,0 +1,5 @@
+{
+  "watch": ["src"],
+  "ext": "js,json",
+  "ignore": ["src/data/*", "src/constants/surveillanceLists.json", "tests/*", "frontend/*", "coverage/*"]
+}

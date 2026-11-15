@@ -1,0 +1,291 @@
+{
+  "id": "fd",
+  "kind": "product",
+  "name": {
+    "en": "Fixed Deposit (FD)",
+    "hi": "फिक्स्ड डिपॉजिट (FD)"
+  },
+  "tag": {
+    "en": "You lend to a bank. It promises a fixed rate.",
+    "hi": "आप बैंक को उधार देते हैं। वह तय दर का वादा करता है।"
+  },
+  "inputs": {
+    "principal": 100000,
+    "rate": 7,
+    "years": 5,
+    "tax": 30,
+    "inflation": 6
+  },
+  "controls": [
+    {
+      "key": "rate",
+      "min": 4,
+      "max": 9,
+      "step": 0.25,
+      "unit": "%",
+      "label": {
+        "en": "FD interest rate",
+        "hi": "FD ब्याज दर"
+      }
+    },
+    {
+      "key": "tax",
+      "min": 0,
+      "max": 30,
+      "step": 5,
+      "unit": "%",
+      "label": {
+        "en": "Your tax slab",
+        "hi": "आपका टैक्स स्लैब"
+      }
+    },
+    {
+      "key": "inflation",
+      "min": 2,
+      "max": 10,
+      "step": 0.5,
+      "unit": "%",
+      "label": {
+        "en": "Inflation (price rise)",
+        "hi": "महंगाई (दाम बढ़ना)"
+      }
+    },
+    {
+      "key": "years",
+      "min": 1,
+      "max": 10,
+      "step": 1,
+      "unit": "",
+      "label": {
+        "en": "Years",
+        "hi": "साल"
+      }
+    }
+  ],
+  "assumptions": {
+    "en": [
+      "Illustrative FD rate: {{rate|pct}} a year, compounded quarterly. Real FD rates differ by bank and change often: check your bank.",
+      "Tax: FD interest is taxed at your income-tax slab. This example uses {{tax|pct0}}. Your slab may be different.",
+      "Inflation is assumed at {{inflation|pct}} a year only to show the idea. Actual inflation changes.",
+      "The bank's rate and date are fixed by the deposit terms. The tax and inflation effects above are estimates."
+    ],
+    "hi": [
+      "उदाहरण के लिए FD दर: {{rate|pct}} सालाना, तिमाही चक्रवृद्धि। असली दरें बैंक के हिसाब से अलग होती हैं और बदलती रहती हैं: अपने बैंक से जाँचें।",
+      "टैक्स: FD का ब्याज आपके इनकम-टैक्स स्लैब पर कर योग्य है। इस उदाहरण में {{tax|pct0}} लिया गया है। आपका स्लैब अलग हो सकता है।",
+      "महंगाई सिर्फ समझाने के लिए {{inflation|pct}} सालाना मानी गई है। असली महंगाई बदलती रहती है।",
+      "बैंक की दर और तारीख जमा की शर्तों से तय होती है। ऊपर टैक्स और महंगाई का असर अनुमान है।"
+    ]
+  },
+  "sources": [
+    {
+      "label": "RBI (rbi.org.in)",
+      "url": "https://www.rbi.org.in"
+    },
+    {
+      "label": "DICGC deposit insurance (dicgc.org.in)",
+      "url": "https://www.dicgc.org.in"
+    },
+    {
+      "label": "Income Tax Dept (incometax.gov.in)",
+      "url": "https://www.incometax.gov.in"
+    }
+  ],
+  "levels": {
+    "basic": {
+      "explain": {
+        "en": "An FD is a loan you give to a bank for a fixed time. The bank promises a fixed interest rate and to return your money on the due date.",
+        "hi": "FD एक तय समय के लिए बैंक को दिया गया कर्ज़ है। बैंक तय ब्याज देने और तय तारीख पर आपका पैसा लौटाने का वादा करता है।"
+      },
+      "example": {
+        "en": "Ramesh uncle needs {{principal|inr}} for his daughter's wedding in {{years}} years. He puts it in a bank FD so it stays safe.",
+        "hi": "रमेश अंकल को {{years}} साल बाद बेटी की शादी के लिए {{principal|inr}} चाहिए। वे इसे सुरक्षित रखने के लिए बैंक FD में रखते हैं।"
+      },
+      "steps": {
+        "en": [
+          "Day 1: Ramesh deposits {{principal|inr}} at {{rate|pct}} a year.",
+          "After {{years}} years the bank shows {{maturity|inr}}. That is {{interest|inr}} of interest.",
+          "Interest is taxable. At a {{tax|pct0}} slab about {{taxPaid|inr}} goes to tax, so he keeps {{afterTax|inr}}.",
+          "Prices rise {{inflation|pct}} a year. In today's money his {{afterTax|inr}} buys only what {{todays|inr}} buys today."
+        ],
+        "hi": [
+          "पहला दिन: रमेश {{rate|pct}} सालाना पर {{principal|inr}} जमा करते हैं।",
+          "{{years}} साल बाद बैंक {{maturity|inr}} दिखाता है। यानी {{interest|inr}} ब्याज।",
+          "ब्याज पर टैक्स लगता है। {{tax|pct0}} स्लैब पर लगभग {{taxPaid|inr}} टैक्स में जाते हैं, तो उनके पास {{afterTax|inr}} बचते हैं।",
+          "दाम हर साल {{inflation|pct}} बढ़ते हैं। आज के पैसे में उनके {{afterTax|inr}} उतना ही खरीदते हैं जितना आज {{todays|inr}} खरीदते हैं।"
+        ]
+      },
+      "positive": {
+        "en": "If inflation stays low at 4%, the same FD is worth {{todaysLowInfl|inr}} in today's money, compared with the {{principal|inr}} he started with.",
+        "hi": "अगर महंगाई 4% पर रहे, तो वही FD आज के पैसे में {{todaysLowInfl|inr}} के बराबर है, जबकि उन्होंने {{principal|inr}} से शुरुआत की थी।"
+      },
+      "negative": {
+        "en": "If inflation is 8%, the same FD is worth only {{todaysHighInfl|inr}} in today's money, even though the bank paid every rupee it promised.",
+        "hi": "अगर महंगाई 8% हो, तो वही FD आज के पैसे में सिर्फ {{todaysHighInfl|inr}} के बराबर है, भले बैंक ने वादे का हर रुपया चुकाया हो।"
+      },
+      "wrong": {
+        "en": [
+          "Inflation can quietly make the money buy less.",
+          "Tax on the interest is usually due as it builds up each year, not only at the end.",
+          "Breaking the FD early usually means a penalty.",
+          "Bank deposits are insured only up to {{insured|inr}} per depositor per bank."
+        ],
+        "hi": [
+          "महंगाई चुपचाप पैसे की खरीदने की ताकत घटा सकती है।",
+          "ब्याज पर टैक्स आमतौर पर हर साल बनता है, सिर्फ अंत में नहीं।",
+          "FD समय से पहले तोड़ने पर आमतौर पर जुर्माना लगता है।",
+          "बैंक जमा प्रति जमाकर्ता प्रति बैंक सिर्फ {{insured|inr}} तक बीमित है।"
+        ]
+      },
+      "influencers": {
+        "en": [
+          "They quote the FD's {{rate|pct}} and skip the tax and inflation that follow.",
+          "They call FDs 'dead' without asking if you need the money safe in {{years}} years.",
+          "They compare an FD with the best stock year, not with a bad one."
+        ],
+        "hi": [
+          "वे FD की {{rate|pct}} बताते हैं और उसके बाद का टैक्स व महंगाई छोड़ देते हैं।",
+          "वे FD को 'मरा हुआ' कहते हैं, यह पूछे बिना कि क्या आपको {{years}} साल में पैसा सुरक्षित चाहिए।",
+          "वे FD की तुलना शेयर के सबसे अच्छे साल से करते हैं, बुरे साल से नहीं।"
+        ]
+      },
+      "takeaway": {
+        "en": "An FD keeps its promise, but it does not promise to keep your buying power.",
+        "hi": "FD अपना वादा निभाती है, पर आपकी खरीदने की ताकत बचाने का वादा नहीं करती।"
+      }
+    },
+    "medium": {
+      "explain": {
+        "en": "In an FD the bank's side is fixed: rate and date. What is not fixed is what the money can buy later. The useful number is the REAL rate: your after-tax rate compared with inflation.",
+        "hi": "FD में बैंक की तरफ से दर और तारीख तय होती है। जो तय नहीं है, वह है बाद में पैसे से क्या खरीदा जा सकेगा। काम की संख्या असली दर है: टैक्स के बाद की दर की महंगाई से तुलना।"
+      },
+      "example": {
+        "en": "Ramesh now checks the real picture of the wedding fund: an FD at {{rate|pct}}, a {{tax|pct0}} tax slab and {{inflation|pct}} inflation, for {{years}} years.",
+        "hi": "रमेश अब शादी के फंड की असली तस्वीर देखते हैं: {{rate|pct}} की FD, {{tax|pct0}} टैक्स स्लैब और {{inflation|pct}} महंगाई, {{years}} साल के लिए।"
+      },
+      "steps": {
+        "en": [
+          "After-tax rate = {{rate|pct}} × (1 − {{tax|pct0}}) = {{postRate|pct2}} a year.",
+          "Compared with {{inflation|pct}} inflation, the real rate is about {{realRate|pct2}} a year.",
+          "{{principal|inr}} becomes {{maturity|inr}} before tax, {{afterTax|inr}} after tax, and {{todays|inr}} in today's money.",
+          "Use the sliders: a lower tax slab or lower inflation moves the last number a lot."
+        ],
+        "hi": [
+          "टैक्स के बाद की दर = {{rate|pct}} × (1 − {{tax|pct0}}) = {{postRate|pct2}} सालाना।",
+          "{{inflation|pct}} महंगाई से तुलना करने पर असली दर लगभग {{realRate|pct2}} सालाना है।",
+          "{{principal|inr}} टैक्स से पहले {{maturity|inr}}, टैक्स के बाद {{afterTax|inr}} और आज के पैसे में {{todays|inr}} बनते हैं।",
+          "स्लाइडर चलाएँ: कम टैक्स स्लैब या कम महंगाई आख़िरी संख्या को काफी बदल देती है।"
+        ]
+      },
+      "positive": {
+        "en": "With inflation at 4% the real rate improves and {{principal|inr}} is worth {{todaysLowInfl|inr}} in today's money. An FD works as intended when you need certainty on a date.",
+        "hi": "महंगाई 4% हो तो असली दर बेहतर होती है और {{principal|inr}} आज के पैसे में {{todaysLowInfl|inr}} के बराबर होता है। जब किसी तारीख पर निश्चितता चाहिए, FD अपना काम करती है।"
+      },
+      "negative": {
+        "en": "With inflation at 8% the real rate turns weaker and the money is worth {{todaysHighInfl|inr}} in today's money: a quiet loss of purchasing power of about {{lossHighInfl|inr}}.",
+        "hi": "महंगाई 8% हो तो असली दर कमज़ोर पड़ती है और पैसा आज के पैसे में {{todaysHighInfl|inr}} का रह जाता है: खरीदने की ताकत में लगभग {{lossHighInfl|inr}} की चुपचाप कमी।"
+      },
+      "wrong": {
+        "en": [
+          "Reinvestment risk: when the FD ends, new rates may be lower than today's.",
+          "A tax slab above what you assumed lowers the after-tax rate further.",
+          "Early withdrawal penalties can eat into the interest.",
+          "Insurance covers {{insured|inr}} per depositor per bank, so a very large deposit is not fully covered."
+        ],
+        "hi": [
+          "पुनर्निवेश जोखिम: FD खत्म होने पर नई दरें आज से कम हो सकती हैं।",
+          "आपने जो मान लिया उससे ऊँचा टैक्स स्लैब टैक्स के बाद की दर और घटा देता है।",
+          "समय से पहले निकालने का जुर्माना ब्याज को खा सकता है।",
+          "बीमा प्रति जमाकर्ता प्रति बैंक {{insured|inr}} तक है, इसलिए बहुत बड़ी जमा पूरी सुरक्षित नहीं होती।"
+        ]
+      },
+      "influencers": {
+        "en": [
+          "They never show the real (after tax, after inflation) rate of {{realRate|pct2}}.",
+          "They skip that profits from stocks are also taxed.",
+          "They show FD rates as if they were permanent."
+        ],
+        "hi": [
+          "वे असली (टैक्स और महंगाई के बाद) दर {{realRate|pct2}} कभी नहीं दिखाते।",
+          "वे यह नहीं बताते कि शेयर के मुनाफे पर भी टैक्स लगता है।",
+          "वे FD दरें ऐसे दिखाते हैं जैसे वे हमेशा रहेंगी।"
+        ]
+      },
+      "takeaway": {
+        "en": "Judge every return after tax and after inflation.",
+        "hi": "हर रिटर्न को टैक्स और महंगाई के बाद परखें।"
+      }
+    }
+  },
+  "checks": [
+    {
+      "what": {
+        "en": "How much money will I really get at the end?",
+        "hi": "अंत में मुझे असल में कितना पैसा मिलेगा?"
+      },
+      "why": {
+        "en": "Two banks can both say 7% and still pay different amounts.",
+        "hi": "दो बैंक दोनों 7% कहें, फिर भी रकम अलग मिल सकती है।"
+      },
+      "story": {
+        "en": "Ramesh uncle puts ₹1 lakh in two FDs, both at 7% for 5 years. Bank A adds interest every 3 months and gives ₹1.41 lakh. Bank B adds it once a year and gives ₹1.40 lakh. So he compares the final amount, not just the rate.",
+        "hi": "रमेश अंकल ₹1 लाख के दो FD करते हैं, दोनों 7% पर 5 साल के लिए। बैंक A हर 3 महीने में ब्याज जोड़ता है और ₹1.41 लाख देता है। बैंक B साल में एक बार जोड़ता है और ₹1.40 लाख देता है। इसलिए वे सिर्फ़ दर नहीं, आख़िरी रकम देखते हैं।"
+      }
+    },
+    {
+      "what": {
+        "en": "If the bank shuts down, is my money safe?",
+        "hi": "अगर बैंक बंद हो जाए, तो क्या मेरा पैसा सुरक्षित है?"
+      },
+      "why": {
+        "en": "Insurance covers only up to ₹5 lakh per person, per bank.",
+        "hi": "बीमा सिर्फ़ ₹5 लाख तक कवर करता है, हर व्यक्ति के लिए, हर बैंक में।"
+      },
+      "story": {
+        "en": "Sunita aunty keeps ₹8 lakh in one bank. If that bank failed, only ₹5 lakh is covered. If she had ₹4 lakh in each of two banks, all ₹8 lakh would be inside the cover.",
+        "hi": "सुनीता आंटी ने एक ही बैंक में ₹8 लाख रखे हैं। वह बैंक डूबे तो सिर्फ़ ₹5 लाख कवर होंगे। अगर दो बैंकों में ₹4-₹4 लाख होते, तो पूरे ₹8 लाख कवर में होते।"
+      }
+    },
+    {
+      "what": {
+        "en": "What if I need the money before the date?",
+        "hi": "अगर तारीख़ से पहले पैसे की ज़रूरत पड़ी तो?"
+      },
+      "why": {
+        "en": "Breaking an FD early usually means less interest and sometimes a penalty.",
+        "hi": "FD बीच में तोड़ने पर आम तौर पर ब्याज कम मिलता है, और कभी जुर्माना भी लगता है।"
+      },
+      "story": {
+        "en": "Ramesh uncle's 5-year FD is 2 years old when his wife needs a hospital payment. He breaks it. The bank pays a lower rate for those 2 years and may cut a small penalty. He gets less than he planned.",
+        "hi": "रमेश अंकल का 5 साल का FD अभी 2 साल का है और पत्नी के अस्पताल के लिए पैसा चाहिए। वे FD तोड़ते हैं। बैंक उन 2 सालों का ब्याज कम दर पर देता है और थोड़ा जुर्माना भी काट सकता है। उन्हें सोचे से कम मिलता है।"
+      }
+    },
+    {
+      "what": {
+        "en": "How much of the interest goes to tax?",
+        "hi": "ब्याज का कितना हिस्सा टैक्स में जाएगा?"
+      },
+      "why": {
+        "en": "Interest is counted as your income, so tax is cut from it.",
+        "hi": "ब्याज आपकी आय माना जाता है, इसलिए उस पर टैक्स कटता है।"
+      },
+      "story": {
+        "en": "Ramesh uncle earns ₹7,000 interest in a year. He is in the 30% tax slab, so about ₹2,100 goes to tax. He keeps about ₹4,900.",
+        "hi": "रमेश अंकल को साल में ₹7,000 ब्याज मिलता है। वे 30% स्लैब में हैं, इसलिए करीब ₹2,100 टैक्स में जाता है। उनके पास करीब ₹4,900 बचता है।"
+      }
+    },
+    {
+      "what": {
+        "en": "Does it grow faster than prices rise?",
+        "hi": "क्या यह दामों के बढ़ने से तेज़ बढ़ता है?"
+      },
+      "why": {
+        "en": "If prices rise faster than your money, you can buy less later.",
+        "hi": "अगर दाम आपके पैसे से तेज़ बढ़ें, तो आगे आप कम सामान खरीद पाते हैं।"
+      },
+      "story": {
+        "en": "After tax, Ramesh uncle's ₹100 becomes about ₹104.90 in a year (4.9% growth). But prices rise 6%, so what cost ₹100 now costs ₹106. His money grew, but he can buy a little less.",
+        "hi": "टैक्स के बाद रमेश अंकल के ₹100 साल में करीब ₹104.90 हो जाते हैं (4.9% बढ़त)। पर दाम 6% बढ़ते हैं, यानी जो आज ₹100 का है वह ₹106 का हो जाता है। उनका पैसा बढ़ा, पर वे थोड़ा कम खरीद पाते हैं।"
+      }
+    }
+  ]
+}

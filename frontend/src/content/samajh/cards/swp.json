@@ -1,0 +1,283 @@
+{
+  "id": "swp",
+  "kind": "method",
+  "name": {
+    "en": "SWP (Systematic Withdrawal Plan)",
+    "hi": "SWP (सिस्टमैटिक विड्रॉल प्लान)"
+  },
+  "tag": {
+    "en": "A METHOD: take a fixed amount out every month.",
+    "hi": "एक तरीका: हर महीने तय रकम निकालना।"
+  },
+  "methodNote": {
+    "en": "SWP is a method, not an investment product. It is the way you take money out of an investment (usually a mutual fund) in regular parts. The rest stays invested and keeps rising or falling.",
+    "hi": "SWP कोई निवेश उत्पाद नहीं, एक तरीका है। यह निवेश (आमतौर पर म्यूचुअल फंड) से नियमित हिस्सों में पैसा निकालने का तरीका है। बाकी पैसा निवेश में रहता है और बढ़ता-घटता रहता है।"
+  },
+  "inputs": {
+    "corpus": 5000000,
+    "withdraw": 40000,
+    "rate": 8,
+    "years": 30
+  },
+  "controls": [
+    {
+      "key": "withdraw",
+      "min": 10000,
+      "max": 80000,
+      "step": 5000,
+      "unit": "₹",
+      "label": {
+        "en": "Monthly withdrawal",
+        "hi": "मासिक निकासी"
+      }
+    },
+    {
+      "key": "rate",
+      "min": 0,
+      "max": 14,
+      "step": 0.5,
+      "unit": "%",
+      "label": {
+        "en": "Illustrative yearly return",
+        "hi": "उदाहरण के लिए सालाना रिटर्न"
+      }
+    },
+    {
+      "key": "years",
+      "min": 5,
+      "max": 40,
+      "step": 1,
+      "unit": "",
+      "label": {
+        "en": "Years to look at",
+        "hi": "कितने साल देखें"
+      }
+    }
+  ],
+  "assumptions": {
+    "en": [
+      "Starting money: {{corpus|inr}}. Withdrawal: {{withdraw|inr}} a month, taken after the month's growth is added.",
+      "Illustrative return: {{rate|pct}} a year, steady. Real returns go up and down, which makes the real outcome different.",
+      "Tax on the gains part of each withdrawal and fund costs are not included.",
+      "Nothing here is guaranteed: the monthly amount you can take depends on how the investment actually performs."
+    ],
+    "hi": [
+      "शुरुआती पैसा: {{corpus|inr}}। निकासी: {{withdraw|inr}} प्रति माह, महीने की बढ़त जुड़ने के बाद निकाली जाती है।",
+      "उदाहरण के लिए रिटर्न: {{rate|pct}} सालाना, स्थिर। असली रिटर्न ऊपर-नीचे होता है, इसलिए असली नतीजा अलग होगा।",
+      "हर निकासी के मुनाफे वाले हिस्से पर टैक्स और फंड का खर्च शामिल नहीं हैं।",
+      "यहाँ कुछ भी गारंटीशुदा नहीं है: हर महीने कितना निकल सकेगा, यह निवेश के असली प्रदर्शन पर निर्भर है।"
+    ]
+  },
+  "sources": [
+    {
+      "label": "AMFI (amfiindia.com)",
+      "url": "https://www.amfiindia.com"
+    },
+    {
+      "label": "SEBI (sebi.gov.in)",
+      "url": "https://www.sebi.gov.in"
+    },
+    {
+      "label": "Income Tax Dept (incometax.gov.in)",
+      "url": "https://www.incometax.gov.in"
+    }
+  ],
+  "levels": {
+    "basic": {
+      "explain": {
+        "en": "With an SWP you ask your fund to pay you a fixed amount every month. To do that it sells some of your units. The rest of your money stays invested.",
+        "hi": "SWP में आप फंड से हर महीने तय रकम देने को कहते हैं। इसके लिए वह आपकी कुछ यूनिट बेचता है। बाकी पैसा निवेश में रहता है।"
+      },
+      "example": {
+        "en": "Mr. Sharma retired with {{corpus|inr}}. He wants {{withdraw|inr}} a month to run the house and sets up an SWP.",
+        "hi": "शर्मा जी {{corpus|inr}} के साथ रिटायर हुए। घर चलाने के लिए उन्हें हर महीने {{withdraw|inr}} चाहिए, तो वे SWP लगाते हैं।"
+      },
+      "steps": {
+        "en": [
+          "Start: {{corpus|inr}} invested. Each month {{withdraw|inr}} is paid to him.",
+          "He takes {{withdrawYear|inr}} a year, which is {{withdrawPct|d1}}% of the starting money.",
+          "At an illustrative {{rate|pct}} return the money earns about {{interestOnly|inr}} a month at the start, so each withdrawal also eats into the original money.",
+          "After 5 years about {{after5|inr}} remains, after 10 years about {{after10|inr}}. In this example {{outcome}}."
+        ],
+        "hi": [
+          "शुरुआत: {{corpus|inr}} निवेशित। हर महीने उन्हें {{withdraw|inr}} मिलते हैं।",
+          "वे साल में {{withdrawYear|inr}} निकालते हैं, यानी शुरुआती पैसे का {{withdrawPct|d1}}%।",
+          "उदाहरण के लिए {{rate|pct}} रिटर्न पर शुरू में पैसा महीने में लगभग {{interestOnly|inr}} कमाता है, इसलिए हर निकासी मूल पैसे में से भी जाती है।",
+          "5 साल बाद लगभग {{after5|inr}} बचते हैं, 10 साल बाद लगभग {{after10|inr}}। इस उदाहरण में {{outcome}}।"
+        ]
+      },
+      "positive": {
+        "en": "If the return is {{goodRate|pct}} instead, the plan lasts longer: {{goodOutcome}}.",
+        "hi": "अगर रिटर्न {{goodRate|pct}} रहे, तो योजना ज़्यादा चलती है: {{goodOutcome}}।"
+      },
+      "negative": {
+        "en": "If the return is only 4%, the same withdrawals use up the money faster: {{badOutcome}}. After 5 years only {{badAfter5|inr}} would be left.",
+        "hi": "अगर रिटर्न सिर्फ 4% रहे, तो वही निकासी पैसे को जल्दी खत्म करती है: {{badOutcome}}। 5 साल बाद सिर्फ {{badAfter5|inr}} बचेंगे।"
+      },
+      "wrong": {
+        "en": [
+          "Every withdrawal removes units for good. A big fall plus withdrawals can empty the money early.",
+          "The monthly amount is your choice. It is not a guaranteed salary from the fund.",
+          "A bad first few years hurt the most, because withdrawals leave fewer units to recover.",
+          "Part of each withdrawal may be taxed as gains."
+        ],
+        "hi": [
+          "हर निकासी यूनिट हमेशा के लिए हटा देती है। बड़ी गिरावट और निकासी मिलकर पैसा जल्दी खत्म कर सकती हैं।",
+          "मासिक रकम आपकी चुनी हुई है। यह फंड की तरफ से गारंटीशुदा तनख्वाह नहीं है।",
+          "शुरुआती कुछ बुरे साल सबसे ज़्यादा नुकसान करते हैं, क्योंकि निकासी के बाद उबरने के लिए यूनिट कम रह जाती हैं।",
+          "हर निकासी का कुछ हिस्सा मुनाफे के रूप में कर योग्य हो सकता है।"
+        ]
+      },
+      "influencers": {
+        "en": [
+          "'SWP = guaranteed monthly salary' hides that the corpus shrinks when withdrawals exceed returns.",
+          "They show a plan that lasts forever using a high steady return.",
+          "They do not say what happens in a falling market."
+        ],
+        "hi": [
+          "'SWP = गारंटीशुदा मासिक सैलरी' यह छुपाता है कि निकासी रिटर्न से ज़्यादा हो तो पैसा घटता है।",
+          "वे ऊँचे स्थिर रिटर्न के सहारे ऐसा प्लान दिखाते हैं जो हमेशा चले।",
+          "वे नहीं बताते कि गिरते बाज़ार में क्या होता है।"
+        ]
+      },
+      "takeaway": {
+        "en": "An SWP pays you out of your own money. It is not a salary.",
+        "hi": "SWP आपके अपने ही पैसे से भुगतान करता है। यह सैलरी नहीं है।"
+      }
+    },
+    "medium": {
+      "explain": {
+        "en": "Each month: the remaining money grows by the month's return, then the withdrawal comes out. If the withdrawal is bigger than the growth, the remaining money (the corpus) falls, and a smaller corpus earns less next month.",
+        "hi": "हर महीने: बचा पैसा उस महीने के रिटर्न से बढ़ता है, फिर निकासी कटती है। अगर निकासी बढ़त से ज़्यादा है, तो बचा पैसा (कॉर्पस) घटता है, और छोटा कॉर्पस अगले महीने कम कमाता है।"
+      },
+      "example": {
+        "en": "Mr. Sharma's son asks: 'Papa, how long will it last if returns are lower?' We run the same {{withdraw|inr}} a month on three different returns.",
+        "hi": "शर्मा जी का बेटा पूछता है: 'पापा, रिटर्न कम हुआ तो यह कितना चलेगा?' हम वही {{withdraw|inr}} प्रति माह तीन अलग रिटर्न पर चलाते हैं।"
+      },
+      "steps": {
+        "en": [
+          "The break-even withdrawal at {{rate|pct}} is about {{interestOnly|inr}} a month. Taking {{withdraw|inr}} is above that.",
+          "At {{rate|pct}}: {{outcome}}.",
+          "At 4%: {{badOutcome}}.",
+          "At {{goodRate|pct}}: {{goodOutcome}}. Total taken out in the first case: {{withdrawnTotal|inr}}."
+        ],
+        "hi": [
+          "{{rate|pct}} पर बराबरी वाली निकासी लगभग {{interestOnly|inr}} प्रति माह है। {{withdraw|inr}} निकालना उससे ऊपर है।",
+          "{{rate|pct}} पर: {{outcome}}।",
+          "4% पर: {{badOutcome}}।",
+          "{{goodRate|pct}} पर: {{goodOutcome}}। पहले मामले में कुल निकासी: {{withdrawnTotal|inr}}।"
+        ]
+      },
+      "positive": {
+        "en": "When returns beat the withdrawal rate, the corpus can hold or even grow. At {{goodRate|pct}} the plan is: {{goodOutcome}}.",
+        "hi": "जब रिटर्न निकासी दर से ऊपर हो, तो कॉर्पस टिक सकता है या बढ़ भी सकता है। {{goodRate|pct}} पर योजना: {{goodOutcome}}।"
+      },
+      "negative": {
+        "en": "Returns that come in below the withdrawal rate drain the corpus: at 4%, {{badOutcome}}.",
+        "hi": "निकासी दर से कम रिटर्न कॉर्पस को खाली करता है: 4% पर, {{badOutcome}}।"
+      },
+      "wrong": {
+        "en": [
+          "Sequence risk: the same average return in a different order (bad years first) ends in a very different place.",
+          "Inflation: a fixed {{withdraw|inr}} buys less every year.",
+          "Higher withdrawals early on shorten the life of the money the most.",
+          "Taxes on the gains part and fund costs reduce what is left."
+        ],
+        "hi": [
+          "क्रम का जोखिम: वही औसत रिटर्न अलग क्रम में (बुरे साल पहले) बिल्कुल अलग जगह पहुँचाता है।",
+          "महंगाई: तय {{withdraw|inr}} हर साल कम खरीदते हैं।",
+          "शुरुआत में ज़्यादा निकासी पैसे की उम्र सबसे ज़्यादा घटाती है।",
+          "मुनाफे वाले हिस्से पर टैक्स और फंड का खर्च बचा हुआ पैसा घटाते हैं।"
+        ]
+      },
+      "influencers": {
+        "en": [
+          "They quote a 'safe withdrawal rate' as if it were a rule of nature.",
+          "They use average returns and skip the order in which returns arrive.",
+          "They skip that you can run out of money while still being alive."
+        ],
+        "hi": [
+          "वे 'सुरक्षित निकासी दर' को ऐसे बताते हैं जैसे वह प्रकृति का नियम हो।",
+          "वे औसत रिटर्न इस्तेमाल करते हैं और रिटर्न के आने का क्रम छोड़ देते हैं।",
+          "वे नहीं बताते कि आप ज़िंदा रहते हुए भी पैसे से बाहर हो सकते हैं।"
+        ]
+      },
+      "takeaway": {
+        "en": "If you take out more than the money earns, you are spending the principal.",
+        "hi": "अगर आप कमाई से ज़्यादा निकालते हैं, तो आप मूलधन खर्च कर रहे हैं।"
+      }
+    }
+  },
+  "checks": [
+    {
+      "what": {
+        "en": "How long will my money last at this monthly amount?",
+        "hi": "इस मासिक रकम पर मेरा पैसा कितने समय चलेगा?"
+      },
+      "why": {
+        "en": "If you take out more than the pot earns, the pot shrinks.",
+        "hi": "अगर आप कमाई से ज़्यादा निकालते हैं, तो रकम घटती जाती है।"
+      },
+      "story": {
+        "en": "Retired Mohan has ₹10 lakh and takes ₹10,000 a month, which is ₹1.2 lakh a year. Even if the money earned nothing, it would last only about 8 years. So he checks how long it lasts, not just the first month.",
+        "hi": "रिटायर्ड मोहन के पास ₹10 लाख हैं और वे महीने के ₹10,000 निकालते हैं, यानी साल के ₹1.2 लाख। अगर पैसे से कुछ कमाई न हो, तब भी यह सिर्फ़ करीब 8 साल चलेगा। इसलिए वे सिर्फ़ पहला महीना नहीं, पूरी अवधि देखते हैं।"
+      }
+    },
+    {
+      "what": {
+        "en": "What if the market falls right at the start?",
+        "hi": "अगर शुरुआत में ही बाज़ार गिर जाए तो?"
+      },
+      "why": {
+        "en": "When prices are low, the same cash needs more units sold.",
+        "hi": "भाव कम हों तो उतने ही कैश के लिए ज़्यादा यूनिट बेचनी पड़ती हैं।"
+      },
+      "story": {
+        "en": "Mohan's ₹10 lakh falls to ₹8 lakh in the first year. He still needs ₹10,000 a month, so he sells more units to get it. A bad start hurts more than a bad end.",
+        "hi": "मोहन के ₹10 लाख पहले ही साल में ₹8 लाख रह जाते हैं। उन्हें फिर भी महीने के ₹10,000 चाहिए, इसलिए वे ज़्यादा यूनिट बेचते हैं। बुरी शुरुआत, बुरे अंत से ज़्यादा चोट करती है।"
+      }
+    },
+    {
+      "what": {
+        "en": "Will I pay tax on each withdrawal?",
+        "hi": "क्या हर निकासी पर मुझे टैक्स देना होगा?"
+      },
+      "why": {
+        "en": "Each withdrawal is a small sale, and the profit part can be taxed.",
+        "hi": "हर निकासी एक छोटी बिक्री है, और उसके मुनाफ़े वाले हिस्से पर टैक्स लग सकता है।"
+      },
+      "story": {
+        "en": "Mohan's ₹10,000 is part his own money and part profit. The profit part can be taxed. How much depends on the fund type and how long he held it.",
+        "hi": "मोहन के ₹10,000 में कुछ उनका अपना पैसा है और कुछ मुनाफ़ा। मुनाफ़े वाले हिस्से पर टैक्स लग सकता है। कितना, यह फंड के प्रकार और रखने की अवधि पर निर्भर है।"
+      }
+    },
+    {
+      "what": {
+        "en": "Is there a fee for taking money out?",
+        "hi": "क्या पैसा निकालने पर कोई शुल्क है?"
+      },
+      "why": {
+        "en": "Some funds charge a fee if you withdraw early.",
+        "hi": "कुछ फंड जल्दी निकासी पर शुल्क लेते हैं।"
+      },
+      "story": {
+        "en": "Say a fund charges 1% if you withdraw in the first year. On a ₹10,000 withdrawal, that is ₹100 gone. Mohan reads this rule before his first withdrawal.",
+        "hi": "मान लीजिए किसी फंड में पहले साल निकासी पर 1% शुल्क है। ₹10,000 निकालने पर ₹100 कट जाते हैं। मोहन पहली निकासी से पहले यह नियम पढ़ लेते हैं।"
+      }
+    },
+    {
+      "what": {
+        "en": "Is this money for bills I cannot skip?",
+        "hi": "क्या यह पैसा उन बिलों के लिए है जिन्हें टाल नहीं सकते?"
+      },
+      "why": {
+        "en": "SWP income goes up and down. Your rent does not.",
+        "hi": "SWP की आमदनी घटती-बढ़ती है। आपका किराया नहीं।"
+      },
+      "story": {
+        "en": "Mohan's rent is ₹12,000 every month. In a bad market month his SWP gives less, but the landlord still wants ₹12,000. So bills that cannot wait are better covered some other way.",
+        "hi": "मोहन का किराया हर महीने ₹12,000 है। बाज़ार के बुरे महीने में SWP कम देती है, पर मकान मालिक को फिर भी ₹12,000 चाहिए। इसलिए जो बिल टल नहीं सकते, उनका इंतज़ाम किसी और तरीके से करना ठीक रहता है।"
+      }
+    }
+  ]
+}

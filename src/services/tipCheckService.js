@@ -8,6 +8,8 @@
  */
 const marketDataService = require('./marketDataService');
 const { marketRiskSignals } = require('../analytics/indicators');
+const { describeClaims } = require('./claimCheckService');
+const surveillanceService = require('./surveillanceService');
 
 // [code, weight, regex] — regexes are deliberately broad; each code counts once.
 const PHRASE_RULES = [
@@ -43,6 +45,8 @@ const TEXT = {
     very_volatile: (v) => `Very volatile: typical daily move is about ±${v}%.`,
     penny_stock: (v) => `Low-priced (penny) stock at about ₹${v}.`,
     micro_cap: (v) => `Very small company (market value about ₹${v} crore) — easier to move with little money.`,
+    surveillance_asm: (v) => `On NSE's Additional Surveillance Measure (ASM) list${v ? `, stage ${v}` : ''}. The exchange itself is watching this stock closely.`,
+    surveillance_gsm: (v) => `On NSE's Graded Surveillance Measure (GSM) list${v ? `, stage ${v}` : ''}. The exchange has put this stock under strict watch.`,
     no_symbol: 'Could not identify a stock in this message, so only the wording was checked.',
     no_data: 'Live market data for this stock is unavailable right now, so only the wording was checked.',
     market_only: 'No message was pasted, so only the stock\'s market data was checked. Paste the tip too for a full check.',
@@ -73,6 +77,8 @@ const TEXT = {
     very_volatile: (v) => `बहुत अस्थिर: आम दैनिक बदलाव लगभग ±${v}%।`,
     penny_stock: (v) => `कम कीमत (पेनी) शेयर, लगभग ₹${v}।`,
     micro_cap: (v) => `बहुत छोटी कंपनी (बाज़ार मूल्य लगभग ₹${v} करोड़) — कम पैसे से भाव हिलाना आसान।`,
+    surveillance_asm: (v) => `NSE की अतिरिक्त निगरानी सूची (ASM) में${v ? `, चरण ${v}` : ''}। एक्सचेंज खुद इस शेयर पर कड़ी नज़र रख रहा है।`,
+    surveillance_gsm: (v) => `NSE की ग्रेडेड निगरानी सूची (GSM) में${v ? `, चरण ${v}` : ''}। एक्सचेंज ने इस शेयर को सख्त निगरानी में रखा है।`,
     no_symbol: 'इस संदेश में कोई शेयर पहचाना नहीं जा सका, इसलिए केवल शब्दों की जाँच हुई।',
     no_data: 'इस शेयर का लाइव डेटा अभी उपलब्ध नहीं है, इसलिए केवल शब्दों की जाँच हुई।',
     market_only: 'कोई संदेश पेस्ट नहीं किया गया, इसलिए केवल शेयर का बाज़ार डेटा जाँचा गया। पूरी जाँच के लिए टिप भी पेस्ट करें।',
@@ -103,6 +109,8 @@ const TEXT = {
     very_volatile: (v) => `ખૂબ અસ્થિર: સામાન્ય દૈનિક ફેરફાર આશરે ±${v}%.`,
     penny_stock: (v) => `ઓછી કિંમતનો (પેની) શેર, આશરે ₹${v}.`,
     micro_cap: (v) => `ખૂબ નાની કંપની (બજાર મૂલ્ય આશરે ₹${v} કરોડ) — ઓછા પૈસાથી ભાવ હલાવવો સરળ.`,
+    surveillance_asm: (v) => `NSE ની વધારાની દેખરેખ યાદી (ASM) માં${v ? `, તબક્કો ${v}` : ''}. એક્સચેન્જ પોતે આ શેર પર ચાંપતી નજર રાખે છે.`,
+    surveillance_gsm: (v) => `NSE ની ગ્રેડેડ દેખરેખ યાદી (GSM) માં${v ? `, તબક્કો ${v}` : ''}. એક્સચેન્જે આ શેરને કડક દેખરેખ હેઠળ મૂક્યો છે.`,
     no_symbol: 'આ સંદેશમાં કોઈ શેર ઓળખાયો નથી, તેથી માત્ર શબ્દોની ચકાસણી થઈ.',
     no_data: 'આ શેરનો લાઇવ ડેટા હાલમાં ઉપલબ્ધ નથી, તેથી માત્ર શબ્દોની ચકાસણી થઈ.',
     market_only: 'કોઈ સંદેશ પેસ્ટ કર્યો નથી, તેથી માત્ર શેરનો બજાર ડેટા ચકાસાયો. સંપૂર્ણ ચકાસણી માટે ટિપ પણ પેસ્ટ કરો.',
@@ -153,6 +161,8 @@ class TipCheckService {
     }
 
     let instrument = null;
+    let claimCandles = null;
+    let surveillance = null;
     if (!hasMessage) notes.push(T.market_only);
     if (!resolved) {
       notes.push(T.no_symbol);
@@ -173,6 +183,13 @@ class TipCheckService {
         for (const s of marketRiskSignals(history.candles, { marketCap: quote?.marketCap ?? null, price: instrument.price })) {
           signals.push({ ...s, kind: 'market' });
         }
+        // NSE's own surveillance lists (only when a list has been loaded; always reported with its date)
+        surveillance = surveillanceService.check(history.symbol);
+        if (surveillance.listed) {
+          signals.push({ code: surveillance.list === 'GSM' ? 'surveillance_gsm' : 'surveillance_asm', weight: surveillance.list === 'GSM' ? 4 : 3, value: surveillance.stage, kind: 'market' });
+        }
+        // Numbers promised in the message are compared with up to 5 years of this stock's own history
+        if (hasMessage) claimCandles = await marketDataService.getHistory(resolved, '5y').then((h) => h.candles).catch(() => null);
       } catch (err) {
         if (!hasMessage) {
           // Nothing else to check: tell the user plainly instead of returning an empty "Low risk"
@@ -183,6 +200,10 @@ class TipCheckService {
         notes.push(T.no_data);
       }
     }
+
+    const claims = hasMessage
+      ? describeClaims(text, { candles: claimCandles, price: instrument?.price ?? null, language: lang })
+      : [];
 
     const score = signals.reduce((sum, s) => sum + s.weight, 0);
     const { level } = LEVELS.find((l) => score >= l.min);
@@ -201,6 +222,8 @@ class TipCheckService {
           value: s.value ?? null,
           text: typeof T[s.code] === 'function' ? T[s.code](s.value) : T[s.code],
         })),
+      claims,
+      surveillance,
       notes,
       guidance: T.guidance,
       disclaimer: 'StockSee is not a SEBI-registered investment adviser. This is an automated risk check, not advice to buy or sell.',

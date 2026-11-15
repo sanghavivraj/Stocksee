@@ -1,0 +1,288 @@
+{
+  "id": "mutual-funds",
+  "kind": "product",
+  "name": {
+    "en": "Mutual Funds: Active vs Index",
+    "hi": "म्यूचुअल फंड: एक्टिव बनाम इंडेक्स"
+  },
+  "tag": {
+    "en": "Many people's money, pooled and managed.",
+    "hi": "कई लोगों का पैसा, एक साथ जमा और प्रबंधित।"
+  },
+  "inputs": {
+    "monthly": 10000,
+    "years": 15,
+    "gross": 12,
+    "activeCost": 1.5,
+    "indexCost": 0.2,
+    "edge": 2
+  },
+  "controls": [
+    {
+      "key": "activeCost",
+      "min": 0.5,
+      "max": 2.5,
+      "step": 0.1,
+      "unit": "%",
+      "label": {
+        "en": "Active fund yearly cost",
+        "hi": "एक्टिव फंड का सालाना खर्च"
+      }
+    },
+    {
+      "key": "indexCost",
+      "min": 0.05,
+      "max": 1,
+      "step": 0.05,
+      "unit": "%",
+      "label": {
+        "en": "Index fund yearly cost",
+        "hi": "इंडेक्स फंड का सालाना खर्च"
+      }
+    },
+    {
+      "key": "edge",
+      "min": 0,
+      "max": 5,
+      "step": 0.5,
+      "unit": "%",
+      "label": {
+        "en": "Manager's edge or lag (before cost)",
+        "hi": "मैनेजर की बढ़त या पिछड़ना (खर्च से पहले)"
+      }
+    },
+    {
+      "key": "years",
+      "min": 3,
+      "max": 30,
+      "step": 1,
+      "unit": "",
+      "label": {
+        "en": "Years",
+        "hi": "साल"
+      }
+    }
+  ],
+  "assumptions": {
+    "en": [
+      "Both funds invest {{monthly|inr}} a month for {{years}} years. The market earns an illustrative {{gross|pct}} a year before costs.",
+      "Yearly cost (expense ratio): active {{activeCost|pct}}, index {{indexCost|pct}}. Real costs vary by fund: check each fund's documents.",
+      "The active manager's skill is shown three ways: same as the market, {{edge|pct}} better, {{edge|pct}} worse. Whether a manager beats the market cannot be known in advance.",
+      "Taxes and exit charges are not included."
+    ],
+    "hi": [
+      "दोनों फंड {{years}} साल तक हर महीने {{monthly|inr}} निवेश करते हैं। बाज़ार खर्च से पहले उदाहरण के लिए {{gross|pct}} सालाना कमाता है।",
+      "सालाना खर्च (एक्सपेंस रेशियो): एक्टिव {{activeCost|pct}}, इंडेक्स {{indexCost|pct}}। असली खर्च फंड के हिसाब से अलग होता है: हर फंड के दस्तावेज़ देखें।",
+      "एक्टिव मैनेजर की काबिलियत तीन तरह से दिखाई गई है: बाज़ार के बराबर, {{edge|pct}} बेहतर, {{edge|pct}} खराब। मैनेजर बाज़ार को हराएगा या नहीं, यह पहले से नहीं जाना जा सकता।",
+      "टैक्स और एग्ज़िट शुल्क शामिल नहीं हैं।"
+    ]
+  },
+  "sources": [
+    {
+      "label": "SEBI (sebi.gov.in)",
+      "url": "https://www.sebi.gov.in"
+    },
+    {
+      "label": "AMFI (amfiindia.com)",
+      "url": "https://www.amfiindia.com"
+    }
+  ],
+  "levels": {
+    "basic": {
+      "explain": {
+        "en": "A mutual fund collects money from many people and a fund manager invests it. An ACTIVE fund tries to beat the market by picking investments. An INDEX fund just copies a market index and does not try to beat it, so it usually costs less.",
+        "hi": "म्यूचुअल फंड कई लोगों से पैसा जमा करता है और फंड मैनेजर उसे निवेश करता है। एक्टिव फंड निवेश चुनकर बाज़ार को हराने की कोशिश करता है। इंडेक्स फंड बस किसी बाज़ार इंडेक्स की नकल करता है और हराने की कोशिश नहीं करता, इसलिए आमतौर पर सस्ता होता है।"
+      },
+      "example": {
+        "en": "Arjun picks an active fund. His friend Kabir picks an index fund. Both put {{monthly|inr}} a month for {{years}} years.",
+        "hi": "अर्जुन एक एक्टिव फंड चुनता है। उसका दोस्त कबीर इंडेक्स फंड चुनता है। दोनों {{years}} साल तक हर महीने {{monthly|inr}} लगाते हैं।"
+      },
+      "steps": {
+        "en": [
+          "Both funds invest in a market that earns {{gross|pct}} a year before costs (an illustration).",
+          "Arjun's fund charges {{activeCost|pct}} a year, so he keeps {{netActive|pct}}. Kabir's charges {{indexCost|pct}}, so he keeps {{netIndex|pct}}.",
+          "After {{years}} years: Arjun {{fvActive|inr}}, Kabir {{fvIndex|inr}}, from {{invested|inr}} each put in.",
+          "The cost alone made a gap of {{costDrag|inr}}, before any skill of the manager."
+        ],
+        "hi": [
+          "दोनों फंड ऐसे बाज़ार में निवेश करते हैं जो खर्च से पहले {{gross|pct}} सालाना कमाता है (एक उदाहरण)।",
+          "अर्जुन का फंड {{activeCost|pct}} सालाना लेता है, तो उसके पास {{netActive|pct}} बचता है। कबीर का {{indexCost|pct}} लेता है, तो उसके पास {{netIndex|pct}} बचता है।",
+          "{{years}} साल बाद: अर्जुन {{fvActive|inr}}, कबीर {{fvIndex|inr}}, दोनों के {{invested|inr}} लगाने पर।",
+          "सिर्फ खर्च ने {{costDrag|inr}} का फ़र्क पैदा किया, मैनेजर की किसी काबिलियत से पहले।"
+        ]
+      },
+      "positive": {
+        "en": "If Arjun's manager adds {{edge|pct}} a year above the market, Arjun ends with {{fvActiveGood|inr}}, which is {{goodVsIndex|inr}} more than Kabir.",
+        "hi": "अगर अर्जुन का मैनेजर बाज़ार से {{edge|pct}} सालाना ऊपर निकाल दे, तो अर्जुन के पास {{fvActiveGood|inr}} होते हैं, यानी कबीर से {{goodVsIndex|inr}} ज़्यादा।"
+      },
+      "negative": {
+        "en": "If Arjun's manager falls {{edge|pct}} a year behind the market, Arjun ends with {{fvActiveBad|inr}}, which is {{badVsIndex|inr}} less than Kabir.",
+        "hi": "अगर अर्जुन का मैनेजर बाज़ार से {{edge|pct}} सालाना पीछे रहे, तो अर्जुन के पास {{fvActiveBad|inr}} होते हैं, यानी कबीर से {{badVsIndex|inr}} कम।"
+      },
+      "wrong": {
+        "en": [
+          "An active manager may not beat the market, and you pay the higher cost either way.",
+          "An index fund falls when the market falls. It does not protect you.",
+          "Past performance of one fund does not predict its future.",
+          "A fund's name or past rank does not tell you how risky it is."
+        ],
+        "hi": [
+          "एक्टिव मैनेजर बाज़ार को न हरा पाए, और ऊँचा खर्च आप दोनों हाल में देते हैं।",
+          "बाज़ार गिरता है तो इंडेक्स फंड भी गिरता है। वह आपको नहीं बचाता।",
+          "एक फंड का पुराना प्रदर्शन उसके भविष्य का संकेत नहीं देता।",
+          "फंड का नाम या पुरानी रैंक यह नहीं बताती कि वह कितना जोखिम भरा है।"
+        ]
+      },
+      "influencers": {
+        "en": [
+          "They show a fund's best 3 years and skip the bad ones.",
+          "They say 'this fund beat the index' without saying what it cost or how long.",
+          "They never show the {{costDrag|inr}} that a higher cost adds up to."
+        ],
+        "hi": [
+          "वे फंड के सबसे अच्छे 3 साल दिखाते हैं और बुरे छोड़ देते हैं।",
+          "वे कहते हैं 'इस फंड ने इंडेक्स को हराया' पर यह नहीं बताते कि कितने खर्च पर या कितने समय में।",
+          "वे ऊँचे खर्च से जुड़ने वाले {{costDrag|inr}} कभी नहीं दिखाते।"
+        ]
+      },
+      "takeaway": {
+        "en": "Cost is the one thing you can see in advance. Skill is not.",
+        "hi": "खर्च वह एक चीज़ है जो आप पहले से देख सकते हैं। काबिलियत नहीं।"
+      }
+    },
+    "medium": {
+      "explain": {
+        "en": "A fund's yearly cost (expense ratio) is taken out of the fund's value a little every day, so it works like a lower return every year. Over 15 years that gap compounds. An active fund must beat the market by at least the cost difference ({{grossEdgeNeeded|pct}}) just to match an index fund.",
+        "hi": "फंड का सालाना खर्च (एक्सपेंस रेशियो) हर दिन फंड के मूल्य में से थोड़ा-थोड़ा कटता है, इसलिए यह हर साल कम रिटर्न जैसा काम करता है। 15 साल में वह अंतर बढ़ता जाता है। एक्टिव फंड को इंडेक्स फंड की बराबरी करने के लिए भी बाज़ार से कम से कम खर्च के अंतर ({{grossEdgeNeeded|pct}}) जितना ऊपर रहना होगा।"
+      },
+      "example": {
+        "en": "Arjun and Kabir compare notes after {{years}} years. We test the active fund three ways: same as market, ahead by {{edge|pct}}, behind by {{edge|pct}}.",
+        "hi": "{{years}} साल बाद अर्जुन और कबीर नतीजे मिलाते हैं। हम एक्टिव फंड को तीन तरह से परखते हैं: बाज़ार के बराबर, {{edge|pct}} आगे, {{edge|pct}} पीछे।"
+      },
+      "steps": {
+        "en": [
+          "Net yearly return: Kabir {{netIndex|pct}}, Arjun at market level {{netActive|pct}}.",
+          "At market level: Kabir {{fvIndex|inr}}, Arjun {{fvActive|inr}}. The gap is only the cost: {{costDrag|inr}}.",
+          "If Arjun's manager is {{edge|pct}} ahead ({{goodGross|pct}} gross): {{fvActiveGood|inr}}.",
+          "If {{edge|pct}} behind ({{badGross|pct}} gross): {{fvActiveBad|inr}}. Change the sliders to see how fragile the lead is."
+        ],
+        "hi": [
+          "शुद्ध सालाना रिटर्न: कबीर {{netIndex|pct}}, बाज़ार के बराबर रहने पर अर्जुन {{netActive|pct}}।",
+          "बाज़ार के बराबर: कबीर {{fvIndex|inr}}, अर्जुन {{fvActive|inr}}। अंतर सिर्फ खर्च का है: {{costDrag|inr}}।",
+          "अगर अर्जुन का मैनेजर {{edge|pct}} आगे है ({{goodGross|pct}} सकल): {{fvActiveGood|inr}}।",
+          "अगर {{edge|pct}} पीछे है ({{badGross|pct}} सकल): {{fvActiveBad|inr}}। स्लाइडर चलाकर देखें कि बढ़त कितनी नाज़ुक है।"
+        ]
+      },
+      "positive": {
+        "en": "A skilled manager can add more than the extra cost over many years. If that happens, the active fund ends {{goodVsIndex|inr}} ahead here.",
+        "hi": "काबिल मैनेजर कई सालों में अतिरिक्त खर्च से ज़्यादा जोड़ सकता है। ऐसा हो तो यहाँ एक्टिव फंड {{goodVsIndex|inr}} आगे खत्म होता है।"
+      },
+      "negative": {
+        "en": "A manager who trails the market costs you twice: lower return plus higher fees. Here that is {{badVsIndex|inr}} behind the index fund.",
+        "hi": "बाज़ार से पीछे रहने वाला मैनेजर आपको दोहरा नुकसान देता है: कम रिटर्न और ऊँची फीस। यहाँ यह इंडेक्स फंड से {{badVsIndex|inr}} पीछे है।"
+      },
+      "wrong": {
+        "en": [
+          "You cannot know in advance which active manager will win, and winners change.",
+          "An index fund has small tracking differences from the index, and its own small cost.",
+          "Direct and regular plans of the same fund have different costs: check which one you hold.",
+          "Taxes and exit loads can reduce the result."
+        ],
+        "hi": [
+          "आप पहले से नहीं जान सकते कि कौन-सा एक्टिव मैनेजर जीतेगा, और जीतने वाले बदलते रहते हैं।",
+          "इंडेक्स फंड में इंडेक्स से छोटा अंतर और उसका अपना छोटा खर्च होता है।",
+          "एक ही फंड के डायरेक्ट और रेगुलर प्लान का खर्च अलग होता है: देखें कि आपके पास कौन-सा है।",
+          "टैक्स और एग्ज़िट लोड नतीजे को घटा सकते हैं।"
+        ]
+      },
+      "influencers": {
+        "en": [
+          "They compare an active fund with a bad benchmark, or with a different period.",
+          "They talk about returns and skip the expense ratio's effect on your final money.",
+          "They say 'this fund manager is a genius' based on a few years."
+        ],
+        "hi": [
+          "वे एक्टिव फंड की तुलना खराब बेंचमार्क से या किसी और अवधि से करते हैं।",
+          "वे रिटर्न की बात करते हैं और एक्सपेंस रेशियो का आपके अंतिम पैसे पर असर छोड़ देते हैं।",
+          "वे कुछ सालों के आधार पर कहते हैं 'यह फंड मैनेजर जीनियस है'।"
+        ]
+      },
+      "takeaway": {
+        "en": "Higher cost has to be earned back every single year.",
+        "hi": "ऊँचा खर्च हर साल वापस कमाना पड़ता है।"
+      }
+    }
+  },
+  "checks": [
+    {
+      "what": {
+        "en": "How much does the fund charge every year?",
+        "hi": "फंड हर साल कितना शुल्क लेता है?"
+      },
+      "why": {
+        "en": "This fee is cut from your money every year, quietly.",
+        "hi": "यह शुल्क हर साल चुपचाप आपके पैसे से कटता है।"
+      },
+      "story": {
+        "en": "Fund X charges 1.5% a year and Fund Y charges 0.2%. On ₹5 lakh, that is ₹7,500 against ₹1,000 each year. Over many years, the gap becomes real money.",
+        "hi": "फंड X हर साल 1.5% लेता है और फंड Y 0.2%। ₹5 लाख पर यह ₹7,500 बनाम ₹1,000 सालाना है। कई सालों में यह अंतर बड़ी रकम बन जाता है।"
+      }
+    },
+    {
+      "what": {
+        "en": "Am I buying the direct plan or the regular plan?",
+        "hi": "क्या मैं डायरेक्ट प्लान ले रहा हूँ या रेगुलर प्लान?"
+      },
+      "why": {
+        "en": "The regular plan pays a commission to the seller, so it costs more.",
+        "hi": "रेगुलर प्लान में बेचने वाले को कमीशन जाता है, इसलिए वह महँगा पड़ता है।"
+      },
+      "story": {
+        "en": "Dev buys the same fund through an agent (regular plan). The agent gets a commission out of the fund's yearly fee. The direct plan has the same fund and a lower fee.",
+        "hi": "देव वही फंड एजेंट के ज़रिए (रेगुलर प्लान) खरीदता है। एजेंट को फंड की सालाना फीस में से कमीशन मिलता है। डायरेक्ट प्लान में वही फंड है और फीस कम।"
+      }
+    },
+    {
+      "what": {
+        "en": "How risky is this fund? What does it hold?",
+        "hi": "यह फंड कितना जोखिम भरा है? इसमें क्या है?"
+      },
+      "why": {
+        "en": "The name can sound calm while the fund is very risky.",
+        "hi": "नाम शांत लग सकता है, जबकि फंड बहुत जोखिम भरा हो सकता है।"
+      },
+      "story": {
+        "en": "Seema wants a \"safe\" fund. She picks one with a calm-sounding name. Its riskometer says \"Very High\". Every fund shows this meter, and she should have read it first.",
+        "hi": "सीमा को \"सुरक्षित\" फंड चाहिए। वह शांत-से नाम वाला फंड चुनती है। उसका रिस्कोमीटर \"बहुत ऊँचा\" दिखाता है। हर फंड पर यह मीटर होता है, उसे पहले पढ़ना चाहिए था।"
+      }
+    },
+    {
+      "what": {
+        "en": "How did it do against its yardstick over several years?",
+        "hi": "कई सालों में यह अपने पैमाने के मुकाबले कैसा रहा?"
+      },
+      "why": {
+        "en": "One good year says very little.",
+        "hi": "एक अच्छा साल बहुत कम बताता है।"
+      },
+      "story": {
+        "en": "A fund shows 18% last year. That sounds great. But its benchmark index, the Nifty, gave 20%. So the fund did worse than just following the index.",
+        "hi": "एक फंड पिछले साल 18% दिखाता है, जो बढ़िया लगता है। पर उसका बेंचमार्क इंडेक्स निफ्टी 20% दे गया। यानी फंड सिर्फ़ इंडेक्स का पीछा करने से भी पीछे रहा।"
+      }
+    },
+    {
+      "what": {
+        "en": "What fee and tax will I face when I sell?",
+        "hi": "बेचते समय मुझ पर कौन सा शुल्क और टैक्स लगेगा?"
+      },
+      "why": {
+        "en": "Both are written before you buy. Few people read them.",
+        "hi": "दोनों खरीदने से पहले लिखे होते हैं। कम लोग पढ़ते हैं।"
+      },
+      "story": {
+        "en": "Dev sells after 6 months. The fund charges a 1% exit fee, and he pays tax on the profit too. Both rules were on the fund's page from day one.",
+        "hi": "देव 6 महीने बाद बेचता है। फंड 1% एग्ज़िट फीस लेता है, और मुनाफ़े पर टैक्स भी लगता है। दोनों नियम पहले दिन से फंड के पेज पर थे।"
+      }
+    }
+  ]
+}

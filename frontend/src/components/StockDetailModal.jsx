@@ -1,4 +1,5 @@
 import { useState, useEffect, useContext, useRef } from 'react';
+import { tr } from '../utils/uiStrings';
 import {
   X,
   ArrowUpRight,
@@ -231,7 +232,7 @@ const StockDetailModal = ({ instrument, onClose, onOpenAssistant, onAddToWatchli
                   </span>
                 </div>
               )}
-              {quoteData?.stale && <span className="analysis-source-tag">Last known price — may be outdated</span>}
+              {quoteData?.stale && <span className="analysis-source-tag">{tr("Last known price — may be outdated", language)}</span>}
             </div>
           </div>
 
@@ -240,7 +241,7 @@ const StockDetailModal = ({ instrument, onClose, onOpenAssistant, onAddToWatchli
             <div className="detail-chart-header" style={{ marginBottom: '8px' }}>
               <div className="chart-title-wrap">
                 <BarChart3 size={14} className="chart-icon" />
-                <span className="chart-title">Price chart & events</span>
+                <span className="chart-title">{tr("Price chart & events", language)}</span>
               </div>
               <div className="timeframe-pill-group">
                 {TIMEFRAMES.map((tf) => (
@@ -281,7 +282,7 @@ const StockDetailModal = ({ instrument, onClose, onOpenAssistant, onAddToWatchli
           {/* Key Statistics Matrix */}
           <div className="detail-stats-grid">
             <div className="stat-card">
-              <span className="stat-label">Day Range (L — H)</span>
+              <span className="stat-label">{tr("Day Range (L — H)", language)}</span>
               <span className="stat-val mono-number">
                 {hasValue(dayLow) && hasValue(dayHigh) ? `${formatPrice(dayLow, currency)} — ${formatPrice(dayHigh, currency)}` : '—'}
               </span>
@@ -302,7 +303,7 @@ const StockDetailModal = ({ instrument, onClose, onOpenAssistant, onAddToWatchli
             </div>
 
             <div className="stat-card">
-              <span className="stat-label">Volume</span>
+              <span className="stat-label">{tr("Volume", language)}</span>
               <span className="stat-val mono-number">{quoteData?.volume || '—'}</span>
             </div>
           </div>
@@ -319,9 +320,9 @@ const StockDetailModal = ({ instrument, onClose, onOpenAssistant, onAddToWatchli
             <div className="analysis-header-row">
               <div className="analysis-badge">
                 <Newspaper size={13} />
-                <span>PRICE MOVEMENT SUMMARY</span>
+                <span>{tr("PRICE MOVEMENT SUMMARY", language)}</span>
               </div>
-              <span className="analysis-source-tag">StockSee AI Synthesis</span>
+              <span className="analysis-source-tag">{tr("StockSee AI Synthesis", language)}</span>
             </div>
 
             {analysisLoading ? (
@@ -335,7 +336,7 @@ const StockDetailModal = ({ instrument, onClose, onOpenAssistant, onAddToWatchli
               </div>
             ) : (
               <p className="analysis-fallback">
-                Market summary is unavailable right now. Please try again shortly.
+                {tr("Market summary is unavailable right now. Please try again shortly.", language)}
               </p>
             )}
           </div>
@@ -354,7 +355,7 @@ const StockDetailModal = ({ instrument, onClose, onOpenAssistant, onAddToWatchli
                 onOpenAssistant?.(`How has ${instrument.symbol} performed this month?`);
               }}
             >
-              <span>Ask StockSee Assistant →</span>
+              <span>{tr("Ask StockSee Assistant →", language)}</span>
             </button>
           </div>
         </div>
@@ -376,7 +377,7 @@ const StockDetailModal = ({ instrument, onClose, onOpenAssistant, onAddToWatchli
             className="btn-editorial btn-editorial-secondary detail-footer-btn"
           >
             <Bell size={14} />
-            <span>Set an alert</span>
+            <span>{tr("Set an alert", language)}</span>
           </button>
 
           {(onAddToWatchlist || onAddToPortfolio) && (
@@ -390,7 +391,7 @@ const StockDetailModal = ({ instrument, onClose, onOpenAssistant, onAddToWatchli
               className="btn-editorial btn-editorial-secondary detail-footer-btn"
             >
               <Plus size={14} />
-              <span>Add to Watchlist</span>
+              <span>{tr("Add to Watchlist", language)}</span>
             </button>
           )}
         </div>

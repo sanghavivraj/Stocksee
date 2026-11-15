@@ -4,6 +4,9 @@ import Watchlist from './pages/Watchlist';
 import Alerts from './pages/Alerts';
 import Settings from './pages/Settings';
 import TipCheck from './pages/TipCheck';
+import Unusual from './pages/Unusual';
+import Compare from './pages/Compare';
+import Samajh from './pages/Samajh';
 import Layout from './components/Layout';
 import ErrorBoundary from './components/ErrorBoundary';
 
@@ -17,6 +20,9 @@ function AppRoutes() {
           <Route path="/watchlist" element={<Watchlist />} />
           <Route path="/alerts" element={<Alerts />} />
           <Route path="/tip-check" element={<TipCheck />} />
+          <Route path="/unusual" element={<Unusual />} />
+          <Route path="/compare" element={<Compare />} />
+          <Route path="/samajh" element={<Samajh />} />
           <Route path="/settings" element={<Settings />} />
           <Route path="/login" element={<Navigate to="/" replace />} />
           <Route path="/portfolio" element={<Navigate to="/watchlist" replace />} />

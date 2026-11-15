@@ -1,4 +1,5 @@
 import { useContext, useEffect, useState } from 'react';
+import { tr } from '../utils/uiStrings';
 import { Link } from 'react-router-dom';
 import {
   ArrowRight,
@@ -7,9 +8,6 @@ import {
   ArrowDownRight,
   ShieldCheck,
   Sparkles,
-  TrendingUp,
-  Compass,
-  Layers,
   Eye,
   BookmarkPlus,
   Bell,
@@ -21,17 +19,23 @@ import marketService from '../services/marketService';
 import alertService from '../services/alertService';
 import { renderMarkdown } from '../utils/formatMarkdown';
 import StockDetailModal from '../components/StockDetailModal';
+import TodayTomorrow from '../components/TodayTomorrow';
+import MarketReplay from '../components/MarketReplay';
+import FirstTimeSetup, { setupAlreadyDone } from '../components/FirstTimeSetup';
+import useInsights from '../hooks/useInsights';
+import usePopular from '../hooks/usePopular';
+import MarketBreadth from '../components/MarketBreadth';
+import { daySentence, insightLabels } from '../utils/insightCopy';
 import { formatPrice } from '../utils/formatPrice';
 import { useWatchlist } from '../context/WatchlistContext';
 
-const marketOverviewInstruments = [
+// Indices and commodities are fixed instruments (settings). The stocks shown are the most traded ones right now, worked out live.
+const indexRows = [
   { symbol: '^NSEI', name: 'NIFTY 50', category: 'Benchmark Index' },
   { symbol: '^BSESN', name: 'SENSEX', category: 'Benchmark Index' },
   { symbol: 'NIFTYBANK', name: 'BANK NIFTY', category: 'Sectoral Banking' },
-  { symbol: 'RELIANCE.NS', name: 'Reliance Industries', category: 'Energy & Retail' },
-  { symbol: 'TCS.NS', name: 'Tata Consultancy Services', category: 'IT Services' },
-  { symbol: 'HDFCBANK.NS', name: 'HDFC Bank', category: 'Private Banking' },
-  { symbol: 'SBIN.NS', name: 'State Bank of India', category: 'Public Sector Bank' },
+];
+const commodityRows = [
   { symbol: 'GOLD', name: 'Gold (COMEX, USD)', category: 'Precious Metal' },
   { symbol: 'CRUDEOIL', name: 'Crude Oil (WTI, USD)', category: 'Commodity' },
 ];
@@ -44,6 +48,14 @@ const Dashboard = () => {
   const [briefLoading, setBriefLoading] = useState(true);
   const [dataLoading, setDataLoading] = useState(true);
   const [selectedStock, setSelectedStock] = useState(null);
+  // First-time setup: decided once, when we know this browser has saved nothing yet (then it stays until finished)
+  const [showSetup, setShowSetup] = useState(null);
+  useEffect(() => {
+    if (showSetup === null && !watchlist.loading) setShowSetup(!visitor && !setupAlreadyDone());
+  }, [showSetup, watchlist.loading, visitor]);
+  const insights = useInsights(watchlist.symbols);
+  const popular = usePopular(4);
+  const daySummary = daySentence(insights.items, language);
 
   const getGreeting = () => {
     const hour = new Date().getHours();
@@ -71,8 +83,9 @@ const Dashboard = () => {
     const loadDashboardData = async () => {
       try {
         // Fetch real market data for major Indian indices, equities, and commodities
+        const stockRows = popular.items.map((p) => ({ symbol: p.symbol, name: p.name, category: p.industry || 'Equity' }));
         const quotes = await Promise.all(
-          marketOverviewInstruments.map(async (item) => {
+          [...indexRows, ...stockRows, ...commodityRows].map(async (item) => {
             try {
               const res = await marketService.getMarketData(item.symbol);
               return {
@@ -117,13 +130,13 @@ const Dashboard = () => {
       }
     };
 
-    loadDashboardData();
+    if (!popular.loading) loadDashboardData();
     fetchMarketBrief();
 
     return () => {
       isMounted = false;
     };
-  }, [language]);
+  }, [language, popular.loading, popular.items]);
 
   const handleQuickWatchlist = async (e, sym) => {
     e.stopPropagation();
@@ -160,7 +173,7 @@ const Dashboard = () => {
       {/* Editorial Header */}
       <header className="editorial-lead-header">
         <div className="lead-meta-row">
-          <span className="editorial-kicker">INDIAN MARKET INTELLIGENCE</span>
+          <span className="editorial-kicker">{tr("INDIAN MARKET INTELLIGENCE", language)}</span>
           <span className="lead-date-stamp">{getFormattedDate()}</span>
         </div>
         <h1 className="lead-headline">{getGreeting()}</h1>
@@ -173,14 +186,16 @@ const Dashboard = () => {
         </p>
       </header>
 
+      {showSetup && <FirstTimeSetup onClose={() => setShowSetup(false)} />}
+
       {/* Section 1: Lead Editorial Market Brief */}
       <section className="editorial-lead-story" aria-label="Today's Market Briefing">
         <div className="story-meta-bar">
           <div className="story-tag-pill">
             <span className="story-live-dot"></span>
-            <span>MORNING MARKET BRIEF</span>
+            <span>{tr("MORNING MARKET BRIEF", language)}</span>
           </div>
-          <div className="story-time-stamp">LIVE MARKET DATA • {getFormattedDate()}</div>
+          <div className="story-time-stamp">{tr('LIVE MARKET DATA', language)} • {getFormattedDate()}</div>
         </div>
 
         <h2 className="story-headline">
@@ -198,7 +213,7 @@ const Dashboard = () => {
           </div>
         ) : (
           <p className="story-prose-fallback">
-            Market intelligence feeds are currently synthesizing live opening data. Check back shortly.
+            {tr("Market intelligence feeds are currently synthesizing live opening data. Check back shortly.", language)}
           </p>
         )}
 
@@ -209,20 +224,23 @@ const Dashboard = () => {
             onClick={() => triggerAssistant("Explain today's Indian market momentum")}
           >
             <Sparkles size={13} />
-            <span>Ask StockSee about this brief →</span>
+            <span>{tr("Ask StockSee about this brief →", language)}</span>
           </button>
         </div>
       </section>
+
+      {/* Today & Tomorrow: facts only (typical-move range, overnight cues, schedule, history) */}
+      <TodayTomorrow />
 
       {/* Section 2: Indian Market Snapshot (Indices, Bluechips, Commodities) */}
       <section className="editorial-flow-section" aria-label="Indian Market Snapshot">
         <div className="flow-section-header">
           <div>
-            <span className="flow-kicker">EXCHANGE OVERVIEW</span>
+            <span className="flow-kicker">{tr("EXCHANGE OVERVIEW", language)}</span>
             <h3 className="flow-title">{t('marketOverview', language)}</h3>
           </div>
           <div className="flow-action-link" style={{ cursor: 'default', color: 'var(--fg-text-muted)' }}>
-            <span>Click any asset for chart & analysis</span>
+            <span>{tr("Click any asset for chart & analysis", language)}</span>
           </div>
         </div>
 
@@ -259,7 +277,7 @@ const Dashboard = () => {
                     <div className="stock-primary-name">{item.name}</div>
                     <div className="stock-sub-meta">
                       <span className="stock-symbol-tag">{item.symbol}</span>
-                      <span className="stock-cat-tag">• {item.category}</span>
+                      <span className="stock-cat-tag">• {tr(item.category, language)}</span>
                     </div>
                   </div>
 
@@ -281,7 +299,7 @@ const Dashboard = () => {
                         </div>
                       </div>
                     ) : (
-                      <span className="range-unavailable-text">Active Session</span>
+                      <span className="range-unavailable-text">{tr("Active Session", language)}</span>
                     )}
                   </div>
 
@@ -337,18 +355,25 @@ const Dashboard = () => {
         )}
       </section>
 
+      {/* Replay today's session for NIFTY and the watchlist */}
+      <MarketReplay />
+
       {/* Section 3: My Watchlist Preview */}
       <section className="editorial-flow-section" aria-label="My Watchlist Snapshot">
         <div className="flow-section-header">
           <div>
-            <span className="flow-kicker">MY WATCHLIST</span>
+            <span className="flow-kicker">{tr("MY WATCHLIST", language)}</span>
             <h3 className="flow-title">{language === 'en' ? 'My Watchlist' : t('watchlist', language)}</h3>
           </div>
           <Link to="/watchlist" className="flow-action-link">
-            <span>View Watchlist</span>
+            <span>{tr("View Watchlist", language)}</span>
             <ArrowRight size={14} />
           </Link>
         </div>
+
+        {daySummary && (
+          <p className="day-line"><b>{insightLabels(language).day}</b>{daySummary}</p>
+        )}
 
         {dataLoading ? (
           <div className="portfolio-skeleton-row">
@@ -361,90 +386,51 @@ const Dashboard = () => {
               <Eye size={20} />
             </div>
             <div className="banner-content">
-              <h4 className="banner-headline">Your watchlist is ready for your first scrip.</h4>
+              <h4 className="banner-headline">{tr("Your watchlist is ready for your first scrip.", language)}</h4>
               <p className="banner-subtext">
-                Add Indian equities or indices to monitor real-time prices, percentage shifts, and TradingView charts without login.
+                {tr("Add Indian equities or indices to monitor real-time prices, percentage shifts, and TradingView charts without login.", language)}
               </p>
             </div>
             <Link to="/watchlist" className="btn-editorial btn-editorial-primary banner-action-btn">
               <Plus size={14} />
-              <span>Add Scrips</span>
+              <span>{tr("Add Scrips", language)}</span>
             </Link>
           </div>
         ) : (
           <div className="portfolio-metrics-strip">
             <div className="portfolio-metric-col">
-              <span className="metric-col-label">Watched Scrips</span>
+              <span className="metric-col-label">{tr("Watched Scrips", language)}</span>
               <span className="metric-col-val mono-number">
                 {watchlist.symbols.length} Active
               </span>
-              <span className="metric-col-sub">Persistent in local browser</span>
+              <span className="metric-col-sub">{tr("Persistent in local browser", language)}</span>
             </div>
 
             <div className="portfolio-metric-divider" />
 
             <div className="portfolio-metric-col">
-              <span className="metric-col-label">Market Coverage</span>
+              <span className="metric-col-label">{tr("Market Coverage", language)}</span>
               <span className="metric-col-val" style={{ color: 'var(--fg-accent)', fontSize: '1.25rem' }}>
-                NSE & BSE Equities
+                {tr("NSE & BSE Equities", language)}
               </span>
-              <span className="metric-col-sub">Live quote & trend analysis</span>
+              <span className="metric-col-sub">{tr("Live quote & trend analysis", language)}</span>
             </div>
 
             <div className="portfolio-metric-divider" />
 
             <div className="portfolio-metric-col">
-              <span className="metric-col-label">SEBI Guardrail</span>
+              <span className="metric-col-label">{tr("SEBI Guardrail", language)}</span>
               <span className="metric-col-val" style={{ color: 'var(--fg-positive)', fontSize: '1.25rem' }}>
-                Pure Monitoring
+                {tr("Pure Monitoring", language)}
               </span>
-              <span className="metric-col-sub">Zero advice / No login needed</span>
+              <span className="metric-col-sub">{tr("Zero advice / No login needed", language)}</span>
             </div>
           </div>
         )}
       </section>
 
-      {/* Section 4: Market Context & Macro Themes */}
-      <section className="editorial-flow-section" aria-label="Market Context Themes">
-        <div className="flow-section-header">
-          <div>
-            <span className="flow-kicker">MACROECONOMIC THEMES</span>
-            <h3 className="flow-title">Market Context</h3>
-          </div>
-        </div>
-
-        <div className="editorial-themes-list">
-          <div className="editorial-theme-row">
-            <div className="theme-glyph"><TrendingUp size={16} /></div>
-            <div className="theme-body">
-              <h4 className="theme-heading">Indian Equities Breadth</h4>
-              <p className="theme-paragraph">
-                Consistent domestic institutional flows (DII) and monthly retail SIP contributions provide structural liquidity support across large and mid-cap segments.
-              </p>
-            </div>
-          </div>
-
-          <div className="editorial-theme-row">
-            <div className="theme-glyph"><Compass size={16} /></div>
-            <div className="theme-body">
-              <h4 className="theme-heading">Commodity & FX Drivers</h4>
-              <p className="theme-paragraph">
-                Crude oil valuations directly impact transport and manufacturing margins, while Gold (MCX) provides a non-correlated rupee hedge during global volatility.
-              </p>
-            </div>
-          </div>
-
-          <div className="editorial-theme-row">
-            <div className="theme-glyph"><Layers size={16} /></div>
-            <div className="theme-body">
-              <h4 className="theme-heading">Banking & Monetary Liquidity</h4>
-              <p className="theme-paragraph">
-                Credit growth trajectories and RBI policy benchmarks govern lending spreads and capital allocation across Indian financial institutions.
-              </p>
-            </div>
-          </div>
-        </div>
-      </section>
+      {/* Section 4: how the whole market did today (live, worked out from the Nifty 500 list) */}
+      <MarketBreadth />
 
       {/* Section 5: Educational Compliance Footnote */}
       <footer className="editorial-footer-footnote">

@@ -1,4 +1,5 @@
 import { useContext, useEffect, useState } from 'react';
+import { tr } from '../utils/uiStrings';
 import {
   Plus,
   Trash2,
@@ -19,21 +20,16 @@ import { formatPrice, hasValue } from '../utils/formatPrice';
 import { useWatchlist, normalizeSymbol } from '../context/WatchlistContext';
 import { resolveStockChoice, validationMessage } from '../utils/stockChoice';
 import { Link } from 'react-router-dom';
-
-const quickTrackPills = [
-  'RELIANCE.NS',
-  'TCS.NS',
-  'HDFCBANK.NS',
-  'INFY.NS',
-  'SUZLON.NS',
-  'SBIN.NS',
-  'GOLD',
-  'CRUDEOIL',
-];
+import useInsights from '../hooks/useInsights';
+import usePopular from '../hooks/usePopular';
+import { contextLine, insightLabels } from '../utils/insightCopy';
 
 const Watchlist = () => {
-  const { addToast } = useContext(UserContext);
+  const { addToast, language } = useContext(UserContext);
   const { symbols, add, remove } = useWatchlist();
+  const insights = useInsights(symbols);
+  // Quick-add chips: the most traded companies right now (live), not a typed-in list
+  const quickTrackPills = usePopular(8).items.map((p) => p.symbol);
 
   const [stockQuotes, setStockQuotes] = useState({});
   const [symbolInput, setSymbolInput] = useState('');
@@ -140,8 +136,9 @@ const Watchlist = () => {
       {/* Page Editorial Header */}
       <header className="editorial-lead-header">
         <div className="lead-meta-row">
-          <span className="editorial-kicker">PERSONAL MONITORING & INTELLIGENCE</span>
+          <span className="editorial-kicker">{tr("PERSONAL MONITORING & INTELLIGENCE", language)}</span>
           <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+            <Link to="/compare" className="compare-link">{language === 'hi' ? 'दो शेयरों की तुलना' : language === 'gu' ? 'બે શેરની સરખામણી' : 'Compare two stocks'}</Link>
             <span className="lead-date-stamp">{symbols.length} Monitored Equities</span>
             <button
               type="button"
@@ -162,13 +159,13 @@ const Watchlist = () => {
               }}
             >
               <RefreshCw size={11} className={refreshing ? 'spinner' : ''} />
-              <span>Sync</span>
+              <span>{tr("Sync", language)}</span>
             </button>
           </div>
         </div>
-        <h1 className="lead-headline">My Watchlist</h1>
+        <h1 className="lead-headline">{tr("My Watchlist", language)}</h1>
         <p className="lead-description">
-          Monitor Indian stocks across NSE and BSE. No sign-up needed: your list is saved for this browser. <Link to="/settings" style={{ fontWeight: 700 }}>Connect Telegram</Link> to get it in your morning brief.
+          {tr("Monitor Indian stocks across NSE and BSE. No sign-up needed: your list is saved for this browser.", language)} <Link to="/settings" style={{ fontWeight: 700 }}>{tr("Connect Telegram", language)}</Link> {tr("to get it in your morning brief.", language)}
         </p>
       </header>
 
@@ -207,7 +204,7 @@ const Watchlist = () => {
 
           {/* Quick Suggestions Chips */}
           <div className="quick-suggestions-wrap">
-            <span className="quick-suggestions-label">Popular Indian scrips:</span>
+            <span className="quick-suggestions-label">{tr("Popular Indian scrips:", language)}</span>
             <div className="quick-chips-list">
               {quickTrackPills.map((pill) => (
                 <button
@@ -228,11 +225,11 @@ const Watchlist = () => {
       <section className="editorial-flow-section" aria-label="Watched Stocks Grid">
         <div className="flow-section-header">
           <div>
-            <span className="flow-kicker">MONITORED SCRIPS</span>
+            <span className="flow-kicker">{tr("MONITORED SCRIPS", language)}</span>
             <h3 className="flow-title">Watched Equities ({symbols.length})</h3>
           </div>
           <div className="flow-action-link" style={{ cursor: 'default', color: 'var(--fg-text-muted)' }}>
-            <span>Live NSE/BSE Pricing • Instant Chart Access</span>
+            <span>{tr("Live NSE/BSE Pricing • Instant Chart Access", language)}</span>
           </div>
         </div>
 
@@ -245,9 +242,9 @@ const Watchlist = () => {
         ) : symbols.length === 0 ? (
           <div className="editorial-banner-box">
             <div className="banner-content">
-              <h4 className="banner-headline">Your watchlist is currently empty.</h4>
+              <h4 className="banner-headline">{tr("Your watchlist is currently empty.", language)}</h4>
               <p className="banner-subtext">
-                Add stocks using the input bar above or select from popular Indian assets.
+                {tr("Add stocks using the input bar above or select from popular Indian assets.", language)}
               </p>
               <div className="quick-chips-list" style={{ marginTop: '0.75rem' }}>
                 {quickTrackPills.slice(0, 6).map((s) => (
@@ -394,6 +391,9 @@ const Watchlist = () => {
                         );
                       })()}
                     </div>
+                    {insights.bySymbol[sym] && contextLine(insights.bySymbol[sym], language) && (
+                      <p className="context-line"><b>{insightLabels(language).context}:</b> {contextLine(insights.bySymbol[sym], language)}</p>
+                    )}
                   </div>
 
                   {/* Card Actions: View Chart Button */}
@@ -423,7 +423,7 @@ const Watchlist = () => {
                       }}
                     >
                       <LineChart size={14} />
-                      <span>View Chart</span>
+                      <span>{tr("View Chart", language)}</span>
                     </button>
                   </div>
                 </div>
@@ -450,7 +450,7 @@ const Watchlist = () => {
         >
           <ShieldCheck size={20} color="var(--fg-accent)" style={{ flexShrink: 0, marginTop: '2px' }} />
           <div style={{ fontSize: '0.84rem', color: 'var(--fg-text-secondary)', lineHeight: 1.55 }}>
-            <strong style={{ color: 'var(--fg-text)' }}>SEBI Regulatory Notice:</strong> This is a monitoring tool. Past performance is not indicative of future results. Information aggregated from public market sources is provided strictly for educational and self-directed awareness. Securities investments are subject to market risks.
+            <strong style={{ color: 'var(--fg-text)' }}>{tr("SEBI Regulatory Notice:", language)}</strong> {tr("This is a monitoring tool. Past performance is not indicative of future results. Information aggregated from public market sources is provided strictly for educational and self-directed awareness. Securities investments are subject to market risks.", language)}
           </div>
         </div>
       </section>

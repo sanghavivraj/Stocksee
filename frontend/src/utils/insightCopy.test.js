@@ -1,10 +1,10 @@
 import { describe, it, expect } from 'vitest';
-import { contextLine, daySentence, formatPercent } from './insightCopy';
+import { contextLine, daySentence, formatMovePercent } from './insightCopy';
 
 describe('insightCopy', () => {
   it('formats signed percents', () => {
-    expect(formatPercent(-2.1)).toBe('−2.10%');
-    expect(formatPercent(0.5)).toBe('+0.50%');
+    expect(formatMovePercent(-2.1)).toBe('−2.10%');
+    expect(formatMovePercent(0.5)).toBe('+0.50%');
   });
 
   it('builds a factual context line', () => {

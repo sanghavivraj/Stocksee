@@ -11,7 +11,8 @@
     "db:deploy": "prisma migrate deploy",
     "job": "node scripts/run-job.js",
     "symbols:update": "node scripts/update-symbols.js",
-    "surveillance:import": "node scripts/import-surveillance.js"
+    "surveillance:import": "node scripts/import-surveillance.js",
+    "lint": "eslint src scripts tests"
   },
   "dependencies": {
     "@prisma/client": "^5.12.1",
@@ -26,7 +27,6 @@
     "prisma": "^5.12.1",
     "redis": "^4.6.13",
     "telegraf": "^4.12.2",
-    "winston": "^3.13.0",
     "yahoo-finance2": "^2.11.0",
     "zod": "^3.23.8"
   },

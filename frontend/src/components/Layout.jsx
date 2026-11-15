@@ -127,7 +127,7 @@ const Layout = ({ children }) => {
   // 4 Core Navigation Items (Watchlist replaces Portfolio, no auth required)
   const navItems = [
     { path: '/', label: t('dashboard', language), icon: LayoutDashboard },
-    { path: '/watchlist', label: language === 'en' ? 'My Watchlist' : t('watchlist', language), icon: Eye },
+    { path: '/watchlist', label: language === 'en' ? 'My Watchlist' : t('watchlist', language), shortLabel: language === 'hi' ? 'वॉचलिस्ट' : language === 'gu' ? 'વૉચલિસ્ટ' : 'Watchlist', icon: Eye },
     { path: '/alerts', label: t('alerts', language), icon: Bell },
     { path: '/tip-check', label: t('tipCheck', language), icon: ShieldAlert },
     { path: '/samajh', label: language === 'hi' ? 'समझ' : 'Samajh', icon: BookOpenCheck },
@@ -271,7 +271,7 @@ const Layout = ({ children }) => {
               <div className="tab-icon-wrap">
                 <IconComponent size={20} strokeWidth={isActive ? 2.3 : 1.8} />
               </div>
-              <span className="tab-label">{item.label}</span>
+              <span className="tab-label">{item.shortLabel || item.label}</span>
             </Link>
           );
         })}

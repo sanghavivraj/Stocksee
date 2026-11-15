@@ -1,0 +1,98 @@
+/* ============================================================ */
+/* UX polish: readable, easy to tap, calm. Loaded last on purpose. */
+/* ============================================================ */
+
+/* ---- Touch targets: everything you tap is at least 40px ---- */
+.lang-button-group { padding: 3px; gap: 2px; }
+.lang-btn { min-width: 40px; min-height: 34px; padding: 0 8px; display: inline-flex; align-items: center; justify-content: center; }
+.theme-toggle-btn { width: 40px; height: 40px; }
+.brand-stamp { width: 36px; height: 36px; }
+.unusual-nav-btn { min-height: 40px; padding: 0 12px; }
+.compare-link, .flow-action-link, .editorial-chip-btn, .samajh-checks-mini { min-height: 40px; display: inline-flex; align-items: center; }
+.samajh-checks-mini { min-height: 36px; }
+@media (max-width: 359px) {
+  .lang-btn { min-width: 30px; padding: 0 5px; }
+  .unusual-nav-btn { padding: 0 8px; gap: 4px; }
+  .navbar-controls { gap: 0.3rem; }
+}
+
+/* ---- Floating buttons: small round icons on phones, so they never sit on top of text ---- */
+.main-content { padding-bottom: 8rem; }
+@media (max-width: 767px) {
+  .floating-assistant-btn, .checkfirst-btn { width: 46px; height: 46px; padding: 0; justify-content: center; border-radius: 50%; }
+  .floating-assistant-btn .assistant-btn-text, .checkfirst-btn span { display: none; }
+}
+@media (min-width: 768px) { .main-content { padding-bottom: 5rem; } }
+
+/* ---- Reading comfort: lines no longer run across the whole screen ---- */
+.story-prose, .lead-description, .day-line, .unusual-sub, .samajh-tagline, .briefing-card p { max-width: 68ch; }
+.story-prose.collapsed { max-height: 9rem; overflow: hidden; -webkit-mask-image: linear-gradient(#000 60%, transparent); mask-image: linear-gradient(#000 60%, transparent); }
+.story-toggle { margin-top: 0.4rem; min-height: 40px; padding: 0 2px; background: transparent; border: none; color: var(--fg-accent-text); font-size: 0.875rem; font-weight: 700; cursor: pointer; }
+.story-toggle:hover { text-decoration: underline; }
+@media (max-width: 1359px) { .brand-subtitle { display: none; } }
+
+/* ---- Dashboard: one column on phones, two columns on wide screens ---- */
+.dash-layout { display: flex; flex-direction: column; gap: 1.5rem; }
+.dash-col { display: flex; flex-direction: column; gap: 1.5rem; min-width: 0; }
+@media (min-width: 1180px) {
+  .dash-layout { display: grid; grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr); gap: 2rem; align-items: start; }
+}
+
+/* ---- "Your stocks today" ---- */
+.yst-list { list-style: none; display: grid; gap: 8px; }
+.yst-row { display: flex; align-items: center; justify-content: space-between; gap: 12px; width: 100%; min-height: 60px; padding: 10px 14px; text-align: left; border: 1px solid var(--fg-border); border-radius: 12px; background: var(--fg-surface); color: var(--fg-text); cursor: pointer; }
+.yst-row:hover { border-color: var(--fg-accent); }
+.yst-main { min-width: 0; display: grid; gap: 2px; }
+.yst-name { font-weight: 800; letter-spacing: -0.01em; }
+.yst-context { font-size: 0.8125rem; line-height: 1.4; color: var(--fg-text-secondary); overflow-wrap: anywhere; }
+.yst-empty { font-size: 0.9rem; color: var(--fg-text-secondary); }
+
+/* ---- Watchlist header: title, then tools, no squeezing ---- */
+.wl-head-row { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
+.wl-head-row .lead-headline { margin-bottom: 0; }
+.wl-sync-btn { min-height: 40px; padding: 0 14px; display: inline-flex; align-items: center; gap: 6px; border: 1px solid var(--fg-border); border-radius: 10px; background: var(--fg-surface); color: var(--fg-text); font-size: 0.8125rem; font-weight: 600; cursor: pointer; flex-shrink: 0; }
+.wl-sync-btn:hover { border-color: var(--fg-accent); }
+.wl-tools { display: flex; flex-wrap: wrap; align-items: center; gap: 4px 16px; margin-top: 0.5rem; }
+.wl-count { font-family: var(--font-mono); font-size: 0.8125rem; color: var(--fg-text-secondary); }
+
+/* ---- Exchange badges: readable in both themes ---- */
+.exchange-badge { font-size: 0.75rem; font-weight: 700; padding: 2px 6px; border-radius: 4px; }
+.exchange-nse { background: var(--fg-accent-subtle); color: var(--fg-accent-text); }
+.exchange-bse { background: rgba(234, 88, 12, 0.12); color: #B45309; }
+[data-theme='dark'] .exchange-bse { background: rgba(253, 186, 116, 0.14); color: #FDBA74; }
+
+/* ---- Toast with an Undo button ---- */
+.toast-undo { margin-left: 12px; min-height: 32px; padding: 0 10px; border: 1px solid var(--fg-accent); border-radius: 8px; background: transparent; color: var(--fg-accent-text); font-weight: 700; font-size: 0.8125rem; cursor: pointer; }
+.toast-undo:hover { background: var(--fg-accent-subtle); }
+
+/* ---- Dark theme details that need more than the colour tokens ---- */
+[data-theme='dark'] .samajh-block-takeaway { background: var(--fg-surface-raised); border: 1px solid var(--fg-accent); }
+[data-theme='dark'] .samajh-block-takeaway p { color: var(--fg-text); }
+
+/* ---- Header: the menu fits next to the logo on laptop-sized screens ---- */
+@media (min-width: 768px) and (max-width: 1499px) {
+  .desktop-nav-item { padding: 0.4rem 0.5rem; font-size: 0.8125rem; }
+}
+
+/* ---- More touch targets (>= 40px) and a few contrast fixes ---- */
+.lang-btn { min-height: 40px; }
+.brand-stamp { width: 40px; height: 40px; }
+.watchlist-search-input, .editorial-input { min-height: 44px; }
+.btn-editorial, .unusual-more-btn { min-height: 44px; }
+.seg-btn { min-height: 40px; }
+.tip-example-btn, .followup-chip, .setup-chip { min-height: 40px; display: inline-flex; align-items: center; }
+.samajh-jump a { min-height: 40px; display: inline-flex; align-items: center; }
+.standard-action-icon-btn { min-width: 40px; min-height: 40px; }
+small { font-size: 0.75rem; }
+.language-selection-card.active .lang-name { color: var(--fg-accent-text); }
+
+.quick-chip-btn, .hype-chip { min-height: 40px; display: inline-flex; align-items: center; }
+.replay-slider { min-height: 40px; }
+
+/* ---- Market rows on phones: name and price on one line, the two small actions below ---- */
+.stock-sub-meta { flex-wrap: wrap; row-gap: 0; }
+@media (max-width: 559px) {
+  .market-overview-row { grid-template-columns: minmax(0, 1fr) auto; row-gap: 0.4rem; }
+  .market-overview-row .market-row-quick-actions { grid-column: 1 / -1; justify-content: flex-end; border-top: 1px solid var(--fg-border-subtle); padding-top: 0.35rem; }
+}
+.desktop-nav-item { min-height: 40px; }

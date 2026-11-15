@@ -8,11 +8,13 @@
  * Every suggestion is a real listed instrument; nothing is invented.
  */
 const { rows: NSE_ROWS } = require('../constants/nseEquities.json');
+const { createTtlCache } = require('../lib/ttlCache');
+const { fetchYahooJson } = require('../lib/yahooHttp');
 
 const FETCH_TIMEOUT_MS = 2500;
 const REMOTE_CACHE_MS = 10 * 60 * 1000;
 const REMOTE_CACHE_MAX = 500;
-const remoteCache = new Map();
+const remoteCache = createTtlCache({ maxEntries: REMOTE_CACHE_MAX });
 
 /** Indices and commodities users can also watch (symbols match what the watchlist stores). */
 const EXTRAS = [
@@ -66,16 +68,12 @@ function searchLocal(q, limit) {
 }
 
 async function searchRemote(q) {
-  const cached = remoteCache.get(q);
-  if (cached && Date.now() - cached.at < REMOTE_CACHE_MS) return cached.items;
+  const cached = remoteCache.get(q, REMOTE_CACHE_MS);
+  if (cached) return cached;
 
   const url = `https://query2.finance.yahoo.com/v1/finance/search?q=${encodeURIComponent(q)}&quotesCount=15&newsCount=0&region=IN&lang=en-IN`;
-  const res = await fetch(url, {
-    headers: { 'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/122.0.0.0 Safari/537.36', Accept: 'application/json' },
-    signal: AbortSignal.timeout(FETCH_TIMEOUT_MS),
-  });
-  if (!res.ok) return [];
-  const data = await res.json();
+  const data = await fetchYahooJson(url, { timeoutMs: FETCH_TIMEOUT_MS });
+  if (!data) return [];
   const items = (data.quotes || [])
     .filter((x) => typeof x.symbol === 'string' && /\.(NS|BO)$/.test(x.symbol) && ['EQUITY', 'ETF'].includes(x.quoteType))
     .map((x) => ({
@@ -85,8 +83,7 @@ async function searchRemote(q) {
       exchange: x.symbol.endsWith('.BO') ? 'BSE' : 'NSE',
     }));
 
-  if (remoteCache.size >= REMOTE_CACHE_MAX) remoteCache.delete(remoteCache.keys().next().value);
-  remoteCache.set(q, { at: Date.now(), items });
+  remoteCache.set(q, items);
   return items;
 }
 
@@ -116,7 +113,7 @@ async function search(query, { limit = 8, remote = true, fetchRemote = searchRem
 }
 
 const EXTRA_SYMBOLS = new Set(EXTRAS.map((e) => e.symbol));
-const validCache = new Map(); // exact-symbol remote checks, so a repeated check never hits the network twice
+const validCache = createTtlCache({ maxEntries: REMOTE_CACHE_MAX }); // exact-symbol remote checks, so a repeated check never hits the network twice
 
 /**
  * Is this exactly a real, listed instrument? (Used to reject made-up watchlist/alert symbols like "C".)
@@ -134,10 +131,9 @@ async function isValidSymbol(symbol, { fetchRemote = searchRemote } = {}) {
 }
 
 async function remoteHas(symbol, fetchRemote) {
-  if (validCache.has(symbol)) return validCache.get(symbol);
+  if (validCache.get(symbol)) return true;
   const base = symbol.replace(/\.(NS|BO)$/, '');
   const found = (await fetchRemote(base).catch(() => [])).some((x) => x.symbol === symbol);
-  if (validCache.size >= REMOTE_CACHE_MAX) validCache.delete(validCache.keys().next().value);
   if (found) validCache.set(symbol, true); // only remember positives: a network blip must not block a stock for good
   return found;
 }

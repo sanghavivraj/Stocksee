@@ -3,6 +3,7 @@ import { ShieldAlert, ShieldCheck, ShieldQuestion, MessageSquareWarning, LineCha
 import { UserContext } from '../context/UserContext';
 import { formatPrice } from '../utils/formatPrice';
 import { buildRiskCard, shareOrDownload } from '../utils/shareCard';
+import { pick } from '../utils/pickLanguage';
 
 const ICONS = { HIGH: ShieldAlert, MEDIUM: ShieldQuestion, LOW: ShieldCheck };
 
@@ -47,7 +48,7 @@ const TipCheckResult = ({ result, compact = false }) => {
   const { language, addToast } = useContext(UserContext);
   const [busy, setBusy] = useState(false);
   if (!result) return null;
-  const T = COPY[language] || COPY.en;
+  const T = pick(COPY, language);
   const Icon = ICONS[result.level] || ShieldQuestion;
   const fromMessage = result.reasons.filter((r) => r.kind === 'message');
   const fromMarket = result.reasons.filter((r) => r.kind === 'market');

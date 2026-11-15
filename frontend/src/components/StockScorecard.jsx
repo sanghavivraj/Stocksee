@@ -9,7 +9,7 @@ const StockScorecard = ({ scorecard }) => {
   if (!scorecard || scorecard.type !== 'PRICE_SNAPSHOT') return null;
 
   const {
-    instrumentName, symbol, sector, currency, unit, conversionNote, currentPrice, returns = {},
+    instrumentName, symbol, sector, currency, unit, currentPrice, returns = {},
     dayRange, fiftyTwoWeekRange, riskFactors = [], source, asOf, stale, disclaimer,
   } = scorecard;
 

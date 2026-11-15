@@ -9,6 +9,7 @@
  */
 
 const { dayChangePct, gapPct, volumeRatio, prior52Week } = require('./indicators');
+const { round } = require('../lib/num');
 
 const MOVE_LOOKBACK = 60;
 
@@ -22,7 +23,6 @@ const RULES = {
 };
 const RULE_CODES = Object.keys(RULES);
 
-const round = (n, d = 2) => (n === null || n === undefined ? null : Number(n.toFixed(d)));
 
 function stddev(xs) {
   if (xs.length < 2) return null;

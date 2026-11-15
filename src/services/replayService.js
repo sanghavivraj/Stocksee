@@ -1,9 +1,9 @@
 const marketDataService = require('./marketDataService');
+const { round } = require('../lib/num');
 
 const MAX_SYMBOLS = 8;
 const WINDOW_BARS = 3; // 3 x 5 minutes = 15 minutes
 
-const round = (n, d = 2) => Number(n.toFixed(d));
 const median = (xs) => { const s = [...xs].sort((a, b) => a - b); return s.length ? s[Math.floor(s.length / 2)] : 0; };
 
 /**

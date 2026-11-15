@@ -2,6 +2,7 @@ const marketDataService = require('./marketDataService');
 const calendar = require('../constants/marketCalendar.json');
 const { dayChangePct } = require('../analytics/indicators');
 const { istDate } = require('../lib/time');
+const { round } = require('../lib/num');
 
 const SESSIONS_PER_YEAR = 252;
 const CUES = [
@@ -15,7 +16,6 @@ const CUES = [
 const CACHE_MS = 5 * 60 * 1000;
 let cache = null;
 
-const round = (n, d = 2) => (n === null || n === undefined || Number.isNaN(n) ? null : Number(n.toFixed(d)));
 
 /** Next weekday after the given IST date (exchange holidays are NOT known here, and the page says so). */
 function nextSessionDate(fromIso) {

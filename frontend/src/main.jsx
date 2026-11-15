@@ -6,6 +6,7 @@ import { WatchlistProvider } from './context/WatchlistContext'
 import './index.css'
 import './styles/features.css'
 import './styles/samajh.css'
+import './styles/polish.css'
 
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>

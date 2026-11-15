@@ -1,7 +1,7 @@
 const fs = require('fs');
 const os = require('os');
 const path = require('path');
-const { MarketDataUnavailableError } = require('./marketDataService');
+const { MarketDataUnavailableError } = require('../lib/errors');
 
 /**
  * Which stocks does StockSee look at? Not a list typed into the code: it is NSE's own published list of the

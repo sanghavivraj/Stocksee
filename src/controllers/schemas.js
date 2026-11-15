@@ -1,4 +1,5 @@
 const { z } = require('zod');
+const { parseSymbolList, clampInt } = require('../lib/symbols');
 
 const symbol = z.string().trim().toUpperCase()
   .regex(/^[A-Z0-9^.=&_-]{1,20}$/, 'Invalid symbol');
@@ -28,8 +29,17 @@ const alertRule = z.preprocess(
   return r;
 });
 
+// Market GET queries. Never reject: odd values are tidied (clamped / dropped) so older clients keep working.
+const limitQuery = (fallback, max) => z.object({ limit: z.unknown().transform((v) => clampInt(v, { fallback, max })) });
+const symbolsQuery = (max) => z.object({ symbols: z.unknown().transform((v) => parseSymbolList(v, max)) });
+
 module.exports = {
   idParam,
+  unusualQuery: limitQuery(3, 10),
+  popularQuery: limitQuery(8, 30),
+  insightsQuery: symbolsQuery(Infinity),
+  briefingQuery: symbolsQuery(10),
+  replayQuery: symbolsQuery(Infinity),
   updatePreferences: z.object({ language }),
   briefQuery: z.object({ language: language.default('en') }),
   watchlistAdd: z.object({ symbol }),

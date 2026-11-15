@@ -110,6 +110,22 @@ const STRINGS = {
   "Public Sector Bank": { hi: "सरकारी बैंक", gu: "સરકારી બેંક" },
   "Precious Metal": { hi: "कीमती धातु", gu: "કિંમતી ધાતુ" },
   "Commodity": { hi: "कमोडिटी", gu: "કોમોડિટી" },
+  "WATCHLIST": { hi: "वॉचलिस्ट", gu: "વૉચલિસ્ટ" },
+  "Show more": { hi: "और दिखाएँ", gu: "વધુ બતાવો" },
+  "YOUR STOCKS": { hi: "आपके शेयर", gu: "તમારા શેર" },
+  "stocks": { hi: "शेयर", gu: "શેર" },
+  "Your stocks": { hi: "आपके शेयर", gu: "તમારા શેર" },
+  "Popular stocks:": { hi: "लोकप्रिय शेयर:", gu: "લોકપ્રિય શેર:" },
+  "Live prices. Tap a stock for its chart.": { hi: "लाइव भाव। चार्ट के लिए शेयर पर टैप करें।", gu: "લાઇવ ભાવ. ચાર્ટ માટે શેર પર ટેપ કરો." },
+  "Compare two stocks": { hi: "दो शेयरों की तुलना", gu: "બે શેરની સરખામણી" },
+  "Your stocks today": { hi: "आज आपके शेयर", gu: "આજે તમારા શેર" },
+  "TODAY": { hi: "आज", gu: "આજે" },
+  "Open the Watchlist": { hi: "वॉचलिस्ट खोलें", gu: "વૉચલિસ્ટ ખોલો" },
+  "Today's market in simple words": { hi: "आज का बाज़ार, आसान शब्दों में", gu: "આજનું બજાર, સરળ શબ્દોમાં" },
+  "Read more": { hi: "और पढ़ें", gu: "વધુ વાંચો" },
+  "Show less": { hi: "कम दिखाएँ", gu: "ઓછું બતાવો" },
+  "Undo": { hi: "वापस करें", gu: "પાછું લાવો" },
+  "Nothing to show yet. Add a stock to see how it did today.": { hi: "अभी कुछ नहीं। आज का हाल देखने के लिए एक शेयर जोड़ें।", gu: "હજી કંઈ નથી. આજનો હાલ જોવા એક શેર ઉમેરો." },
 };
 
 export const tr = (text, language) => (language && language !== 'en' ? STRINGS[text]?.[language] || text : text);

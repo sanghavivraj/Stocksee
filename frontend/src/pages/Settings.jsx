@@ -6,7 +6,6 @@ import {
   ExternalLink,
   CheckCircle2,
   MessageSquare,
-  Sparkles,
 } from 'lucide-react';
 import { UserContext } from '../context/UserContext';
 import telegramService from '../services/telegramService';

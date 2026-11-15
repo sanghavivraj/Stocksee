@@ -3,6 +3,7 @@
  * They describe what happened and what it coincided with. They never say why for sure, never predict,
  * and never advise. Fixed templates (not AI) in English, Hindi and Gujarati.
  */
+import { pick } from './pickLanguage';
 const COPY = {
   en: {
     contextLabel: 'In context',
@@ -42,18 +43,18 @@ const COPY = {
   },
 };
 
-const T = (lang) => COPY[lang] || COPY.en;
+const T = (lang) => pick(COPY, lang);
 
-export const formatPercent = (n) => `${n > 0 ? '+' : n < 0 ? '−' : ''}${Math.abs(n).toFixed(2)}%`;
+export const formatMovePercent = (n) => `${n > 0 ? '+' : n < 0 ? '−' : ''}${Math.abs(n).toFixed(2)}%`;
 export const shortName = (symbol) => symbol.replace(/\.(NS|BO)$/, '');
 
 /** One factual line under a stock: its move, volume (if high), the market's move, and how they relate. */
 export function contextLine(item, lang = 'en') {
   if (!item || item.changePercent === null || item.changePercent === undefined) return '';
   const c = T(lang);
-  const parts = [formatPercent(item.changePercent) + (item.volumeRatio >= 1.5 ? ` ${c.volume(item.volumeRatio)}` : '')];
+  const parts = [formatMovePercent(item.changePercent) + (item.volumeRatio >= 1.5 ? ` ${c.volume(item.volumeRatio)}` : '')];
   if (item.niftyChangePercent !== null && item.niftyChangePercent !== undefined) {
-    parts.push(`${c.nifty} ${formatPercent(item.niftyChangePercent)}`);
+    parts.push(`${c.nifty} ${formatMovePercent(item.niftyChangePercent)}`);
   }
   if (item.relation && c[item.relation]) parts.push(c[item.relation]);
   return parts.join(' · ');
@@ -68,7 +69,7 @@ export function daySentence(items, lang = 'en') {
   const down = rows.filter((i) => i.changePercent < 0).length;
   const out = [c.day(up, down, rows.length)];
   const nifty = rows.find((i) => i.niftyChangePercent !== null && i.niftyChangePercent !== undefined);
-  if (nifty) out.push(c.dayMarket(formatPercent(nifty.niftyChangePercent)));
+  if (nifty) out.push(c.dayMarket(formatMovePercent(nifty.niftyChangePercent)));
   const own = rows.filter((i) => i.relation === 'on_its_own').map((i) => shortName(i.symbol));
   if (own.length) out.push(c.dayOwn(own.join(', '), own.length > 1));
   return out.join(' ');

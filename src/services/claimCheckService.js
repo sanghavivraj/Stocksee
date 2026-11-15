@@ -3,12 +3,12 @@
  * them next to what this stock has really done over the last years. It states facts about the past, it never
  * says a claim is true or false and never predicts. "In 1,200 windows it did that 0 times" lets people judge.
  */
+const { round } = require('../lib/num');
 const SESSIONS = { day: 1, week: 5, month: 21 };
 const DEFAULT_HORIZON = SESSIONS.month;
 const MIN_WINDOWS = 30;
 
 const toNumber = (s) => Number(String(s).replace(/,/g, ''));
-const round = (n, d = 1) => Number(n.toFixed(d));
 
 /** Calendar days are about 5/7 trading sessions; weeks are 5; months about 21. */
 function toSessions(n, unit) {
@@ -38,7 +38,7 @@ function extractClaims(text) {
   if (/\b(double|doubled|doubling)\b|डबल|ડબલ/i.test(t)) multiples.push(2);
   if (/\btriple\b|ट्रिपल|ટ્રિપલ/i.test(t)) multiples.push(3);
   const multiple = Math.max(0, ...multiples.filter((n) => n >= 1.5 && n <= 100));
-  if (multiple) claims.push({ kind: 'multiple', multiple, requiredPercent: round((multiple - 1) * 100), horizonSessions, assumedHorizon });
+  if (multiple) claims.push({ kind: 'multiple', multiple, requiredPercent: round((multiple - 1) * 100, 1), horizonSessions, assumedHorizon });
 
   const percents = [...t.matchAll(/(\d{2,4}(?:\.\d+)?)\s?%\s*(?:return|returns|profit|gain|upside|रिटर्न|मुनाफा|मुनाफ़ा|નફો)/gi)].map((m) => toNumber(m[1]));
   const percent = Math.max(0, ...percents.filter((n) => n >= 20 && n <= 10000));
@@ -68,7 +68,7 @@ function checkClaim(claim, candles, price) {
   let required = claim.requiredPercent ?? null;
   if (claim.kind === 'target') {
     if (!price || !(claim.targetPrice > price)) return null;
-    required = round((claim.targetPrice / price - 1) * 100);
+    required = round((claim.targetPrice / price - 1) * 100, 1);
   }
   if (required === null) return null;
   const gains = bestGainWindows(candles, claim.horizonSessions);
@@ -79,14 +79,14 @@ function checkClaim(claim, candles, price) {
     multiple: claim.multiple ?? null,
     targetPrice: claim.targetPrice ?? null,
     currentPrice: claim.kind === 'target' ? round(price, 2) : null,
-    requiredPercent: round(required),
+    requiredPercent: round(required, 1),
     horizonSessions: claim.horizonSessions,
     assumedHorizon: claim.assumedHorizon,
     cases: gains.length,
     achieved,
-    achievedPercent: round((achieved / gains.length) * 100),
-    bestGainPercent: round(Math.max(...gains)),
-    years: round(candles.length / 252),
+    achievedPercent: round((achieved / gains.length) * 100, 1),
+    bestGainPercent: round(Math.max(...gains), 1),
+    years: round(candles.length / 252, 1),
   };
 }
 

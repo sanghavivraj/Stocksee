@@ -115,7 +115,7 @@ describe('market snapshot: one look at the whole list', () => {
     });
 
     it('top movers come from the live list', async () => {
-      const movers = await marketDataService.getTopMovers('gainers', 1);
+      const movers = await snapshot.getTopMovers('gainers', 1);
       expect(movers[0]).toMatchObject({ symbol: 'ALPHA.NS', instrument: 'Alpha Ltd.', dayChangePercent: 5 });
     });
   });

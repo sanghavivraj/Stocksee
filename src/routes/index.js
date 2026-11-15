@@ -1,8 +1,8 @@
 const express = require('express');
-const rateLimit = require('express-rate-limit');
 const s = require('../controllers/schemas');
 const { asyncHandler: h, validate, requireKnownSymbols, keepKnownSymbols } = require('../middleware/errors');
 const { identifyVisitor, ensureVisitor } = require('../middleware/visitor');
+const { limiter } = require('../middleware/rateLimit');
 const visitor = require('../controllers/visitorController');
 const telegram = require('../controllers/telegramController');
 const watchlist = require('../controllers/watchlistController');
@@ -10,15 +10,7 @@ const alerts = require('../controllers/alertController');
 const ask = require('../controllers/askController');
 const tipCheck = require('../controllers/tipCheckController');
 const samajh = require('../controllers/samajhController');
-
-const limiter = (windowMinutes, max) => rateLimit({
-  windowMs: windowMinutes * 60 * 1000,
-  max,
-  standardHeaders: 'draft-7',
-  legacyHeaders: false,
-  message: { error: 'Too many requests, please try again later' },
-  skip: () => process.env.NODE_ENV === 'test',
-});
+const market = require('../controllers/marketController');
 
 // Routes that save data may create an anonymous visitor: limit them so nobody can flood the database
 const save = [limiter(1, 60), ensureVisitor];
@@ -26,21 +18,13 @@ const save = [limiter(1, 60), ensureVisitor];
 const router = express.Router();
 
 // Market data and Q&A: fully public
-router.use('/markets', require('./marketRoutes'));
+router.use('/markets', limiter(1, 240), require('./marketRoutes'));
 router.post('/ask', limiter(1, 20), validate(s.ask), h(ask.ask));
-// Typeahead: GET /api/search?q=D -> matching NSE/BSE stocks, indices and commodities
-router.get('/search', limiter(1, 120), validate(s.symbolSearch, 'query'), h(async (req, res) => {
-  res.json({ results: await require('../services/symbolSearchService').search(req.query.q, { limit: req.query.limit }) });
-}));
+router.get('/search', limiter(1, 120), validate(s.symbolSearch, 'query'), h(market.search));
 router.post('/tip-check', limiter(1, 10), validate(s.tipCheck), h(tipCheck.check));
 // Samajh (education): explains numbers the browser already calculated; never adds numbers or advice
 router.post('/samajh/explain', limiter(1, 10), validate(s.samajhExplain), h(samajh.explain));
-// Daily market brief (same narrative as the Telegram morning brief), cached per IST day and language
-router.get('/brief', validate(s.briefQuery, 'query'), h(async (req, res) => {
-  const narrativeService = require('../services/sharedNarrativeService');
-  const text = await narrativeService.getSharedNarrative(req.query.language);
-  res.json({ brief: text, language: req.query.language, date: require('../lib/time').istDate() });
-}));
+router.get('/brief', limiter(1, 30), validate(s.briefQuery, 'query'), h(market.brief));
 router.post('/alerts/backtest', limiter(1, 30), validate(s.alertRule), requireKnownSymbols((req) => req.body.symbol), h(alerts.backtest));
 
 // Everything below belongs to "this browser" (anonymous visitor cookie). No sign-up.

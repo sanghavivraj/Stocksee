@@ -3,7 +3,9 @@ import { Pause, Play } from 'lucide-react';
 import { UserContext } from '../context/UserContext';
 import { useWatchlist } from '../context/WatchlistContext';
 import marketService from '../services/marketService';
-import { formatPercent, shortName } from '../utils/insightCopy';
+import { formatMovePercent, shortName } from '../utils/insightCopy';
+import { pick } from '../utils/pickLanguage';
+import useChartWidth from '../hooks/useChartWidth';
 
 /**
  * Market replay: the latest session in 5-minute steps for NIFTY and up to 4 watchlist stocks, as % change
@@ -54,14 +56,14 @@ const COPY = {
   },
 };
 
-const W = 720;
+const W_DEFAULT = 720;
 const H = 280;
 const PAD = { l: 44, r: 96, t: 14, b: 26 };
 
 const MarketReplay = () => {
   const { language } = useContext(UserContext);
   const { symbols } = useWatchlist();
-  const T = COPY[language] || COPY.en;
+  const T = pick(COPY, language);
   const [state, setState] = useState({ status: 'loading', data: null });
   const [index, setIndex] = useState(0);
   const [playing, setPlaying] = useState(false);
@@ -82,6 +84,7 @@ const MarketReplay = () => {
   }, [key]);
 
   const { status, data } = state;
+  const [chartRef, W] = useChartWidth(W_DEFAULT, {}, [status]);
   const last = data ? data.times.length - 1 : 0;
 
   useEffect(() => {
@@ -127,7 +130,19 @@ const MarketReplay = () => {
       return d;
     });
     return { x, y, aligned, paths, lo, hi };
-  }, [data, last]);
+  }, [data, last, W]);
+
+  // The end-of-line names: keep each at least 15px below the one above, so lines that finish close together stay readable
+  const endLabelY = useMemo(() => {
+    if (!geometry) return {};
+    const rows = data.series
+      .map((s, si) => ({ si, v: geometry.aligned[si][index] }))
+      .filter((r) => r.v !== undefined)
+      .map((r) => ({ si: r.si, y: geometry.y(r.v) + 4 }))
+      .sort((a, b) => a.y - b.y);
+    for (let i = 1; i < rows.length; i += 1) rows[i].y = Math.max(rows[i].y, rows[i - 1].y + 15);
+    return Object.fromEntries(rows.map((r) => [r.si, r.y]));
+  }, [data, geometry, index]);
 
   if (status === 'loading') {
     return (
@@ -162,7 +177,7 @@ const MarketReplay = () => {
       </div>
 
       <div className="replay-card">
-        <svg viewBox={`0 0 ${W} ${H}`} className="replay-svg" role="img" aria-label={`${T.title}: ${data.series.map((s) => shortName(s.name || s.symbol)).join(', ')}`}>
+        <svg ref={chartRef} viewBox={`0 0 ${W} ${H}`} className="replay-svg" role="img" aria-label={`${T.title}: ${data.series.map((s) => shortName(s.name || s.symbol)).join(', ')}`}>
           {ticks.map((v) => (
             <g key={v}>
               <line x1={PAD.l} x2={W - PAD.r} y1={geometry.y(v)} y2={geometry.y(v)} className={v === 0 ? 'replay-zero' : 'replay-grid'} />
@@ -185,7 +200,7 @@ const MarketReplay = () => {
               <g key={`dot-${s.symbol}`}>
                 <circle cx={geometry.x(index)} cy={geometry.y(v)} r="5" className={`replay-dot ${colorClass(si)}`} />
                 {index === last && (
-                  <text x={geometry.x(index) + 9} y={geometry.y(v) + 4} className="replay-end-label">{s.isBenchmark ? 'NIFTY' : shortName(s.symbol)}</text>
+                  <text x={geometry.x(index) + 9} y={endLabelY[si] ?? geometry.y(v) + 4} className="replay-end-label">{s.isBenchmark ? 'NIFTY' : shortName(s.symbol)}</text>
                 )}
               </g>
             );
@@ -211,7 +226,7 @@ const MarketReplay = () => {
               return (
                 <tr key={s.symbol}>
                   <td><span className={`replay-swatch ${colorClass(si)}`} aria-hidden="true"></span>{s.isBenchmark ? 'NIFTY 50' : shortName(s.symbol)}</td>
-                  <td className={`replay-val ${v > 0 ? 'cue-up' : v < 0 ? 'cue-down' : ''}`}>{v === undefined ? '—' : formatPercent(v)}</td>
+                  <td className={`replay-val ${v > 0 ? 'cue-up' : v < 0 ? 'cue-down' : ''}`}>{v === undefined ? '—' : formatMovePercent(v)}</td>
                 </tr>
               );
             })}
@@ -227,7 +242,7 @@ const MarketReplay = () => {
               {stocks.flatMap((s) => s.moments.map((m) => (
                 <li key={`${s.symbol}-${m.type}`}>
                   <strong>{shortName(s.symbol)}</strong>{' '}
-                  {m.type === 'swing' ? T.swing(formatPercent(m.value), m.from, m.time) : T.volume(m.value, m.time)}
+                  {m.type === 'swing' ? T.swing(formatMovePercent(m.value), m.from, m.time) : T.volume(m.value, m.time)}
                 </li>
               )))}
             </ul>

@@ -1,7 +1,7 @@
 const marketDataService = require('./marketDataService');
 const { dayChangePct } = require('../analytics/indicators');
+const { round } = require('../lib/num');
 
-const round = (n, d = 2) => (n === null || n === undefined || Number.isNaN(n) ? null : Number(n.toFixed(d)));
 const mean = (xs) => xs.reduce((a, b) => a + b, 0) / xs.length;
 const stddev = (xs) => {
   if (xs.length < 2) return null;

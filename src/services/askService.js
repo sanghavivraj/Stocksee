@@ -1,5 +1,7 @@
 const scorecardService = require('./scorecardService');
-const { countRedFlags } = require('./tipCheckService');
+const tipCheckService = require('./tipCheckService');
+const marketSnapshotService = require('./marketSnapshotService');
+const { countRedFlags } = tipCheckService;
 const marketDataService = require('./marketDataService');
 const aiService = require('./aiService');
 
@@ -81,7 +83,6 @@ class AskService {
 
     // 0. Forwarded stock tips ("guaranteed", "operator", "upper circuit"...) get the Tip Check instead of a quote
     if (intent === 'TIP_CHECK') {
-      const tipCheckService = require('./tipCheckService');
       const tipCheck = await tipCheckService.check({ text: q, language: lang });
       const lines = [
         `🛡️ **Tip Check: ${tipCheck.level} risk** — ${tipCheck.summary}`,
@@ -103,7 +104,7 @@ class AskService {
     if (intent === 'MOVERS_GAINERS' || intent === 'MOVERS_LOSERS') {
       try {
         const type = intent === 'MOVERS_LOSERS' ? 'losers' : 'gainers';
-        const moversData = await marketDataService.getTopMovers(type, 10);
+        const moversData = await marketSnapshotService.getTopMovers(type, 10);
         const { answer, source: answerSource } = await aiService.generate({
           history: conversationHistory,
           question: q,
@@ -511,7 +512,7 @@ class AskService {
     }
 
     // 2. Universal Entity Extraction (Works dynamically for ALL ~5,000+ Indian stocks)
-    const punctuationFree = clean.replace(/[?!,;:/\\\"'()]/g, ' ');
+    const punctuationFree = clean.replace(/[?!,;:/\\"'()]/g, ' ');
     const queryWords = punctuationFree.split(/\s+/).filter(Boolean);
     const universalStopWords = new Set([
       // Question & helper words

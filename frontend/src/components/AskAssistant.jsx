@@ -40,6 +40,7 @@ const promptPresets = [
 ];
 
 const SingleQuoteCard = ({ quote }) => {
+  const { language } = useContext(UserContext);
   if (!quote) return null;
   const isUSD = quote.currency === 'USD';
   const sym = isUSD ? '$' : '₹';

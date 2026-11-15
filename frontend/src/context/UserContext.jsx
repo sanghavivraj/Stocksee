@@ -33,11 +33,14 @@ const UserProvider = ({ children }) => {
     storage.set('stocksee_theme', theme);
   }, [theme]);
 
-  const addToast = useCallback((message, type = 'info') => {
+  const dismissToast = useCallback((id) => setToasts((prev) => prev.filter((t) => t.id !== id)), []);
+
+  /** A short message. Pass `action: { label, onClick }` for a button (e.g. Undo); such a toast stays a little longer. */
+  const addToast = useCallback((message, type = 'info', action = null) => {
     const id = ++toastId.current;
-    setToasts((prev) => [...prev, { id, message, type }]);
-    setTimeout(() => setToasts((prev) => prev.filter((t) => t.id !== id)), 4000);
-  }, []);
+    setToasts((prev) => [...prev, { id, message, type, action }]);
+    setTimeout(() => dismissToast(id), action ? 7000 : 4000);
+  }, [dismissToast]);
 
   useEffect(() => {
     visitorService.me()
@@ -87,12 +90,14 @@ const UserProvider = ({ children }) => {
       <div
         role="status"
         aria-live="polite"
-        style={{ position: 'fixed', bottom: '80px', right: '24px', zIndex: 9999, display: 'flex', flexDirection: 'column', gap: '8px' }}
+        style={{ position: 'fixed', bottom: '80px', right: '16px', left: '16px', alignItems: 'flex-end', zIndex: 9999, pointerEvents: 'none', display: 'flex', flexDirection: 'column', gap: '8px' }}
       >
         {toasts.map((toast) => (
           <div
             key={toast.id}
             style={{
+              pointerEvents: 'auto',
+              maxWidth: '100%',
               backgroundColor: 'var(--fg-surface)',
               color: 'var(--fg-text)',
               border: '1px solid var(--fg-border)',
@@ -105,6 +110,11 @@ const UserProvider = ({ children }) => {
             }}
           >
             {toast.message}
+            {toast.action && (
+              <button type="button" className="toast-undo" onClick={() => { toast.action.onClick(); dismissToast(toast.id); }}>
+                {toast.action.label}
+              </button>
+            )}
           </div>
         ))}
       </div>

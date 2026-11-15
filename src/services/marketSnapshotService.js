@@ -1,8 +1,10 @@
 const yahooFinance = require('yahoo-finance2').default;
 const universeService = require('./universeService');
 const marketDataService = require('./marketDataService');
+const { round } = require('../lib/num');
+const { mapLimit } = require('../lib/async');
+const { MarketDataUnavailableError } = require('../lib/errors');
 
-const { MarketDataUnavailableError } = marketDataService;
 
 /**
  * One cheap look at the whole stock list at once: price, today's change, volume vs its usual volume, 52-week range.
@@ -17,7 +19,6 @@ const NEAR_PERCENT = 2; // "near" a 52-week high or low
 let cached = null; // { at, data }
 let inflight = null;
 
-const round = (n, d = 2) => (n === null || n === undefined || Number.isNaN(n) ? null : Number(n.toFixed(d)));
 
 /** One Yahoo quote -> one plain row. Returns null when it has no real price. Pure, easy to test. */
 function toRow(q, meta = {}) {
@@ -44,19 +45,6 @@ function toRow(q, meta = {}) {
 
 const isNear = (row) => (row.high52 && row.price >= row.high52 * (1 - NEAR_PERCENT / 100))
   || (row.low52 && row.price <= row.low52 * (1 + NEAR_PERCENT / 100));
-
-async function mapLimit(items, limit, fn) {
-  const out = new Array(items.length);
-  let next = 0;
-  await Promise.all(Array.from({ length: Math.min(limit, items.length) }, async () => {
-    while (next < items.length) {
-      const i = next;
-      next += 1;
-      out[i] = await fn(items[i]).catch(() => []);
-    }
-  }));
-  return out;
-}
 
 /**
  * Fallback row built from a stock's last month of daily prices (Yahoo's chart data), used when the batch quote
@@ -119,7 +107,7 @@ async function build() {
   const chunks = [];
   for (let i = 0; i < symbols.length; i += CHUNK) chunks.push(symbols.slice(i, i + CHUNK));
 
-  const results = await mapLimit(chunks, CONCURRENCY, (chunk) => yahooFinance.quote(chunk, {}, { validateResult: false }));
+  const results = await mapLimit(chunks, CONCURRENCY, (chunk) => yahooFinance.quote(chunk, {}, { validateResult: false }), []);
   let rows = [];
   for (const batch of results) {
     for (const q of Array.isArray(batch) ? batch : []) {
@@ -207,4 +195,23 @@ function moversFrom(snapshot, type = 'gainers', limit = 10) {
 
 const clearCache = () => { cached = null; inflight = null; };
 
-module.exports = { getSnapshot, toRow, rowFromChart, isNear, popularFrom, breadthFrom, moversFrom, clearCache, NEAR_PERCENT };
+/**
+ * Top gainers or losers among the most traded stocks of the live Nifty 500 list, shaped for the assistant.
+ * No stock names are typed into the code. Throws when the market data is unavailable.
+ */
+async function getTopMovers(type = 'gainers', limit = 10) {
+  const snapshot = await getSnapshot();
+  return moversFrom(snapshot, type, limit).map((r) => ({
+    instrument: r.name,
+    symbol: r.symbol,
+    type: 'EQUITY',
+    currentPrice: r.price,
+    currency: 'INR',
+    dayChangePercent: r.changePercent,
+    isPositive: r.changePercent >= 0,
+    industry: r.industry,
+    source: snapshot.source,
+  }));
+}
+
+module.exports = { getSnapshot, getTopMovers, toRow, rowFromChart, isNear, popularFrom, breadthFrom, moversFrom, clearCache, NEAR_PERCENT };

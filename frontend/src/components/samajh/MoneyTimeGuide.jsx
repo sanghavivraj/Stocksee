@@ -1,7 +1,6 @@
 import { useState } from 'react';
 import { ArrowRight, Clock3, ShieldAlert } from 'lucide-react';
 import guide from '../../content/samajh/time-guide.json';
-import cardsUi from '../../content/samajh/ui.json';
 import { loadCards, pick } from '../../samajh/content';
 
 /** Money-Time Guide: one question, then the general principle for that time, with the reasons and links to the Money Cards. */

@@ -143,7 +143,7 @@ class AIService {
   /**
    * Deterministic dynamic response generator strictly adhering to real backend facts
    */
-  generateGroundedResponse({ question, language, intent, marketData, comparisonData, overviewData, scorecard }) {
+  generateGroundedResponse({ language, intent, marketData, comparisonData, overviewData, scorecard }) {
     const lang = language === 'hi' ? 'hi' : language === 'gu' ? 'gu' : 'en';
 
     // A. Market Overview Query

@@ -1,7 +1,9 @@
-import { useContext, useEffect, useState } from 'react';
+import { useContext } from 'react';
 import { UserContext } from '../context/UserContext';
 import marketService from '../services/marketService';
-import { formatPercent } from '../utils/insightCopy';
+import { formatMovePercent } from '../utils/insightCopy';
+import { pick } from '../utils/pickLanguage';
+import useResource from '../hooks/useResource';
 
 /**
  * Market breadth: how the whole live Nifty 500 list did today. Worked out from market data, not written by hand.
@@ -45,7 +47,7 @@ const IndustryList = ({ rows, stocksWord }) => (
     {rows.map((r) => (
       <li key={r.name}>
         <span>{r.name} <small>({r.count} {stocksWord})</small></span>
-        <strong className={r.avgChangePercent > 0 ? 'cue-up' : r.avgChangePercent < 0 ? 'cue-down' : ''}>{formatPercent(r.avgChangePercent)}</strong>
+        <strong className={r.avgChangePercent > 0 ? 'cue-up' : r.avgChangePercent < 0 ? 'cue-down' : ''}>{formatMovePercent(r.avgChangePercent)}</strong>
       </li>
     ))}
   </ul>
@@ -53,18 +55,9 @@ const IndustryList = ({ rows, stocksWord }) => (
 
 const MarketBreadth = () => {
   const { language } = useContext(UserContext);
-  const T = COPY[language] || COPY.en;
-  const [state, setState] = useState({ status: 'loading', data: null });
+  const T = pick(COPY, language);
 
-  useEffect(() => {
-    let alive = true;
-    marketService.getBreadth()
-      .then((data) => alive && setState({ status: 'ready', data }))
-      .catch(() => alive && setState({ status: 'error', data: null }));
-    return () => { alive = false; };
-  }, []);
-
-  const { status, data } = state;
+  const { status, data } = useResource(() => marketService.getBreadth(), []);
   return (
     <section className="editorial-flow-section" aria-label={T.title}>
       <div className="flow-section-header">

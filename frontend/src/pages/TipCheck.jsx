@@ -6,6 +6,7 @@ import { UserContext } from '../context/UserContext';
 import tipCheckService from '../services/tipCheckService';
 import TipCheckResult from '../components/TipCheckResult';
 import SymbolSearchInput from '../components/SymbolSearchInput';
+import { pick } from '../utils/pickLanguage';
 
 const EXAMPLES = [
   { label: 'English hype tip', text: '🚀 JACKPOT ALERT! Operator buying SUZLON, guaranteed 50% return in 10 days. Buy now before upper circuit! Join our VIP Telegram group.' },
@@ -52,7 +53,7 @@ const COPY = {
 
 const TipCheck = () => {
   const { language, addToast } = useContext(UserContext);
-  const T = COPY[language] || COPY.en;
+  const T = pick(COPY, language);
   const [searchParams] = useSearchParams();
   const [text, setText] = useState(() => (searchParams.get('text') || '').slice(0, 2000));
   const [symbol, setSymbol] = useState(() => (searchParams.get('symbol') || '').toUpperCase().slice(0, 20));

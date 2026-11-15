@@ -1,12 +1,12 @@
 const marketDataService = require('./marketDataService');
 const { dayChangePct, volumeRatio } = require('../analytics/indicators');
 const { unusualTriggers } = require('../analytics/unusual');
+const { round } = require('../lib/num');
 
 const MAX_SYMBOLS = 20;
 const BENCHMARK = '^NSEI';
 const isNonEquity = (s) => s.startsWith('^') || s.includes('=');
 
-const round = (n, d = 2) => (n === null || n === undefined || Number.isNaN(n) ? null : Number(n.toFixed(d)));
 
 /**
  * How did the stock move compared with the market that day?

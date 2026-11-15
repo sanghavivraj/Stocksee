@@ -3,6 +3,7 @@ const snapshotService = require('./marketSnapshotService');
 const { RULES, NOTABLE, scanLatest, nextDayAfterTriggers, summariseNextDay, typicalDailyMove } = require('../analytics/unusual');
 const { marketRiskSignals } = require('../analytics/indicators');
 const { istDate } = require('../lib/time');
+const { mapLimit, withTimeout } = require('../lib/async');
 
 /**
  * Unusual activity scan. No stock names are typed in here:
@@ -10,7 +11,6 @@ const { istDate } = require('../lib/time');
  *  2. one quick look at all of them (marketSnapshotService) finds the ones that look unusual today,
  *  3. only those get the full one-year history check against the fixed public rules.
  */
-const withTimeout = (promise, ms, fallback) => Promise.race([promise, new Promise((resolve) => setTimeout(() => resolve(fallback), ms))]);
 
 const SCAN_TTL_MS = 5 * 60 * 1000;
 const CONCURRENCY = 6;
@@ -23,20 +23,6 @@ const LOOK = { movePercent: 1.2, volumeRatio: 1.7 };
 
 let cached = null; // { at, key, data }
 let inflight = null;
-
-async function mapLimit(items, limit, fn) {
-  const results = new Array(items.length);
-  let next = 0;
-  const worker = async () => {
-    while (next < items.length) {
-      const idx = next;
-      next += 1;
-      results[idx] = await fn(items[idx]).catch(() => null);
-    }
-  };
-  await Promise.all(Array.from({ length: Math.min(limit, items.length) }, worker));
-  return results;
-}
 
 /** From the quick look at everything: which stocks deserve the full check, most promising first. */
 function pickCandidates(rows) {

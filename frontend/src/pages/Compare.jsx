@@ -5,7 +5,8 @@ import { UserContext } from '../context/UserContext';
 import SymbolSearchInput from '../components/SymbolSearchInput';
 import api from '../services/api';
 import { formatPrice } from '../utils/formatPrice';
-import { formatPercent, shortName } from '../utils/insightCopy';
+import { formatMovePercent, shortName } from '../utils/insightCopy';
+import { pick } from '../utils/pickLanguage';
 
 /**
  * Compare two stocks: side-by-side facts about the last year. It never says which is better.
@@ -85,7 +86,7 @@ const RebasedChart = ({ a, b, label }) => {
 
 const Compare = () => {
   const { language, addToast } = useContext(UserContext);
-  const T = COPY[language] || COPY.en;
+  const T = pick(COPY, language);
   const [params] = useSearchParams();
   const startA = (params.get('a') || '').toUpperCase().slice(0, 30);
   const startB = (params.get('b') || '').toUpperCase().slice(0, 30);
@@ -118,7 +119,7 @@ const Compare = () => {
   }, []);
 
   const money = (x, v) => (v === null || v === undefined ? '—' : formatPrice(v, x.currency));
-  const pct = (v) => (v === null || v === undefined ? '—' : formatPercent(v));
+  const pct = (v) => (v === null || v === undefined ? '—' : formatMovePercent(v));
   const sign = (v) => (v > 0 ? 'cue-up' : v < 0 ? 'cue-down' : '');
   const rows = data && [
     [T.groups.returns, [

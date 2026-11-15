@@ -3,6 +3,7 @@
  * Shared by smart alerts (live + backtest), chart event markers and the Tip Check.
  * No network, no database: easy to unit-test and identical logic for "live" and "what would have happened".
  */
+const { round } = require('../lib/num');
 
 const SESSIONS_PER_YEAR = 252;
 const VOLUME_LOOKBACK = 20;
@@ -14,7 +15,6 @@ const stddev = (xs) => {
   return Math.sqrt(xs.reduce((a, x) => a + (x - m) ** 2, 0) / (xs.length - 1));
 };
 const pct = (from, to) => (from ? ((to - from) / from) * 100 : null);
-const round = (n, d = 2) => (n === null || n === undefined ? null : Number(n.toFixed(d)));
 
 /** Daily % change of session i vs the previous close. */
 const dayChangePct = (c, i) => (i > 0 ? pct(c[i - 1].close, c[i].close) : null);

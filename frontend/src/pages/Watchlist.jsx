@@ -1,20 +1,16 @@
-import { useContext, useEffect, useState } from 'react';
+import { lazy, Suspense, useContext, useEffect, useRef, useState } from 'react';
 import { tr } from '../utils/uiStrings';
 import {
   Plus,
   Trash2,
-  Bell,
   ArrowUpRight,
   ArrowDownRight,
   LineChart,
   ShieldCheck,
   RefreshCw,
-  TrendingUp,
 } from 'lucide-react';
 import { UserContext } from '../context/UserContext';
-import { t } from '../utils/i18n';
 import marketService from '../services/marketService';
-import StockDetailModal from '../components/StockDetailModal';
 import SymbolSearchInput from '../components/SymbolSearchInput';
 import { formatPrice, hasValue } from '../utils/formatPrice';
 import { useWatchlist, normalizeSymbol } from '../context/WatchlistContext';
@@ -24,9 +20,15 @@ import useInsights from '../hooks/useInsights';
 import usePopular from '../hooks/usePopular';
 import { contextLine, insightLabels } from '../utils/insightCopy';
 
+// The stock window carries the chart library, so it loads the first time someone opens a stock.
+const StockDetailModal = lazy(() => import('../components/StockDetailModal'));
+
 const Watchlist = () => {
   const { addToast, language } = useContext(UserContext);
   const { symbols, add, remove } = useWatchlist();
+  // Undo runs seconds after the removal, so it must call the newest `add` (the one that knows the stock is gone)
+  const addRef = useRef(add);
+  addRef.current = add;
   const insights = useInsights(symbols);
   // Quick-add chips: the most traded companies right now (live), not a typed-in list
   const quickTrackPills = usePopular(8).items.map((p) => p.symbol);
@@ -116,7 +118,10 @@ const Watchlist = () => {
     e.stopPropagation();
     try {
       await remove(symToRemove);
-      addToast(`Removed ${symToRemove} from your watchlist`, 'info');
+      addToast(`Removed ${symToRemove} from your watchlist`, 'info', {
+        label: tr('Undo', language),
+        onClick: () => addRef.current(symToRemove).catch((err) => addToast(err.userMessage || `Could not add ${symToRemove} back`, 'error')),
+      });
     } catch (err) {
       addToast(err.userMessage || `Could not remove ${symToRemove}`, 'error');
     }
@@ -136,37 +141,22 @@ const Watchlist = () => {
       {/* Page Editorial Header */}
       <header className="editorial-lead-header">
         <div className="lead-meta-row">
-          <span className="editorial-kicker">{tr("PERSONAL MONITORING & INTELLIGENCE", language)}</span>
-          <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-            <Link to="/compare" className="compare-link">{language === 'hi' ? 'दो शेयरों की तुलना' : language === 'gu' ? 'બે શેરની સરખામણી' : 'Compare two stocks'}</Link>
-            <span className="lead-date-stamp">{symbols.length} Monitored Equities</span>
-            <button
-              type="button"
-              onClick={handleManualRefresh}
-              className="refresh-btn"
-              title="Refresh Watchlist Quotes"
-              style={{
-                background: 'transparent',
-                border: '1px solid var(--fg-border)',
-                borderRadius: '6px',
-                padding: '3px 8px',
-                color: 'var(--fg-text-muted)',
-                cursor: 'pointer',
-                display: 'inline-flex',
-                alignItems: 'center',
-                gap: '4px',
-                fontSize: '0.72rem',
-              }}
-            >
-              <RefreshCw size={11} className={refreshing ? 'spinner' : ''} />
-              <span>{tr("Sync", language)}</span>
-            </button>
-          </div>
+          <span className="editorial-kicker">{tr("WATCHLIST", language)}</span>
+          <span className="wl-count">{symbols.length} {tr("stocks", language)}</span>
         </div>
-        <h1 className="lead-headline">{tr("My Watchlist", language)}</h1>
+        <div className="wl-head-row">
+          <h1 className="lead-headline">{tr("My Watchlist", language)}</h1>
+          <button type="button" onClick={handleManualRefresh} className="wl-sync-btn" title="Refresh Watchlist Quotes">
+            <RefreshCw size={14} className={refreshing ? 'spinner' : ''} />
+            <span>{tr("Sync", language)}</span>
+          </button>
+        </div>
         <p className="lead-description">
           {tr("Monitor Indian stocks across NSE and BSE. No sign-up needed: your list is saved for this browser.", language)} <Link to="/settings" style={{ fontWeight: 700 }}>{tr("Connect Telegram", language)}</Link> {tr("to get it in your morning brief.", language)}
         </p>
+        <div className="wl-tools">
+          <Link to="/compare" className="compare-link">{tr("Compare two stocks", language)} →</Link>
+        </div>
       </header>
 
       {/* Add Symbol Bar */}
@@ -204,7 +194,7 @@ const Watchlist = () => {
 
           {/* Quick Suggestions Chips */}
           <div className="quick-suggestions-wrap">
-            <span className="quick-suggestions-label">{tr("Popular Indian scrips:", language)}</span>
+            <span className="quick-suggestions-label">{tr("Popular stocks:", language)}</span>
             <div className="quick-chips-list">
               {quickTrackPills.map((pill) => (
                 <button
@@ -225,11 +215,11 @@ const Watchlist = () => {
       <section className="editorial-flow-section" aria-label="Watched Stocks Grid">
         <div className="flow-section-header">
           <div>
-            <span className="flow-kicker">{tr("MONITORED SCRIPS", language)}</span>
-            <h3 className="flow-title">Watched Equities ({symbols.length})</h3>
+            <span className="flow-kicker">{tr("YOUR STOCKS", language)}</span>
+            <h3 className="flow-title">{tr("Your stocks", language)} ({symbols.length})</h3>
           </div>
           <div className="flow-action-link" style={{ cursor: 'default', color: 'var(--fg-text-muted)' }}>
-            <span>{tr("Live NSE/BSE Pricing • Instant Chart Access", language)}</span>
+            <span>{tr("Live prices. Tap a stock for its chart.", language)}</span>
           </div>
         </div>
 
@@ -274,7 +264,6 @@ const Watchlist = () => {
               const price = quote?.price;
               const hasPrice = price !== undefined && price !== null;
               const changePercent = quote?.changePercent;
-              const isUp = (changePercent || 0) >= 0;
               const exchange = sym.endsWith('.BO') ? 'BSE' : sym.endsWith('.NS') ? 'NSE' : 'COMMODITY';
               const companyName = quote?.name || sym.replace(/\.(NS|BO)$/, '');
 
@@ -308,16 +297,7 @@ const Watchlist = () => {
                         >
                           {sym.replace(/\.(NS|BO)$/, '')}
                         </span>
-                        <span
-                          style={{
-                            fontSize: '0.62rem',
-                            fontWeight: 700,
-                            padding: '2px 6px',
-                            borderRadius: '4px',
-                            background: exchange === 'BSE' ? 'rgba(234, 88, 12, 0.12)' : 'rgba(59, 130, 246, 0.12)',
-                            color: exchange === 'BSE' ? '#EA580C' : 'var(--fg-accent, #3B82F6)',
-                          }}
-                        >
+                        <span className={`exchange-badge ${exchange === 'BSE' ? 'exchange-bse' : 'exchange-nse'}`}>
                           {exchange}
                         </span>
                       </div>
@@ -326,12 +306,16 @@ const Watchlist = () => {
                         type="button"
                         onClick={(e) => handleRemoveSymbol(e, sym)}
                         title={`Remove ${sym} from Watchlist`}
+                        aria-label={`Remove ${sym} from Watchlist`}
                         style={{
                           background: 'transparent',
                           border: 'none',
                           color: 'var(--fg-text-muted)',
                           cursor: 'pointer',
-                          padding: '4px',
+                          width: '40px',
+                          height: '40px',
+                          margin: '-8px -8px 0 0',
+                          padding: 0,
                           borderRadius: '4px',
                           display: 'flex',
                           alignItems: 'center',
@@ -457,11 +441,13 @@ const Watchlist = () => {
 
       {/* Interactive Stock Detail Modal (with TradingView Chart) */}
       {selectedStock && (
-        <StockDetailModal
-          instrument={selectedStock}
-          onClose={() => setSelectedStock(null)}
-          onOpenAssistant={triggerAssistant}
-        />
+        <Suspense fallback={null}>
+          <StockDetailModal
+            instrument={selectedStock}
+            onClose={() => setSelectedStock(null)}
+            onOpenAssistant={triggerAssistant}
+          />
+        </Suspense>
       )}
     </div>
   );

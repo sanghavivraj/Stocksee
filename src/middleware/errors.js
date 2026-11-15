@@ -1,4 +1,5 @@
 const { ZodError } = require('zod');
+const Sentry = require('@sentry/node');
 
 class HttpError extends Error {
   constructor(status, message) {
@@ -35,6 +36,7 @@ function errorHandler(err, req, res, _next) {
   // Anything else is unexpected: log it, and never leak internal details to clients.
   if (!err.status) {
     console.error(`[${req.method} ${req.originalUrl}]`, err);
+    Sentry.captureException(err); // no-op unless SENTRY_DSN is set
     return res.status(500).json({ error: 'Internal server error' });
   }
   return res.status(err.status).json({ error: err.message });

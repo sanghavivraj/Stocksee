@@ -1,10 +1,12 @@
-import { useContext, useEffect, useState } from 'react';
+import { useContext, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { ArrowUpRight, ArrowDownRight, AlertTriangle, Bell, BookmarkPlus, Check, Eye, ShieldCheck } from 'lucide-react';
+import { ArrowUpRight, ArrowDownRight, AlertTriangle, Bell, Check, Eye, ShieldCheck } from 'lucide-react';
 import { UserContext } from '../context/UserContext';
 import { useWatchlist } from '../context/WatchlistContext';
 import marketService from '../services/marketService';
 import alertService from '../services/alertService';
+import { pick } from '../utils/pickLanguage';
+import useResource from '../hooks/useResource';
 
 /**
  * "Stocks behaving unusually today", written for someone who has never read a stock chart.
@@ -170,17 +172,10 @@ const signed = (n) => `${n > 0 ? '+' : n < 0 ? '−' : ''}${Math.abs(n).toFixed(
 const UnusualActivity = ({ limit = 10 }) => {
   const { language, addToast, visitor, refreshVisitor } = useContext(UserContext);
   const watchlist = useWatchlist();
-  const T = COPY[language] || COPY.en;
-  const [state, setState] = useState({ status: 'loading', data: null });
+  const T = pick(COPY, language);
   const [expanded, setExpanded] = useState({ unusual: false, notable: false });
 
-  useEffect(() => {
-    let alive = true;
-    marketService.getUnusualActivity(limit)
-      .then((data) => alive && setState({ status: 'ready', data }))
-      .catch(() => alive && setState({ status: 'error', data: null }));
-    return () => { alive = false; };
-  }, [limit]);
+  const { status, data } = useResource(() => marketService.getUnusualActivity(limit), [limit]);
 
   const toggleWatch = async (symbol) => {
     try {
@@ -201,7 +196,6 @@ const UnusualActivity = ({ limit = 10 }) => {
     }
   };
 
-  const { status, data } = state;
   const items = data?.items || [];
   const strongItems = items.filter((i) => (i.tier || 'unusual') === 'unusual');
   const notableItems = items.filter((i) => i.tier === 'notable');

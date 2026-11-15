@@ -4,6 +4,7 @@ import { Check } from 'lucide-react';
 import { UserContext } from '../context/UserContext';
 import { useWatchlist } from '../context/WatchlistContext';
 import usePopular from '../hooks/usePopular';
+import { pick } from '../utils/pickLanguage';
 
 /**
  * 30-second first-time setup: language, 3 to 5 stocks, optional Telegram. No sign-up. Shown once per browser,
@@ -50,7 +51,7 @@ export const setupAlreadyDone = () => { try { return localStorage.getItem(SETUP_
 const FirstTimeSetup = ({ onClose }) => {
   const { language, updateUserLanguage, addToast } = useContext(UserContext);
   const { replaceAll } = useWatchlist();
-  const T = COPY[language] || COPY.en;
+  const T = pick(COPY, language);
   const popular = usePopular(10);
   const [touched, setTouched] = useState(null); // null until the person changes the pre-selection
   // Pre-select the three most traded companies; the person can change that freely

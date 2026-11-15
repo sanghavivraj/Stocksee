@@ -1,9 +1,11 @@
-import { useContext, useEffect, useState } from 'react';
+import { useContext } from 'react';
 import { CalendarDays, Gauge, Globe2, Info } from 'lucide-react';
 import { UserContext } from '../context/UserContext';
 import { useWatchlist } from '../context/WatchlistContext';
 import marketService from '../services/marketService';
-import { formatPercent, shortName } from '../utils/insightCopy';
+import { formatMovePercent, shortName } from '../utils/insightCopy';
+import { pick } from '../utils/pickLanguage';
+import useResource from '../hooks/useResource';
 
 /**
  * Today & Tomorrow briefing: only facts. A typical-move RANGE from India VIX (how big, never which way),
@@ -68,19 +70,10 @@ const LOCALES = { en: 'en-IN', hi: 'hi-IN', gu: 'gu-IN' };
 const TodayTomorrow = () => {
   const { language } = useContext(UserContext);
   const { symbols } = useWatchlist();
-  const T = COPY[language] || COPY.en;
-  const [state, setState] = useState({ status: 'loading', data: null });
+  const T = pick(COPY, language);
   const key = symbols.slice(0, 10).join(',');
 
-  useEffect(() => {
-    let alive = true;
-    marketService.getBriefing(key ? key.split(',') : [])
-      .then((data) => alive && setState({ status: 'ready', data }))
-      .catch(() => alive && setState({ status: 'error', data: null }));
-    return () => { alive = false; };
-  }, [key]);
-
-  const { status, data } = state;
+  const { status, data } = useResource(() => marketService.getBriefing(key ? key.split(',') : []), [key]);
   const fmtDate = (iso) => new Date(`${iso}T12:00:00Z`).toLocaleDateString(LOCALES[language] || 'en-IN', { weekday: 'long', day: 'numeric', month: 'short', timeZone: 'UTC' });
 
   return (
@@ -117,7 +110,7 @@ const TodayTomorrow = () => {
                   {Object.entries(data.cues).map(([k, v]) => (
                     <li key={k}>
                       <span>{T.cues[k]}</span>
-                      <strong className={v.changePercent > 0 ? 'cue-up' : v.changePercent < 0 ? 'cue-down' : ''}>{formatPercent(v.changePercent)}</strong>
+                      <strong className={v.changePercent > 0 ? 'cue-up' : v.changePercent < 0 ? 'cue-down' : ''}>{formatMovePercent(v.changePercent)}</strong>
                       {k === 'usdinr' && v.price && <small>₹{v.price}</small>}
                     </li>
                   ))}
@@ -144,7 +137,7 @@ const TodayTomorrow = () => {
           {data.history && (
             <div className="briefing-row">
               <Info size={15} aria-hidden="true" />
-              <p>{T.history(formatPercent(data.history.todayChangePercent), data.history.cases, data.history.upPercent)}</p>
+              <p>{T.history(formatMovePercent(data.history.todayChangePercent), data.history.cases, data.history.upPercent)}</p>
             </div>
           )}
 

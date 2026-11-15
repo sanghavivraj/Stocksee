@@ -1,4 +1,4 @@
-import { useContext, useEffect, useState } from 'react';
+import { lazy, Suspense, useContext, useEffect, useState } from 'react';
 import { tr } from '../utils/uiStrings';
 import { Link } from 'react-router-dom';
 import {
@@ -18,16 +18,19 @@ import { t } from '../utils/i18n';
 import marketService from '../services/marketService';
 import alertService from '../services/alertService';
 import { renderMarkdown } from '../utils/formatMarkdown';
-import StockDetailModal from '../components/StockDetailModal';
 import TodayTomorrow from '../components/TodayTomorrow';
 import MarketReplay from '../components/MarketReplay';
 import FirstTimeSetup, { setupAlreadyDone } from '../components/FirstTimeSetup';
 import useInsights from '../hooks/useInsights';
 import usePopular from '../hooks/usePopular';
 import MarketBreadth from '../components/MarketBreadth';
+import YourStocksToday from '../components/YourStocksToday';
 import { daySentence, insightLabels } from '../utils/insightCopy';
 import { formatPrice } from '../utils/formatPrice';
 import { useWatchlist } from '../context/WatchlistContext';
+
+// The stock window carries the chart library, so it loads the first time someone opens a stock.
+const StockDetailModal = lazy(() => import('../components/StockDetailModal'));
 
 // Indices and commodities are fixed instruments (settings). The stocks shown are the most traded ones right now, worked out live.
 const indexRows = [
@@ -40,6 +43,8 @@ const commodityRows = [
   { symbol: 'CRUDEOIL', name: 'Crude Oil (WTI, USD)', category: 'Commodity' },
 ];
 
+const OVERVIEW_ROWS = 5; // the rest sits behind "Show more" so the page stays calm
+
 const Dashboard = () => {
   const { visitor, refreshVisitor, language, addToast } = useContext(UserContext);
   const watchlist = useWatchlist();
@@ -48,6 +53,8 @@ const Dashboard = () => {
   const [briefLoading, setBriefLoading] = useState(true);
   const [dataLoading, setDataLoading] = useState(true);
   const [selectedStock, setSelectedStock] = useState(null);
+  const [briefOpen, setBriefOpen] = useState(false);
+  const [overviewOpen, setOverviewOpen] = useState(false);
   // First-time setup: decided once, when we know this browser has saved nothing yet (then it stays until finished)
   const [showSetup, setShowSetup] = useState(null);
   useEffect(() => {
@@ -188,49 +195,50 @@ const Dashboard = () => {
 
       {showSetup && <FirstTimeSetup onClose={() => setShowSetup(false)} />}
 
-      {/* Section 1: Lead Editorial Market Brief */}
-      <section className="editorial-lead-story" aria-label="Today's Market Briefing">
-        <div className="story-meta-bar">
-          <div className="story-tag-pill">
-            <span className="story-live-dot"></span>
-            <span>{tr("MORNING MARKET BRIEF", language)}</span>
-          </div>
-          <div className="story-time-stamp">{tr('LIVE MARKET DATA', language)} • {getFormattedDate()}</div>
+      <div className="dash-layout">
+        <div className="dash-col">
+          {/* Your stocks today: what a returning visitor opens the app for */}
+          <section className="editorial-flow-section" aria-label="My Watchlist Snapshot">
+            <div className="flow-section-header">
+              <div>
+                <span className="flow-kicker">{tr("TODAY", language)}</span>
+                <h3 className="flow-title">{tr("Your stocks today", language)}</h3>
+              </div>
+              <Link to="/watchlist" className="flow-action-link">
+                <span>{tr("View Watchlist", language)}</span>
+                <ArrowRight size={14} />
+              </Link>
         </div>
 
-        <h2 className="story-headline">
-          {language === 'hi' ? 'भारतीय बाजार और व्यापक आर्थिक संकेत' : language === 'gu' ? 'ભારતીય બજારો અને આર્થિક સંકેતો' : 'Indian Equities & Macroeconomic Indicators'}
-        </h2>
-
-        {briefLoading ? (
-          <div className="skeleton-brief-wrap">
-            <div className="skeleton brief-line-1"></div>
-            <div className="skeleton brief-line-2"></div>
-          </div>
-        ) : marketBrief ? (
-          <div className="story-prose">
-            {renderMarkdown(marketBrief)}
-          </div>
-        ) : (
-          <p className="story-prose-fallback">
-            {tr("Market intelligence feeds are currently synthesizing live opening data. Check back shortly.", language)}
-          </p>
+        {daySummary && (
+          <p className="day-line"><b>{insightLabels(language).day}</b>{daySummary}</p>
         )}
 
-        <div className="story-footer-action">
-          <button
-            type="button"
-            className="editorial-chip-btn"
-            onClick={() => triggerAssistant("Explain today's Indian market momentum")}
-          >
-            <Sparkles size={13} />
-            <span>{tr("Ask StockSee about this brief →", language)}</span>
-          </button>
-        </div>
+        {watchlist.loading || (watchlist.symbols.length > 0 && insights.loading) ? (
+          <div className="portfolio-skeleton-row">
+            <div className="skeleton portfolio-skeleton-card"></div>
+            <div className="skeleton portfolio-skeleton-card"></div>
+          </div>
+        ) : watchlist.symbols.length === 0 ? (
+          <div className="editorial-banner-box">
+            <div className="banner-icon-wrap">
+              <Eye size={20} />
+            </div>
+            <div className="banner-content">
+              <h4 className="banner-headline">{tr("Your watchlist is ready for your first scrip.", language)}</h4>
+              <p className="banner-subtext">
+                {tr("Add Indian equities or indices to monitor real-time prices, percentage shifts, and TradingView charts without login.", language)}
+              </p>
+            </div>
+            <Link to="/watchlist" className="btn-editorial btn-editorial-primary banner-action-btn">
+              <Plus size={14} />
+              <span>{tr("Add Scrips", language)}</span>
+            </Link>
+          </div>
+        ) : (
+          <YourStocksToday items={insights.items} language={language} onOpen={setSelectedStock} />
+        )}
       </section>
-
-      {/* Today & Tomorrow: facts only (typical-move range, overnight cues, schedule, history) */}
-      <TodayTomorrow />
 
       {/* Section 2: Indian Market Snapshot (Indices, Bluechips, Commodities) */}
       <section className="editorial-flow-section" aria-label="Indian Market Snapshot">
@@ -251,8 +259,9 @@ const Dashboard = () => {
             <div className="skeleton feed-skeleton-item"></div>
           </div>
         ) : (
+          <>
           <div className="editorial-stock-list">
-            {marketSnapshot.map((item) => {
+            {(overviewOpen ? marketSnapshot : marketSnapshot.slice(0, OVERVIEW_ROWS)).map((item) => {
               const isUp = (item.changePercent || 0) >= 0;
               const hasPrice = item.price !== undefined && item.price !== null;
               const isSaved = watchlist.has(item.symbol);
@@ -307,7 +316,7 @@ const Dashboard = () => {
                   <div className="market-row-valuation">
                     <div className="stock-price mono-number">
                       {hasPrice ? formatPrice(item.price, item.currency) : '—'}
-                      {hasPrice && item.unit && <small style={{ fontSize: '0.68rem', fontWeight: 600, color: 'var(--fg-text-muted)', marginLeft: '4px' }}>{item.unit}</small>}
+                      {hasPrice && item.unit && <small style={{ fontSize: '0.75rem', fontWeight: 600, color: 'var(--fg-text-muted)', marginLeft: '4px' }}>{item.unit}</small>}
                     </div>
                     {item.changePercent !== undefined && item.changePercent !== null ? (
                       <div className={`stock-delta-pill ${isUp ? 'positive' : 'negative'}`}>
@@ -352,87 +361,76 @@ const Dashboard = () => {
               );
             })}
           </div>
+          {marketSnapshot.length > OVERVIEW_ROWS && (
+            <button type="button" className="unusual-more-btn" aria-expanded={overviewOpen} onClick={() => setOverviewOpen((v) => !v)}>
+              {overviewOpen ? tr('Show less', language) : `${tr('Show more', language)} (${marketSnapshot.length - OVERVIEW_ROWS})`}
+            </button>
+          )}
+          </>
         )}
       </section>
 
-      {/* Replay today's session for NIFTY and the watchlist */}
-      <MarketReplay />
-
-      {/* Section 3: My Watchlist Preview */}
-      <section className="editorial-flow-section" aria-label="My Watchlist Snapshot">
-        <div className="flow-section-header">
-          <div>
-            <span className="flow-kicker">{tr("MY WATCHLIST", language)}</span>
-            <h3 className="flow-title">{language === 'en' ? 'My Watchlist' : t('watchlist', language)}</h3>
+      {/* Section 1: Lead Editorial Market Brief */}
+      <section className="editorial-lead-story" aria-label="Today's Market Briefing">
+        <div className="story-meta-bar">
+          <div className="story-tag-pill">
+            <span className="story-live-dot"></span>
+            <span>{tr("MORNING MARKET BRIEF", language)}</span>
           </div>
-          <Link to="/watchlist" className="flow-action-link">
-            <span>{tr("View Watchlist", language)}</span>
-            <ArrowRight size={14} />
-          </Link>
+          <div className="story-time-stamp">{tr('LIVE MARKET DATA', language)} • {getFormattedDate()}</div>
         </div>
 
-        {daySummary && (
-          <p className="day-line"><b>{insightLabels(language).day}</b>{daySummary}</p>
-        )}
+        <h2 className="story-headline">
+          {tr("Today's market in simple words", language)}
+        </h2>
 
-        {dataLoading ? (
-          <div className="portfolio-skeleton-row">
-            <div className="skeleton portfolio-skeleton-card"></div>
-            <div className="skeleton portfolio-skeleton-card"></div>
+        {briefLoading ? (
+          <div className="skeleton-brief-wrap">
+            <div className="skeleton brief-line-1"></div>
+            <div className="skeleton brief-line-2"></div>
           </div>
-        ) : watchlist.symbols.length === 0 ? (
-          <div className="editorial-banner-box">
-            <div className="banner-icon-wrap">
-              <Eye size={20} />
+        ) : marketBrief ? (
+          <>
+            <div className={`story-prose ${briefOpen ? '' : 'collapsed'}`}>
+              {renderMarkdown(marketBrief)}
             </div>
-            <div className="banner-content">
-              <h4 className="banner-headline">{tr("Your watchlist is ready for your first scrip.", language)}</h4>
-              <p className="banner-subtext">
-                {tr("Add Indian equities or indices to monitor real-time prices, percentage shifts, and TradingView charts without login.", language)}
-              </p>
-            </div>
-            <Link to="/watchlist" className="btn-editorial btn-editorial-primary banner-action-btn">
-              <Plus size={14} />
-              <span>{tr("Add Scrips", language)}</span>
-            </Link>
-          </div>
+            <button type="button" className="story-toggle" aria-expanded={briefOpen} onClick={() => setBriefOpen((v) => !v)}>
+              {briefOpen ? tr('Show less', language) : tr('Read more', language)}
+            </button>
+          </>
         ) : (
-          <div className="portfolio-metrics-strip">
-            <div className="portfolio-metric-col">
-              <span className="metric-col-label">{tr("Watched Scrips", language)}</span>
-              <span className="metric-col-val mono-number">
-                {watchlist.symbols.length} Active
-              </span>
-              <span className="metric-col-sub">{tr("Persistent in local browser", language)}</span>
-            </div>
-
-            <div className="portfolio-metric-divider" />
-
-            <div className="portfolio-metric-col">
-              <span className="metric-col-label">{tr("Market Coverage", language)}</span>
-              <span className="metric-col-val" style={{ color: 'var(--fg-accent)', fontSize: '1.25rem' }}>
-                {tr("NSE & BSE Equities", language)}
-              </span>
-              <span className="metric-col-sub">{tr("Live quote & trend analysis", language)}</span>
-            </div>
-
-            <div className="portfolio-metric-divider" />
-
-            <div className="portfolio-metric-col">
-              <span className="metric-col-label">{tr("SEBI Guardrail", language)}</span>
-              <span className="metric-col-val" style={{ color: 'var(--fg-positive)', fontSize: '1.25rem' }}>
-                {tr("Pure Monitoring", language)}
-              </span>
-              <span className="metric-col-sub">{tr("Zero advice / No login needed", language)}</span>
-            </div>
-          </div>
+          <p className="story-prose-fallback">
+            {tr("Market intelligence feeds are currently synthesizing live opening data. Check back shortly.", language)}
+          </p>
         )}
+
+        <div className="story-footer-action">
+          <button
+            type="button"
+            className="editorial-chip-btn"
+            onClick={() => triggerAssistant("Explain today's Indian market momentum")}
+          >
+            <Sparkles size={13} />
+            <span>{tr("Ask StockSee about this brief →", language)}</span>
+          </button>
+        </div>
       </section>
 
-      {/* Section 4: how the whole market did today (live, worked out from the Nifty 500 list) */}
-      <MarketBreadth />
+        </div>
+        <div className="dash-col">
+          {/* Today & Tomorrow: facts only (typical-move range, overnight cues, schedule, history) */}
+          <TodayTomorrow />
 
-      {/* Section 5: Educational Compliance Footnote */}
+          {/* Replay today's session for NIFTY and the watchlist */}
+          <MarketReplay />
+
+          {/* Section 4: how the whole market did today (live, worked out from the Nifty 500 list) */}
+          <MarketBreadth />
+
+        </div>
+      </div>
+
+      {/* Educational compliance footnote */}
       <footer className="editorial-footer-footnote">
         <ShieldCheck size={13} className="footnote-shield" />
         <span>{t('educationalDisclaimer', language)}</span>
@@ -440,12 +438,14 @@ const Dashboard = () => {
 
       {/* Interactive Stock Detail Modal (real chart, price snapshot) */}
       {selectedStock && (
-        <StockDetailModal
-          instrument={selectedStock}
-          onClose={() => setSelectedStock(null)}
-          onOpenAssistant={triggerAssistant}
-          onAddToWatchlist={(inst) => handleQuickWatchlist({ stopPropagation: () => {} }, inst.symbol)}
-        />
+        <Suspense fallback={null}>
+          <StockDetailModal
+            instrument={selectedStock}
+            onClose={() => setSelectedStock(null)}
+            onOpenAssistant={triggerAssistant}
+            onAddToWatchlist={(inst) => handleQuickWatchlist({ stopPropagation: () => {} }, inst.symbol)}
+          />
+        </Suspense>
       )}
     </div>
   );

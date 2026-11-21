@@ -37,6 +37,7 @@ const SymbolSearchInput = ({
   onEnterWithoutPick,
   invalidMessage = '',
   placeholder = 'Search a company or symbol…',
+  ariaLabel,
   inputClassName = 'editorial-input',
   id,
   withIcon = false,
@@ -142,6 +143,7 @@ const SymbolSearchInput = ({
         aria-describedby={invalidMessage ? msgId : undefined}
         className={`${inputClassName} ${invalidMessage ? 'is-invalid' : ''}`}
         placeholder={placeholder}
+        aria-label={ariaLabel}
         value={value}
         onChange={(e) => onChange(e.target.value)}
         onFocus={() => { if (results.length) setOpen(true); }}

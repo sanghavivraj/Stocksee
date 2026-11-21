@@ -1,5 +1,5 @@
 import { useContext, useState } from 'react';
-import { ShieldAlert, ShieldCheck, ShieldQuestion, MessageSquareWarning, LineChart, Scale, Share2 } from 'lucide-react';
+import { ShieldAlert, ShieldCheck, ShieldQuestion, MessageSquareWarning, LineChart, Scale, Share2, UserCheck } from 'lucide-react';
 import { UserContext } from '../context/UserContext';
 import { formatPrice } from '../utils/formatPrice';
 import { buildRiskCard, shareOrDownload } from '../utils/shareCard';
@@ -17,6 +17,12 @@ const COPY = {
     shareNote: 'The picture shows the risk level and warning signs only. The original message is not included.',
     card: { tagline: 'Tip Check · Markets in your language', signs: 'Warning signs', none: 'No warning signs found.',
       footer: 'Automated risk check from public market data. Not advice. The original message is not shown.', motto: 'Facts, not tips.' },
+    sender: { title: 'Who sent it?', none: 'The message shows no SEBI registration number. Real advisers and analysts can quote one.',
+      listed: (n, name) => `${n} is registered under the name “${name}”. Make sure that is really the person who messaged you. Numbers can be copied.`,
+      notListed: (n, d) => `${n} is not in the list StockSee has (dated ${d}). Look it up yourself before trusting it.`,
+      unchecked: (n) => `The message quotes ${n}. StockSee has no adviser list loaded, so it could not check it. Look it up yourself.`,
+      links: 'Look up a registration number:', sebi: 'SEBI intermediary portal', bse: 'BSE adviser / analyst list' },
+    promise: 'The promise',
     surveillance: (s) => `NSE surveillance list checked (list dated ${s.listDate}): ${s.listed ? `on the ${s.list} list.` : 'this stock is not on it.'}`,
   },
   hi: {
@@ -28,6 +34,12 @@ const COPY = {
     shareNote: 'तस्वीर में सिर्फ जोखिम स्तर और चेतावनी संकेत हैं। मूल संदेश शामिल नहीं है।',
     card: { tagline: 'टिप चेक · आपकी भाषा में बाज़ार', signs: 'चेतावनी संकेत', none: 'कोई चेतावनी संकेत नहीं मिला।',
       footer: 'सार्वजनिक बाज़ार डेटा से स्वचालित जोखिम जाँच। सलाह नहीं। मूल संदेश नहीं दिखाया गया।', motto: 'तथ्य, टिप नहीं।' },
+    sender: { title: 'किसने भेजा?', none: 'संदेश में कोई SEBI रजिस्ट्रेशन नंबर नहीं है। असली सलाहकार और एनालिस्ट नंबर बता सकते हैं।',
+      listed: (n, name) => `${n} “${name}” के नाम से रजिस्टर्ड है। देख लें कि संदेश भेजने वाला सच में वही है। नंबर कॉपी किए जा सकते हैं।`,
+      notListed: (n, d) => `${n} StockSee की सूची (तारीख ${d}) में नहीं है। भरोसा करने से पहले खुद जाँचें।`,
+      unchecked: (n) => `संदेश में ${n} लिखा है। StockSee में सलाहकार सूची लोड नहीं है, इसलिए जाँच नहीं हो सकी। खुद जाँचें।`,
+      links: 'रजिस्ट्रेशन नंबर यहाँ खोजें:', sebi: 'SEBI इंटरमीडियरी पोर्टल', bse: 'BSE सलाहकार / एनालिस्ट सूची' },
+    promise: 'वादा',
     surveillance: (s) => `NSE निगरानी सूची जाँची गई (सूची की तारीख ${s.listDate}): ${s.listed ? `${s.list} सूची में है।` : 'यह शेयर उसमें नहीं है।'}`,
   },
   gu: {
@@ -39,6 +51,12 @@ const COPY = {
     shareNote: 'તસવીરમાં ફક્ત જોખમ સ્તર અને ચેતવણી સંકેતો છે. મૂળ સંદેશ સામેલ નથી.',
     card: { tagline: 'ટીપ ચેક · તમારી ભાષામાં બજાર', signs: 'ચેતવણી સંકેતો', none: 'કોઈ ચેતવણી સંકેત મળ્યો નથી.',
       footer: 'જાહેર બજાર ડેટા પરથી સ્વચાલિત જોખમ તપાસ. સલાહ નથી. મૂળ સંદેશ બતાવ્યો નથી.', motto: 'તથ્યો, ટીપ નહીં.' },
+    sender: { title: 'કોણે મોકલ્યું?', none: 'સંદેશમાં કોઈ SEBI રજિસ્ટ્રેશન નંબર નથી. સાચા સલાહકાર અને એનાલિસ્ટ નંબર આપી શકે છે.',
+      listed: (n, name) => `${n} “${name}” નામે રજિસ્ટર્ડ છે. ખાતરી કરો કે સંદેશ મોકલનાર ખરેખર એ જ છે. નંબર કોપી થઈ શકે છે.`,
+      notListed: (n, d) => `${n} StockSee ની યાદી (તારીખ ${d}) માં નથી. વિશ્વાસ કરતા પહેલાં જાતે ચકાસો.`,
+      unchecked: (n) => `સંદેશમાં ${n} લખ્યો છે. StockSee માં સલાહકાર યાદી લોડ નથી, તેથી ચકાસણી થઈ નથી. જાતે ચકાસો.`,
+      links: 'રજિસ્ટ્રેશન નંબર અહીં શોધો:', sebi: 'SEBI ઇન્ટરમીડિયરી પોર્ટલ', bse: 'BSE સલાહકાર / એનાલિસ્ટ યાદી' },
+    promise: 'વચન',
     surveillance: (s) => `NSE દેખરેખ યાદી તપાસી (યાદીની તારીખ ${s.listDate}): ${s.listed ? `${s.list} યાદીમાં છે.` : 'આ શેર તેમાં નથી.'}`,
   },
 };
@@ -53,6 +71,9 @@ const TipCheckResult = ({ result, compact = false }) => {
   const fromMessage = result.reasons.filter((r) => r.kind === 'message');
   const fromMarket = result.reasons.filter((r) => r.kind === 'market');
   const levelLabel = T.level[result.level] || result.level;
+  // The claim shown in the "promise" box is not repeated in the list below
+  const boxed = !compact && result.promise ? result.claims?.find((c) => c.checked && c.achieved === 0) : null;
+  const listedClaims = (result.claims || []).filter((c) => c !== boxed);
 
   const share = async () => {
     setBusy(true);
@@ -102,6 +123,15 @@ const TipCheckResult = ({ result, compact = false }) => {
       </div>
 
       <div className="risk-body">
+        {!compact && result.promise && (() => {
+          const claim = result.claims?.find((c) => c.checked && c.achieved === 0);
+          return claim ? (
+            <div className="promise-box" role="note">
+              <div className="promise-box-title">{T.promise}</div>
+              <p>{claim.text}</p>
+            </div>
+          ) : null;
+        })()}
         {fromMessage.length > 0 && (
           <>
             <div className="risk-group-title"><MessageSquareWarning size={12} /> {T.message}</div>
@@ -114,18 +144,37 @@ const TipCheckResult = ({ result, compact = false }) => {
             <ReasonList items={compact ? fromMarket.slice(0, 3) : fromMarket} />
           </>
         )}
-        {!compact && result.claims?.length > 0 && (
+        {!compact && listedClaims.length > 0 && (
           <>
             <div className="risk-group-title"><Scale size={12} /> {T.claims}</div>
             <p className="risk-disclaimer">{T.claimsNote}</p>
             <ul className="reason-list">
-              {result.claims.map((c, i) => (
+              {listedClaims.map((c, i) => (
                 <li key={`${c.kind}-${i}`} className="reason-item claim-item">
                   <span className={`reason-dot ${c.checked && c.achievedPercent < 5 ? 'w3' : ''}`} aria-hidden="true" />
                   <span>{c.text}</span>
                 </li>
               ))}
             </ul>
+          </>
+        )}
+        {!compact && result.adviser && (
+          <>
+            <div className="risk-group-title"><UserCheck size={12} /> {T.sender.title}</div>
+            {result.adviser.numbers.length === 0 && <p className="risk-disclaimer">{T.sender.none}</p>}
+            {result.adviser.numbers.map((n) => (
+              <p key={n.number} className="risk-disclaimer">
+                {n.listed === true && T.sender.listed(n.number, n.name || '—')}
+                {n.listed === false && T.sender.notListed(n.number, result.adviser.listDate || '—')}
+                {n.listed === null && T.sender.unchecked(n.number)}
+              </p>
+            ))}
+            <p className="risk-disclaimer">
+              {T.sender.links}{' '}
+              <a href={result.adviser.links.sebi} target="_blank" rel="noopener noreferrer" style={{ textDecoration: 'underline' }}>{T.sender.sebi}</a>
+              {' · '}
+              <a href={result.adviser.links.bse} target="_blank" rel="noopener noreferrer" style={{ textDecoration: 'underline' }}>{T.sender.bse}</a>
+            </p>
           </>
         )}
         {result.reasons.length === 0 && <p style={{ margin: 0, fontSize: '0.86rem' }}>{T.none}</p>}

@@ -271,7 +271,7 @@ const UnusualActivity = ({ limit = 10 }) => {
       <div className="flow-section-header">
         <div>
           <span className="flow-kicker">{T.kicker}</span>
-          <h3 className="flow-title">{T.title}</h3>
+          {limit >= 10 ? <h1 className="flow-title">{T.title}</h1> : <h3 className="flow-title">{T.title}</h3>}
         </div>
       </div>
 

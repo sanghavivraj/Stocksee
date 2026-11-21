@@ -1,4 +1,4 @@
-import { useState, useEffect, useContext, useRef } from 'react';
+import { useState, useEffect, useContext, useRef, useCallback } from 'react';
 import { tr } from '../utils/uiStrings';
 import {
   Sparkles,
@@ -6,6 +6,9 @@ import {
   Loader2,
   ShieldCheck,
   Send,
+  Mic,
+  Square,
+  Volume2,
   TrendingUp,
   TrendingDown,
 } from 'lucide-react';
@@ -14,6 +17,14 @@ import askService from '../services/askService';
 import { renderMarkdown } from '../utils/formatMarkdown';
 import StockScorecard from './StockScorecard';
 import TipCheckResult from './TipCheckResult';
+import { useVoiceInput, useSpeakAnswer } from '../hooks/useSpeech';
+import { pick } from '../utils/pickLanguage';
+
+const VOICE = {
+  en: { mic: 'Speak your question', stop: 'Stop listening', listening: 'Listening… speak now. Your browser turns your voice into text, and may send the audio to its speech service.', listen: 'Listen to this answer', stopListen: 'Stop reading', denied: 'The microphone is blocked. Allow it in your browser settings to speak.', nothing: 'I did not hear anything. Try again.', failed: 'Voice input did not work on this browser. You can type instead.' },
+  hi: { mic: 'बोलकर पूछें', stop: 'सुनना बंद करें', listening: 'सुन रहा हूँ… अब बोलिए। आपका ब्राउज़र आवाज़ को टेक्स्ट में बदलता है और ऑडियो अपनी स्पीच सेवा को भेज सकता है।', listen: 'यह जवाब सुनें', stopListen: 'पढ़ना बंद करें', denied: 'माइक्रोफ़ोन बंद है। बोलने के लिए ब्राउज़र सेटिंग में इसे चालू करें।', nothing: 'कुछ सुनाई नहीं दिया। फिर कोशिश करें।', failed: 'इस ब्राउज़र में आवाज़ से पूछना काम नहीं किया। आप टाइप कर सकते हैं।' },
+  gu: { mic: 'બોલીને પૂછો', stop: 'સાંભળવાનું બંધ કરો', listening: 'સાંભળી રહ્યો છું… હવે બોલો. તમારું બ્રાઉઝર અવાજને ટેક્સ્ટમાં બદલે છે અને ઓડિયો તેની સ્પીચ સેવાને મોકલી શકે છે.', listen: 'આ જવાબ સાંભળો', stopListen: 'વાંચવાનું બંધ કરો', denied: 'માઇક્રોફોન બંધ છે. બોલવા માટે બ્રાઉઝર સેટિંગમાં તેને ચાલુ કરો.', nothing: 'કંઈ સંભળાયું નહીં. ફરી પ્રયાસ કરો.', failed: 'આ બ્રાઉઝરમાં અવાજથી પૂછવું કામ ન કર્યું. તમે ટાઇપ કરી શકો છો.' },
+};
 
 const SOURCE_LABEL = {
   gemini: 'AI-written • numbers checked against live data',
@@ -91,12 +102,24 @@ const SingleQuoteCard = ({ quote }) => {
 };
 
 const AskAssistant = ({ isOpen, onToggle, initialPrompt }) => {
-  const { language } = useContext(UserContext);
+  const { language, addToast } = useContext(UserContext);
+  const V = pick(VOICE, language);
   const [question, setQuestion] = useState('');
   const [loading, setLoading] = useState(false);
   const [conversation, setConversation] = useState([]);
   const messagesEndRef = useRef(null);
   const inputRef = useRef(null);
+
+  const submitRef = useRef(() => {});
+  const onVoiceText = useCallback((t) => submitRef.current(t), []);
+  const onVoiceError = useCallback((code) => {
+    if (code === 'not-allowed' || code === 'service-not-allowed') addToast(V.denied, 'error');
+    else if (code === 'no-speech') addToast(V.nothing, 'info');
+    else if (code !== 'aborted') addToast(V.failed, 'error');
+  }, [addToast, V]);
+  const voice = useVoiceInput(language, onVoiceText, onVoiceError);
+  const reader = useSpeakAnswer(language);
+  const [readingIdx, setReadingIdx] = useState(null);
 
   const scrollToBottom = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
@@ -120,7 +143,12 @@ const AskAssistant = ({ isOpen, onToggle, initialPrompt }) => {
     scrollToBottom();
   }, [conversation, loading]);
 
+  // always call the latest handleSubmit from the voice callback
+  useEffect(() => { submitRef.current = handleSubmit; });
+
   const handleSubmit = async (textToSubmit) => {
+    reader.stop();
+    setReadingIdx(null);
     const q = (textToSubmit || question).trim();
     if (!q || loading) return;
 
@@ -284,6 +312,18 @@ const AskAssistant = ({ isOpen, onToggle, initialPrompt }) => {
                       </div>
                     )}
 
+                    {msg.sender === 'assistant' && !msg.tipCheck && reader.available && (
+                      <button
+                        type="button"
+                        className="answer-listen-btn"
+                        onClick={() => { if (readingIdx === idx && reader.speaking) { reader.stop(); setReadingIdx(null); } else { setReadingIdx(idx); reader.speak(msg.text); } }}
+                        aria-label={readingIdx === idx && reader.speaking ? V.stopListen : V.listen}
+                      >
+                        {readingIdx === idx && reader.speaking ? <Square size={13} aria-hidden="true" /> : <Volume2 size={13} aria-hidden="true" />}
+                        <span>{readingIdx === idx && reader.speaking ? V.stopListen : V.listen}</span>
+                      </button>
+                    )}
+
                     {msg.sender === 'assistant' && msg.source && (
                       <div className="answer-meta">
                         <span className={`source-badge ${msg.source === 'gemini' || msg.source === 'groq' ? 'verified' : ''}`}>
@@ -333,6 +373,19 @@ const AskAssistant = ({ isOpen, onToggle, initialPrompt }) => {
                 onChange={(e) => setQuestion(e.target.value)}
                 disabled={loading}
               />
+              {voice.supported && (
+                <button
+                  type="button"
+                  className={`assistant-mic-btn ${voice.listening ? 'on' : ''}`}
+                  onClick={voice.listening ? voice.stop : voice.start}
+                  disabled={loading}
+                  aria-pressed={voice.listening}
+                  aria-label={voice.listening ? V.stop : V.mic}
+                  title={voice.listening ? V.stop : V.mic}
+                >
+                  {voice.listening ? <Square size={14} /> : <Mic size={14} />}
+                </button>
+              )}
               <button
                 type="submit"
                 className="assistant-send-btn"
@@ -343,6 +396,7 @@ const AskAssistant = ({ isOpen, onToggle, initialPrompt }) => {
                 {loading ? <Loader2 size={14} className="spinner" /> : <Send size={14} />}
               </button>
             </div>
+            {voice.listening && <p className="assistant-listening-note" role="status">{V.listening}</p>}
             <div className="assistant-compliance-note">
               <ShieldCheck size={11} className="compliance-shield" />
               <span>{tr("Educational market context only. Not SEBI investment advice.", language)}</span>

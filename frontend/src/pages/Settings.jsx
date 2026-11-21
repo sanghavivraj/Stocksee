@@ -140,7 +140,7 @@ const Settings = () => {
                       <span className="lang-name">{lang.label}</span>
                       {isSelected && <CheckCircle2 size={16} className="lang-check-icon" />}
                     </div>
-                    <span className="lang-desc">{lang.desc}</span>
+                    <span className="lang-desc">{lang.code === 'en' ? tr(lang.desc, language) : lang.desc}</span>
                   </button>
                 );
               })}
@@ -183,8 +183,8 @@ const Settings = () => {
               >
                 <Moon size={20} className="theme-option-icon" />
                 <div className="theme-option-info">
-                  <span className="theme-option-title">{tr("Light Black & Emerald (Dark)", language)}</span>
-                  <span className="theme-option-desc">{tr("Sleek charcoal obsidian with emerald growth accents and restrained coral red", language)}</span>
+                  <span className="theme-option-title">{tr("Night: Aubergine & Amber (Dark)", language)}</span>
+                  <span className="theme-option-desc">{tr("Deep aubergine background with warm cream text and amber accents, easy on the eyes at night", language)}</span>
                 </div>
               </button>
             </div>
@@ -221,10 +221,10 @@ const Settings = () => {
                 </div>
                 <p className="telegram-desc">
                   {telegram.connected
-                    ? 'You will receive the 8:30 AM morning brief (weekdays), your price alerts and a Monday watchlist digest on Telegram.'
+                    ? tr('You will receive the 8:30 AM morning brief (weekdays), your price alerts and a Monday watchlist digest on Telegram.', language)
                     : waitingForTelegram
-                      ? 'Telegram opened in a new tab. Tap “Start” in the bot chat to finish connecting — this page updates automatically.'
-                      : 'Get the 8:30 AM morning brief, your price alerts and a weekly watchlist digest on Telegram. Click below, then tap “Start” in Telegram. The secure link expires after 15 minutes.'}
+                      ? tr('Telegram opened in a new tab. Tap “Start” in the bot chat to finish connecting — this page updates automatically.', language)
+                      : tr('Get the 8:30 AM morning brief, your price alerts and a weekly watchlist digest on Telegram. Click below, then tap “Start” in Telegram. The secure link expires after 15 minutes.', language)}
                 </p>
                 {telegram.connected && telegram.linkedAt && (
                   <div style={{ marginTop: '0.4rem', fontSize: '0.78rem', color: 'var(--fg-positive)', display: 'flex', alignItems: 'center', gap: '5px' }}>
@@ -248,7 +248,7 @@ const Settings = () => {
                     style={{ display: 'inline-flex', alignItems: 'center', gap: '8px', cursor: 'pointer' }}
                   >
                     <MessageSquare size={15} />
-                    <span>{linking ? 'Opening…' : waitingForTelegram ? 'Open Telegram again' : 'Connect Telegram'}</span>
+                    <span>{linking ? tr('Opening…', language) : waitingForTelegram ? tr('Open Telegram again', language) : tr('Connect Telegram', language)}</span>
                     <ExternalLink size={13} />
                   </button>
                 )}
@@ -264,7 +264,7 @@ const Settings = () => {
             disabled={saving}
             className="btn-editorial btn-editorial-primary settings-save-btn"
           >
-            <span>{saving ? 'Saving...' : 'Save Preferences'}</span>
+            <span>{saving ? tr('Saving...', language) : tr('Save Preferences', language)}</span>
           </button>
         </div>
       </form>

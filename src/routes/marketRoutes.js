@@ -14,8 +14,10 @@ router.get('/compare', h(market.compare));
 router.get('/popular', validate(s.popularQuery, 'query'), h(market.popular));
 router.get('/breadth', h(market.breadth));
 
-router.get('/:symbol/scorecard', h(market.scorecard));
-router.get('/:symbol/history', h(market.history));
-router.get('/:symbol', h(market.quote));
+// A symbol in the path must look like a ticker; junk is refused here and never sent to the data provider
+const sym = validate(s.symbolParam, 'params');
+router.get('/:symbol/scorecard', sym, h(market.scorecard));
+router.get('/:symbol/history', sym, h(market.history));
+router.get('/:symbol', sym, h(market.quote));
 
 module.exports = router;

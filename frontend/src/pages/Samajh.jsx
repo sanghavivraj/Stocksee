@@ -1,4 +1,5 @@
-import { useContext, useMemo, useState, useCallback } from 'react';
+import { useContext, useEffect, useMemo, useState, useCallback } from 'react';
+import { useSearchParams } from 'react-router-dom';
 import { BookOpenCheck, ListChecks } from 'lucide-react';
 import { UserContext } from '../context/UserContext';
 import { loadCards, pick, hasLanguage } from '../samajh/content';
@@ -27,6 +28,12 @@ const Samajh = () => {
     setChecksOpen((v) => !v);
     if (openId) setChecksId(openId);
   }, [openId]);
+  // /samajh?check=stocks opens "Check first" on that card (used by the big-move pause banner)
+  const [searchParams] = useSearchParams();
+  const wantedCheck = searchParams.get('check');
+  useEffect(() => {
+    if (wantedCheck && cards.some((c) => c.id === wantedCheck)) showChecks(wantedCheck);
+  }, [wantedCheck, cards, showChecks]);
   const open = cards.find((c) => c.id === openId);
   // The guide links to a card: open it and bring the cards section into view
   const openCard = useCallback((id) => {

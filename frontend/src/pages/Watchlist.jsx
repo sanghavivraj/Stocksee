@@ -172,6 +172,7 @@ const Watchlist = () => {
                 id="watchlist-search"
                 withIcon
                 inputClassName="watchlist-search-input"
+                ariaLabel="Search a stock to add to your watchlist"
                 placeholder="Type a letter or name: D, DECN, Reliance, TCS…"
                 value={symbolInput}
                 onChange={(v) => { setSymbolInput(v); setSelected(null); setFormError(''); }}
@@ -188,7 +189,7 @@ const Watchlist = () => {
               title={resolveChoice() ? undefined : 'Pick a stock from the suggestions first'}
             >
               <Plus size={15} />
-              <span>{adding ? 'Adding…' : selected ? `Add ${selected.code} to Watchlist` : 'Add to Watchlist'}</span>
+              <span>{adding ? tr('Adding…', language) : selected ? (language === 'hi' ? `${selected.code} वॉचलिस्ट में जोड़ें` : language === 'gu' ? `${selected.code} વૉચલિસ્ટમાં ઉમેરો` : `Add ${selected.code} to Watchlist`) : tr('Add to Watchlist', language)}</span>
             </button>
           </form>
 
@@ -255,7 +256,7 @@ const Watchlist = () => {
           <div
             style={{
               display: 'grid',
-              gridTemplateColumns: 'repeat(auto-fill, minmax(310px, 1fr))',
+              gridTemplateColumns: 'repeat(auto-fill, minmax(min(310px, 100%), 1fr))',
               gap: '1rem',
             }}
           >

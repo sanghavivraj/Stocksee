@@ -45,6 +45,10 @@ docs/screenshots/        images used below
 | Tip Check: warning signs from real market data | Watchlist: gold in ₹ per 10 g (international price, converted) |
 | ![Intro animation: scan line clearing the noise](docs/screenshots/intro-scan.png) | ![Intro animation tagline in Hindi](docs/screenshots/intro-hindi.png) |
 | Intro: a scan line clears the noise | Intro: tagline in Hindi |
+| ![Samajh home: Money Cards, Hype Check and the Money-Time Guide](docs/screenshots/samajh-home.png) | ![A Money Card: a real-life story and the step-by-step maths with a chart](docs/screenshots/samajh-fd-card.png) |
+| Samajh: money education with no tips, only understanding | Money Card (Fixed Deposit): a real-life story, then the numbers step by step |
+| ![Check before you act: what to check first, and why](docs/screenshots/samajh-check-first.png) | ![Hype Check: the maths behind a viral claim](docs/screenshots/samajh-hype-check.png) |
+| "Check first": what to check before acting, and why, with a real-life story | Hype Check: a claim like "₹5,000 SIP = ₹1 crore" tested with an adjustable calculator |
 
 ## Setup
 
@@ -58,7 +62,7 @@ cd frontend && npm install && cd ..
 2. Start PostgreSQL (e.g. Postgres.app) and create two databases: `stocksee` and `stocksee_test`.
 
 3. Copy `.env.example` to `.env` and fill in `DATABASE_URL`, `TEST_DATABASE_URL` and `JWT_SECRET` (at least 32 characters;
-   it signs the visitor cookie). Optional: `PORT` (default 3000), `CORS_ORIGINS` (default `http://localhost:5173`),
+   it signs the visitor cookie). Optional: `PORT` (default 3001, so it does not clash with other dev servers on 3000), `CORS_ORIGINS` (default `http://localhost:5173`),
    `TELEGRAM_BOT_TOKEN`, AI keys, `REDIS_URL`, `SENTRY_DSN`.
 
 4. Create the tables (and optionally refresh the NSE company list used by the search):
@@ -72,8 +76,8 @@ npm run symbols:update  # optional: re-download the NSE company list (src/consta
 5. Run the API and the web app:
 
 ```bash
-npm run dev                  # API on http://localhost:3000
-cd frontend && npm run dev   # web app on http://localhost:5173 (proxies /api to :3000)
+npm run dev                  # API on http://localhost:3001
+cd frontend && npm run dev   # web app on http://localhost:5173 (proxies /api to :3001)
 ```
 
 ## API
@@ -103,7 +107,28 @@ tip-check, backtest and every route that saves data.
 
 - **Tip Check** (`/tip-check`, Telegram `/check` or just forward a message): scores a forwarded stock tip for pump-and-dump
   warning signs — red-flag wording in English / Hindi / Gujarati / Hinglish plus real market patterns (volume spike vs
-  20-day average, 1-month run-up, repeated ~5% days, penny / micro-cap). Gives LOW / MEDIUM / HIGH with reasons and SEBI resources.
+  20-day average, 1-month run-up, repeated ~5% days, penny / micro-cap). Gives LOW / MEDIUM / HIGH with reasons and SEBI resources. **Sender check:** it finds SEBI registration numbers in the message (INA = investment adviser, INH = research analyst), flags "SEBI registered" with no number, and
+  compares a number with a list you load (`npm run advisers:import -- file.csv`, from the official SEBI / BSE source; SEBI says adviser and analyst
+  registration is now handled by BSE). With no list loaded it says "not checked" and links to the official lookup. A real number can be copied, so a match only shows the registered name to compare. A message that names no listed stock is checked on its
+  wording only, and a loose search result is never accepted as the stock (it must be a listed Indian company whose name or ticker really matches).
+- **Samajh** (`/samajh`, English and Hindi; Gujarati shows the English text with a "coming soon" notice): money education with no tips. *Money Cards* explain FD, SIP, SWP,
+  stocks, mutual funds, ETFs, gold and PPF with a real-life story and step-by-step maths (the maths runs in the browser;
+  the words live in JSON files; AI only explains and every AI answer goes through the answer guard). *Hype Check* tests
+  viral claims such as "₹5,000 SIP = ₹1 crore in 10 years" with adjustable assumptions. The *Money-Time Guide* starts from how long
+  you can leave the money (under 1 year, 1–3, 3–5, 5+). **Check first** (floating button, and a small icon on each card) lists what to check before
+  acting, and why.
+- **Unusual** (`/unusual`): stocks that moved or traded in an unusual way today, shown as facts with no recommendation.
+- **Promised-return flag** (Tip Check): a promise such as "300% in 15 days" is read from the message and put next to real prices, in a box
+  at the top of the result. With a stock named it uses that stock's own 5-year history; with none named it uses the NIFTY 50 index. When
+  the promised gain never happened, that becomes a warning sign. Past data only, never a prediction.
+- **Pause before you act**: a stock that moved 10% or more in a day shows a "Big move today. Pause and check first." box with three things
+  to look at, a button to run Tip Check on that stock, and a link to Samajh "Check first" (`/samajh?check=stocks`). Facts, not advice.
+- **Voice (Hindi, Gujarati, English)**: a mic button in the StockSee AI chat lets you speak a question, and a Listen button reads an answer
+  aloud. It uses the browser's own speech tools, so it works only where the browser supports them (voice input needs Chrome or Edge, and the
+  browser may send the audio to its speech service; the app says so while listening). Listen appears only when the device has a voice for
+  the chosen language, and the app never reads Hindi or Gujarati with an English voice.
+- **Share the verdict as a picture**: Tip Check results become a card in the user's language (no original message on it) that can be
+  posted back into the WhatsApp group.
 - **Chart events**: real daily candles with markers for dividends, splits, results dates (when available), unusually large
   moves (vs the stock's own volatility) and volume spikes, plus an event list.
 - **Smart alerts**: price move, opening gap, volume spike, new 52-week high / low. Before saving, a **backtest** shows how
@@ -165,7 +190,8 @@ Search suggestions use the bundled NSE list (`npm run symbols:update` refreshes 
 - **Market data is delayed and unofficial.** Yahoo Finance is fine for development, not for a production product; results-date lookups are best-effort because that endpoint is rate-limited.
 - **Gold / crude are international prices converted to rupees**, not MCX or jeweller prices. The stock-popup chart for them stays in USD.
 - **AI answers are tested with mocked providers.** No live Gemini/Groq key was used in testing, so check the default model names in `.env` when you add keys; until then answers come from the verified templates.
-- **Tip Check is a warning-sign screen, not proof.** It does not yet use NSE surveillance (ASM / GSM) lists.
+- **The adviser list is not bundled.** No official downloadable list was found, so load one with `npm run advisers:import` or the sender check only extracts numbers and links to the official lookup.
+- **Tip Check is a warning-sign screen, not proof.** NSE surveillance (ASM / GSM) lists are used only once they are loaded, and the result shows the list date.
 - **No accounts by design.** Data is tied to a browser cookie, so clearing cookies or switching browser starts a fresh watchlist.
 - **Run the scheduled jobs on one server instance**, otherwise each instance sends the messages.
 - **Frontend tests cover logic only** (stock selection rules); there are no component or end-to-end tests yet.

@@ -112,7 +112,7 @@ const TipCheck = () => {
             <span style={{ fontSize: '0.78rem', color: 'var(--fg-text-muted)', alignSelf: 'center' }}>{T.tryOne}</span>
             {EXAMPLES.map((ex) => (
               <button key={ex.label} type="button" className="tip-example-btn" onClick={() => { setText(ex.text); setResult(null); }}>
-                {ex.label}
+                {tr(ex.label, language)}
               </button>
             ))}
           </div>

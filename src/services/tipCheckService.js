@@ -8,18 +8,20 @@
  */
 const marketDataService = require('./marketDataService');
 const { marketRiskSignals } = require('../analytics/indicators');
-const { describeClaims } = require('./claimCheckService');
+const { describeClaims, extractClaims, hasMarketContext } = require('./claimCheckService');
 const surveillanceService = require('./surveillanceService');
+const adviserService = require('./adviserService');
 
 // [code, weight, regex] — regexes are deliberately broad; each code counts once.
 const PHRASE_RULES = [
   ['guaranteed_returns', 3, /\b(guarantee[ds]?|100\s?%\s?(sure|safe|profit)|sure[\s-]?shot|risk[\s-]?free|no\s+loss|fixed\s+return|pakka|confirm(ed)?\s+profit)\b|गारंटी|पक्का|पक्की|ગેરંટી|પાક્કું|પાક્કો/i],
-  ['return_promise', 3, /\b(double|triple)\s+(your\s+)?money\b|\b\d{2,4}\s?%\s+(return|profit|gain|upside)|\b[2-9]\d?\s?x\b|\bmulti[\s-]?bagger\b|मल्टीबैगर|पैसा\s*डबल|ડબલ/i],
+  ['return_promise', 3, /\b(double|triple)\s+(your\s+)?money\b|\b\d{2,4}\s?%\s+(return|profit|gain|upside)|\bmulti[\s-]?bagger\b|मल्टीबैगर|पैसा\s*डबल|डबल|ट्रिपल|ડબલ|ટ્રિપલ|\b(double|triple)\s+(hoga|hojayega|ho\s?jayega|ho\s?jaye)\b/i],
   ['insider_claim', 3, /\b(insider|inside\s+(news|info|information)|operator|big\s+players?\s+(are\s+)?(buying|entering)|management\s+(source|contact)|leak(ed)?)\b|अंदर\s*की\s*खबर|ऑपरेटर|ओपरेटर|અંદરની\s*ખબર|ઓપરેટર/i],
-  ['urgency', 2, /\b(buy\s+(now|today|immediately|before)|hurry|last\s+chance|limited\s+time|don'?t\s+miss|before\s+(it'?s\s+too\s+late|news|announcement)|jaldi|abhi\s+(lo|kharido))\b|जल्दी|अभी\s*खरीद|તરત|જલ્દી/i],
+  ['urgency', 2, /\b(buy|sell)(\s+(buy|sell)){2,}\b|\b(buy|invest|enter|grab)\b.{0,40}\bright\s+now\b|\b(buy\s+(now|today|immediately|before)|hurry|last\s+chance|limited\s+time|don'?t\s+miss|before\s+(it'?s\s+too\s+late|news|announcement)|jaldi|abhi\s+(lo|kharido))\b|जल्दी|अभी\s*खरीद|તરત|જલ્દી/i],
+  ['price_blind', 2, /\b(at\s+)?(any|whatever|what\s?ever)\s+price\b|\bat\s+all\s+costs?\b|\bregardless\s+of\s+(the\s+)?price\b|किसी\s*भी\s*भाव|कीमत\s*(जो\s*भी|कुछ\s*भी)|भाव\s*कुछ\s*भी|ગમે\s*તે\s*ભાવે|કિંમત\s*ગમે\s*તે/i],
   ['circuit_hype', 2, /\b(upper\s+circuit|uc\s+lock|circuit\s+(lock|after\s+circuit)|rocket|jackpot|to\s+the\s+moon)\b|अपर\s*सर्किट|जैकपॉट|अपर\s*सरकिट|અપર\s*સર્કિટ|જેકપોટ/i],
   ['short_term_target', 2, /\btarget\b.{0,40}\b(\d+\s*(days?|weeks?|din|hafte))\b|\b(in|within)\s+\d+\s+(days?|weeks?)\b|\bdin\s+mein\b|दिन\s*में|દિવસમાં/i],
-  ['paid_group', 2, /\b(vip|premium|paid)\b.{0,25}\b(group|channel|membership|tips?|calls?)\b|\bjoin\b.{0,25}\b(telegram|whatsapp)\b|\b(fees?|subscription)\b.{0,30}\b(tips?|calls?)\b/i],
+  ['paid_group', 3, /\b(vip|premium|paid)\b.{0,25}\b(group|channel|membership|tips?|calls?)\b|\bjoin\b.{0,25}\b(telegram|whatsapp)\b|\b(fees?|subscription)\b.{0,30}\b(tips?|calls?)\b/i],
 ];
 
 const LEVELS = [
@@ -33,6 +35,7 @@ const TEXT = {
     guaranteed_returns: 'Promises guaranteed / risk-free profit. No genuine investment can guarantee returns.',
     return_promise: 'Promises a specific big return (e.g. "double", "5x", "200%").',
     insider_claim: 'Claims insider / operator information. Trading on such information is illegal, and such claims are a classic pump-and-dump hook.',
+    price_blind: 'Tells you to buy at any price. A genuine tip never says to ignore the price.',
     urgency: 'Pushes you to act immediately — pressure tactics stop you from checking facts.',
     circuit_hype: 'Hype words like "upper circuit", "jackpot", "rocket".',
     short_term_target: 'Gives a price target within a few days/weeks.',
@@ -47,6 +50,11 @@ const TEXT = {
     micro_cap: (v) => `Very small company (market value about ₹${v} crore) — easier to move with little money.`,
     surveillance_asm: (v) => `On NSE's Additional Surveillance Measure (ASM) list${v ? `, stage ${v}` : ''}. The exchange itself is watching this stock closely.`,
     surveillance_gsm: (v) => `On NSE's Graded Surveillance Measure (GSM) list${v ? `, stage ${v}` : ''}. The exchange has put this stock under strict watch.`,
+    promise_never_seen: (v) => `The promised gain did not happen even once in ${v} years of this stock's own history.`,
+    promise_never_seen_index: (v) => `The promised gain did not happen even once in ${v} years of the NIFTY 50 index, India's biggest companies together.`,
+    sebi_claim_no_number: 'Says "SEBI registered" but shows no registration number. A real adviser or analyst can quote one, and you can look it up.',
+    registration_wrong_type: (v) => `Quotes a registration number starting with ${v}. That is not an investment adviser (INA) or research analyst (INH) registration.`,
+    registration_not_listed: (v) => `The registration number ${v} is not in the adviser / analyst list StockSee has. Check it yourself on SEBI or BSE before trusting it.`,
     no_symbol: 'Could not identify a stock in this message, so only the wording was checked.',
     no_data: 'Live market data for this stock is unavailable right now, so only the wording was checked.',
     market_only: 'No message was pasted, so only the stock\'s market data was checked. Paste the tip too for a full check.',
@@ -54,6 +62,7 @@ const TEXT = {
       HIGH: 'Many warning signs commonly seen in pump-and-dump tips.',
       MEDIUM: 'Some warning signs. Be careful and verify independently.',
       LOW: 'No major warning signs found in this check. That does not make it safe or a good investment.',
+      LOW_SIGNS: 'One warning sign was found. Check it yourself before you trust this message.',
     },
     guidance: [
       'Never act on unsolicited tips from WhatsApp/Telegram/social media.',
@@ -65,6 +74,7 @@ const TEXT = {
     guaranteed_returns: 'पक्के / बिना जोखिम मुनाफ़े का वादा। कोई भी असली निवेश रिटर्न की गारंटी नहीं दे सकता।',
     return_promise: 'बड़े तय रिटर्न का वादा (जैसे "डबल", "5x", "200%")।',
     insider_claim: 'अंदर की खबर / ऑपरेटर का दावा। ऐसी जानकारी पर ट्रेड करना गैरकानूनी है और यह पंप-एंड-डंप का आम तरीका है।',
+    price_blind: 'किसी भी भाव पर खरीदने को कहता है। असली टिप कभी भाव को नज़रअंदाज़ करने को नहीं कहती।',
     urgency: 'तुरंत खरीदने का दबाव — ताकि आप तथ्य न जाँच सकें।',
     circuit_hype: '"अपर सर्किट", "जैकपॉट" जैसे हाइप शब्द।',
     short_term_target: 'कुछ ही दिनों/हफ्तों में टार्गेट का दावा।',
@@ -79,6 +89,11 @@ const TEXT = {
     micro_cap: (v) => `बहुत छोटी कंपनी (बाज़ार मूल्य लगभग ₹${v} करोड़) — कम पैसे से भाव हिलाना आसान।`,
     surveillance_asm: (v) => `NSE की अतिरिक्त निगरानी सूची (ASM) में${v ? `, चरण ${v}` : ''}। एक्सचेंज खुद इस शेयर पर कड़ी नज़र रख रहा है।`,
     surveillance_gsm: (v) => `NSE की ग्रेडेड निगरानी सूची (GSM) में${v ? `, चरण ${v}` : ''}। एक्सचेंज ने इस शेयर को सख्त निगरानी में रखा है।`,
+    promise_never_seen: (v) => `वादा किया गया मुनाफ़ा इस शेयर के अपने ${v} वर्षों के इतिहास में एक बार भी नहीं हुआ।`,
+    promise_never_seen_index: (v) => `वादा किया गया मुनाफ़ा NIFTY 50 इंडेक्स (देश की सबसे बड़ी कंपनियाँ मिलाकर) के ${v} वर्षों में एक बार भी नहीं हुआ।`,
+    sebi_claim_no_number: '"सेबी रजिस्टर्ड" लिखा है पर रजिस्ट्रेशन नंबर नहीं दिया। असली सलाहकार या एनालिस्ट नंबर बता सकता है और आप उसे खोज सकते हैं।',
+    registration_wrong_type: (v) => `${v} वाला नंबर दिया है। यह निवेश सलाहकार (INA) या रिसर्च एनालिस्ट (INH) का रजिस्ट्रेशन नहीं है।`,
+    registration_not_listed: (v) => `रजिस्ट्रेशन नंबर ${v} StockSee की सलाहकार / एनालिस्ट सूची में नहीं है। भरोसा करने से पहले SEBI या BSE पर खुद जाँचें।`,
     no_symbol: 'इस संदेश में कोई शेयर पहचाना नहीं जा सका, इसलिए केवल शब्दों की जाँच हुई।',
     no_data: 'इस शेयर का लाइव डेटा अभी उपलब्ध नहीं है, इसलिए केवल शब्दों की जाँच हुई।',
     market_only: 'कोई संदेश पेस्ट नहीं किया गया, इसलिए केवल शेयर का बाज़ार डेटा जाँचा गया। पूरी जाँच के लिए टिप भी पेस्ट करें।',
@@ -86,6 +101,7 @@ const TEXT = {
       HIGH: 'पंप-एंड-डंप टिप्स में दिखने वाले कई चेतावनी संकेत।',
       MEDIUM: 'कुछ चेतावनी संकेत। सावधान रहें और खुद जाँचें।',
       LOW: 'इस जाँच में कोई बड़ा चेतावनी संकेत नहीं मिला। इसका मतलब यह सुरक्षित या अच्छा निवेश नहीं है।',
+      LOW_SIGNS: 'एक चेतावनी संकेत मिला। इस संदेश पर भरोसा करने से पहले खुद जाँचें।',
     },
     guidance: [
       'WhatsApp/Telegram/सोशल मीडिया पर बिना मांगे मिली टिप्स पर कभी अमल न करें।',
@@ -97,6 +113,7 @@ const TEXT = {
     guaranteed_returns: 'પાક્કા / જોખમ વગરના નફાનું વચન. કોઈ સાચું રોકાણ વળતરની ગેરંટી આપી શકે નહીં.',
     return_promise: 'મોટા નિશ્ચિત વળતરનું વચન (જેમ કે "ડબલ", "5x", "200%").',
     insider_claim: 'અંદરની ખબર / ઓપરેટરનો દાવો. આવી માહિતી પર ટ્રેડ કરવું ગેરકાયદેસર છે અને તે પંપ-એન્ડ-ડમ્પની સામાન્ય રીત છે.',
+    price_blind: 'ગમે તે ભાવે ખરીદવાનું કહે છે. સાચી ટિપ ક્યારેય ભાવને અવગણવાનું કહેતી નથી.',
     urgency: 'તરત ખરીદવાનું દબાણ — જેથી તમે હકીકત ચકાસી ન શકો.',
     circuit_hype: '"અપર સર્કિટ", "જેકપોટ" જેવા હાઇપ શબ્દો.',
     short_term_target: 'થોડા દિવસો/અઠવાડિયામાં ટાર્ગેટનો દાવો.',
@@ -111,6 +128,11 @@ const TEXT = {
     micro_cap: (v) => `ખૂબ નાની કંપની (બજાર મૂલ્ય આશરે ₹${v} કરોડ) — ઓછા પૈસાથી ભાવ હલાવવો સરળ.`,
     surveillance_asm: (v) => `NSE ની વધારાની દેખરેખ યાદી (ASM) માં${v ? `, તબક્કો ${v}` : ''}. એક્સચેન્જ પોતે આ શેર પર ચાંપતી નજર રાખે છે.`,
     surveillance_gsm: (v) => `NSE ની ગ્રેડેડ દેખરેખ યાદી (GSM) માં${v ? `, તબક્કો ${v}` : ''}. એક્સચેન્જે આ શેરને કડક દેખરેખ હેઠળ મૂક્યો છે.`,
+    promise_never_seen: (v) => `વચન આપેલો નફો આ શેરના પોતાના ${v} વર્ષના ઇતિહાસમાં એક વાર પણ થયો નથી.`,
+    promise_never_seen_index: (v) => `વચન આપેલો નફો NIFTY 50 ઇન્ડેક્સ (દેશની સૌથી મોટી કંપનીઓ ભેગી) ના ${v} વર્ષમાં એક વાર પણ થયો નથી.`,
+    sebi_claim_no_number: '"સેબી રજિસ્ટર્ડ" લખ્યું છે પણ રજિસ્ટ્રેશન નંબર આપ્યો નથી. સાચા સલાહકાર કે એનાલિસ્ટ નંબર આપી શકે છે અને તમે તેને શોધી શકો છો.',
+    registration_wrong_type: (v) => `${v} વાળો નંબર આપ્યો છે. આ રોકાણ સલાહકાર (INA) કે રિસર્ચ એનાલિસ્ટ (INH) નું રજિસ્ટ્રેશન નથી.`,
+    registration_not_listed: (v) => `રજિસ્ટ્રેશન નંબર ${v} StockSee ની સલાહકાર / એનાલિસ્ટ યાદીમાં નથી. વિશ્વાસ કરતા પહેલાં SEBI કે BSE પર જાતે ચકાસો.`,
     no_symbol: 'આ સંદેશમાં કોઈ શેર ઓળખાયો નથી, તેથી માત્ર શબ્દોની ચકાસણી થઈ.',
     no_data: 'આ શેરનો લાઇવ ડેટા હાલમાં ઉપલબ્ધ નથી, તેથી માત્ર શબ્દોની ચકાસણી થઈ.',
     market_only: 'કોઈ સંદેશ પેસ્ટ કર્યો નથી, તેથી માત્ર શેરનો બજાર ડેટા ચકાસાયો. સંપૂર્ણ ચકાસણી માટે ટિપ પણ પેસ્ટ કરો.',
@@ -118,6 +140,7 @@ const TEXT = {
       HIGH: 'પંપ-એન્ડ-ડમ્પ ટિપ્સમાં દેખાતા ઘણા ચેતવણી સંકેતો.',
       MEDIUM: 'કેટલાક ચેતવણી સંકેતો. સાવચેત રહો અને જાતે ચકાસો.',
       LOW: 'આ ચકાસણીમાં કોઈ મોટો ચેતવણી સંકેત મળ્યો નથી. તેનો અર્થ એ નથી કે તે સુરક્ષિત કે સારું રોકાણ છે.',
+      LOW_SIGNS: 'એક ચેતવણી સંકેત મળ્યો. આ સંદેશ પર વિશ્વાસ કરતા પહેલાં જાતે ચકાસો.',
     },
     guidance: [
       'WhatsApp/Telegram/સોશિયલ મીડિયા પર વગર માંગ્યે મળેલી ટિપ્સ પર ક્યારેય અમલ ન કરો.',
@@ -129,9 +152,14 @@ const TEXT = {
 
 /** Red-flag phrases found in the message. */
 function phraseSignals(text) {
-  return PHRASE_RULES
+  const found = PHRASE_RULES
     .filter(([, , re]) => re.test(text))
     .map(([code, weight]) => ({ code, weight, kind: 'message' }));
+  // "10x" counts as a promised return only when the message is about money or markets ("5x faster" does not)
+  if (!found.some((f) => f.code === 'return_promise') && /\b([2-9]|[1-9]\d)\s?x\b/i.test(text) && hasMarketContext(text)) {
+    found.push({ code: 'return_promise', weight: 3, kind: 'message' });
+  }
+  return found;
 }
 
 /** How many red-flag phrase groups appear (used by the chat to route forwarded tips here). */
@@ -147,6 +175,8 @@ class TipCheckService {
     const T = TEXT[lang];
     const hasMessage = text.trim().length >= 3;
     const signals = hasMessage ? phraseSignals(text) : [];
+    const adviser = hasMessage ? adviserService.check(text) : null;
+    if (adviser) signals.push(...adviserService.signals(adviser));
     const notes = [];
 
     let resolved = symbol || null; // a symbol the user typed explicitly is trusted
@@ -201,9 +231,22 @@ class TipCheckService {
       }
     }
 
+    // A promise with no stock named is still compared with something real: the NIFTY 50 index.
+    let benchmark = false;
+    if (hasMessage && !claimCandles && extractClaims(text, { marketContext: Boolean(instrument) }).some((c) => c.kind !== 'target')) {
+      try {
+        claimCandles = (await marketDataService.getHistory('^NSEI', '5y'))?.candles || null;
+      } catch {
+        claimCandles = null;
+      }
+      benchmark = Boolean(claimCandles);
+    }
     const claims = hasMessage
-      ? describeClaims(text, { candles: claimCandles, price: instrument?.price ?? null, language: lang })
+      ? describeClaims(text, { candles: claimCandles, price: instrument?.price ?? null, language: lang, benchmark, marketContext: Boolean(instrument) })
       : [];
+    // The clearest flag: a promised return that has never happened in years of real prices
+    const never = claims.find((c) => c.checked && c.achieved === 0);
+    if (never) signals.push({ code: benchmark ? 'promise_never_seen_index' : 'promise_never_seen', weight: 3, value: never.years, kind: 'message' });
 
     const score = signals.reduce((sum, s) => sum + s.weight, 0);
     const { level } = LEVELS.find((l) => score >= l.min);
@@ -211,7 +254,7 @@ class TipCheckService {
     return {
       level,
       score,
-      summary: T.summary[level],
+      summary: level === 'LOW' && signals.length > 0 ? T.summary.LOW_SIGNS : T.summary[level],
       instrument,
       reasons: signals
         .sort((a, b) => b.weight - a.weight)
@@ -223,7 +266,9 @@ class TipCheckService {
           text: typeof T[s.code] === 'function' ? T[s.code](s.value) : T[s.code],
         })),
       claims,
+      promise: never ? { requiredPercent: never.requiredPercent, horizonSessions: never.horizonSessions, assumedHorizon: never.assumedHorizon, years: never.years, bestGainPercent: never.bestGainPercent, cases: never.cases, benchmark } : null,
       surveillance,
+      adviser,
       notes,
       guidance: T.guidance,
       disclaimer: 'StockSee is not a SEBI-registered investment adviser. This is an automated risk check, not advice to buy or sell.',

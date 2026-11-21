@@ -149,11 +149,11 @@ const Alerts = () => {
       <header className="editorial-lead-header">
         <div className="lead-meta-row">
           <span className="editorial-kicker">{tr("SMART ALERTS", language)}</span>
-          <span className="lead-date-stamp">{activeCount} active of {alerts.length}</span>
+          <span className="lead-date-stamp">{activeCount} {tr("active of", language)} {alerts.length}</span>
         </div>
         <h1 className="lead-headline">{t('alerts', language)}</h1>
         <p className="lead-description">
-          Get a Telegram message when a stock does something unusual — checked every 2 minutes during market hours, at most once a day per alert.
+          {tr("Get a Telegram message when a stock does something unusual — checked every 2 minutes during market hours, at most once a day per alert.", language)}
           {!visitor?.telegram?.connected && (
             <>{' '}<Link to="/settings" style={{ fontWeight: 700 }}>{tr("Connect Telegram in Settings", language)}</Link> {tr("to receive them.", language)}</>
           )}
@@ -179,8 +179,8 @@ const Alerts = () => {
                 className={`type-card ${form.type === type ? 'active' : ''}`}
                 onClick={() => chooseType(type)}
               >
-                <span className="type-card-title"><Icon size={14} aria-hidden="true" /> {title}</span>
-                <span className="type-card-desc">{desc}</span>
+                <span className="type-card-title"><Icon size={14} aria-hidden="true" /> {tr(title, language)}</span>
+                <span className="type-card-desc">{tr(desc, language)}</span>
               </button>
             ))}
           </div>
@@ -283,7 +283,7 @@ const Alerts = () => {
         <div className="flow-section-header">
           <div>
             <span className="flow-kicker">{tr("TELEGRAM", language)}</span>
-            <h3 className="flow-title">Your Alerts ({activeCount} active)</h3>
+            <h3 className="flow-title">{tr("Your Alerts", language)} ({activeCount} {tr("active", language)})</h3>
           </div>
         </div>
 
@@ -312,7 +312,7 @@ const Alerts = () => {
                     <div className="stock-identity">
                       <div className="stock-primary-name">{alert.symbol}</div>
                       <div className="stock-sub-meta" style={{ display: 'flex', gap: '6px', alignItems: 'center', flexWrap: 'wrap' }}>
-                        <span className="alert-type-tag"><TypeIcon size={10} aria-hidden="true" /> {TYPE_BY_ID[alert.type]?.title || 'Price move'}</span>
+                        <span className="alert-type-tag"><TypeIcon size={10} aria-hidden="true" /> {tr(TYPE_BY_ID[alert.type]?.title || 'Price move', language)}</span>
                         <span className="stock-condition-text">{describeRule(alert)}</span>
                       </div>
                       {alert.lastTriggeredAt && (

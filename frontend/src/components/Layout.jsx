@@ -137,6 +137,14 @@ const Layout = ({ children }) => {
   return (
     <div className="app-shell">
       {splash && <NoiseToSignalSplash language={language} onDone={closeSplash} />}
+      {/* Lets keyboard and screen-reader users jump past the menu */}
+      <a
+        href="#main-content"
+        className="skip-link"
+        onClick={(e) => { e.preventDefault(); const m = document.getElementById('main-content'); m?.focus(); m?.scrollIntoView(); }}
+      >
+        {tr('Skip to main content', language)}
+      </a>
       {/* Top Header */}
       <header className="top-navbar">
         <div className="navbar-container">
@@ -252,7 +260,7 @@ const Layout = ({ children }) => {
       </div>
 
       {/* Main Page Viewport */}
-      <main className="main-content">
+      <main className="main-content" id="main-content" tabIndex={-1}>
         {children}
       </main>
 

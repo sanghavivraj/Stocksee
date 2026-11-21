@@ -4,6 +4,7 @@ const { parseSymbolList, clampInt } = require('../lib/symbols');
 const symbol = z.string().trim().toUpperCase()
   .regex(/^[A-Z0-9^.=&_-]{1,20}$/, 'Invalid symbol');
 const language = z.enum(['en', 'hi', 'gu']);
+const symbolParam = z.object({ symbol });
 const idParam = z.object({ id: z.coerce.number().int().positive() });
 
 const direction = z.enum(['up', 'down']);
@@ -35,6 +36,7 @@ const symbolsQuery = (max) => z.object({ symbols: z.unknown().transform((v) => p
 
 module.exports = {
   idParam,
+  symbolParam,
   unusualQuery: limitQuery(3, 10),
   popularQuery: limitQuery(8, 30),
   insightsQuery: symbolsQuery(Infinity),

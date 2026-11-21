@@ -8,7 +8,7 @@
 .theme-toggle-btn { width: 40px; height: 40px; }
 .brand-stamp { width: 36px; height: 36px; }
 .unusual-nav-btn { min-height: 40px; padding: 0 12px; }
-.compare-link, .flow-action-link, .editorial-chip-btn, .samajh-checks-mini { min-height: 40px; display: inline-flex; align-items: center; }
+.compare-link, .flow-action-link, .editorial-chip-btn, .samajh-checks-mini { min-height: 40px; min-width: 40px; display: inline-flex; align-items: center; }
 .samajh-checks-mini { min-height: 36px; }
 @media (max-width: 359px) {
   .lang-btn { min-width: 30px; padding: 0 5px; }
@@ -96,3 +96,11 @@ small { font-size: 0.75rem; }
   .market-overview-row .market-row-quick-actions { grid-column: 1 / -1; justify-content: flex-end; border-top: 1px solid var(--fg-border-subtle); padding-top: 0.35rem; }
 }
 .desktop-nav-item { min-height: 40px; }
+
+/* Skip link: hidden until a keyboard user tabs to it */
+.skip-link { position: fixed; left: 12px; top: -80px; z-index: 10000; display: inline-flex; align-items: center; min-height: 40px; padding: 0 16px; border-radius: 8px; background: var(--fg-accent); color: #2E1A47; font-weight: 700; text-decoration: none; }
+.skip-link:focus { top: 12px; }
+.main-content:focus { outline: none; }
+
+/* Close buttons are easy to hit on a phone */
+.detail-close-btn, .assistant-close-btn { min-width: 40px; min-height: 40px; display: inline-flex; align-items: center; justify-content: center; }

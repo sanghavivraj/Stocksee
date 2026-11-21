@@ -120,3 +120,14 @@ describe('per-symbol routes and error mapping', () => {
     expect(b.body).toEqual({ error: 'Internal server error' });
   });
 });
+
+describe('symbol in the path', () => {
+  const request = require('supertest');
+  const { createApp } = require('../src/app');
+  test.each(['INVALID!!', '%3Cscript%3E', 'TCS%00', 'A'.repeat(21), '..%2F..%2Fetc%2Fpasswd'])('rejects %s with 400, not a provider call', async (sym) => {
+    const res = await request(createApp()).get(`/api/markets/${sym}`);
+    expect(res.status).toBe(400);
+    const res2 = await request(createApp()).get(`/api/markets/${sym}/history`);
+    expect(res2.status).toBe(400);
+  });
+});

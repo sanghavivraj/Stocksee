@@ -12,6 +12,7 @@
     "job": "node scripts/run-job.js",
     "symbols:update": "node scripts/update-symbols.js",
     "surveillance:import": "node scripts/import-surveillance.js",
+    "advisers:import": "node scripts/import-advisers.js",
     "lint": "eslint src scripts tests"
   },
   "dependencies": {

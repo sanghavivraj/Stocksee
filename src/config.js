@@ -8,7 +8,7 @@ const placeholder = (v) => !v || /^your_/.test(v) || v === 'dummy_token';
 const config = {
   isProd,
   isTest,
-  port: Number(process.env.PORT) || 3000,
+  port: Number(process.env.PORT) || 3001,
   jwtSecret: process.env.JWT_SECRET || (isTest ? 'test-secret-do-not-use-in-production' : undefined),
   visitorCookie: 'stocksee_visitor',
   visitorCookieDays: 365,

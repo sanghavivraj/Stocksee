@@ -30,6 +30,41 @@ const COMMODITY_UNITS = {
 };
 const CONVERSION_NOTE = 'Converted from the international USD price at the live USD/INR rate. Indian market prices (MCX, jewellers) differ because of import duty, GST and local premiums.';
 
+/**
+ * Free text (a pasted tip, a chat sentence): accept a search result only when it is a listed Indian company
+ * whose ticker or name really contains what was typed. A loose search hit (e.g. a random word returning an
+ * index such as ^RUT) is NOT a match.
+ */
+function isConfirmedMatch(query, quote) {
+  if (!quote.symbol || !(quote.symbol.endsWith('.NS') || quote.symbol.endsWith('.BO'))) return false;
+  const norm = (v) => String(v || '').toLowerCase().replace(/[^\p{L}\p{N}]+/gu, ' ').trim();
+  const q = norm(query);
+  if (q.length < 3) return false;
+  const ticker = norm(quote.symbol.replace(/\.(NS|BO)$/, ''));
+  if (ticker === q.replace(/ /g, '')) return true;
+  const single = !q.includes(' ');
+  return [quote.shortname, quote.longname].map(norm).filter(Boolean).some((n) => (
+    // one word must be the BRAND at the start of the name ("reliance" -> "Reliance Industries"), never a word inside it;
+    // several words must appear together as whole words
+    single ? n === q || n.startsWith(`${q} `) : ` ${n} `.includes(` ${q} `)
+  ));
+}
+
+/**
+ * Free text: choose the one listed company the words really point to. A single brand word that fits several
+ * different companies ("tata", "adani") is ambiguous, so nothing is chosen rather than guessing the first hit.
+ */
+function pickConfirmed(query, quotes) {
+  const hits = quotes.filter((q) => q.symbol && isConfirmedMatch(query, q));
+  if (hits.length === 0) return undefined;
+  const q = String(query).toLowerCase().replace(/[^\p{L}\p{N}]+/gu, '');
+  const exact = hits.find((h) => h.symbol.replace(/\.(NS|BO)$/, '').toLowerCase() === q);
+  if (exact) return exact;
+  if (/\s/.test(String(query).trim())) return hits[0];
+  const companies = new Set(hits.map((h) => String(h.longname || h.shortname || h.symbol).toLowerCase().replace(/[^\p{L}\p{N}]+/gu, ' ').trim()));
+  return companies.size === 1 ? hits[0] : undefined;
+}
+
 class MarketDataService {
   /**
    * Resolve user text/symbol into a normalized instrument descriptor
@@ -77,7 +112,9 @@ class MarketDataService {
         if (data) {
           const quotes = data.quotes || [];
           // Prioritize NSE (.NS) then BSE (.BO) then index (^)
-          const indianQuote = quotes.find(q => q.symbol && (q.symbol.endsWith('.NS') || q.symbol.endsWith('.BO') || q.symbol.startsWith('^')));
+          const indianQuote = allowGuess
+            ? quotes.find((q) => q.symbol && (q.symbol.endsWith('.NS') || q.symbol.endsWith('.BO') || q.symbol.startsWith('^')))
+            : pickConfirmed(clean, quotes);
           if (indianQuote) {
             return {
               symbol: indianQuote.symbol,

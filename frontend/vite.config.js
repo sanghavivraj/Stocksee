@@ -7,8 +7,8 @@ export default defineConfig({
   server: {
     proxy: {
       '/api': {
-        // Override to point the dev UI at another backend, e.g. API_PROXY_TARGET=http://localhost:3001
-        target: process.env.API_PROXY_TARGET || 'http://localhost:3000',
+        // Override to point the dev UI at another backend, e.g. API_PROXY_TARGET=http://localhost:3055
+        target: process.env.API_PROXY_TARGET || 'http://localhost:3001',
         changeOrigin: true,
       }
     }

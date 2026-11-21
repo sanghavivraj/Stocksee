@@ -20,6 +20,8 @@ import askService from '../services/askService';
 import { renderMarkdown } from '../utils/formatMarkdown';
 import StockScorecard from './StockScorecard';
 import StockChart from './StockChart';
+import PauseBanner from './PauseBanner';
+import { needsPause } from '../utils/pauseCheck';
 import { useWatchlist } from '../context/WatchlistContext';
 import { useNavigate } from 'react-router-dom';
 import { formatPrice, formatPercent, hasValue } from '../utils/formatPrice';
@@ -235,6 +237,8 @@ const StockDetailModal = ({ instrument, onClose, onOpenAssistant, onAddToWatchli
               {quoteData?.stale && <span className="analysis-source-tag">{tr("Last known price — may be outdated", language)}</span>}
             </div>
           </div>
+
+          {needsPause(changePercent) && <PauseBanner symbol={instrument.symbol} changePercent={changePercent} onNavigate={onClose} />}
 
           {/* TradingView Lightweight Candlestick Chart */}
           <div className="detail-chart-section" style={{ padding: '0', background: 'transparent', border: 'none' }}>

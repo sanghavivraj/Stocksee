@@ -9,7 +9,7 @@ import { LineChartSvg } from './SvgCharts';
 const SECTION_ICONS = { math: Calculator, hidden: EyeOff, missing: Eye, realistic: Scale, flags: Flag, verdict: Gavel };
 
 /** Hype Check: paste a claim, see the math the reel skipped. Everything below the AI button works with no network. */
-export default function HypeCheck({ lang }) {
+export default function HypeCheck({ lang, presetIds }) {
   const U = hypeUi[lang] || hypeUi.en;
   const [text, setText] = useState('');
   const [submitted, setSubmitted] = useState(null); // null until the first check
@@ -76,7 +76,7 @@ export default function HypeCheck({ lang }) {
 
       <div className="hype-presets" aria-label={U.presetsTitle}>
         <span className="hype-presets-title">{U.presetsTitle}:</span>
-        {presets.map((p) => (
+        {(presetIds ? presets.filter((p) => presetIds.includes(p.id)) : presets).map((p) => (
           <button key={p.id} type="button" className="hype-chip" onClick={() => choose(p)}>{p.text[lang] || p.text.en}</button>
         ))}
       </div>

@@ -1,0 +1,1178 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#120f26">
+<title>Samajh – Money Stories · The Little Coin That Grew (SIP)</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,500;0,9..144,700;1,9..144,500;1,9..144,700&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#120f26;--bg2:#221b4d;--ink:#f7f0e3;--muted:#b6aed0;--saffron:#ffb547;--leaf:#4fd69c;--coral:#ff6b6b;--line:rgba(247,240,227,.12);--card:rgba(255,255,255,.05);--glow:#3b2f86;--serif:Fraunces,Georgia,serif}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{height:100%;background:var(--bg);color:var(--ink);font-family:Geist,system-ui,-apple-system,sans-serif;-webkit-font-smoothing:antialiased;overflow:hidden}
+button{font:inherit;color:inherit;cursor:pointer;border:0;background:none;-webkit-tap-highlight-color:transparent}
+button:focus-visible,input:focus-visible{outline:2px solid var(--saffron);outline-offset:3px}
+#sky{position:fixed;inset:0;background:radial-gradient(120% 80% at 50% 0%,var(--bg2),var(--bg) 70%);z-index:0}
+#glow{position:fixed;width:110vmax;height:110vmax;left:50%;top:-70vmax;transform:translateX(-50%);border-radius:50%;background-color:var(--glow);filter:blur(60px);opacity:.5;transition:background-color 1.4s ease,opacity 1.4s;z-index:0;pointer-events:none}
+.star{position:fixed;border-radius:50%;background:#fff;opacity:.55;animation:tw 3.5s ease-in-out infinite;z-index:0;pointer-events:none}
+@keyframes tw{50%{opacity:.08}}
+#flash{position:fixed;inset:0;background:#e9e6ff;opacity:0;pointer-events:none;z-index:50}
+#flash.on{animation:flash 1.1s ease-out}
+@keyframes flash{0%{opacity:0}6%{opacity:.85}14%{opacity:.1}22%{opacity:.6}100%{opacity:0}}
+#rain{position:fixed;inset:0;pointer-events:none;z-index:2;opacity:0;transition:opacity .8s;background-image:repeating-linear-gradient(105deg,transparent 0 22px,rgba(180,200,255,.16) 22px 23px);background-size:200px 200px;animation:rain .35s linear infinite}
+#rain.on{opacity:1}
+@keyframes rain{to{background-position:-40px 200px}}
+
+#app{position:relative;z-index:3;height:100dvh;display:grid;grid-template-rows:auto 1fr auto;max-width:760px;margin:0 auto}
+#app.shake{animation:shake .6s}
+@keyframes shake{10%,50%,90%{transform:translate(-6px,2px)}30%,70%{transform:translate(6px,-2px)}}
+header{display:flex;align-items:center;gap:12px;padding:14px 18px 8px}
+.brand{font-family:var(--serif);font-weight:700;font-size:18px;letter-spacing:.2px;white-space:nowrap}
+.brand span{color:var(--saffron)}
+#progress{flex:1;display:flex;gap:4px}
+#progress i{flex:1;height:3px;border-radius:3px;background:var(--line);overflow:hidden;position:relative}
+#progress i::after{content:"";position:absolute;inset:0;background:var(--saffron);transform:scaleX(0);transform-origin:left;transition:transform .6s}
+#progress i.done::after{transform:scaleX(1)}
+#mute{width:44px;height:44px;border-radius:50%;display:grid;place-items:center;background:var(--card);border:1px solid var(--line)}
+#mute svg{width:18px;height:18px}
+
+#stage{position:relative;overflow:hidden}
+.scene{position:absolute;inset:0;overflow-y:auto;overflow-x:hidden;padding:8px 18px 24px;opacity:0;visibility:hidden;transform:translateY(24px) scale(.98);transition:opacity .7s ease,transform .7s cubic-bezier(.2,.8,.2,1),visibility 0s .7s;scrollbar-width:none}
+.scene::-webkit-scrollbar{display:none}
+.scene.active{opacity:1;visibility:visible;transform:none;transition:opacity .7s ease .15s,transform .8s cubic-bezier(.2,.8,.2,1) .15s,visibility 0s}
+.scene.leave{transform:translateY(-24px) scale(.98)}
+.wrap{max-width:600px;margin:0 auto;display:flex;flex-direction:column;gap:16px}
+.kicker{font-size:12px;letter-spacing:.18em;text-transform:uppercase;color:var(--saffron);font-weight:600}
+h1,h2,h3{font-family:var(--serif);font-weight:700;line-height:1.05;letter-spacing:-.01em;text-wrap:balance}
+h1{font-size:clamp(40px,11vw,68px)}
+h2{font-size:clamp(28px,7.5vw,40px)}
+h3{font-size:20px}
+em{font-style:italic;color:var(--saffron)}
+.lede{color:var(--muted);line-height:1.5;font-size:15px;text-wrap:pretty}
+.fine{color:var(--muted);font-size:12px;line-height:1.5;opacity:.85}
+.panel{background:var(--card);border:1px solid var(--line);border-radius:20px;padding:16px;backdrop-filter:blur(6px)}
+.act{background:var(--saffron);color:#24170a;font-weight:700;border-radius:999px;padding:14px 22px;font-size:15px;box-shadow:0 10px 30px -10px rgba(255,181,71,.6);transition:transform .2s,opacity .2s}
+.act:active{transform:scale(.97)}
+.act:disabled{opacity:.4;cursor:default;box-shadow:none}
+.ghost{border:1px solid var(--line);background:var(--card);border-radius:999px;padding:12px 18px;font-weight:600;font-size:14px}
+.danger{background:var(--coral);color:#2a0b0b}
+.row{display:flex;gap:10px;flex-wrap:wrap}
+.row>*{flex:1 1 auto}
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+.stat{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:10px 12px}
+.stat span{display:block;font-size:12px;color:var(--muted);margin-bottom:4px}
+.stat b{font-family:var(--serif);font-size:clamp(16px,4.6vw,21px);font-variant-numeric:tabular-nums}
+.g{color:var(--leaf)}.r{color:var(--coral)}.s{color:var(--saffron)}
+canvas{width:100%;display:block}
+
+/* intro */
+.intro .wrap{min-height:100%;justify-content:center;align-items:center;text-align:center;gap:18px;padding:20px 0}
+.hero-coin{width:130px;height:130px;position:relative;animation:bob 4s ease-in-out infinite}
+.hero-coin .c{position:absolute;inset:0;border-radius:50%;background:radial-gradient(circle at 35% 30%,#ffe3a6,var(--saffron) 45%,#c97a12);box-shadow:0 0 60px rgba(255,181,71,.55),inset 0 -8px 0 rgba(0,0,0,.15);display:grid;place-items:center;font-family:var(--serif);font-size:58px;font-weight:700;color:#5b3608}
+.hero-coin .sprout{position:absolute;left:50%;top:-34px;width:40px;height:44px;transform:translateX(-50%);transform-origin:bottom center;animation:sprout 4s ease-in-out infinite}
+.orbit{position:absolute;inset:-26px;border:1px dashed rgba(255,181,71,.3);border-radius:50%;animation:spin 18s linear infinite}
+.orbit::before{content:"";position:absolute;top:-4px;left:50%;width:8px;height:8px;border-radius:50%;background:var(--leaf);box-shadow:0 0 12px var(--leaf)}
+@keyframes bob{50%{transform:translateY(-10px)}}
+@keyframes sprout{50%{transform:translateX(-50%) rotate(6deg)}}
+@keyframes spin{to{transform:rotate(360deg)}}
+.intro .sub{max-width:380px}
+
+/* dock */
+#dock{padding:10px 14px calc(12px + env(safe-area-inset-bottom));display:flex;flex-direction:column;gap:10px;transition:opacity .5s,transform .5s}
+#dock.hide{opacity:0;transform:translateY(20px);pointer-events:none}
+.talkrow{display:flex;align-items:flex-end;gap:10px}
+#meera{width:78px;height:78px;flex:none;filter:drop-shadow(0 6px 16px rgba(0,0,0,.4));transition:filter .25s}
+#meera.talk svg{animation:nod .5s ease-in-out infinite}
+@keyframes nod{50%{transform:translateY(-2px) rotate(-1.5deg)}}
+#meera .eyes{transform-box:fill-box;transform-origin:center;animation:blink 4.5s infinite}
+@keyframes blink{0%,94%,100%{transform:scaleY(1)}96%{transform:scaleY(.1)}}
+#meera path,#meera ellipse{transition:d .3s}
+#bubble{flex:1;position:relative;background:var(--ink);color:#1d1638;border-radius:18px 18px 18px 4px;padding:12px 14px;min-height:56px;font-size:14.5px;line-height:1.45;text-align:left;cursor:pointer}
+#bubble .name{display:block;font-size:12px;letter-spacing:.14em;text-transform:uppercase;font-weight:700;color:#a1620a;margin-bottom:2px}
+#more{position:absolute;right:12px;bottom:8px;font-size:12px;color:#8a7fb0;opacity:0;transition:opacity .3s}
+#more.on{opacity:1;animation:pulse 1.4s infinite}
+@keyframes pulse{50%{opacity:.35}}
+nav{display:flex;align-items:center;gap:10px}
+#chap{flex:1;text-align:center;font-size:12px;color:var(--muted);letter-spacing:.05em}
+#back{width:44px;height:44px;border-radius:50%;border:1px solid var(--line);background:var(--card);font-size:18px}
+#next{padding:12px 20px;border-radius:999px;background:var(--ink);color:#1d1638;font-weight:700;font-size:14px}
+#next.ready{animation:ready 1.6s infinite}
+@keyframes ready{0%,100%{box-shadow:0 0 0 0 rgba(255,181,71,.6)}50%{box-shadow:0 0 0 8px rgba(255,181,71,0)}}
+
+/* s1 */
+.acronym{display:flex;gap:8px}
+.acronym div{flex:1;background:var(--card);border:1px solid var(--line);border-radius:16px;padding:12px 8px;text-align:center;font-size:12.5px;color:var(--muted);opacity:0;transform:translateY(14px) scale(.9);transition:all .6s cubic-bezier(.3,1.6,.5,1)}
+.acronym div b{display:block;font-family:var(--serif);font-size:34px;color:var(--saffron);line-height:1}
+.acronym div small{display:block;margin-top:6px;font-size:12px;line-height:1.35;color:var(--ink);opacity:.8}
+.active .acronym div{opacity:1;transform:none}
+.active .acronym div:nth-child(2){transition-delay:.25s}.active .acronym div:nth-child(3){transition-delay:.5s}
+.flow{position:relative;display:flex;justify-content:space-between;align-items:center;padding:8px 0}
+.node{width:104px;text-align:center;font-size:12px;color:var(--muted)}
+.node .ic{width:64px;height:64px;margin:0 auto 6px;border-radius:20px;display:grid;place-items:center;background:var(--card);border:1px solid var(--line)}
+.node b{display:block;color:var(--ink);font-family:var(--serif);font-size:16px;font-variant-numeric:tabular-nums}
+.track{position:absolute;left:104px;right:104px;top:40px;height:2px;background:repeating-linear-gradient(90deg,var(--line) 0 6px,transparent 6px 12px)}
+.flycoin{position:absolute;top:-13px;left:0;width:26px;height:26px;border-radius:50%;background:radial-gradient(circle at 35% 30%,#ffe3a6,var(--saffron) 50%,#c97a12);display:grid;place-items:center;font-size:12px;font-weight:800;color:#5b3608;animation:hop .7s cubic-bezier(.5,0,.5,1) forwards}
+@keyframes hop{0%{left:0;transform:translateY(0) scale(.6)}50%{transform:translateY(-34px) scale(1.1)}100%{left:calc(100% - 26px);transform:translateY(0) scale(.6);opacity:.2}}
+.months{display:grid;grid-template-columns:repeat(6,1fr);gap:6px}
+.months div{border-radius:10px;border:1px solid var(--line);padding:8px 0;text-align:center;font-size:12px;color:var(--muted);transition:all .35s}
+.months div.lit{background:rgba(255,181,71,.16);border-color:var(--saffron);color:var(--ink);transform:translateY(-3px)}
+.months div small{display:block;font-size:12px;opacity:.75}
+
+/* s2 */
+.unitstage{position:relative;display:grid;grid-template-columns:1fr 150px;gap:14px;align-items:end}
+.navtag{font-size:12px;color:var(--muted)}
+.navtag b{display:block;font-family:var(--serif);font-size:38px;color:var(--ink);line-height:1;margin-top:4px;font-variant-numeric:tabular-nums;transition:color .3s}
+.navtag .chg{font-size:12px;font-weight:600}
+#spark{width:100%;height:70px;margin-top:10px;overflow:visible}
+.jar{position:relative;height:190px;border:2px solid rgba(247,240,227,.35);border-top:none;border-radius:0 0 34px 34px;padding:10px;display:flex;flex-wrap:wrap-reverse;align-content:flex-start;gap:3px;overflow:hidden;background:linear-gradient(transparent,rgba(79,214,156,.06))}
+.jar::before{content:"";position:absolute;left:-8px;right:-8px;top:-2px;height:10px;border-radius:6px;border:2px solid rgba(247,240,227,.35)}
+.jar .u{width:9px;height:9px;border-radius:50%;animation:drop .5s cubic-bezier(.3,1.5,.6,1) both}
+@keyframes drop{from{transform:translateY(-120px);opacity:0}}
+.jarlabel{position:absolute;left:0;right:0;bottom:-26px;text-align:center;font-size:12px;color:var(--muted)}
+.jarlabel b{color:var(--ink)}
+.fallcoin{position:absolute;right:58px;top:-20px;width:34px;height:34px;border-radius:50%;background:radial-gradient(circle at 35% 30%,#ffe3a6,var(--saffron) 50%,#c97a12);display:grid;place-items:center;font-weight:800;color:#5b3608;font-size:12px;animation:fall1 .6s ease-in forwards;z-index:3}
+@keyframes fall1{to{transform:translateY(130px) scale(.5);opacity:0}}
+table{width:100%;border-collapse:collapse;font-size:13px;font-variant-numeric:tabular-nums}
+th{text-align:left;font-weight:500;color:var(--muted);font-size:12px;padding:6px 4px;border-bottom:1px solid var(--line)}
+td{padding:7px 4px;border-bottom:1px solid var(--line)}
+tr.new{animation:rowin .5s ease}
+@keyframes rowin{from{opacity:0;transform:translateX(-10px)}}
+.reveal{animation:rowin .6s ease}
+
+/* tree */
+.treebox{position:relative;display:grid;place-items:center;height:250px}
+.tree{width:min(270px,78vw);height:auto;overflow:visible;transition:transform 1s cubic-bezier(.2,.8,.2,1);transform-origin:50% 92%}
+.tree .canopy{transform-origin:100px 200px;animation:sway 6s ease-in-out infinite}
+@keyframes sway{50%{transform:rotate(1.6deg)}}
+.leaf,.fruit{transform-box:fill-box;transform-origin:center;transform:scale(0);transition:transform .55s cubic-bezier(.3,1.6,.5,1)}
+.leaf.on,.fruit.on{transform:scale(1)}
+.leaf.fall{animation:leaffall 1.6s ease-in forwards}
+@keyframes leaffall{0%{transform:scale(1)}100%{transform:translate(30px,160px) rotate(220deg) scale(.6);opacity:0}}
+.tree.crashshake .canopy{animation:wind .15s 6}
+@keyframes wind{50%{transform:rotate(-4deg)}}
+.legend{display:flex;gap:16px;justify-content:center;font-size:12px;color:var(--muted)}
+.legend i{display:inline-block;width:10px;height:10px;border-radius:50%;margin-right:6px;vertical-align:-1px}
+
+/* sliders */
+.ctl{display:flex;flex-direction:column;gap:6px}
+.ctl label{display:flex;justify-content:space-between;font-size:13px;color:var(--muted)}
+.ctl label b{color:var(--ink);font-variant-numeric:tabular-nums}
+input[type=range]{-webkit-appearance:none;appearance:none;width:100%;height:40px;background:transparent}
+input[type=range]::-webkit-slider-runnable-track{height:6px;border-radius:6px;background:linear-gradient(90deg,var(--saffron) var(--p,50%),rgba(255,255,255,.12) var(--p,50%))}
+input[type=range]::-moz-range-track{height:6px;border-radius:6px;background:linear-gradient(90deg,var(--saffron) var(--p,50%),rgba(255,255,255,.12) var(--p,50%))}
+input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:24px;height:24px;margin-top:-9px;border-radius:50%;background:var(--ink);border:4px solid var(--saffron);box-shadow:0 4px 12px rgba(0,0,0,.4)}
+input[type=range]::-moz-range-thumb{width:16px;height:16px;border-radius:50%;background:var(--ink);border:4px solid var(--saffron)}
+
+/* weather */
+.wxrow{display:flex;align-items:center;gap:14px}
+#wxIcon{width:64px;height:64px;flex:none}
+#wxIcon svg{width:100%;height:100%;overflow:visible}
+.rays{transform-origin:32px 32px;animation:spin 14s linear infinite}
+.drops line{animation:dropl .8s linear infinite}
+.drops line:nth-child(2){animation-delay:.25s}.drops line:nth-child(3){animation-delay:.5s}
+@keyframes dropl{from{transform:translateY(-4px);opacity:1}to{transform:translateY(8px);opacity:0}}
+.bolt{animation:boltf 1.2s infinite}
+@keyframes boltf{0%,70%,100%{opacity:1}75%,85%{opacity:.2}}
+#wxLabel{font-family:var(--serif);font-size:22px}
+#wxMonth{font-size:12px;color:var(--muted);font-variant-numeric:tabular-nums}
+
+/* crash */
+.bigval{text-align:center}
+.bigval span{font-size:12px;color:var(--muted);display:block}
+.bigval b{font-family:var(--serif);font-size:clamp(40px,12vw,58px);font-variant-numeric:tabular-nums;display:block;line-height:1.05;transition:color .4s}
+.bigval small{font-weight:600;font-size:13px}
+.choices{display:flex;flex-direction:column;gap:8px}
+.choice{text-align:left;padding:14px 16px;border-radius:16px;border:1px solid var(--line);background:var(--card);display:flex;gap:12px;align-items:center;transition:all .25s}
+.choice:hover{border-color:var(--saffron)}
+.choice.sel{border-color:var(--saffron);background:rgba(255,181,71,.12)}
+.choice i{width:12px;height:12px;border-radius:50%;flex:none}
+.choice strong{display:block;font-size:14.5px}
+.choice small{display:block;color:var(--muted);font-size:12px;margin-top:2px}
+.outcomes{display:flex;flex-direction:column;gap:6px}
+.oc{display:grid;grid-template-columns:12px 1fr auto;gap:10px;align-items:center;padding:10px 12px;border-radius:12px;background:var(--card);font-size:13px;font-variant-numeric:tabular-nums;animation:rowin .5s ease both}
+.oc i{width:10px;height:10px;border-radius:50%}
+.oc b{font-family:var(--serif);font-size:18px}
+.oc small{display:block;color:var(--muted);font-size:12px}
+.oc.sel{outline:1px solid var(--saffron)}
+
+/* race */
+.lane{display:grid;grid-template-columns:1fr;gap:6px}
+.lane .top{display:flex;justify-content:space-between;font-size:13px;color:var(--muted)}
+.lane .top b{color:var(--ink);font-family:var(--serif);font-size:17px;font-variant-numeric:tabular-nums}
+.bar{height:16px;border-radius:999px;background:rgba(255,255,255,.07);overflow:hidden;display:flex}
+.bar i{display:block;height:100%;transition:width 1.1s cubic-bezier(.2,.8,.2,1);width:0}
+.bar i.inv{background:var(--leaf)}.bar i.gr{background:var(--saffron)}
+
+/* segmented */
+.seg{display:flex;background:var(--card);border:1px solid var(--line);border-radius:999px;padding:4px;gap:4px}
+.seg button{flex:1;min-height:40px;padding:8px 6px;border-radius:999px;font-size:12.5px;font-weight:600;color:var(--muted);transition:all .25s}
+.seg button[aria-pressed=true]{background:var(--ink);color:#1d1638}
+
+/* ending */
+.forest{position:relative;height:190px;display:flex;align-items:flex-end;justify-content:center;gap:2px;overflow:hidden;border-bottom:1px solid var(--line)}
+.ftree{transform-origin:bottom center;transform:scaleY(0);animation:grow 1s cubic-bezier(.3,1.4,.5,1) forwards}
+@keyframes grow{to{transform:scaleY(1)}}
+.firefly{position:absolute;width:4px;height:4px;border-radius:50%;background:var(--saffron);box-shadow:0 0 10px 2px var(--saffron);animation:ff 6s ease-in-out infinite}
+@keyframes ff{0%,100%{transform:translate(0,0);opacity:.2}50%{transform:translate(20px,-30px);opacity:1}}
+.endcard{text-align:center}
+.endcard .big{font-family:var(--serif);font-size:clamp(44px,13vw,70px);color:var(--saffron);line-height:1;font-variant-numeric:tabular-nums;text-shadow:0 0 40px rgba(255,181,71,.4)}
+.lessons{list-style:none;display:flex;flex-direction:column;gap:8px;counter-reset:l}
+.lessons li{display:flex;gap:12px;align-items:flex-start;padding:10px 12px;border-radius:14px;background:var(--card);border:1px solid var(--line);font-size:14px;line-height:1.4;opacity:.18;transform:translateX(-8px);transition:all .6s}
+.lessons li.on{opacity:1;transform:none;border-color:rgba(255,181,71,.35)}
+.lessons li::before{counter-increment:l;content:counter(l);flex:none;width:24px;height:24px;border-radius:50%;display:grid;place-items:center;background:var(--saffron);color:#24170a;font-weight:800;font-size:12px}
+@media (min-width:700px){.scene{padding:12px 28px 28px}.treebox{height:290px}}
+@media (prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}}
+
+/* ---- labels: real vs simulated vs assumed ---- */
+.tag{display:inline-block;margin-left:8px;padding:2px 9px;border-radius:999px;font-size:12px;letter-spacing:.03em;text-transform:none;font-weight:700;vertical-align:1px}
+.tag.real{background:rgba(79,214,156,.18);color:var(--leaf);border:1px solid rgba(79,214,156,.55)}
+.tag.sim{background:rgba(255,181,71,.14);color:var(--saffron);border:1px solid rgba(255,181,71,.5)}
+.tag.ass{background:rgba(169,156,255,.16);color:#cfc7ff;border:1px solid rgba(169,156,255,.5)}
+.tag.made{background:rgba(255,255,255,.06);color:var(--muted);border:1px dashed var(--muted)}
+.legendrow{display:flex;flex-wrap:wrap;gap:6px 4px;justify-content:center;font-size:12px;color:var(--muted);line-height:1.8}
+/* ---- explainers ---- */
+details.why{border:1px solid var(--line);border-radius:14px;background:var(--card);padding:0 14px}
+details.why summary{cursor:pointer;min-height:46px;font-weight:600;font-size:14px;list-style:none;display:flex;align-items:center;gap:10px}
+details.why summary::-webkit-details-marker{display:none}
+details.why summary::before{content:"?";width:24px;height:24px;border-radius:50%;background:var(--saffron);color:#24170a;display:grid;place-items:center;font-weight:800;font-size:13px;flex:none}
+details.why[open] summary{border-bottom:1px solid var(--line)}
+details.why .bd{padding:10px 0 14px;font-size:14px;line-height:1.6;color:var(--muted)}
+details.why .bd b{color:var(--ink)}
+/* ---- Meera: eyes, tears, sparkles, body moves ---- */
+#meera .eH,#meera .eW,#meera .eS,#meera .tear,#meera .spk{display:none}
+#meera.f-happy .eO,#meera.f-proud .eO,#meera.f-wow .eO,#meera.f-worried .eO{display:none}
+#meera.f-happy .eH,#meera.f-proud .eH{display:inline}
+#meera.f-wow .eW{display:inline}
+#meera.f-worried .eS,#meera.f-worried .tear{display:inline}
+#meera.f-proud .spk{display:inline}
+#meera .tear{animation:tear 1.2s ease-in infinite}
+@keyframes tear{0%{transform:translateY(-2px);opacity:0}25%{opacity:1}100%{transform:translateY(14px);opacity:0}}
+#meera .spk{animation:spk .5s ease-in-out infinite alternate;transform-box:fill-box;transform-origin:center}
+@keyframes spk{from{opacity:.4;transform:scale(.7)}to{opacity:1;transform:scale(1.15)}}
+#meera.f-happy{filter:drop-shadow(0 0 16px rgba(255,200,61,.85))}
+#meera.f-proud{filter:drop-shadow(0 0 16px rgba(79,214,156,.85))}
+#meera.f-wow{filter:drop-shadow(0 0 16px rgba(120,200,255,.85))}
+#meera.f-worried{filter:drop-shadow(0 0 16px rgba(255,107,107,.85))}
+#meera.p-happy,#meera.p-proud{animation:dance .5s ease-in-out 4}
+@keyframes dance{0%,100%{transform:translateY(0) rotate(0)}25%{transform:translateY(-11px) rotate(-7deg)}75%{transform:translateY(-11px) rotate(7deg)}}
+#meera.p-wow{animation:pop .45s cubic-bezier(.34,1.56,.64,1)}
+@keyframes pop{0%{transform:scale(.8)}60%{transform:scale(1.2)}100%{transform:scale(1)}}
+#meera.p-worried{animation:trem .09s linear 12 alternate}
+@keyframes trem{from{transform:translateX(-2px)}to{transform:translateX(2px)}}
+/* ---- real data chapter ---- */
+.searchrow{display:flex;gap:8px}
+.searchrow input,.dates input,.dates select{height:44px;border-radius:12px;border:1px solid var(--line);background:rgba(255,255,255,.06);color:var(--ink);padding:0 12px;font:inherit;font-size:15px;color-scheme:dark;min-width:0}
+.searchrow input{flex:1;border-radius:999px;padding:0 16px}
+.chips{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px}
+.chips button{padding:0 14px;min-height:40px;border-radius:999px;border:1px solid var(--line);background:var(--card);font-size:13px;font-weight:600}
+.chips button[aria-pressed=true]{background:var(--ink);color:#1d1638}
+.fres{display:flex;flex-direction:column;gap:6px;margin-top:10px;max-height:300px;overflow:auto}
+.fitem{text-align:left;padding:10px 14px;min-height:44px;border-radius:12px;border:1px solid var(--line);background:var(--card);font-size:14px;line-height:1.35}
+.fitem:hover:not(:disabled){border-color:var(--saffron)}
+.fitem:disabled{opacity:.5;cursor:not-allowed}
+.fitem small{display:block;color:var(--muted);font-size:12px}
+.dates{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.dates label{display:flex;flex-direction:column;gap:4px;font-size:13px;color:var(--muted)}
+.tscroll{max-height:290px;overflow:auto;border:1px solid var(--line);border-radius:14px}
+.tscroll th{position:sticky;top:0;background:#221b4d}
+.tscroll td,.tscroll th{padding:8px 10px}
+.fundname{font-family:var(--serif);font-size:20px;line-height:1.2}
+.ddbox{background:rgba(255,107,107,.08);border:1px solid rgba(255,107,107,.35);border-radius:16px;padding:14px;font-size:14px;line-height:1.6}
+.ddbox b{color:var(--ink)}
+.chartcap{font-size:13px;color:var(--muted);margin-bottom:4px}
+.dates>*{min-width:0}.dates input,.dates select{width:100%}
+.treebox .tree{max-height:100%;width:auto;max-width:min(270px,78vw)}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}
+</style>
+</head>
+<body>
+<div id="sky"></div><div id="glow"></div><div id="rain"></div><div id="flash"></div>
+
+<div id="app">
+  <header>
+    <div class="brand">Samajh<span>.</span></div>
+    <div id="progress" aria-hidden="true"></div>
+    <button id="mute" aria-label="Mute sound" aria-pressed="false"></button>
+  </header>
+
+  <main id="stage">
+    <!-- 0 INTRO -->
+    <section class="scene intro active" data-title="Prologue" data-glow="#3b2f86" aria-label="Introduction">
+      <div class="wrap">
+        <div class="hero-coin" aria-hidden="true">
+          <div class="orbit"></div>
+          <svg class="sprout" viewBox="0 0 40 44"><path d="M20 44V18" stroke="#4fd69c" stroke-width="3" stroke-linecap="round"/><path d="M20 22C10 22 4 14 4 6c10 0 16 6 16 16z" fill="#4fd69c"/><path d="M20 18c0-9 7-15 16-15 0 9-7 15-16 15z" fill="#7fe9b9"/></svg>
+          <div class="c">₹</div>
+        </div>
+        <p class="kicker">Samajh · Money Stories</p>
+        <h1>The Little Coin<br>That <em>Grew</em></h1>
+        <p class="lede sub">An animated story about SIP: what it is, how the units work, what happens when prices fall — and then the real price history of real mutual funds. Nothing here tells you to buy or sell. It is for understanding only.</p>
+        <div class="row" style="justify-content:center"><button class="act" id="begin">Begin with sound</button><button class="ghost" id="beginq">Begin quietly</button></div>
+        <div class="legendrow" aria-label="What the labels mean"><span class="tag real">Real data</span> actual AMFI prices · <span class="tag sim">Simulation</span> random, made up · <span class="tag ass">Assumed</span> a rate we picked · <span class="tag made">Made-up</span> example numbers</div>
+        <p class="fine">About 8 minutes · practice only, no real money is ever moved</p>
+      </div>
+    </section>
+
+    <!-- 1 WHAT IS SIP -->
+    <section class="scene" data-title="1 · What is a SIP?" data-glow="#4a2f7a" aria-label="What is a SIP">
+      <div class="wrap">
+        <p class="kicker">Chapter 1 <span class="tag made">Made-up story</span></p>
+        <h2>Meet Meera.<br>Meet her <em>SIP</em>.</h2>
+        <div class="acronym">
+          <div><b>S</b>ystematic<small>Same amount, same date</small></div>
+          <div><b>I</b>nvestment<small>Into a mutual fund</small></div>
+          <div><b>P</b>lan<small>Automatic, every month</small></div>
+        </div>
+        <div class="panel">
+          <div class="flow">
+            <div class="node"><div class="ic"><svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="#f7f0e3" stroke-width="1.6"><rect x="3" y="6" width="18" height="13" rx="3"/><path d="M16 12.5h2M3 9h18"/></svg></div>Salary<b>₹40,000</b></div>
+            <div class="track" id="track"></div>
+            <div class="node"><div class="ic"><svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="#4fd69c" stroke-width="1.6"><path d="M7 4h10M8 4v3a6 6 0 0 0-3 5v5a3 3 0 0 0 3 3h8a3 3 0 0 0 3-3v-5a6 6 0 0 0-3-5V4"/><path d="M9 14l2 2 4-4"/></svg></div>Mutual fund<b id="s1inv">₹0</b></div>
+          </div>
+          <div class="months" id="months"></div>
+        </div>
+        <button class="act" id="s1go">Run the practice SIP · ₹5,000 on the 5th</button>
+        <details class="why"><summary>What is a mutual fund, in plain words?</summary><div class="bd">Imagine a big basket. Thousands of people put a little money in. A fund manager uses the pooled money to hold many shares or bonds. Each person owns <b>slices of the basket</b>, called <b>units</b>. You do not pick the shares yourself — you own a share of the basket.</div></details>
+      </div>
+    </section>
+
+    <!-- 2 UNITS -->
+    <section class="scene" data-title="2 · Buying units" data-glow="#2f4a7a" aria-label="Buying units">
+      <div class="wrap">
+        <p class="kicker">Chapter 2 <span class="tag made">Made-up prices</span></p>
+        <h2>Your ₹5,000 buys <em>units</em></h2>
+        <p class="lede">A fund is split into tiny slices called <b>units</b>. The price of one unit — its <b>NAV</b> — changes with the market.</p>
+        <div class="panel">
+          <div class="unitstage" id="unitstage">
+            <div>
+              <div class="navtag">Price per unit this month<b id="navNow">₹100</b><span class="chg" id="navChg">&nbsp;</span></div>
+              <svg id="spark" viewBox="0 0 240 70" preserveAspectRatio="none" aria-hidden="true"></svg>
+            </div>
+            <div style="position:relative">
+              <div class="jar" id="jar" aria-hidden="true"></div>
+              <div class="jarlabel"><b id="unitsNow">0.00</b> units owned</div>
+            </div>
+          </div>
+        </div>
+        <button class="act" id="s2buy" style="margin-top:8px">Practice-buy ₹5,000 · Month 1</button>
+        <table aria-label="Your purchases"><thead><tr><th>Month</th><th>Price</th><th>Units bought</th><th>Total units</th></tr></thead><tbody id="s2rows"></tbody></table>
+        <div id="s2reveal" hidden></div>
+        <details class="why"><summary>Why does the same ₹5,000 buy different units?</summary><div class="bd">Think of a pizza cut into slices. If one slice costs ₹100, ₹5,000 gets you <b>50 slices</b>. If the price drops to ₹80, the same ₹5,000 gets <b>62.5 slices</b>. A fixed amount always buys <b>more units when the price is low</b> and fewer when it is high. That is all "rupee cost averaging" means.</div></details>
+      </div>
+    </section>
+
+    <!-- 3 TIME / TREE -->
+    <section class="scene" data-title="3 · Time & growth" data-glow="#22604f" aria-label="Time and growth">
+      <div class="wrap">
+        <p class="kicker">Chapter 3 <span class="tag ass">Assumed return</span></p>
+        <h2>Time is the <em>soil</em></h2>
+        <div class="treebox" id="tree3box"></div>
+        <div class="legend"><span><i style="background:var(--leaf)"></i>Leaves = years of investing</span><span><i style="background:var(--saffron)"></i>Fruit = growth earned</span></div>
+        <div class="stats">
+          <div class="stat"><span>You invest</span><b id="t3inv">—</b></div>
+          <div class="stat"><span>Could become</span><b class="s" id="t3val">—</b></div>
+          <div class="stat"><span>Growth</span><b class="g" id="t3gain">—</b></div>
+        </div>
+        <canvas id="c3" role="img" aria-label="Chart of money invested versus estimated value over the years"></canvas>
+        <div class="panel" style="display:flex;flex-direction:column;gap:10px">
+          <div class="ctl"><label for="r3p">Monthly SIP <b id="l3p"></b></label><input id="r3p" type="range" min="500" max="50000" step="500" value="5000"></div>
+          <div class="ctl"><label for="r3y">Years <b id="l3y"></b></label><input id="r3y" type="range" min="1" max="30" step="1" value="10"></div>
+          <div class="ctl"><label for="r3r">Assumed yearly return (our guess, not a promise) <b id="l3r"></b></label><input id="r3r" type="range" min="4" max="16" step="0.5" value="12"></div>
+        </div>
+        <details class="why"><summary>What is compounding?</summary><div class="bd">Growth that earns its own growth. If ₹100 grows 10% you get ₹110. Next year 10% is on ₹110, not ₹100, so you get ₹121. The longer it runs, the bigger the "growth on growth" part. Drag the <b>Years</b> slider and watch the golden area pull away from the green dashed line.</div></details>
+        <p class="fine">Formula: FV = P × [((1 + i)<sup>n</sup> − 1) ÷ i] × (1 + i), with i = monthly rate and n = months. A steady return is an assumption — real markets are bumpy (next chapter).</p>
+      </div>
+    </section>
+
+    <!-- 4 WEATHER -->
+    <section class="scene" data-title="4 · Market weather" data-glow="#3a3f6b" aria-label="Market fluctuations">
+      <div class="wrap">
+        <p class="kicker">Chapter 4 <span class="tag sim">Simulation</span><span class="tag ass">Assumed 12% / 18%</span></p>
+        <h2>Markets have <em>weather</em></h2>
+        <div class="wxrow panel">
+          <div id="wxIcon" aria-hidden="true"></div>
+          <div><div id="wxLabel">Waiting…</div><div id="wxMonth">Press play for 10 made-up years</div></div>
+        </div>
+        <canvas id="c4" role="img" aria-label="Simulated portfolio value over 10 years with monthly market ups and downs"></canvas>
+        <div class="stats">
+          <div class="stat"><span>Invested</span><b id="w4inv">₹0</b></div>
+          <div class="stat"><span>Value</span><b id="w4val">₹0</b></div>
+          <div class="stat"><span>Down months</span><b class="r" id="w4down">0</b></div>
+        </div>
+        <div class="row"><button class="act" id="s4play">Play 10 years</button><button class="ghost" id="s4new">Try different luck</button></div>
+        <details class="why"><summary>Is this real market history?</summary><div class="bd"><b>No.</b> The computer draws a random ups-and-downs path using two numbers we <b>assumed</b>: about 12% average growth a year and swings of about 18% a year. Each run is different. It shows what a bumpy ride <i>feels</i> like. For real history, go to Chapter 8.</div></details>
+        <p class="fine">Random monthly moves (assumed 12%/yr average, 18%/yr swings). Same ₹5,000 SIP, different luck every run. Not real history.</p>
+      </div>
+    </section>
+
+    <!-- 5 CRASH -->
+    <section class="scene" data-title="5 · What if prices fall?" data-glow="#5a2a4a" aria-label="What-if: a market fall">
+      <div class="wrap">
+        <p class="kicker">Chapter 5 <span class="tag sim">What-if simulation</span></p>
+        <h2>What if prices <em>fall</em>?</h2>
+        <p class="lede" id="s5lede"></p>
+        <div class="panel" style="display:flex;flex-direction:column;gap:6px">
+          <div class="ctl"><label for="r5d">How big is the fall? <b id="l5d"></b></label><input id="r5d" type="range" min="10" max="50" step="5" value="20"></div>
+          <div class="ctl"><label for="r5r">Months to climb back to the old trend <b id="l5r"></b></label><input id="r5r" type="range" min="6" max="60" step="6" value="24"></div>
+          <p class="fine" id="s5need"></p>
+        </div>
+        <div class="treebox" id="tree5box" style="height:210px"></div>
+        <div class="bigval" aria-live="polite"><span>Meera's practice portfolio (made-up numbers)</span><b id="s5val">₹0</b><small id="s5delta">&nbsp;</small></div>
+        <button class="act danger" id="s5crash">Trigger the fall</button>
+        <div id="s5choice" hidden>
+          <p class="lede" style="margin-bottom:8px;color:var(--ink)">Pick a path to see what it did in this model:</p>
+          <div class="choices">
+            <button class="choice" data-c="stay"><i style="background:var(--leaf)"></i><span><strong>Keep the SIP going</strong><small>₹5,000 every month, no break</small></span></button>
+            <button class="choice" data-c="pause"><i style="background:var(--saffron)"></i><span><strong>Pause the SIP for 2 years</strong><small>Keep the units, add nothing for 24 months</small></span></button>
+            <button class="choice" data-c="sell"><i style="background:var(--coral)"></i><span><strong>Move everything to savings</strong><small>Assumed 4% a year in savings</small></span></button>
+          </div>
+        </div>
+        <div id="s5out" hidden>
+          <canvas id="c5" role="img" aria-label="Comparison of the three paths over 15 years"></canvas>
+          <div class="outcomes" id="s5list"></div>
+          <p class="fine" style="margin-top:8px" id="s5foot"></p>
+        </div>
+        <details class="why"><summary>Why does a 20% fall need a 25% rise to recover?</summary><div class="bd">Start with ₹100. A 20% fall leaves <b>₹80</b>. A 20% rise on ₹80 is only ₹96 — still short. To get back to ₹100 you need ₹20 more, and ₹20 is <b>25% of ₹80</b>. The deeper the fall, the bigger the climb: 50% down needs 100% up. Try the slider above.</div></details>
+        <details class="why"><summary>Is this what will happen?</summary><div class="bd"><b>No.</b> The fall size, the recovery time and the 12% trend are all numbers we <b>chose</b>. Real recoveries can be quicker, slower, or not happen in your timeline. Chapter 8 shows real falls.</div></details>
+      </div>
+    </section>
+
+    <!-- 6 COMPOUNDING -->
+    <section class="scene" data-title="6 · Compounding" data-glow="#6b4a1f" aria-label="Compounding">
+      <div class="wrap">
+        <p class="kicker">Chapter 6 <span class="tag ass">Assumed 12%</span></p>
+        <h2>Money that makes <em>money</em></h2>
+        <p class="lede">Compounding means your growth earns growth of its own. Watch ₹5,000/month at 12% over 30 years.</p>
+        <canvas id="c6" role="img" aria-label="Stacked bars of invested amount and growth for each year"></canvas>
+        <div class="legend"><span><i style="background:var(--leaf)"></i>What you put in</span><span><i style="background:var(--saffron)"></i>Growth</span></div>
+        <div class="panel" id="s6cross" style="text-align:center;font-size:14px;line-height:1.5"></div>
+        <h3 style="margin-top:6px">Meera vs Arjun: a what-if</h3>
+        <p class="lede" style="margin-top:-8px">Same ₹5,000/month, same 12%, both stop at 55. Only the start date is different.</p>
+        <div class="panel" style="display:flex;flex-direction:column;gap:14px">
+          <div class="lane"><div class="top"><span>Meera · starts at 25</span><b id="vm">—</b></div><div class="bar"><i class="inv" id="bmi"></i><i class="gr" id="bmg"></i></div></div>
+          <div class="lane"><div class="top"><span id="aLbl">Arjun · starts at 35</span><b id="va">—</b></div><div class="bar"><i class="inv" id="bai"></i><i class="gr" id="bag"></i></div></div>
+          <div class="ctl"><label for="r6a">Arjun's starting age <b id="l6a">35</b></label><input id="r6a" type="range" min="26" max="45" step="1" value="35"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 7 NOT GUARANTEED -->
+    <section class="scene" data-title="7 · No guarantees" data-glow="#2b3a66" aria-label="Returns are not guaranteed">
+      <div class="wrap">
+        <p class="kicker">Chapter 7 <span class="tag sim">Simulation</span><span class="tag ass">Rates you set</span></p>
+        <h2>No promises.<br>Only <em>possibilities</em>.</h2>
+        <p class="lede">The computer plays the same ₹5,000 SIP in <b>300 random futures</b> using the two numbers you choose below. Each thin line is one possible future.</p>
+        <div class="seg" role="group" aria-label="Starting example" id="s7fund">
+          <button aria-pressed="false" data-f="calm">Small swings</button>
+          <button aria-pressed="true" data-f="equity">Medium swings</button>
+          <button aria-pressed="false" data-f="wild">Big swings</button>
+        </div>
+        <div class="panel" style="display:flex;flex-direction:column;gap:6px">
+          <div class="ctl"><label for="r7m">Assumed yearly return <b id="l7m"></b></label><input id="r7m" type="range" min="2" max="20" step="0.5" value="12"></div>
+          <div class="ctl"><label for="r7v">Size of the ups and downs <b id="l7v"></b></label><input id="r7v" type="range" min="2" max="35" step="1" value="18"></div>
+          <div class="ctl"><label for="r7y">Years <b id="l7y"></b></label><input id="r7y" type="range" min="1" max="30" step="1" value="15"></div>
+        </div>
+        <canvas id="c7" role="img" aria-label="Fan chart of 300 simulated outcomes"></canvas>
+        <div class="stats">
+          <div class="stat"><span>Unlucky (5%)</span><b class="r" id="p5">—</b></div>
+          <div class="stat"><span>Middle (median)</span><b class="s" id="p50">—</b></div>
+          <div class="stat"><span>Lucky (95%)</span><b class="g" id="p95">—</b></div>
+        </div>
+        <div class="panel" id="s7below" style="font-size:14px;line-height:1.5"></div>
+        <button class="ghost" id="s7roll" style="min-height:44px">Roll 300 new futures</button>
+        <details class="why"><summary>How do I read this chart?</summary><div class="bd">Every thin line is one pretend future. <b>Red lines</b> ended with less than was put in. The thick lines show the unlucky (5th percentile), middle and lucky (95th) results. If the lines fan out wide, outcomes are very uncertain. Try 3 years vs 20 years, or bigger ups and downs.</div></details>
+        <p class="fine" id="s7note"></p>
+      </div>
+    </section>
+
+    <!-- 8 REAL DATA -->
+    <section class="scene" data-title="8 · Real data" data-glow="#1f5a4a" aria-label="Real mutual fund price history">
+      <div class="wrap">
+        <p class="kicker">Chapter 8 <span class="tag real">Real data</span></p>
+        <h2>Now the <em>real</em> thing</h2>
+        <p class="lede">Everything before this was made up. Here we use the <b>real daily prices (NAV)</b> that fund companies report to AMFI. Search any fund, pick a period, and see what a monthly SIP <b>actually did in the past</b>.</p>
+        <div class="panel">
+          <div class="searchrow"><label class="sr" for="fq">Search for a mutual fund</label><input id="fq" type="search" placeholder="Type a fund name…" autocomplete="off" enterkeyhint="search"><button class="act" id="fgo" style="padding:0 20px;min-height:44px">Search</button></div>
+          <div class="chips" id="fhints" aria-label="Example searches"><button data-q="nifty 50 index">Nifty 50 index</button><button data-q="flexi cap">Flexi cap</button><button data-q="small cap">Small cap</button><button data-q="liquid">Liquid</button><button data-q="gold">Gold</button></div>
+          <div class="fres" id="fres" role="list"></div>
+          <p class="fine" id="fstat" aria-live="polite" style="margin-top:8px">These are example searches, not recommendations. Pick any fund you are curious about.</p>
+        </div>
+        <div id="rdbody" hidden>
+          <div class="panel" style="display:flex;flex-direction:column;gap:4px">
+            <div class="fundname" id="fundname"></div>
+            <div class="fine" id="fundmeta"></div>
+          </div>
+          <div class="panel" style="display:flex;flex-direction:column;gap:12px">
+            <div class="chips" id="rdp" style="margin-top:0" aria-label="Quick periods"><button data-p="1">1 year</button><button data-p="3">3 years</button><button data-p="5" aria-pressed="true">5 years</button><button data-p="10">10 years</button><button data-p="max">All data</button><button data-p="covid">2020 fall</button><button data-p="gfc">2008 fall</button></div>
+            <div class="dates">
+              <label>From<input id="rdS" type="month"></label>
+              <label>To<input id="rdE" type="month"></label>
+            </div>
+            <div class="dates">
+              <label>SIP date each month<select id="rdDay"></select></label>
+              <div class="ctl"><label for="rdAmt" style="display:flex;justify-content:space-between">Monthly amount <b id="lAmt"></b></label><input id="rdAmt" type="range" min="500" max="50000" step="500" value="5000"></div>
+            </div>
+            <p class="fine" id="rdNote" aria-live="polite"></p>
+          </div>
+          <div class="stats">
+            <div class="stat"><span>Put in</span><b id="rdInv">—</b></div>
+            <div class="stat"><span>Worth at end</span><b id="rdVal">—</b></div>
+            <div class="stat"><span>Gain / loss</span><b id="rdPnl">—</b></div>
+          </div>
+          <div class="stats">
+            <div class="stat"><span>Units owned</span><b id="rdUnits">—</b></div>
+            <div class="stat"><span>Your avg cost / unit</span><b id="rdAvg">—</b></div>
+            <div class="stat"><span>Yearly rate (XIRR)</span><b id="rdXirr">—</b></div>
+          </div>
+          <p class="chartcap">Price of ONE unit (NAV) — green dots are your instalments</p>
+          <canvas id="c8a" role="img" aria-label="Real NAV history of the chosen fund over the chosen period"></canvas>
+          <p class="chartcap">Your money: put in (dashed) vs worth (green when above, red when below)</p>
+          <canvas id="c8b" role="img" aria-label="Money put in versus value of the SIP over the chosen period"></canvas>
+          <div class="row"><button class="act" id="rdPlay" style="min-height:44px">▶ Replay month by month</button><button class="ghost" id="rdFall" style="min-height:44px">Show the biggest fall</button></div>
+          <div class="ddbox" id="rdDD" hidden aria-live="polite"></div>
+          <h3 style="margin-top:4px">Every instalment</h3>
+          <p class="lede" style="margin-top:-8px;font-size:14px">The NAV used each month, and how many units that month's money bought.</p>
+          <div class="tscroll"><table aria-label="Every SIP instalment"><thead><tr><th>NAV date</th><th>NAV</th><th>Units bought</th><th>Total units</th></tr></thead><tbody id="rdRows"></tbody></table></div>
+          <details class="why"><summary>How is this calculated?</summary><div class="bd"><b>Units bought</b> = monthly amount ÷ NAV on the instalment day. If that day was a holiday or weekend, the next day that has a NAV is used. <b>Worth</b> = total units × the NAV on the last date. <b>Gain/loss</b> = worth − money put in. <b>XIRR</b> is the single yearly rate that matches all the dated cash flows; it is shown only for periods of a year or more. <b>Not included:</b> exit load, taxes, stamp duty, and any SIP charges. NAV already has the fund's running costs taken out.</div></details>
+          <details class="why"><summary>Why can I not pick "IDCW" or "Payout" funds?</summary><div class="bd">These funds pay money out, and the NAV drops each time. The simple units × NAV maths would then give a wrong answer, so only other plans (such as Growth) are supported.</div></details>
+        </div>
+        <p class="fine" id="rdSrc">Source: daily NAV published by AMFI, read through the free mfapi.in service (a community copy — not run by AMFI). Past performance is history, not a promise or a prediction. This is not a recommendation of any fund.</p>
+      </div>
+    </section>
+
+    <!-- 9 ENDING -->
+    <section class="scene" data-title="Epilogue" data-glow="#4a2f7a" aria-label="Ending">
+      <div class="wrap">
+        <div class="forest" id="forest" aria-hidden="true"></div>
+        <p class="kicker" style="text-align:center">Epilogue <span class="tag ass">Assumed rate</span></p>
+        <h2 style="text-align:center" id="endTitle">Meera looks back.</h2>
+        <div class="endcard" aria-live="polite">
+          <p class="lede" id="endPre"></p>
+          <div class="big" id="endBig">₹0</div>
+          <p class="lede" id="endPost"></p>
+        </div>
+        <ul class="lessons" id="lessons">
+          <li>A SIP is a fixed amount, on a fixed date, put in automatically.</li>
+          <li>Your money buys units. The same ₹5,000 buys more units when the price is low, fewer when it is high.</li>
+          <li>More years give growth more time to build on itself (compounding).</li>
+          <li>Prices fall as well as rise. A fall of 20% needs a 25% rise to get back; real history in Chapter 8 shows how long real falls took.</li>
+          <li>A fall becomes a fixed loss only if the units are sold at the lower price.</li>
+          <li>Past returns are history, not a promise. Any future rate in a story is an assumption.</li>
+        </ul>
+        <div class="row"><button class="act" id="replay" style="min-height:44px">Watch the story again</button></div>
+        <p class="fine" style="text-align:center">Samajh – Money Stories is for learning. It is not investment advice and does not tell anyone to buy or sell. Mutual fund investments are subject to market risks; read all scheme related documents carefully.</p>
+      </div>
+    </section>
+  </main>
+
+  <div id="dock" class="hide">
+    <div class="talkrow">
+      <div id="meera" aria-hidden="true">
+        <svg viewBox="0 0 100 100">
+          <defs><clipPath id="mc"><circle cx="50" cy="50" r="48"/></clipPath></defs>
+          <circle cx="50" cy="50" r="48" fill="#2c2458" stroke="#ffb547" stroke-width="2"/>
+          <g clip-path="url(#mc)">
+            <path d="M24 56C18 24 82 24 76 56L78 80C68 72 32 72 22 80Z" fill="#1b1230"/>
+            <circle cx="50" cy="17" r="10" fill="#1b1230"/>
+            <path d="M24 104C26 84 74 84 76 104Z" fill="#ffb547"/>
+            <path d="M42 86l8 8 8-8" fill="none" stroke="#c97a12" stroke-width="2"/>
+            <rect x="44" y="70" width="12" height="14" rx="4" fill="#b8754c"/>
+            <ellipse cx="50" cy="52" rx="22" ry="24" fill="#c98a5e"/>
+            <path d="M28 48C30 26 70 26 72 48C64 38 46 34 28 48Z" fill="#1b1230"/>
+            <circle cx="28.5" cy="58" r="2.2" fill="#ffb547"/><circle cx="71.5" cy="58" r="2.2" fill="#ffb547"/>
+            <g fill="none" stroke="#1b1230" stroke-width="2.4" stroke-linecap="round"><path id="browL" d="M35 43q5-3 10 0"/><path id="browR" d="M55 43q5-3 10 0"/></g>
+            <g class="eyes eO"><ellipse cx="40.5" cy="51" rx="3.4" ry="4.2" fill="#1b1230"/><ellipse cx="59.5" cy="51" rx="3.4" ry="4.2" fill="#1b1230"/><circle cx="41.7" cy="49.4" r="1.2" fill="#fff"/><circle cx="60.7" cy="49.4" r="1.2" fill="#fff"/></g>
+            <g class="eH" fill="none" stroke="#1b1230" stroke-width="2.8" stroke-linecap="round"><path d="M35.5 53q5-8 10 0"/><path d="M54.5 53q5-8 10 0"/></g>
+            <g class="eW"><ellipse cx="40.5" cy="50" rx="5" ry="6.2" fill="#fff" stroke="#1b1230" stroke-width="1.4"/><ellipse cx="59.5" cy="50" rx="5" ry="6.2" fill="#fff" stroke="#1b1230" stroke-width="1.4"/><circle cx="40.5" cy="50.5" r="2.4" fill="#1b1230"/><circle cx="59.5" cy="50.5" r="2.4" fill="#1b1230"/></g>
+            <g class="eS"><ellipse cx="40.5" cy="52" rx="3.8" ry="3.8" fill="#1b1230"/><ellipse cx="59.5" cy="52" rx="3.8" ry="3.8" fill="#1b1230"/><circle cx="41.8" cy="50.6" r="1.7" fill="#fff"/><circle cx="60.8" cy="50.6" r="1.7" fill="#fff"/></g>
+            <path class="tear" d="M34.5 57q-3 5 0 8q3-3 0-8z" fill="#7aa7ff"/>
+            <g class="spk" fill="#ffe3a6"><path d="M80 22l2 5 5 2-5 2-2 5-2-5-5-2 5-2z"/><path d="M18 30l1.5 3.5 3.5 1.5-3.5 1.5-1.5 3.5-1.5-3.5-3.5-1.5 3.5-1.5z"/></g>
+            <ellipse cx="34" cy="60" rx="4.5" ry="2.4" fill="#ff7a6b" opacity=".45"/><ellipse cx="66" cy="60" rx="4.5" ry="2.4" fill="#ff7a6b" opacity=".45"/>
+            <path id="mouth" d="M43 62Q50 69 57 62" fill="none" stroke="#5a1f1a" stroke-width="2.4" stroke-linecap="round"/>
+          </g>
+        </svg>
+      </div>
+      <div id="bubble" role="status" aria-live="polite" tabindex="0"><span class="name">Meera</span><span id="line"></span><span id="more">tap ›</span></div>
+    </div>
+    <nav>
+      <button id="back" aria-label="Previous chapter">‹</button>
+      <div id="chap"></div>
+      <button id="next">Next ›</button>
+    </nav>
+  </div>
+</div>
+
+<script>
+(()=>{
+const $=s=>document.querySelector(s), $$=s=>[...document.querySelectorAll(s)];
+const sleep=ms=>new Promise(r=>setTimeout(r,ms));
+
+/* ---------- finance math ---------- */
+const mRate=a=>Math.pow(1+a,1/12)-1;
+function sipFV(P,months,annual){const r=mRate(annual);if(r===0)return P*months;return P*((Math.pow(1+r,months)-1)/r)*(1+r)}
+const inr=n=>'₹'+Math.round(n).toLocaleString('en-IN');
+function fmt(n){const a=Math.abs(n),s=n<0?'−':'';if(a>=1e7)return s+'₹'+(a/1e7).toFixed(2)+' Cr';if(a>=1e5)return s+'₹'+(a/1e5).toFixed(2)+' L';return s+'₹'+Math.round(a).toLocaleString('en-IN')}
+function short(n){if(n>=1e7)return(n/1e7).toFixed(n>=1e8?0:1)+'Cr';if(n>=1e5)return(n/1e5).toFixed(n>=1e6?0:1)+'L';if(n>=1e3)return Math.round(n/1e3)+'k';return Math.round(n)+''}
+function rng(seed){return function(){seed|=0;seed=seed+0x6D2B79F5|0;let t=Math.imul(seed^seed>>>15,1|seed);t=t+Math.imul(t^t>>>7,61|t)^t;return((t^t>>>14)>>>0)/4294967296}}
+function gauss(r){let u=0,v=0;while(!u)u=r();while(!v)v=r();return Math.sqrt(-2*Math.log(u))*Math.cos(2*Math.PI*v)}
+function monthlyParams(mean,vol){const s=vol/Math.sqrt(12);return{m:Math.log(1+mean)/12-s*s/2,s}}
+
+function tween(el,from,to,dur=900,f=fmt){const t0=performance.now();return new Promise(res=>{function step(t){const k=Math.min(1,(t-t0)/dur),e=1-Math.pow(1-k,3);el.textContent=f(from+(to-from)*e);k<1?requestAnimationFrame(step):res()}requestAnimationFrame(step)})}
+
+/* ---------- audio: generative score + sfx ---------- */
+const AU={ctx:null,mood:'warm',muted:false,next:0,bar:0};
+const BAR=3.6, hz=m=>440*Math.pow(2,(m-69)/12);
+const CH={warm:[[60,64,67,71],[57,60,64,67],[53,57,60,64],[55,59,62,65]],tense:[[57,60,64,69],[53,57,60,65],[52,55,59,64],[52,56,59,64]],bright:[[62,66,69,73],[59,62,66,69],[55,59,62,66],[57,61,64,69]]};
+function audioInit(){
+  if(AU.ctx)return;const C=window.AudioContext||window.webkitAudioContext;if(!C)return;
+  const ctx=AU.ctx=new C();
+  AU.master=ctx.createGain();AU.master.gain.value=AU.muted?0:.9;AU.master.connect(ctx.destination);
+  const comp=ctx.createDynamicsCompressor();comp.connect(AU.master);
+  AU.mus=ctx.createGain();AU.mus.gain.setValueAtTime(0,ctx.currentTime);AU.mus.gain.linearRampToValueAtTime(.6,ctx.currentTime+4);
+  AU.fx=ctx.createGain();AU.fx.gain.value=.75;
+  const len=ctx.sampleRate*2.4,ir=ctx.createBuffer(2,len,ctx.sampleRate);
+  for(let c=0;c<2;c++){const d=ir.getChannelData(c);for(let i=0;i<len;i++)d[i]=(Math.random()*2-1)*Math.pow(1-i/len,3)}
+  const rev=ctx.createConvolver();rev.buffer=ir;const rg=ctx.createGain();rg.gain.value=.4;rev.connect(rg);rg.connect(comp);
+  AU.mus.connect(comp);AU.mus.connect(rev);AU.fx.connect(comp);AU.fx.connect(rev);
+  AU.noise=ctx.createBuffer(1,ctx.sampleRate*3,ctx.sampleRate);const nd=AU.noise.getChannelData(0);for(let i=0;i<nd.length;i++)nd[i]=Math.random()*2-1;
+  AU.next=ctx.currentTime+.1;setInterval(sched,150);
+}
+function sched(){const c=AU.ctx;if(c.state!=='running')return;while(AU.next<c.currentTime+.8){bar(AU.next,AU.bar++);AU.next+=BAR}}
+function env(g,t,a,p,d){g.gain.setValueAtTime(.0001,t);g.gain.exponentialRampToValueAtTime(p,t+a);g.gain.exponentialRampToValueAtTime(.0001,t+a+d)}
+function tone(type,f,t,a,p,d,dest,det=0){const o=AU.ctx.createOscillator(),g=AU.ctx.createGain();o.type=type;o.frequency.value=f;o.detune.value=det;env(g,t,a,p,d);o.connect(g);g.connect(dest);o.start(t);o.stop(t+a+d+.05);return o}
+function bar(t,i){
+  const set=CH[AU.mood],ch=set[i%set.length],tense=AU.mood==='tense';
+  const lp=AU.ctx.createBiquadFilter();lp.type='lowpass';lp.frequency.value=tense?520:1200;lp.connect(AU.mus);
+  ch.forEach(n=>{tone('triangle',hz(n-12),t,1.4,.03,BAR+.4,lp,-7);tone('sawtooth',hz(n-12),t,1.6,.008,BAR+.4,lp,7)});
+  tone('sine',hz(ch[0]-24),t,.08,tense?.16:.11,BAR*.95,AU.mus);
+  const pat=tense?[0,-1,2,-1,1,-1,3,-1]:[0,1,2,3,1,2,3,2];const st=BAR/pat.length;
+  pat.forEach((p,k)=>{if(p<0)return;tone('sine',hz(ch[p]+12),t+k*st,.008,tense?.035:.055,1,AU.mus)});
+  if(tense)tone('sine',hz(ch[0]-12),t,.02,.08,.5,AU.mus);
+}
+function noise(t,d){const s=AU.ctx.createBufferSource();s.buffer=AU.noise;s.start(t);s.stop(t+d);return s}
+const sfx={
+  ok:()=>AU.ctx&&!AU.muted,
+  coin(){if(!this.ok())return;const t=AU.ctx.currentTime;tone('sine',1975,t,.004,.22,.25,AU.fx);tone('sine',2637,t+.07,.004,.2,.45,AU.fx);tone('triangle',3951,t+.07,.004,.04,.2,AU.fx)},
+  blip(){if(!this.ok())return;tone('sine',760+Math.random()*160,AU.ctx.currentTime,.003,.018,.04,AU.fx)},
+  tick(){if(!this.ok())return;tone('sine',1500,AU.ctx.currentTime,.002,.03,.03,AU.fx)},
+  pop(){if(!this.ok())return;const t=AU.ctx.currentTime,o=AU.ctx.createOscillator(),g=AU.ctx.createGain();o.frequency.setValueAtTime(720,t);o.frequency.exponentialRampToValueAtTime(180,t+.16);env(g,t,.005,.2,.16);o.connect(g);g.connect(AU.fx);o.start(t);o.stop(t+.25)},
+  whoosh(){if(!this.ok())return;const t=AU.ctx.currentTime,s=noise(t,.7),f=AU.ctx.createBiquadFilter(),g=AU.ctx.createGain();f.type='bandpass';f.Q.value=1.2;f.frequency.setValueAtTime(300,t);f.frequency.exponentialRampToValueAtTime(2600,t+.5);env(g,t,.15,.18,.45);s.connect(f);f.connect(g);g.connect(AU.fx)},
+  thunder(){if(!this.ok())return;const t=AU.ctx.currentTime;
+    const a=noise(t,.4),hf=AU.ctx.createBiquadFilter(),ga=AU.ctx.createGain();hf.type='highpass';hf.frequency.value=1500;env(ga,t,.003,.5,.3);a.connect(hf);hf.connect(ga);ga.connect(AU.fx);
+    const b=noise(t+.05,2.9),lf=AU.ctx.createBiquadFilter(),gb=AU.ctx.createGain();lf.type='lowpass';lf.frequency.setValueAtTime(500,t);lf.frequency.exponentialRampToValueAtTime(90,t+2.5);env(gb,t+.05,.05,1,2.6);b.connect(lf);lf.connect(gb);gb.connect(AU.fx);
+    tone('sine',48,t,.05,.5,1.8,AU.fx)},
+  chime(){if(!this.ok())return;const t=AU.ctx.currentTime;[72,76,79,84,88].forEach((n,i)=>tone('triangle',hz(n),t+i*.09,.005,.1,1.3,AU.fx))},
+  sad(){if(!this.ok())return;const t=AU.ctx.currentTime;[67,63,60,55].forEach((n,i)=>tone('triangle',hz(n),t+i*.16,.01,.1,.6,AU.fx))},
+  rise(){if(!this.ok())return;const t=AU.ctx.currentTime;[60,64,67,72,76].forEach((n,i)=>tone('sine',hz(n),t+i*.06,.005,.08,.4,AU.fx))}
+};
+function setMood(m){AU.mood=m}
+const muteBtn=$('#mute');
+const icOn='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M4 9v6h4l5 4V5L8 9H4z"/><path d="M16.5 8.5a5 5 0 0 1 0 7M19 6a8.5 8.5 0 0 1 0 12"/></svg>';
+const icOff='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M4 9v6h4l5 4V5L8 9H4z"/><path d="M17 9l5 6M22 9l-5 6"/></svg>';
+muteBtn.innerHTML=icOn;
+muteBtn.onclick=()=>{AU.muted=!AU.muted;muteBtn.innerHTML=AU.muted?icOff:icOn;muteBtn.setAttribute('aria-pressed',AU.muted);muteBtn.setAttribute('aria-label',AU.muted?'Unmute sound':'Mute sound');if(AU.ctx)AU.master.gain.setTargetAtTime(AU.muted?0:.9,AU.ctx.currentTime,.1)};
+
+/* ---------- ambience ---------- */
+if(!matchMedia('(prefers-reduced-motion: reduce)').matches)for(let i=0;i<22;i++){const s=document.createElement('i');s.className='star';const z=Math.random()*2+1;Object.assign(s.style,{left:Math.random()*100+'vw',top:Math.random()*65+'vh',width:z+'px',height:z+'px',animationDelay:Math.random()*4+'s'});document.body.appendChild(s)}
+const rainEl=$('#rain');
+function flash(){const f=$('#flash');f.classList.remove('on');void f.offsetWidth;f.classList.add('on')}
+function shake(){const a=$('#app');a.classList.remove('shake');void a.offsetWidth;a.classList.add('shake')}
+
+/* ---------- Meera ---------- */
+const FACES={
+  happy:{m:'M43 62Q50 69 57 62',l:'M35 43q5-3 10 0',r:'M55 43q5-3 10 0'},
+  wow:{m:'M46.5 63a3.5 4 0 1 0 7 0a3.5 4 0 1 0-7 0',l:'M35 40q5-4 10-1',r:'M55 39q5-1 10 1'},
+  worried:{m:'M43 66Q50 60 57 66',l:'M35 44q5-1 10-4',r:'M55 40q5 3 10 4'},
+  calm:{m:'M44 63Q50 66 56 63',l:'M35 44q5-2 10 0',r:'M55 44q5-2 10 0'},
+  proud:{m:'M42 61Q50 71 58 61Z',l:'M35 42q5-4 10-1',r:'M55 41q5-1 10 1'}
+};
+let lastFace='',lastFx=0;
+function face(f){
+  const d=FACES[f]||FACES.happy,m=$('#meera'),changed=f!==lastFace;
+  $('#mouth').setAttribute('d',d.m);$('#mouth').setAttribute('fill',f==='wow'||f==='proud'?'#5a1f1a':'none');$('#browL').setAttribute('d',d.l);$('#browR').setAttribute('d',d.r);
+  m.className=m.className.split(' ').filter(c=>!/^(f|p)-/.test(c)).join(' ');
+  void m.offsetWidth;m.classList.add('f-'+f,'p-'+f);
+  if(changed){lastFace=f;const n=performance.now();if(n-lastFx>1500){lastFx=n;if(f==='proud'||f==='happy')sfx.rise();else if(f==='worried')sfx.sad();else if(f==='wow')sfx.pop()}}
+}
+const lineEl=$('#line'),moreEl=$('#more'),meeraEl=$('#meera');
+let typeT=null,fullText='',queue=[],autoT=null;
+function type(text,f='happy'){
+  face(f);clearInterval(typeT);clearTimeout(autoT);fullText=text;let i=0;lineEl.textContent='';meeraEl.classList.add('talk');moreEl.classList.remove('on');
+  typeT=setInterval(()=>{i++;lineEl.textContent=text.slice(0,i);if(i%4===0)sfx.blip();if(i>=text.length)done()},20);
+}
+function done(){clearInterval(typeT);typeT=null;lineEl.textContent=fullText;meeraEl.classList.remove('talk');if(queue.length){moreEl.classList.add('on');autoT=setTimeout(advance,Math.max(4200,fullText.length*70))}}
+function advance(){if(typeT){done();return}if(queue.length){const[t,f]=queue.shift();type(t,f)}}
+function say(t,f){queue=[];type(t,f)}
+function script(lines){queue=lines.slice(1);type(lines[0][0],lines[0][1])}
+$('#bubble').onclick=advance;$('#bubble').onkeydown=e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();advance()}};
+
+/* ---------- canvas chart helper ---------- */
+function setup(c,h){const dpr=Math.min(2,devicePixelRatio||1),w=c.clientWidth||320;c.width=w*dpr;c.height=h*dpr;c.style.height=h+'px';const x=c.getContext('2d');x.setTransform(dpr,0,0,dpr,0,0);return{x,w,h}}
+function axes(c,h,n,max,xl){
+  const{x,w}=setup(c,h),pl=40,pr=8,pt=10,pb=22,W=w-pl-pr,H=h-pt-pb;
+  x.font='12px Geist,system-ui,sans-serif';x.fillStyle='rgba(247,240,227,.5)';x.strokeStyle='rgba(247,240,227,.08)';x.lineWidth=1;
+  for(let i=0;i<=3;i++){const y=pt+H-H*i/3;x.beginPath();x.moveTo(pl,y);x.lineTo(w-pr,y);x.stroke();x.textAlign='right';x.fillText(short(max*i/3),pl-6,y+4)}
+  x.textAlign='center';(xl||[]).forEach(([i,t])=>x.fillText(t,pl+W*i/n,h-6));
+  return{x,w,X:i=>pl+W*i/n,Y:v=>pt+H-H*Math.max(0,Math.min(v,max))/max,base:pt+H,pt,pl,W,H};
+}
+function line(g,data,upto,color,width=2,dash=null,fill=null){
+  if(upto<2)return;const{x,X,Y}=g;x.beginPath();for(let i=0;i<upto;i++)i?x.lineTo(X(i),Y(data[i])):x.moveTo(X(i),Y(data[i]));
+  if(fill){x.save();x.lineTo(X(upto-1),g.base);x.lineTo(X(0),g.base);x.closePath();const gr=x.createLinearGradient(0,g.pt,0,g.base);gr.addColorStop(0,fill[0]);gr.addColorStop(1,fill[1]);x.fillStyle=gr;x.fill();x.restore();x.beginPath();for(let i=0;i<upto;i++)i?x.lineTo(X(i),Y(data[i])):x.moveTo(X(i),Y(data[i]))}
+  x.setLineDash(dash||[]);x.strokeStyle=color;x.lineWidth=width;x.lineJoin='round';x.stroke();x.setLineDash([]);
+}
+const yrLabels=(n,step)=>{const a=[];for(let i=0;i<=n;i+=step)a.push([i,i?(i/12|0)+'y':'0']);return a};
+
+/* ---------- tree ---------- */
+function makeTree(box,seed){
+  const r=rng(seed),leaves=[],fruits=[],cols=['#4fd69c','#3fbf86','#7fe9b9','#2fa874'];
+  for(let i=0;i<80;i++){const a=r()*Math.PI*2,d=Math.sqrt(r());leaves.push({x:100+Math.cos(a)*d*74,y:92+Math.sin(a)*d*54,s:7+r()*7,c:cols[i%4]})}
+  leaves.sort((p,q)=>Math.hypot(p.x-100,p.y-120)-Math.hypot(q.x-100,q.y-120));
+  for(let i=0;i<40;i++){const a=r()*Math.PI*2,d=Math.sqrt(r())*.9;fruits.push({x:100+Math.cos(a)*d*68,y:92+Math.sin(a)*d*48})}
+  box.innerHTML=`<svg class="tree" viewBox="0 0 200 230" aria-hidden="true">
+    <ellipse cx="100" cy="214" rx="84" ry="10" fill="rgba(0,0,0,.28)"/>
+    <ellipse cx="100" cy="212" rx="60" ry="6" fill="#2a5a3f" opacity=".6"/>
+    <g class="canopy">
+      <path d="M92 214C95 182 89 152 96 122L104 122C111 152 105 182 108 214Z" fill="#7a4b2a"/>
+      <path d="M98 156C86 142 76 132 66 114M102 146C116 134 126 122 136 106M100 132C100 118 98 104 100 90" stroke="#7a4b2a" stroke-width="6" fill="none" stroke-linecap="round"/>
+      <g>${leaves.map((l,i)=>`<circle class="leaf" cx="${l.x.toFixed(1)}" cy="${l.y.toFixed(1)}" r="${l.s.toFixed(1)}" fill="${l.c}" style="transition-delay:${(i%20)*18}ms"/>`).join('')}</g>
+      <g>${fruits.map((f,i)=>`<g class="fruit" style="transition-delay:${(i%12)*30}ms"><circle cx="${f.x.toFixed(1)}" cy="${f.y.toFixed(1)}" r="4.6" fill="#ffb547" stroke="#c97a12" stroke-width="1"/><circle cx="${(f.x-1.4).toFixed(1)}" cy="${(f.y-1.6).toFixed(1)}" r="1.3" fill="#ffe3a6"/></g>`).join('')}</g>
+    </g></svg>`;
+  const svg=box.querySelector('svg'),L=[...svg.querySelectorAll('.leaf')],F=[...svg.querySelectorAll('.fruit')];
+  return{svg,
+    set(nl,nf,scale){L.forEach((e,i)=>{e.classList.remove('fall');e.classList.toggle('on',i<nl)});F.forEach((e,i)=>e.classList.toggle('on',i<nf));if(scale)svg.style.transform=`scale(${scale})`},
+    drop(frac){const on=L.filter(e=>e.classList.contains('on'));const k=Math.round(on.length*frac);for(let i=0;i<k;i++){const e=on[on.length-1-i*Math.floor(on.length/k||1)%on.length]||on[i];e.style.transitionDelay='0ms';e.style.animationDelay=(Math.random()*.5)+'s';e.classList.add('fall');e.classList.remove('on')}
+      F.forEach(e=>{if(e.classList.contains('on')&&Math.random()<frac*2)e.classList.remove('on')});svg.classList.add('crashshake');setTimeout(()=>svg.classList.remove('crashshake'),1000)}
+  };
+}
+
+/* ---------- navigation ---------- */
+const scenes=$$('.scene'),N=scenes.length;let cur=0;
+const prog=$('#progress');for(let i=1;i<N;i++)prog.appendChild(document.createElement('i'));
+const nextBtn=$('#next'),dock=$('#dock');
+const hooks={};
+function go(i){
+  if(i<0||i>=N||i===cur)return;
+  const prev=scenes[cur];prev.classList.remove('active');prev.classList.add('leave');setTimeout(()=>prev.classList.remove('leave'),800);
+  hooks[cur]?.leave?.();
+  cur=i;const s=scenes[i];s.classList.add('active');s.scrollTop=0;
+  document.documentElement.style.setProperty('--glow',s.dataset.glow);
+  $$('#progress i').forEach((e,k)=>e.classList.toggle('done',k<i));
+  $('#chap').textContent=s.dataset.title;
+  dock.classList.toggle('hide',i===0);
+  nextBtn.textContent=i===N-1?'Replay ↺':'Next ›';nextBtn.classList.remove('ready');
+  $('#back').style.visibility=i<=1?'hidden':'visible';
+  sfx.whoosh();
+  hooks[i]?.enter?.();
+}
+function ready(){nextBtn.classList.add('ready')}
+nextBtn.onclick=()=>cur===N-1?replay():go(cur+1);
+$('#back').onclick=()=>go(cur-1);
+document.addEventListener('keydown',e=>{if(e.target.tagName==='INPUT')return;if(e.key==='ArrowRight'&&cur>0)nextBtn.click();if(e.key==='ArrowLeft')go(cur-1)});
+function begin(sound){if(!sound){AU.muted=true;muteBtn.innerHTML=icOff;muteBtn.setAttribute('aria-pressed',true);muteBtn.setAttribute('aria-label','Unmute sound')}audioInit();AU.ctx&&AU.ctx.resume();sfx.chime();go(1)}
+$('#begin').onclick=()=>begin(true);$('#beginq').onclick=()=>begin(false);
+document.documentElement.style.setProperty('--glow',scenes[0].dataset.glow);
+
+/* ---------- 1: what is SIP ---------- */
+const MONTHS=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+$('#months').innerHTML=MONTHS.map(m=>`<div>${m}<small>5th</small></div>`).join('');
+let s1done=false;
+hooks[1]={enter(){setMood('warm');script([["Hi, I'm Meera! I just got my first salary — ₹40,000.",'happy'],["Last year my money vanished by the 25th. So this year I'm trying a SIP.",'calm'],["I'll invest ₹5,000 automatically on the 5th of every month. Tap the button and watch a year go by.",'happy']]);if(s1done)ready()}};
+$('#s1go').onclick=async()=>{
+  const b=$('#s1go');b.disabled=true;const tiles=$$('#months div');let inv=0;tiles.forEach(t=>t.classList.remove('lit'));
+  say("Here goes… salary day, every single month.",'wow');
+  for(let m=0;m<12;m++){
+    const c=document.createElement('div');c.className='flycoin';c.textContent='₹';$('#track').appendChild(c);setTimeout(()=>c.remove(),720);
+    await sleep(360);tiles[m].classList.add('lit');sfx.coin();tween($('#s1inv'),inv,inv+5000,300,inr);inv+=5000;await sleep(220);
+  }
+  s1done=true;b.disabled=false;b.textContent='Replay the year';
+  say("₹60,000 invested in a year — without me thinking about it once. Same amount, same date, on autopilot. That's a SIP.",'proud');ready();
+};
+
+/* ---------- 2: units / rupee cost averaging ---------- */
+const PRICES=[100,92,80,88,104,112];let s2m=0,s2units=0;
+const UCOL=['#4fd69c','#7fe9b9','#ffb547','#ffd28a','#a99cff','#ff9e8a'];
+function spark(upto){const max=120,min=70,w=240,h=70,X=i=>10+i*(220/5),Y=p=>h-((p-min)/(max-min))*h;
+  let pts=PRICES.slice(0,upto).map((p,i)=>`${X(i)},${Y(p)}`).join(' ');
+  $('#spark').innerHTML=`<line x1="0" x2="240" y1="${Y(100)}" y2="${Y(100)}" stroke="rgba(247,240,227,.15)" stroke-dasharray="4 4"/>`+(upto>1?`<polyline points="${pts}" fill="none" stroke="#ffb547" stroke-width="2.5" stroke-linejoin="round" vector-effect="non-scaling-stroke"/>`:'')+PRICES.slice(0,upto).map((p,i)=>`<circle cx="${X(i)}" cy="${Y(p)}" r="3.5" fill="${UCOL[i]}"/>`).join('')}
+function s2reset(){s2m=0;s2units=0;$('#jar').innerHTML='';$('#s2rows').innerHTML='';$('#s2reveal').hidden=true;$('#unitsNow').textContent='0.00';$('#navNow').textContent='₹100';$('#navChg').innerHTML='&nbsp;';$('#s2buy').textContent='Practice-buy ₹5,000 · Month 1';$('#s2buy').disabled=false;spark(0)}
+s2reset();
+hooks[2]={enter(){script([["So where does my ₹5,000 actually go?",'calm'],["It buys units of a mutual fund. The unit price moves every month. Let's invest for 6 months — tap to buy!",'happy']]);if(s2m>=6)ready()}};
+$('#s2buy').onclick=async()=>{
+  if(s2m>=6){s2reset();return}
+  const b=$('#s2buy');b.disabled=true;const p=PRICES[s2m],u=5000/p;
+  const c=document.createElement('div');c.className='fallcoin';c.textContent='₹';$('#unitstage').appendChild(c);setTimeout(()=>c.remove(),650);sfx.coin();
+  await sleep(450);
+  const jar=$('#jar'),dots=Math.round(u/2.6);for(let i=0;i<dots;i++){const d=document.createElement('i');d.className='u';d.style.background=UCOL[s2m];d.style.animationDelay=(i*25)+'ms';jar.appendChild(d)}
+  sfx.pop();s2units+=u;$('#unitsNow').textContent=s2units.toFixed(2);spark(s2m+1);
+  $('#s2rows').insertAdjacentHTML('beforeend',`<tr class="new"><td><span style="display:inline-block;width:8px;height:8px;border-radius:50%;background:${UCOL[s2m]};margin-right:6px"></span>M${s2m+1}</td><td>₹${p}</td><td><b>${u.toFixed(2)}</b></td><td>${s2units.toFixed(2)}</td></tr>`);
+  const prev=PRICES[s2m-1];
+  if(s2m===0)say(`₹5,000 ÷ ₹${p} = ${u.toFixed(2)} units. My very first slice of the fund!`,'happy');
+  else if(p<prev)say(`Price fell to ₹${p}. The same ₹5,000 now buys ${u.toFixed(2)} units — more than last month.`,'wow');
+  else say(`Price rose to ₹${p}. I get fewer units (${u.toFixed(2)}), but every unit I already own is now worth more.`,'proud');
+  s2m++;
+  if(s2m<6){const np=PRICES[s2m];$('#navNow').textContent='₹'+np;const ch=np-p;$('#navChg').innerHTML=`<span class="${ch<0?'r':'g'}">${ch<0?'▼':'▲'} ${Math.abs(ch/p*100).toFixed(1)}% vs last month</span>`;b.textContent=`Practice-buy ₹5,000 · Month ${s2m+1}`;b.disabled=false}
+  else{
+    const inv=30000,avgCost=inv/s2units,avgPrice=PRICES.reduce((a,b)=>a+b)/6,val=s2units*PRICES[5];
+    await sleep(900);sfx.chime();
+    const r=$('#s2reveal');r.hidden=false;r.className='reveal';
+    r.innerHTML=`<div class="stats"><div class="stat"><span>Invested</span><b>${inr(inv)}</b></div><div class="stat"><span>Your avg cost/unit</span><b class="g">₹${avgCost.toFixed(2)}</b></div><div class="stat"><span>Avg market price</span><b>₹${avgPrice.toFixed(2)}</b></div></div><p class="lede" style="margin-top:10px">Worth today: <b style="color:var(--ink)">${s2units.toFixed(2)} units × ₹${PRICES[5]} = ${inr(val)}</b> (<span class="g">+${inr(val-inv)}</span> in this made-up example). Because a fixed amount buys more units when prices are low, your average cost ends up <b style="color:var(--ink)">below</b> the average price. This is called <b style="color:var(--saffron)">rupee cost averaging</b>.</p>`;
+    say(`Look: my average cost is ₹${avgCost.toFixed(2)} per unit, below the average price of ₹${avgPrice.toFixed(2)}. That happens because more units were bought in the cheaper months. (These prices are made up.)`,'proud');
+    b.textContent='Reset & try again';b.disabled=false;ready();
+  }
+};
+
+/* ---------- 3: time & tree ---------- */
+const tree3=makeTree($('#tree3box'),7);
+const S3={P:5000,Y:10,R:12};
+function fill(el){const p=(el.value-el.min)/(el.max-el.min)*100;el.style.setProperty('--p',p+'%')}
+let tickT=0;function tickS(){const n=performance.now();if(n-tickT>55){sfx.tick();tickT=n}}
+let s3say=null;
+function s3update(talk=true){
+  const n=S3.Y*12,inv=S3.P*n,val=sipFV(S3.P,n,S3.R/100),gain=val-inv;
+  $('#l3p').textContent=inr(S3.P);$('#l3y').textContent=S3.Y+(S3.Y>1?' years':' year');$('#l3r').textContent=S3.R+'%';
+  $('#t3inv').textContent=fmt(inv);$('#t3val').textContent=fmt(val);$('#t3gain').textContent='+'+fmt(gain);
+  tree3.set(Math.max(4,Math.round(80*S3.Y/30)),Math.min(40,Math.round(gain/inv*10)),.6+.4*S3.Y/30);
+  const vals=[],invs=[];for(let m=0;m<=n;m++){vals.push(m?sipFV(S3.P,m,S3.R/100):0);invs.push(S3.P*m)}
+  const g=axes($('#c3'),150,n,vals[n]*1.05,yrLabels(n,S3.Y>15?60:S3.Y>6?24:12));
+  line(g,vals,n+1,'#ffb547',2.5,null,['rgba(255,181,71,.35)','rgba(255,181,71,0)']);line(g,invs,n+1,'#4fd69c',2,[5,5]);
+  if(talk){clearTimeout(s3say);s3say=setTimeout(()=>{
+    const ratio=val/inv;
+    if(S3.Y>=20)say(`${S3.Y} years! At an assumed ${S3.R}% a year, ${fmt(inv)} put in becomes about ${fmt(val)}. The total is ${ratio.toFixed(1)}× the money put in.`,'wow');
+    else if(S3.Y<=3)say(`Only ${S3.Y} year${S3.Y>1?'s':''}: ${fmt(inv)} in, about ${fmt(val)} out. Very little time for growth to build on itself.`,'calm');
+    else say(`${inr(S3.P)} × ${n} months = ${fmt(inv)} from my pocket. The other ${fmt(gain)}? That's money my money made.`,'happy');
+  },450)}
+}
+[['#r3p','P'],['#r3y','Y'],['#r3r','R']].forEach(([id,k])=>{const el=$(id);fill(el);el.oninput=()=>{S3[k]=+el.value;fill(el);tickS();s3update()}});
+hooks[3]={enter(){setTimeout(()=>s3update(false),50);script([["One year is just a seedling. But what about ten? Twenty?",'calm'],["Drag the sliders. Watch what time does to the same ₹5,000.",'happy']]);ready()}};
+
+/* ---------- 4: market weather ---------- */
+const WX={
+  sun:['Sunny · market rising','<svg viewBox="0 0 64 64"><g class="rays" stroke="#ffb547" stroke-width="3" stroke-linecap="round">'+[0,45,90,135,180,225,270,315].map(a=>{const r=a*Math.PI/180;return`<line x1="${32+Math.cos(r)*19}" y1="${32+Math.sin(r)*19}" x2="${32+Math.cos(r)*26}" y2="${32+Math.sin(r)*26}"/>`}).join('')+'</g><circle cx="32" cy="32" r="13" fill="#ffb547"/></svg>'],
+  cloud:['Cloudy · going sideways','<svg viewBox="0 0 64 64"><circle cx="42" cy="22" r="9" fill="#ffb547" opacity=".8"/><path d="M18 46h28a10 10 0 0 0 0-20 14 14 0 0 0-27-3A10 10 0 0 0 18 46z" fill="#d8d2f0"/></svg>'],
+  rain:['Rainy · market falling','<svg viewBox="0 0 64 64"><path d="M18 40h28a10 10 0 0 0 0-20 14 14 0 0 0-27-3A10 10 0 0 0 18 40z" fill="#9c95c4"/><g class="drops" stroke="#7aa7ff" stroke-width="2.5" stroke-linecap="round"><line x1="24" y1="46" x2="22" y2="52"/><line x1="33" y1="46" x2="31" y2="52"/><line x1="42" y1="46" x2="40" y2="52"/></g></svg>'],
+  storm:['Stormy · sharp fall','<svg viewBox="0 0 64 64"><path d="M18 38h28a10 10 0 0 0 0-20 14 14 0 0 0-27-3A10 10 0 0 0 18 38z" fill="#5e5787"/><polygon class="bolt" points="34,36 26,50 32,50 28,62 40,44 34,44 38,36" fill="#ffb547"/></svg>']
+};
+let s4seed=42,s4anim=null,s4played=false;
+function simMarket(seed,months=120,P=5000){const r=rng(seed),{m,s}=monthlyParams(.12,.18);let v=0,nav=100;const vals=[0],invs=[0],navs=[100],rets=[];
+  for(let i=0;i<months;i++){v+=P;const ret=Math.exp(m+s*gauss(r));v*=ret;nav*=ret;rets.push(ret-1);vals.push(v);invs.push(P*(i+1));navs.push(nav)}return{vals,invs,navs,rets}}
+function wxFor(navs,i){if(i<3)return'cloud';const c=navs[i]/navs[i-3]-1;return c>.04?'sun':c>-.005?'cloud':c>-.06?'rain':'storm'}
+function setWx(k){const el=$('#wxIcon');if(el.dataset.k===k)return;el.dataset.k=k;el.innerHTML=WX[k][1];$('#wxLabel').textContent=WX[k][0];rainEl.classList.toggle('on',k==='rain'||k==='storm');face(k==='sun'?'happy':k==='cloud'?'calm':'worried');if(k==='storm'){flash();sfx.thunder()}}
+function s4draw(sim,upto){const max=Math.max(...sim.vals)*1.05;const g=axes($('#c4'),170,120,max,yrLabels(120,24));line(g,sim.invs,upto+1,'rgba(247,240,227,.45)',1.5,[5,5]);
+  const{x,X,Y}=g;for(let i=1;i<=upto;i++){x.beginPath();x.moveTo(X(i-1),Y(sim.vals[i-1]));x.lineTo(X(i),Y(sim.vals[i]));x.strokeStyle=sim.vals[i]>=sim.invs[i]?'#4fd69c':'#ff6b6b';x.lineWidth=2.5;x.lineCap='round';x.stroke()}
+  if(upto>0){x.beginPath();x.arc(X(upto),Y(sim.vals[upto]),5,0,7);x.fillStyle='#ffb547';x.fill()}}
+function s4play(){
+  cancelAnimationFrame(s4anim);const sim=simMarket(s4seed);let i=0,last=0,down=0;$('#s4play').disabled=true;$('#s4new').disabled=true;
+  say("Here we go. Ten made-up years, month by month. Random, not real history.",'calm');
+  function step(t){if(t-last>70){last=t;i++;if(sim.rets[i-1]<0)down++;
+      s4draw(sim,i);setWx(wxFor(sim.navs,i));$('#wxMonth').textContent=`Year ${Math.ceil(i/12)} · Month ${((i-1)%12)+1} · ${sim.rets[i-1]>=0?'+':''}${(sim.rets[i-1]*100).toFixed(1)}%`;
+      $('#w4inv').textContent=fmt(sim.invs[i]);$('#w4val').textContent=fmt(sim.vals[i]);$('#w4val').className=sim.vals[i]>=sim.invs[i]?'g':'r';$('#w4down').textContent=down;
+      if(i%12===0)sfx.tick()}
+    if(i<120)s4anim=requestAnimationFrame(step);else finish()}
+  function finish(){rainEl.classList.remove('on');$('#s4play').disabled=false;$('#s4new').disabled=false;$('#s4play').textContent='Replay';s4played=true;ready();
+    const v=sim.vals[120],inv=sim.invs[120],worst=Math.min(...sim.rets)*100;
+    if(v>=inv)say(`In this random run, ${down} of 120 months were down months (worst: ${worst.toFixed(1)}%). ${fmt(inv)} put in became ${fmt(v)}. Another run will differ — and none of them is real history.`,'proud');
+    else say(`In this random run, ${fmt(inv)} put in is worth ${fmt(v)} — less than put in. Other runs end differently. Press "Try different luck" to see more.`,'worried');}
+  s4anim=requestAnimationFrame(step);
+}
+$('#s4play').onclick=s4play;
+$('#s4new').onclick=()=>{s4seed=Math.floor(Math.random()*1e9);sfx.pop();s4play()};
+hooks[4]={enter(){setWx('cloud');setTimeout(()=>{if(!s4played)s4draw(simMarket(s4seed),0)},50);script([["Real markets don't grow in a straight line like my tree did.",'calm'],["Some months are sunny, some are stormy. Press play to watch 10 random years with me.",'happy']]);if(s4played)ready()},leave(){cancelAnimationFrame(s4anim);rainEl.classList.remove('on');$('#s4play').disabled=false;$('#s4new').disabled=false}};
+
+/* ---------- 5: what if prices fall ---------- */
+const tree5=makeTree($('#tree5box'),11);
+const CR=60,END=180,TR=mRate(.12);
+let DROP=20,REC=24,lastChoice=null;
+const trend=m=>100*Math.pow(1+TR,m);
+const crashNav=m=>m<CR?trend(m):m<CR+REC?trend(m)*((1-DROP/100)+(DROP/100)*(m-CR)/REC):trend(m);
+function crashSim(choice){
+  let units=0,inv=0,cash=0;const path=[],sr=mRate(.04);
+  for(let m=0;m<=END;m++){
+    if(choice==='sell'&&m===CR){cash=units*crashNav(m);units=0}
+    else if(choice==='sell'&&m>CR)cash*=1+sr;
+    path.push(units*crashNav(m)+cash);
+    if(m===END)break;
+    const buy=!(choice==='pause'&&m>=CR&&m<CR+24);
+    if(buy){inv+=5000;if(choice==='sell'&&m>=CR)cash+=5000;else units+=5000/crashNav(m)}
+  }
+  return{path,final:path[END],inv};
+}
+let preCrash=0;{let u=0;for(let m=0;m<CR;m++)u+=5000/trend(m);preCrash=u*trend(CR)}
+let crashed=false;
+function s5labels(){
+  const need=DROP/(100-DROP)*100;
+  $('#l5d').textContent=DROP+'%';$('#l5r').textContent=REC+' months';
+  $('#s5lede').innerHTML=`Year 5. Meera has put ₹5,000 every month for 60 months (₹3 lakh). In this what-if, the market then falls <b>${DROP}%</b> in one month. It is a made-up fall — not a forecast.`;
+  $('#s5need').innerHTML=`A ${DROP}% fall needs a <b style="color:var(--ink)">${need.toFixed(need%1?1:0)}%</b> rise to get back to where it was.`;
+  $('#s5foot').textContent=`Model: assumed 12%/yr trend, a ${DROP}% drop at month 60, then ${REC} months to climb back to the trend. Savings assumed at 4%/yr. Real recoveries can be faster, slower, or not happen in your timeline.`;
+}
+function s5reset(){crashed=false;lastChoice=null;s5labels();$('#s5val').textContent=fmt(preCrash);$('#s5val').style.color='';$('#s5delta').innerHTML=`<span class="g">₹3,00,000 put in so far</span>`;$('#s5crash').hidden=false;$('#s5choice').hidden=true;$('#s5out').hidden=true;$$('.choice').forEach(c=>c.classList.remove('sel'));tree5.set(56,10,1)}
+function s5after(){return preCrash*(1-DROP/100)}
+[['#r5d','D'],['#r5r','R']].forEach(([id,k])=>{const el=$(id);fill(el);el.oninput=()=>{fill(el);tickS();if(k==='D')DROP=+el.value;else REC=+el.value;s5labels();
+  if(crashed){const a=s5after();$('#s5val').textContent=fmt(a);$('#s5delta').innerHTML=`<span class="r">▼ ${fmt(preCrash-a)} gone in one month (−${DROP}%)</span>`;if(lastChoice)runChoice(lastChoice,false)}}});
+hooks[5]={enter(){if(!crashed){s5reset();script([["Five years in. ₹3 lakh put in, and the made-up prices have been rising…",'happy'],["Now imagine a fall. Set how big, then trigger it. This is a what-if, not a prediction.",'worried']])}else ready()},leave(){setMood('warm');rainEl.classList.remove('on')}};
+$('#s5crash').onclick=async()=>{
+  crashed=true;$('#s5crash').hidden=true;setMood('tense');flash();shake();sfx.thunder();rainEl.classList.add('on');tree5.drop(.2);face('worried');
+  const after=s5after();$('#s5val').style.color='var(--coral)';
+  await tween($('#s5val'),preCrash,after,1400);
+  $('#s5delta').innerHTML=`<span class="r">▼ ${fmt(preCrash-after)} gone in one month (−${DROP}%)</span>`;
+  say(`In this what-if my ${fmt(preCrash)} became ${fmt(after)} in a month — ${fmt(preCrash-after)} lower. That feels bad. Let's see what different paths did afterwards.`,'worried');
+  await sleep(600);$('#s5choice').hidden=false;$('#s5choice').scrollIntoView({behavior:'smooth',block:'center'});
+};
+const C5={stay:['#4fd69c','Kept the SIP going'],pause:['#ffb547','Paused SIP for 2 years'],sell:['#ff6b6b','Moved all to savings']};
+let s5anim=0;
+function runChoice(ch,speak=true){
+  lastChoice=ch;$$('.choice').forEach(c=>c.classList.toggle('sel',c.dataset.c===ch));
+  const res={stay:crashSim('stay'),pause:crashSim('pause'),sell:crashSim('sell')};
+  $('#s5out').hidden=false;
+  if(speak){
+    if(ch==='stay'){setMood('bright');rainEl.classList.remove('on');sfx.rise();tree5.set(80,30,1)}
+    else if(ch==='pause'){setMood('warm');rainEl.classList.remove('on');tree5.set(66,16,1)}
+    else{setMood('tense');sfx.sad();tree5.set(18,0,1)}
+  }
+  const max=Math.max(res.stay.path[END],res.pause.path[END],res.sell.path[END],...res.stay.path)*1.05;let k=speak?0:END;
+  cancelAnimationFrame(s5anim);
+  const anim=()=>{k=Math.min(END,k+3);const g=axes($('#c5'),170,END,max,yrLabels(END,36));
+    const{x,X}=g;x.fillStyle='rgba(255,107,107,.12)';x.fillRect(X(CR),g.pt,X(CR+REC)-X(CR),g.H);x.fillStyle='rgba(255,170,170,.95)';x.textAlign='left';x.fillText('fall + climb back',X(CR)+4,g.pt+12);
+    ['sell','pause','stay'].forEach(c=>line(g,res[c].path,k+1,C5[c][0],c===ch?3.2:1.6,c===ch?null:[4,4]));
+    if(k<END)s5anim=requestAnimationFrame(anim)};s5anim=requestAnimationFrame(anim);
+  $('#s5list').innerHTML=['stay','pause','sell'].map((c,i)=>`<div class="oc ${c===ch?'sel':''}" style="animation-delay:${i*120}ms"><i style="background:${C5[c][0]}"></i><span>${C5[c][1]}<small>Put in ${fmt(res[c].inv)} · ${((res[c].final/res[c].inv-1)*100).toFixed(0)}% total gain</small></span><b>${fmt(res[c].final)}</b></div>`).join('');
+  if(speak){
+    const d=res.stay.final-res.sell.final;
+    if(ch==='stay')say(`Kept going: the SIP bought units while prices were low. At year 15 this path shows ${fmt(res.stay.final)} — ${fmt(Math.abs(d))} ${d>=0?'more':'less'} than the savings path, in this model.`,d>=0?'proud':'calm');
+    else if(ch==='pause')say(`Paused: ${fmt(res.pause.final)} at year 15, against ${fmt(res.stay.final)} for the path that kept going. The paused path added no units while prices were low.`,'calm');
+    else say(`Moved to savings at the low: ${fmt(res.sell.final)} at year 15 vs ${fmt(res.stay.final)}. In this model prices recovered. In real life nobody knows if or when they will.`,'worried');
+    ready();
+  }
+}
+$$('.choice').forEach(btn=>btn.onclick=()=>runChoice(btn.dataset.c));
+
+/* ---------- 6: compounding ---------- */
+let s6anim=null;
+function s6bars(){
+  cancelAnimationFrame(s6anim);const Y=30,data=[];for(let y=1;y<=Y;y++){const inv=60000*y,v=sipFV(5000,y*12,.12);data.push({inv,g:v-inv})}
+  const max=data[Y-1].inv+data[Y-1].g;let cross=data.findIndex(d=>d.g>=d.inv)+1;
+  const t0=performance.now();
+  const draw=t=>{const k=Math.min(1,(t-t0)/1800);const g=axes($('#c6'),190,Y,max*1.04,[[0.5,'1y'],[9.5,'10y'],[19.5,'20y'],[29.5,'30y']]);const{x,pl,W,base,H}=g;const bw=W/Y;
+    data.forEach((d,i)=>{const p=Math.max(0,Math.min(1,k*1.6-i/Y*.6)),e=1-Math.pow(1-p,3);const hi=d.inv/(max*1.04)*H*e,hg=d.g/(max*1.04)*H*e,x0=pl+i*bw+bw*.15;
+      x.fillStyle='#4fd69c';x.fillRect(x0,base-hi,bw*.7,hi);x.fillStyle=i+1>=cross?'#ffb547':'rgba(255,181,71,.7)';x.fillRect(x0,base-hi-hg,bw*.7,hg)});
+    if(k>.9){const i=cross-1,x0=pl+i*bw+bw*.5;x.strokeStyle='rgba(247,240,227,.5)';x.setLineDash([3,3]);x.beginPath();x.moveTo(x0,base);x.lineTo(x0,g.pt);x.stroke();x.setLineDash([]);x.fillStyle='#f7f0e3';x.textAlign='left';x.fillText('growth > savings',x0+4,g.pt+12)}
+    if(k<1)s6anim=requestAnimationFrame(draw)};
+  s6anim=requestAnimationFrame(draw);
+  const d30=data[Y-1];
+  $('#s6cross').innerHTML=`By <b class="s">year ${cross}</b>, the growth (${fmt(data[cross-1].g)}) is bigger than everything Meera put in (${fmt(data[cross-1].inv)}).<br>By year 30: <b class="g">${fmt(d30.inv)}</b> invested, <b class="s">${fmt(d30.g)}</b> of growth — <b>${(d30.g/d30.inv).toFixed(1)}×</b> her own money.`;
+}
+function s6race(talk){
+  const a=+$('#r6a').value;$('#l6a').textContent=a;$('#aLbl').textContent=`Arjun · starts at ${a}`;
+  const nm=30*12,na=(55-a)*12,vm=sipFV(5000,nm,.12),va=sipFV(5000,na,.12),im=5000*nm,ia=5000*na;
+  $('#vm').textContent=fmt(vm);$('#va').textContent=fmt(va);
+  $('#bmi').style.width=(im/vm*100)+'%';$('#bmg').style.width=((vm-im)/vm*100)+'%';
+  $('#bai').style.width=(ia/vm*100)+'%';$('#bag').style.width=((va-ia)/vm*100)+'%';
+  if(talk)say(`Arjun waited ${a-25} year${a-25>1?'s':''}. He puts in ${fmt(im-ia)} less, and ends ${fmt(vm-va)} lower at the same assumed 12%. More years = more time for growth to build on itself.`,a-25>8?'wow':'calm');
+}
+let r6t=null;const r6=$('#r6a');fill(r6);r6.oninput=()=>{fill(r6);tickS();s6race(false);clearTimeout(r6t);r6t=setTimeout(()=>s6race(true),400)};
+hooks[6]={enter(){setTimeout(()=>{s6bars();s6race(false)},60);script([["Here's the secret ingredient: compounding.",'wow'],["Each year, last year's growth starts growing too. Watch the golden part take over.",'happy'],["And timing matters. Slide Arjun's starting age and see what waiting costs.",'calm']]);ready()},leave(){cancelAnimationFrame(s6anim)}};
+
+/* ---------- 7: Monte Carlo ---------- */
+const PRESET7={calm:[7,4],equity:[12,18],wild:[15,30]};
+const S7={m:12,v:18,y:15};let s7anim=null,s7t=null;
+function s7labels(){$('#l7m').textContent=S7.m+'%';$('#l7v').textContent='±'+S7.v+'%';$('#l7y').textContent=S7.y+(S7.y>1?' years':' year');
+  $('#s7note').textContent=`Simulated with random monthly returns (lognormal): assumed ${S7.m}% a year on average, ±${S7.v}% ups and downs. Illustrative only — not a forecast, and real markets can fall outside this range. Mutual fund investments are subject to market risks.`}
+function s7run(talk=true){
+  cancelAnimationFrame(s7anim);s7labels();const n=S7.y*12,K=300,{m,s}=monthlyParams(S7.m/100,S7.v/100),r=rng(Math.floor(Math.random()*1e9));
+  const paths=[];for(let k=0;k<K;k++){const p=new Float32Array(n+1);let v=0;for(let i=1;i<=n;i++){v=(v+5000)*Math.exp(m+s*gauss(r));p[i]=v}paths.push(p)}
+  const finals=paths.map(p=>p[n]).sort((a,b)=>a-b),pc=q=>finals[Math.floor(q*(K-1))];
+  const inv=5000*n,below=finals.filter(v=>v<inv).length,max=pc(.97)*1.1;
+  const bands=[.05,.5,.95].map(q=>{const a=[];for(let i=0;i<=n;i++){const col=paths.map(p=>p[i]).sort((x,y)=>x-y);a.push(col[Math.floor(q*(K-1))])}return a});
+  const invLine=[];for(let i=0;i<=n;i++)invLine.push(5000*i);
+  const g=axes($('#c7'),200,n,max,yrLabels(n,S7.y>5?Math.ceil(S7.y/5)*12:12));const{x,X,Y}=g;let k=0;x.lineWidth=1;
+  const step=()=>{for(let j=0;j<20&&k<K;j++,k++){const p=paths[k];x.beginPath();for(let i=0;i<=n;i+=2)i?x.lineTo(X(i),Y(p[i])):x.moveTo(X(i),Y(p[i]));x.strokeStyle=p[n]<inv?'rgba(255,107,107,.22)':'rgba(170,160,230,.16)';x.stroke()}
+    if(k%60===0)sfx.tick();
+    if(k<K)s7anim=requestAnimationFrame(step);
+    else{line(g,invLine,n+1,'#f7f0e3',1.5,[5,5]);line(g,bands[0],n+1,'#ff6b6b',2.5);line(g,bands[2],n+1,'#4fd69c',2.5);line(g,bands[1],n+1,'#ffb547',3);
+      x.fillStyle='#f7f0e3';x.textAlign='right';x.fillText('put in',X(n)-2,Y(inv)-6)}};
+  s7anim=requestAnimationFrame(step);
+  $('#p5').textContent=fmt(pc(.05));$('#p50').textContent=fmt(pc(.5));$('#p95').textContent=fmt(pc(.95));
+  const pct=(below/K*100).toFixed(0);
+  $('#s7below').innerHTML=`Meera puts in <b>${fmt(inv)}</b> over ${S7.y} year${S7.y>1?'s':''}. In <b class="${below?'r':'g'}">${below} of 300</b> futures (${pct}%) she ends with <b>less than she put in</b>. The lucky and unlucky results are <b class="s">${fmt(pc(.95)-pc(.05))}</b> apart.`;
+  if(talk){
+    if(below/K>=.2)say(`${pct}% of these 300 futures ended below the money put in. That shows most with short periods and big ups and downs. Move the sliders and compare.`,'worried');
+    else if(below===0)say(`With these numbers none of the 300 futures ended below the money put in — but that is because of the numbers we assumed. Real markets can do worse.`,'calm');
+    else say(`Same SIP, 300 different futures. Middle: ${fmt(pc(.5))}. Unlucky: ${fmt(pc(.05))}. Lucky: ${fmt(pc(.95))}. No one can say which one will happen.`,'calm');
+  }
+}
+function s7sync(){[['#r7m','m'],['#r7v','v'],['#r7y','y']].forEach(([id,k])=>{$(id).value=S7[k];fill($(id))})}
+[['#r7m','m'],['#r7v','v'],['#r7y','y']].forEach(([id,k])=>{const el=$(id);fill(el);el.oninput=()=>{S7[k]=+el.value;fill(el);tickS();$$('#s7fund button').forEach(b=>b.setAttribute('aria-pressed','false'));s7labels();clearTimeout(s7t);s7t=setTimeout(()=>s7run(true),260)}});
+function segs(id,attr,cb){$$(id+' button').forEach(b=>b.onclick=()=>{$$(id+' button').forEach(o=>o.setAttribute('aria-pressed',o===b));sfx.pop();cb(b.dataset[attr])})}
+segs('#s7fund','f',v=>{[S7.m,S7.v]=PRESET7[v];s7sync();s7run()});
+$('#s7roll').onclick=()=>{sfx.whoosh();s7run()};
+let s7init=false;
+hooks[7]={enter(){setMood('warm');s7sync();s7labels();if(!s7init){s7init=true;setTimeout(()=>s7run(false),80)}script([["I have to be honest with you.",'calm'],["Nobody — not me, not any app — can promise a return. So here are 300 possible futures instead.",'worried'],["Slide the numbers: fewer years, bigger ups and downs. Watch how the spread changes.",'calm']]);ready()},leave(){cancelAnimationFrame(s7anim)}};
+
+/* ---------- 8: real data (AMFI NAVs through mfapi.in) ---------- */
+const API='https://api.mfapi.in/mf';
+const MON=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+const dstr=t=>{const d=new Date(t);return d.getUTCDate()+' '+MON[d.getUTCMonth()]+' '+d.getUTCFullYear()};
+const mstr=t=>{const d=new Date(t);return MON[d.getUTCMonth()]+' '+d.getUTCFullYear()};
+const ymVal=t=>{const d=new Date(t);return d.getUTCFullYear()+'-'+String(d.getUTCMonth()+1).padStart(2,'0')};
+const RD={cache:new Map(),meta:null,arr:null,res:null,anim:null,q:0,fall:false,t:null};
+const unsupported=n=>/idcw|dividend|payout|reinvest|bonus/i.test(n);
+const OFFLINE='Could not reach the price service. Real data is unavailable right now — we will not fill the gap with made-up numbers. Check the internet and try again.';
+async function getJ(url){const ac=new AbortController(),t=setTimeout(()=>ac.abort(),25000);try{const r=await fetch(url,{signal:ac.signal});if(!r.ok)throw new Error('http '+r.status);return await r.json()}finally{clearTimeout(t)}}
+function parseNav(json){const out=[];for(const d of json.data||[]){const[dd,mm,yy]=String(d.date).split('-').map(Number);const nav=parseFloat(d.nav);if(!(nav>0)||!yy)continue;out.push({t:Date.UTC(yy,mm-1,dd),nav})}out.sort((a,b)=>a.t-b.t);return out}
+const lowerB=(a,t)=>{let l=0,h=a.length;while(l<h){const m=(l+h)>>1;a[m].t<t?l=m+1:h=m}return l};
+const upperB=(a,t)=>{let l=0,h=a.length;while(l<h){const m=(l+h)>>1;a[m].t<=t?l=m+1:h=m}return l};
+const fstat=m=>{$('#fstat').textContent=m};
+async function rdSearch(q){
+  q=q.trim();if(q.length<3){fstat('Type at least 3 letters.');return}
+  const my=++RD.q;fstat('Searching…');$('#fres').innerHTML='';
+  try{
+    const list=await getJ(`${API}/search?q=${encodeURIComponent(q)}`);if(my!==RD.q)return;
+    if(!list.length){fstat('No fund found. Try fewer or different words.');return}
+    const sorted=[...list].sort((a,b)=>unsupported(a.schemeName)-unsupported(b.schemeName)).slice(0,25);
+    $('#fres').innerHTML=sorted.map(f=>{const u=unsupported(f.schemeName);return`<button class="fitem" role="listitem" data-c="${f.schemeCode}" ${u?'disabled':''}>${f.schemeName.replace(/</g,'&lt;')}${u?'<small>Payout plan — not supported here</small>':''}</button>`}).join('');
+    fstat(`${list.length>25?'Showing 25 of '+list.length:list.length+' found'}. Tap a fund to load its real price history.`);
+    $$('#fres .fitem:not(:disabled)').forEach(b=>b.onclick=()=>rdPick(+b.dataset.c,b.textContent));
+  }catch(e){if(my===RD.q)fstat(OFFLINE)}
+}
+$('#fgo').onclick=()=>rdSearch($('#fq').value);
+$('#fq').onkeydown=e=>{if(e.key==='Enter')rdSearch($('#fq').value)};
+$$('#fhints button').forEach(b=>b.onclick=()=>{$('#fq').value=b.dataset.q;rdSearch(b.dataset.q)});
+async function rdPick(code,name){
+  fstat('Loading real price history…');
+  let j=RD.cache.get(code);
+  try{if(!j){j=await getJ(`${API}/${code}`);RD.cache.set(code,j)}}catch(e){fstat(OFFLINE);return}
+  const arr=parseNav(j);
+  if(arr.length<40){fstat('This fund has too little price history to show.');return}
+  RD.meta=j.meta||{};RD.arr=arr;RD.fall=false;
+  const mt=RD.meta,first=arr[0].t,last=arr[arr.length-1].t;
+  $('#fundname').textContent=mt.scheme_name||name;
+  $('#fundmeta').textContent=`${[mt.fund_house,mt.scheme_category].filter(Boolean).join(' · ')} · first NAV ${dstr(first)} · latest NAV ₹${arr[arr.length-1].nav.toFixed(4)} on ${dstr(last)}`;
+  const stale=(Date.now()-last)/864e5>45;if(stale)$('#fundmeta').textContent+=` · ⚠ No new price since ${dstr(last)} — this fund may have been merged or closed, so everything below ends on that date.`;
+  ['#rdS','#rdE'].forEach(id=>{$(id).min=ymVal(first);$(id).max=ymVal(last)});
+  $('#rdbody').hidden=false;fstat(`Loaded. Latest NAV in the data is from ${dstr(last)}.`);
+  rdPreset('5');
+  $('#rdbody').scrollIntoView({behavior:'smooth',block:'start'});
+  say(`Real prices loaded for ${mt.scheme_name||name}. The numbers below are history — what actually happened, not what will happen.`,'calm');ready();
+}
+function rdPreset(p){
+  const arr=RD.arr;if(!arr)return;const first=arr[0].t,last=arr[arr.length-1].t;const ld=new Date(last);
+  let s,e=last,note='';
+  if(p==='covid'||p==='gfc'){
+    const[a,b]=p==='covid'?[Date.UTC(2020,0,1),Date.UTC(2021,2,31)]:[Date.UTC(2007,11,1),Date.UTC(2010,11,31)];
+    if(first>a+62*864e5){$('#rdNote').textContent=`This fund's price history starts on ${dstr(first)}, so it has no data for that fall. Pick another fund or period.`;return}
+    s=a;e=Math.min(b,last);
+  }else if(p==='max'){s=first}
+  else{const y=+p;s=Date.UTC(ld.getUTCFullYear()-y,ld.getUTCMonth(),1);if(s<first){s=first;note=`This fund has less than ${y} year${y>1?'s':''} of history, so all of it is shown.`}}
+  $('#rdS').value=ymVal(Math.max(s,first));$('#rdE').value=ymVal(e);
+  $$('#rdp button').forEach(b=>b.setAttribute('aria-pressed',b.dataset.p===p));
+  RD.fall=false;rdCompute(true,note);
+}
+function xirr(flows){const t0=flows[0].t;const f=r=>flows.reduce((s,c)=>s+c.a/Math.pow(1+r,(c.t-t0)/31536e6),0);let lo=-.99,hi=50,flo=f(lo),fhi=f(hi);if(!isFinite(flo)||!isFinite(fhi)||flo*fhi>0)return null;for(let i=0;i<200;i++){const mid=(lo+hi)/2,fm=f(mid);if(flo*fm<=0){hi=mid;fhi=fm}else{lo=mid;flo=fm}}return(lo+hi)/2}
+function drawdown(arr,a,b){let peak=arr[a].nav,pi=a,best=0,bp=a,bt=a;for(let i=a;i<=b;i++){if(arr[i].nav>peak){peak=arr[i].nav;pi=i}const d=(peak-arr[i].nav)/peak;if(d>best){best=d;bp=pi;bt=i}}
+  let rec=-1;if(best>0){const pk=arr[bp].nav;for(let i=bt+1;i<arr.length;i++)if(arr[i].nav>=pk){rec=i;break}}return{pct:best*100,peak:bp,low:bt,rec}}
+function rdCompute(speak,extraNote=''){
+  const arr=RD.arr;if(!arr)return;cancelAnimationFrame(RD.anim);
+  const sv=$('#rdS').value,ev=$('#rdE').value;if(!sv||!ev)return;
+  const[sy,sm]=sv.split('-').map(Number),[ey,em]=ev.split('-').map(Number);
+  const e=Date.UTC(ey,em,0),amt=+$('#rdAmt').value,day=+$('#rdDay').value;
+  $('#lAmt').textContent=inr(amt);fill($('#rdAmt'));
+  const note=m=>{$('#rdNote').textContent=m};
+  if(Date.UTC(ey,em-1,1)<Date.UTC(sy,sm-1,1)){note('The "To" month is before the "From" month. Please fix the dates.');return}
+  const first=arr[0].t,buys=[];let skipped=0;
+  for(let k=0;;k++){const target=Date.UTC(sy,sm-1+k,day);if(target>e)break;if(target<first-0)continue;const idx=lowerB(arr,target);if(idx>=arr.length||arr[idx].t>e)break;if(arr[idx].t-target>10*864e5){skipped++;continue}buys.push({target,idx,t:arr[idx].t,nav:arr[idx].nav,units:amt/arr[idx].nav})}
+  if(!buys.length){note('No instalments fit in this period (the fund may not have existed yet). Try other dates.');RD.res=null;return}
+  const valIdx=upperB(arr,e)-1,i0=buys[0].idx;
+  const T=[],NAV=[],INV=[],VAL=[],bi=[];let b=0,units=0,inv=0;
+  for(let i=i0;i<=valIdx;i++){while(b<buys.length&&buys[b].idx===i){units+=buys[b].units;inv+=amt;bi.push(i-i0);b++}T.push(arr[i].t);NAV.push(arr[i].nav);INV.push(inv);VAL.push(units*arr[i].nav)}
+  const N=T.length,value=VAL[N-1],pnl=value-inv,pct=pnl/inv*100;
+  const flows=buys.map(x=>({t:x.t,a:-amt}));flows.push({t:T[N-1],a:value});
+  const spanDays=(T[N-1]-buys[0].t)/864e5,xi=spanDays>=365?xirr(flows):null;
+  const dd=drawdown(arr,i0,valIdx);
+  RD.res={buys,N,T,nav:NAV,inv:INV,val:VAL,bi,i0,units,invested:inv,value,pnl,pct,xi,dd,amt,span:spanDays};
+  let cum=0;$('#rdRows').innerHTML=buys.map(x=>{cum+=x.units;return`<tr><td>${dstr(x.t)}</td><td>₹${x.nav.toFixed(4)}</td><td><b>${x.units.toFixed(3)}</b></td><td>${cum.toFixed(3)}</td></tr>`}).join('');
+  $('#rdDD').hidden=!RD.fall;if(RD.fall)rdFallText();
+  const msgs=[extraNote];if(skipped)msgs.push(`${skipped} month${skipped>1?'s were':' was'} skipped because the fund had no price within 10 days of the SIP date.`);
+  msgs.push(`Each instalment uses the NAV of the SIP date, or the next day that has a NAV. Period: ${dstr(buys[0].t)} → ${dstr(T[N-1])}.`);
+  note(msgs.filter(Boolean).join(' '));
+  rdStats(N-1);rdDraw(N);
+  $('#rdUnits').textContent=units.toFixed(3);$('#rdAvg').textContent='₹'+(inv/units).toFixed(2);
+  $('#rdXirr').textContent=xi==null?'n/a':(xi>=0?'+':'−')+Math.abs(xi*100).toFixed(1)+'%';
+  $('#rdXirr').title=xi==null?'Shown only for periods of one year or more':'';
+  $('#rdXirr').className=xi==null?'':xi>=0?'g':'r';
+  if(speak!==false){clearTimeout(RD.t);RD.t=setTimeout(rdSay,speak===true?200:700)}
+}
+function rdStats(k){const R=RD.res;if(!R)return;const inv=R.inv[k],v=R.val[k],p=v-inv;
+  $('#rdInv').textContent=fmt(inv);$('#rdVal').textContent=fmt(v);$('#rdVal').className=v>=inv?'g':'r';
+  $('#rdPnl').textContent=(p>=0?'+':'−')+fmt(Math.abs(p)).replace('−','')+' ('+(p>=0?'+':'−')+Math.abs(p/inv*100).toFixed(1)+'%)';$('#rdPnl').className=p>=0?'g':'r'}
+function rdSay(){const R=RD.res;if(!R)return;
+  say(`From ${mstr(R.buys[0].t)} to ${mstr(R.T[R.N-1])} this SIP put in ${fmt(R.invested)} over ${R.buys.length} instalments. On ${dstr(R.T[R.N-1])} it was worth ${fmt(R.value)} (${R.pnl>=0?'+':'−'}${Math.abs(R.pct).toFixed(1)}%). That is what happened — not a promise of what comes next.`,R.pnl>=0?'happy':'worried')}
+function rdDraw(upto){
+  const R=RD.res;if(!R)return;const n=R.N-1,up=Math.max(2,Math.min(R.N,Math.round(upto)));
+  const yrs=[];let ly=-1;R.T.forEach((t,i)=>{const y=new Date(t).getUTCFullYear();if(y!==ly){yrs.push([i,y]);ly=y}});
+  const sy=Math.max(1,Math.ceil(yrs.length/5)),xl=yrs.filter((_,k)=>k%sy===0).map(([i,y])=>[i,String(y)]);
+  const mxNav=Math.max(...R.nav)*1.06;
+  const g=axes($('#c8a'),150,n,mxNav,xl),{x,X,Y}=g;
+  if(RD.fall){const a=R.dd.peak-R.i0,b=R.dd.low-R.i0;x.fillStyle='rgba(255,107,107,.16)';x.fillRect(X(a),g.pt,X(b)-X(a),g.H)}
+  line(g,R.nav,up,'#ffb547',2);
+  if(R.bi.length<=140)R.bi.forEach(i=>{if(i<up){x.beginPath();x.arc(X(i),Y(R.nav[i]),2.6,0,7);x.fillStyle='#4fd69c';x.fill()}});
+  if(RD.fall){const a=R.dd.peak-R.i0,b=R.dd.low-R.i0;x.fillStyle='#ffb3b3';x.textAlign='center';x.fillText('peak',Math.max(24,X(a)),g.pt+11);x.fillText('low',Math.min(g.pl+g.W-14,X(b)),Y(R.nav[b])+16)}
+  const mx=Math.max(R.invested,...R.val)*1.06;
+  const g2=axes($('#c8b'),170,n,mx,xl),x2=g2.x;
+  line(g2,R.inv,up,'rgba(247,240,227,.55)',1.5,[5,5]);
+  for(let i=1;i<up;i++){x2.beginPath();x2.moveTo(g2.X(i-1),g2.Y(R.val[i-1]));x2.lineTo(g2.X(i),g2.Y(R.val[i]));x2.strokeStyle=R.val[i]>=R.inv[i]?'#4fd69c':'#ff6b6b';x2.lineWidth=2.2;x2.lineCap='round';x2.stroke()}
+  x2.beginPath();x2.arc(g2.X(up-1),g2.Y(R.val[up-1]),4.5,0,7);x2.fillStyle='#ffb547';x2.fill();
+  if(RD.fall){const a=R.dd.peak-R.i0,b=R.dd.low-R.i0;x2.fillStyle='rgba(255,107,107,.14)';x2.fillRect(g2.X(a),g2.pt,g2.X(b)-g2.X(a),g2.H)}
+}
+function rdPlay(){
+  const R=RD.res;if(!R)return;cancelAnimationFrame(RD.anim);
+  if(matchMedia('(prefers-reduced-motion: reduce)').matches){rdStats(R.N-1);rdDraw(R.N);rdSay();return}
+  const t0=performance.now(),D=Math.min(7000,Math.max(3000,R.N*1.6));let mood=null;$('#rdPlay').disabled=true;
+  const step=t=>{const k=Math.min(1,(t-t0)/D),up=Math.max(2,Math.round(k*R.N));rdDraw(up);rdStats(up-1);
+    const m=R.val[up-1]>=R.inv[up-1]?'happy':'worried';if(m!==mood){mood=m;face(m)}
+    if(k<1)RD.anim=requestAnimationFrame(step);else{$('#rdPlay').disabled=false;rdSay()}};
+  RD.anim=requestAnimationFrame(step);
+}
+function rdFallText(){
+  const R=RD.res,d=R.dd,arr=RD.arr,el=$('#rdDD');
+  if(d.pct<1){el.innerHTML='In this period the price never fell more than 1% from a high. A calm stretch like this is unusual.';return}
+  const days=Math.round((arr[d.low].t-arr[d.peak].t)/864e5);
+  const lowRel=d.low-R.i0,atLow=lowRel>=0?`At the low point, the SIP had put in <b>${fmt(R.inv[lowRel])}</b> and was worth <b>${fmt(R.val[lowRel])}</b> (${R.val[lowRel]>=R.inv[lowRel]?'+':'−'}${Math.abs(R.val[lowRel]/R.inv[lowRel]-1)*100|0}% vs put in).`:'';
+  const rec=d.rec<0?`It had <b>not got back</b> to that high in the data, which ends on ${dstr(arr[arr.length-1].t)}.`:`It got back to that high on <b>${dstr(arr[d.rec].t)}</b> — about ${Math.round((arr[d.rec].t-arr[d.low].t)/2629800000)} months after the low.`;
+  el.innerHTML=`<b>Biggest fall in this period:</b> the price of one unit dropped <b>${d.pct.toFixed(1)}%</b> from ${dstr(arr[d.peak].t)} (₹${arr[d.peak].nav.toFixed(2)}) to ${dstr(arr[d.low].t)} (₹${arr[d.low].nav.toFixed(2)}), over ${days} days.<br>${rec}<br>${atLow}<br><span style="color:var(--muted)">A ${d.pct.toFixed(0)}% fall needs a ${(d.pct/(100-d.pct)*100).toFixed(0)}% rise to get back — the same maths as Chapter 5, now with real numbers.</span>`;
+}
+$('#rdFall').onclick=()=>{const R=RD.res;if(!R)return;RD.fall=!RD.fall;$('#rdFall').textContent=RD.fall?'Hide the fall':'Show the biggest fall';$('#rdDD').hidden=!RD.fall;
+  if(RD.fall){rdFallText();rdDraw(R.N);sfx.thunder();face('worried');const d=R.dd;if(d.pct>=1)say(`The biggest real fall here was ${d.pct.toFixed(1)}% in the price of one unit. ${d.rec<0?'It had not recovered in the data.':'It did climb back — but that is history, not a rule.'}`,'worried');$('#rdDD').scrollIntoView({behavior:'smooth',block:'nearest'})}else rdDraw(R.N)};
+$('#rdPlay').onclick=rdPlay;
+$$('#rdp button').forEach(b=>b.onclick=()=>{sfx.pop();rdPreset(b.dataset.p)});
+$('#rdDay').innerHTML=Array.from({length:28},(_,i)=>`<option value="${i+1}"${i===4?' selected':''}>${i+1}${['th','st','nd','rd'][(i+1)%10>3||(i+1>10&&i+1<14)?0:(i+1)%10]}</option>`).join('');
+['#rdS','#rdE','#rdDay'].forEach(id=>$(id).onchange=()=>{$$('#rdp button').forEach(b=>b.setAttribute('aria-pressed','false'));RD.fall=false;$('#rdFall').textContent='Show the biggest fall';rdCompute(7)});
+$('#rdAmt').oninput=()=>{fill($('#rdAmt'));tickS();$('#lAmt').textContent=inr(+$('#rdAmt').value);clearTimeout(RD.t);RD.t=setTimeout(()=>rdCompute(7),250)};
+fill($('#rdAmt'));$('#lAmt').textContent=inr(5000);
+hooks[8]={enter(){setMood('warm');script([["Everything so far was made up by me. Now let's use real prices.",'calm'],["Search a fund, pick a period, and I'll show what a monthly SIP actually did. It is history — never a promise.",'happy']]);if(RD.arr)ready()},leave(){cancelAnimationFrame(RD.anim);$('#rdPlay').disabled=false}};
+
+/* ---------- 8: ending ---------- */
+hooks[9]={async enter(){
+  setMood('bright');sfx.chime();
+  const Y=S3.Y,n=Y*12,inv=S3.P*n,val=sipFV(S3.P,n,S3.R/100);
+  const f=$('#forest');f.innerHTML='';const count=Math.max(6,Math.min(30,Y+4));
+  for(let i=0;i<count;i++){const h=50+Math.sin(i*1.7)*14+(i/count)*80*(1-Math.abs(i-count/2)/(count/1.4));const w=Math.max(18,h*.5);
+    f.insertAdjacentHTML('beforeend',`<svg class="ftree" width="${w}" height="${h}" viewBox="0 0 40 80" preserveAspectRatio="none" style="animation-delay:${i*70}ms"><rect x="18" y="50" width="4" height="30" fill="#7a4b2a"/><ellipse cx="20" cy="34" rx="18" ry="30" fill="${['#4fd69c','#3fbf86','#2fa874'][i%3]}"/>${i%3===0?'<circle cx="14" cy="30" r="3" fill="#ffb547"/><circle cx="25" cy="42" r="3" fill="#ffb547"/>':''}</svg>`)}
+  for(let i=0;i<14;i++)f.insertAdjacentHTML('beforeend',`<i class="firefly" style="left:${Math.random()*95}%;top:${Math.random()*70}%;animation-delay:${Math.random()*5}s"></i>`);
+  $('#endTitle').textContent=`Meera, now ${25+Y}, looks back.`;
+  $('#endPre').innerHTML=`${inr(S3.P)} every month for ${Y} year${Y>1?'s':''} — ${fmt(inv)} from her own pocket — would become about`;
+  $('#endPost').innerHTML=`at an <b style="color:var(--ink)">assumed</b> ${S3.R}% a year — a number we chose, not a forecast and not a guarantee. (Change it in Chapter 3. Real history is in Chapter 8.)`;
+  tween($('#endBig'),0,val,2200);
+  script([["It never felt like much. Just ₹5,000, every month.",'calm'],["In the story, a little coin planted every month grew into a forest. In real life nobody can promise that — you saw both sides.",'proud'],["Now you know how a SIP works, and how to look at real history. Go and explore!",'happy']]);
+  const lis=$$('#lessons li');lis.forEach(l=>l.classList.remove('on'));
+  for(let i=0;i<lis.length;i++){await sleep(650);if(cur!==9)return;lis[i].classList.add('on');if(AU.ctx&&!AU.muted)tone('triangle',hz([72,74,76,79,81,84][i]),AU.ctx.currentTime,.005,.08,.8,AU.fx)}
+}};
+function replay(){s1done=false;$('#s1go').textContent='Run the practice SIP · ₹5,000 on the 5th';$('#s1inv').textContent='₹0';$$('#months div').forEach(t=>t.classList.remove('lit'));s2reset();s4played=false;$('#s4play').textContent='Play 10 years';crashed=false;go(1)}
+$('#replay').onclick=replay;
+
+addEventListener('resize',()=>{if(cur===3)s3update(false);if(cur===6)s6bars();if(cur===8)rdDraw(RD.res?RD.res.N:0)});
+})();
+</script>
+</body>
+</html>

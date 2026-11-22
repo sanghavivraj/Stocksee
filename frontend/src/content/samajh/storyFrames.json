@@ -1,0 +1,162 @@
+{
+ "sip": {
+  "open": {
+   "en": "Meera starts a SIP. A small amount goes in every month, and she watches what time does to it.",
+   "hi": "मीरा SIP शुरू करती है। हर महीने थोड़ी रकम जाती है, और वह देखती है कि समय उसका क्या करता है।"
+  },
+  "end": [
+   {
+    "en": "A SIP puts in a fixed amount every month, so you get more units when the price is low and fewer when it is high.",
+    "hi": "SIP में हर महीने तय रकम जाती है, इसलिए भाव कम हो तो ज़्यादा यूनिट और भाव ज़्यादा हो तो कम यूनिट मिलती हैं।"
+   },
+   {
+    "en": "Time does most of the work: the longer the money stays, the more the growth is built on earlier growth.",
+    "hi": "ज़्यादातर काम समय करता है: पैसा जितना देर रहता है, बढ़त उतनी पुरानी बढ़त पर बनती जाती है।"
+   },
+   {
+    "en": "Markets do fall. What Meera does during a fall changes the end result a lot. Past results do not promise future ones.",
+    "hi": "बाज़ार गिरते भी हैं। गिरावट में मीरा क्या करती है, उससे अंत का नतीजा बहुत बदलता है। बीते नतीजे आगे का वादा नहीं हैं।"
+   }
+  ]
+ },
+ "fd": {
+  "open": {
+   "en": "Meera lends her money to a bank for a fixed time and a fixed rate. Let us see what really comes back.",
+   "hi": "मीरा अपना पैसा तय समय और तय दर पर बैंक को उधार देती है। देखें असल में क्या वापस आता है।"
+  },
+  "end": [
+   {
+    "en": "An FD pays a fixed rate for a fixed time, so you know the amount at the end.",
+    "hi": "FD तय समय के लिए तय दर देती है, इसलिए अंत की रकम पहले से पता होती है।"
+   },
+   {
+    "en": "Tax on the interest and rising prices both take a share of what the FD earns.",
+    "hi": "ब्याज पर टैक्स और बढ़ती कीमतें, दोनों FD की कमाई का हिस्सा खा लेते हैं।"
+   },
+   {
+    "en": "Bank deposits are insured by DICGC up to ₹5 lakh per depositor per bank, so keep that limit in mind.",
+    "hi": "बैंक जमा DICGC की तरफ़ से प्रति जमाकर्ता प्रति बैंक ₹5 लाख तक सुरक्षित हैं, इस सीमा का ध्यान रखें।"
+   }
+  ]
+ },
+ "swp": {
+  "open": {
+   "en": "Meera has a pot of money and takes a fixed amount out every month. How long does the pot last?",
+   "hi": "मीरा के पास पैसों का एक घड़ा है और वह हर महीने तय रकम निकालती है। घड़ा कितने दिन चलता है?"
+  },
+  "end": [
+   {
+    "en": "An SWP takes out a fixed amount at regular times while the rest stays invested.",
+    "hi": "SWP तय समय पर तय रकम निकालता है और बाकी पैसा लगा रहता है।"
+   },
+   {
+    "en": "If you take out more than the pot earns, the pot shrinks and can run dry.",
+    "hi": "अगर घड़ा जितना कमाता है उससे ज़्यादा निकालें, तो घड़ा घटता है और खाली भी हो सकता है।"
+   },
+   {
+    "en": "A higher or lower rate of growth changes how long the money lasts.",
+    "hi": "बढ़त की दर ज़्यादा या कम होने से पैसा कितने समय चलेगा, यह बदल जाता है।"
+   }
+  ]
+ },
+ "stocks": {
+  "open": {
+   "en": "Meera owns a small piece of a company. Its price moves every day. Let us see what that means.",
+   "hi": "मीरा एक कंपनी का छोटा हिस्सा रखती है। उसका भाव रोज़ हिलता है। देखें इसका क्या मतलब है।"
+  },
+  "end": [
+   {
+    "en": "A share is a small piece of a company, and its price can go up and down.",
+    "hi": "शेयर कंपनी का एक छोटा हिस्सा है, और उसका भाव ऊपर-नीचे हो सकता है।"
+   },
+   {
+    "en": "A fall needs a bigger rise to get back: losing 20% needs a 25% rise.",
+    "hi": "गिरावट के बाद वापस पाने के लिए उससे बड़ी बढ़त चाहिए: 20% गिरने पर 25% बढ़ना पड़ता है।"
+   },
+   {
+    "en": "Some companies share profits as dividends, but a dividend can change or stop.",
+    "hi": "कुछ कंपनियाँ मुनाफ़ा डिविडेंड के रूप में बाँटती हैं, पर डिविडेंड बदल सकता है या रुक सकता है।"
+   }
+  ]
+ },
+ "mutual-funds": {
+  "open": {
+   "en": "Meera puts money in a mutual fund. Many people's money is pooled and a fund manager invests it. What does it cost her?",
+   "hi": "मीरा म्यूचुअल फंड में पैसा लगाती है। कई लोगों का पैसा मिलाकर फंड मैनेजर लगाता है। इसमें मीरा को कितना खर्च आता है?"
+  },
+  "end": [
+   {
+    "en": "A mutual fund pools many people's money and spreads it over many companies.",
+    "hi": "म्यूचुअल फंड कई लोगों का पैसा मिलाकर कई कंपनियों में बाँटता है।"
+   },
+   {
+    "en": "The yearly fund cost looks small but, over many years, it adds up to a lot.",
+    "hi": "सालाना फंड खर्च छोटा दिखता है, पर कई सालों में यह बहुत बड़ा हो जाता है।"
+   },
+   {
+    "en": "Real fund history can be seen, but how a fund did before says nothing sure about what comes next.",
+    "hi": "फंड का असली इतिहास देखा जा सकता है, पर पहले कैसा चला, यह आगे के बारे में कुछ पक्का नहीं बताता।"
+   }
+  ]
+ },
+ "etf": {
+  "open": {
+   "en": "Meera buys an ETF on the stock exchange, like a share. What are its small costs?",
+   "hi": "मीरा शेयर की तरह स्टॉक एक्सचेंज पर ETF खरीदती है। इसके छोटे खर्च क्या हैं?"
+  },
+  "end": [
+   {
+    "en": "An ETF trades on the exchange like a share, so its price moves during the day.",
+    "hi": "ETF शेयर की तरह एक्सचेंज पर बिकता है, इसलिए उसका भाव दिन भर हिलता है।"
+   },
+   {
+    "en": "The market price can sit a little above or below the fund's own value (NAV).",
+    "hi": "बाज़ार भाव फंड के अपने मूल्य (NAV) से थोड़ा ऊपर या नीचे रह सकता है।"
+   },
+   {
+    "en": "Every buy and sell has brokerage and a small gap between the two prices, so many small trades cost more.",
+    "hi": "हर खरीद-बिक्री में ब्रोकरेज और दो भावों का थोड़ा फ़ासला लगता है, इसलिए बहुत सारे छोटे सौदे महँगे पड़ते हैं।"
+   }
+  ]
+ },
+ "gold": {
+  "open": {
+   "en": "Meera wants to buy gold. Gold jewellery and a gold ETF are not the same. Let us see why.",
+   "hi": "मीरा सोना खरीदना चाहती है। गहने और गोल्ड ETF एक जैसे नहीं हैं। देखें क्यों।"
+  },
+  "end": [
+   {
+    "en": "In jewellery, part of the price is making charges and GST, not gold.",
+    "hi": "गहनों की कीमत का एक हिस्सा मेकिंग चार्ज और GST होता है, सोना नहीं।"
+   },
+   {
+    "en": "Because of that, gold must rise by some percent just for Meera to get back what she paid.",
+    "hi": "इसी वजह से मीरा को दिया पैसा वापस पाने के लिए ही सोने को कुछ प्रतिशत बढ़ना पड़ता है।"
+   },
+   {
+    "en": "A gold ETF has a small yearly cost instead, so the gap between what you pay and what the gold is worth is smaller.",
+    "hi": "गोल्ड ETF में इसकी जगह छोटा सालाना खर्च होता है, इसलिए आप जो देते हैं और सोने की कीमत के बीच का फ़ासला कम होता है।"
+   }
+  ]
+ },
+ "ppf": {
+  "open": {
+   "en": "Meera puts money in a PPF account every year for many years. Let us see the ladder it builds.",
+   "hi": "मीरा कई सालों तक हर साल PPF खाते में पैसा डालती है। देखें यह कैसी सीढ़ी बनाता है।"
+  },
+  "end": [
+   {
+    "en": "PPF is a government savings scheme: you put in money every year and it grows at a rate the government sets.",
+    "hi": "PPF सरकारी बचत योजना है: आप हर साल पैसा डालते हैं और वह सरकार की तय दर से बढ़ता है।"
+   },
+   {
+    "en": "The rate is reviewed from time to time, so it can change.",
+    "hi": "दर की समय-समय पर समीक्षा होती है, इसलिए वह बदल सकती है।"
+   },
+   {
+    "en": "Prices rise over the years, so what the final amount can buy is less than its number suggests.",
+    "hi": "सालों में कीमतें बढ़ती हैं, इसलिए आख़िरी रकम से जितना खरीदा जा सकता है, वह उसके अंक से कम होता है।"
+   }
+  ]
+ }
+}

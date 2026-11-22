@@ -1,128 +1,358 @@
 {
-  "en": {
-    "nav": "Samajh",
-    "kicker": "SAMAJH · समझ",
-    "title": "Samajh",
-    "tagline": "No tips. Only understanding.",
-    "disclaimerTop": "Education, not investment advice. StockSee is not a SEBI-registered advisor.",
-    "footer": "Education, not investment advice. StockSee is not a SEBI-registered advisor.",
-    "jump": {
-      "cards": "Money Cards",
-      "hype": "Hype Check",
-      "guide": "Money-Time Guide"
-    },
-    "cards": {
-      "title": "Money Cards",
-      "sub": "Real-life stories with real numbers. Every figure is a hypothetical illustration, never a promise.",
-      "pickHint": "Tap a card to open it. Each one shows what to check before you act, and why.",
-      "level": {
-        "basic": "Basic",
-        "medium": "Medium"
-      },
-      "kind": {
-        "product": "Product",
-        "method": "Method"
-      },
-      "blocks": {
-        "explain": "In simple words",
-        "example": "A real-life situation",
-        "steps": "What happens to the money, step by step",
-        "positive": "If things go well",
-        "negative": "If things go badly",
-        "wrong": "What can go wrong",
-        "influencers": "What influencers don’t tell you",
-        "takeaway": "Remember this"
-      },
-      "assumptions": "Assumptions behind these numbers",
-      "sources": "Where to check the facts",
-      "hypothetical": "Hypothetical illustration. Not a forecast, not a promise.",
-      "tryIt": "Try it yourself",
-      "seeNumbers": "See the numbers as a table",
-      "close": "Close",
-      "otherLanguage": "In Hindi",
-      "unitsTitle": "NAV and units, month by month (made-up NAVs)",
-      "timing": {
-        "month-end": "End of each month",
-        "month-start": "Start of each month",
-        "year-end": "End of each year"
-      },
-      "chart": {
-        "year": "Year",
-        "tableOf": "Table of values"
-      },
-      "empty": "No cards to show.",
-      "error": "This card could not be loaded.",
-      "checks": {
-        "title": "Check before you act",
-        "why": "Why",
-        "badge": "checks",
-        "button": "Check first",
-        "story": "Real life"
-      },
-      "checksNote": "These are things to look at, not a recommendation."
-    }
+ "en": {
+  "nav": "Samajh",
+  "kicker": "SAMAJH · समझ",
+  "title": "Samajh",
+  "tagline": "No tips. Only understanding.",
+  "disclaimerTop": "Education, not investment advice. StockSee is not a SEBI-registered advisor.",
+  "footer": "Education, not investment advice. StockSee is not a SEBI-registered advisor.",
+  "jump": {
+   "cards": "Money Cards",
+   "hype": "Hype Check",
+   "guide": "Money-Time Guide",
+   "real": "Real fund history"
   },
-  "hi": {
-    "nav": "समझ",
-    "kicker": "SAMAJH · समझ",
-    "title": "समझ",
-    "tagline": "कोई टिप नहीं। सिर्फ समझ।",
-    "disclaimerTop": "शिक्षा, निवेश सलाह नहीं। StockSee सेबी-पंजीकृत सलाहकार नहीं है।",
-    "footer": "शिक्षा, निवेश सलाह नहीं। StockSee सेबी-पंजीकृत सलाहकार नहीं है।",
-    "jump": {
-      "cards": "मनी कार्ड",
-      "hype": "हाइप चेक",
-      "guide": "पैसा-समय गाइड"
-    },
-    "cards": {
-      "title": "मनी कार्ड",
-      "sub": "असली ज़िंदगी की कहानियाँ, असली गणित के साथ। हर आँकड़ा एक काल्पनिक उदाहरण है, वादा नहीं।",
-      "pickHint": "कार्ड खोलने के लिए टैप करें। हर कार्ड बताता है कि कुछ करने से पहले क्या जाँचें, और क्यों।",
-      "level": {
-        "basic": "बुनियादी",
-        "medium": "मध्यम"
-      },
-      "kind": {
-        "product": "उत्पाद",
-        "method": "तरीका"
-      },
-      "blocks": {
-        "explain": "आसान शब्दों में",
-        "example": "असली ज़िंदगी की स्थिति",
-        "steps": "पैसे के साथ क्या होता है, कदम दर कदम",
-        "positive": "अगर सब अच्छा रहे",
-        "negative": "अगर सब बुरा रहे",
-        "wrong": "क्या गलत हो सकता है",
-        "influencers": "इन्फ्लुएंसर क्या नहीं बताते",
-        "takeaway": "यह याद रखें"
-      },
-      "assumptions": "इन आँकड़ों के पीछे की मान्यताएँ",
-      "sources": "तथ्य कहाँ जाँचें",
-      "hypothetical": "काल्पनिक उदाहरण। पूर्वानुमान नहीं, वादा नहीं।",
-      "tryIt": "खुद आज़माएँ",
-      "seeNumbers": "आँकड़े तालिका में देखें",
-      "close": "बंद करें",
-      "otherLanguage": "अंग्रेज़ी में",
-      "unitsTitle": "NAV और यूनिट, महीने दर महीने (काल्पनिक NAV)",
-      "timing": {
-        "month-end": "हर महीने के अंत में",
-        "month-start": "हर महीने की शुरुआत में",
-        "year-end": "हर साल के अंत में"
-      },
-      "chart": {
-        "year": "साल",
-        "tableOf": "मानों की तालिका"
-      },
-      "empty": "दिखाने के लिए कोई कार्ड नहीं।",
-      "error": "यह कार्ड लोड नहीं हो सका।",
-      "checks": {
-        "title": "कुछ करने से पहले जाँचें",
-        "why": "क्यों",
-        "badge": "जाँच",
-        "button": "पहले जाँचें",
-        "story": "असली ज़िंदगी में"
-      },
-      "checksNote": "ये देखने की बातें हैं, कोई सलाह नहीं।"
-    }
+  "cards": {
+   "title": "Money Cards",
+   "sub": "Real-life stories with real numbers. Every figure is a hypothetical illustration, never a promise.",
+   "pickHint": "Tap a card to open it. Each one shows what to check before you act, and why.",
+   "level": {
+    "basic": "Basic",
+    "medium": "Medium"
+   },
+   "kind": {
+    "product": "Product",
+    "method": "Method"
+   },
+   "blocks": {
+    "explain": "In simple words",
+    "example": "A real-life situation",
+    "steps": "What happens to the money, step by step",
+    "positive": "If things go well",
+    "negative": "If things go badly",
+    "wrong": "What can go wrong",
+    "influencers": "What influencers don’t tell you",
+    "takeaway": "Remember this"
+   },
+   "assumptions": "Assumptions behind these numbers",
+   "sources": "Where to check the facts",
+   "hypothetical": "Hypothetical illustration. Not a forecast, not a promise.",
+   "tryIt": "Try it yourself",
+   "seeNumbers": "See the numbers as a table",
+   "close": "Close",
+   "otherLanguage": "In Hindi",
+   "unitsTitle": "NAV and units, month by month (made-up NAVs)",
+   "timing": {
+    "month-end": "End of each month",
+    "month-start": "Start of each month",
+    "year-end": "End of each year"
+   },
+   "chart": {
+    "year": "Year",
+    "tableOf": "Table of values"
+   },
+   "empty": "No cards to show.",
+   "error": "This card could not be loaded.",
+   "checks": {
+    "title": "Check before you act",
+    "why": "Why",
+    "badge": "checks",
+    "button": "Check first",
+    "story": "Real life"
+   },
+   "checksNote": "These are things to look at, not a recommendation."
+  },
+  "story": {
+   "watch": "Watch the story",
+   "hide": "Hide the story",
+   "title": "The story in 4 steps",
+   "step": "Step {{n}} of {{total}}",
+   "prev": "Back",
+   "next": "Next",
+   "play": "Play",
+   "pause": "Pause",
+   "replay": "Replay",
+   "sound": "Music",
+   "off": "Off",
+   "calm": "Calm",
+   "lively": "Lively",
+   "soundUnavailable": "Sound is not available in this browser.",
+   "note": "The story uses this card's example numbers. They are made up to explain the idea, not a forecast.",
+   "chartAria": "Animated chart for {{name}}",
+   "readout": "Now showing",
+   "character": "Meera, the guide",
+   "scene": "Scene {{n}} of {{total}}",
+   "nextStep": "Next step",
+   "start": "Start",
+   "opening": "Opening",
+   "ending": "The story in short",
+   "again": "Watch again",
+   "remember": "Remember",
+   "endingSay": "Well done! That is the whole story. Here is what to remember."
+  },
+  "real": {
+   "kicker": "Real data",
+   "title": "Real fund history",
+   "sub": "The other cards use made-up numbers. This section uses the real daily prices (NAV) that fund companies report to AMFI. Pick a fund and see what a monthly SIP actually did in the past.",
+   "searchLabel": "Search for a mutual fund",
+   "placeholder": "Type a fund name…",
+   "searchBtn": "Search",
+   "hintsLabel": "Example searches",
+   "hints": [
+    "Nifty 50 index",
+    "Flexi cap",
+    "Small cap",
+    "Liquid",
+    "Gold"
+   ],
+   "hintNote": "These are example searches, not recommendations. Pick any fund you are curious about.",
+   "tooShort": "Type at least 3 letters.",
+   "searching": "Searching…",
+   "none": "No fund found. Try fewer or different words.",
+   "found": "{{n}} found. Tap a fund to load its real price history.",
+   "foundMore": "Showing {{shown}} of {{n}}. Tap a fund to load its real price history.",
+   "payout": "Payout plan: not supported here",
+   "loading": "Loading real price history…",
+   "loaded": "Loaded. The latest NAV in the data is from {{date}}.",
+   "offline": "Could not reach the price service. Real data is unavailable right now. We will not fill the gap with made-up numbers. Check the internet and try again.",
+   "tooLittle": "This fund has too little price history to show.",
+   "meta": "First NAV {{first}} · latest NAV ₹{{nav}} on {{last}}",
+   "stale": "No new price since {{date}}. This fund may have been merged or closed, so everything below ends on that date.",
+   "periods": {
+    "1": "1 year",
+    "3": "3 years",
+    "5": "5 years",
+    "10": "10 years",
+    "max": "All data",
+    "covid": "2020 fall",
+    "gfc": "2008 fall"
+   },
+   "periodsLabel": "Quick periods",
+   "from": "From",
+   "to": "To",
+   "sipDate": "SIP date each month",
+   "amount": "Monthly amount",
+   "noDataForFall": "This fund's price history starts on {{date}}, so it has no data for that fall. Pick another fund or period.",
+   "shortHistory": "This fund has less than {{n}} year(s) of history, so all of it is shown.",
+   "badDates": "The \"To\" month is before the \"From\" month. Please fix the dates.",
+   "noInstalments": "No instalments fit in this period (the fund may not have existed yet). Try other dates.",
+   "skipped": "{{n}} month(s) skipped because the fund had no price within 10 days of the SIP date.",
+   "period": "Each instalment uses the NAV of the SIP date, or the next day that has a NAV. Period: {{a}} to {{b}}.",
+   "putIn": "Put in",
+   "worth": "Worth at end",
+   "gain": "Gain / loss",
+   "units": "Units owned",
+   "avgCost": "Your avg cost / unit",
+   "xirr": "Yearly rate (XIRR)",
+   "xirrNA": "n/a",
+   "xirrNote": "Shown only for periods of one year or more.",
+   "navChart": "Price of ONE unit (NAV). Green dots are your instalments.",
+   "moneyChart": "Your money: put in (dashed) vs worth (green when above, red when below).",
+   "navAria": "Real NAV history of {{name}} over the chosen period",
+   "moneyAria": "Money put in versus worth of the SIP over the chosen period",
+   "replay": "Replay month by month",
+   "showFall": "Show the biggest fall",
+   "hideFall": "Hide the fall",
+   "peak": "peak",
+   "low": "low",
+   "fallNone": "In this period the price never fell more than 1% from a high.",
+   "fall": "Biggest fall in this period: the price of one unit dropped {{pct|d1}}% from {{peakDate}} (₹{{peakNav|d2}}) to {{lowDate}} (₹{{lowNav|d2}}), over {{days}} days.",
+   "fallBack": "It got back to that high on {{date}}, about {{months}} months after the low.",
+   "fallNotBack": "It had not got back to that high in the data, which ends on {{date}}.",
+   "fallSip": "At the low point the SIP had put in {{inv|inr}} and was worth {{val|inr}}.",
+   "fallMaths": "A {{pct|n}}% fall needs a {{need|n}}% rise to get back. This is the same maths as in the other cards, now with real numbers.",
+   "tableTitle": "Every instalment",
+   "tableSub": "The NAV used each month, and how many units that month's money bought.",
+   "tHead": [
+    "NAV date",
+    "NAV",
+    "Units bought",
+    "Total units"
+   ],
+   "howTitle": "How is this calculated?",
+   "how": "Units bought = monthly amount ÷ NAV on the instalment day. If that day was a holiday or weekend, the next day with a NAV is used. Worth = total units × the NAV on the last date. Gain or loss = worth − money put in. XIRR is the single yearly rate that matches all the dated cash flows. Not included: exit load, taxes, stamp duty and other charges. The fund's running cost is already inside the NAV.",
+   "payoutTitle": "Why can I not pick payout (IDCW) funds?",
+   "payoutBody": "These funds pay money out, and the NAV drops each time. The simple units × NAV maths would then give a wrong answer, so only other plans (such as Growth) are supported.",
+   "summary": "From {{a}} to {{b}} this SIP put in {{inv|inr}} over {{n}} instalments. On {{end}} it was worth {{val|inr}} ({{pct}}). That is what happened, not a promise of what comes next.",
+   "source": "Source: daily NAV published by AMFI, read through the free mfapi.in service (a community copy, not run by AMFI). Only what you type in the search box is sent to it. Past performance is history, not a promise or a prediction. This is not a recommendation of any fund."
   }
+ },
+ "hi": {
+  "nav": "समझ",
+  "kicker": "SAMAJH · समझ",
+  "title": "समझ",
+  "tagline": "कोई टिप नहीं। सिर्फ समझ।",
+  "disclaimerTop": "शिक्षा, निवेश सलाह नहीं। StockSee सेबी-पंजीकृत सलाहकार नहीं है।",
+  "footer": "शिक्षा, निवेश सलाह नहीं। StockSee सेबी-पंजीकृत सलाहकार नहीं है।",
+  "jump": {
+   "cards": "मनी कार्ड",
+   "hype": "हाइप चेक",
+   "guide": "पैसा-समय गाइड",
+   "real": "असली फंड इतिहास"
+  },
+  "cards": {
+   "title": "मनी कार्ड",
+   "sub": "असली ज़िंदगी की कहानियाँ, असली गणित के साथ। हर आँकड़ा एक काल्पनिक उदाहरण है, वादा नहीं।",
+   "pickHint": "कार्ड खोलने के लिए टैप करें। हर कार्ड बताता है कि कुछ करने से पहले क्या जाँचें, और क्यों।",
+   "level": {
+    "basic": "बुनियादी",
+    "medium": "मध्यम"
+   },
+   "kind": {
+    "product": "उत्पाद",
+    "method": "तरीका"
+   },
+   "blocks": {
+    "explain": "आसान शब्दों में",
+    "example": "असली ज़िंदगी की स्थिति",
+    "steps": "पैसे के साथ क्या होता है, कदम दर कदम",
+    "positive": "अगर सब अच्छा रहे",
+    "negative": "अगर सब बुरा रहे",
+    "wrong": "क्या गलत हो सकता है",
+    "influencers": "इन्फ्लुएंसर क्या नहीं बताते",
+    "takeaway": "यह याद रखें"
+   },
+   "assumptions": "इन आँकड़ों के पीछे की मान्यताएँ",
+   "sources": "तथ्य कहाँ जाँचें",
+   "hypothetical": "काल्पनिक उदाहरण। पूर्वानुमान नहीं, वादा नहीं।",
+   "tryIt": "खुद आज़माएँ",
+   "seeNumbers": "आँकड़े तालिका में देखें",
+   "close": "बंद करें",
+   "otherLanguage": "अंग्रेज़ी में",
+   "unitsTitle": "NAV और यूनिट, महीने दर महीने (काल्पनिक NAV)",
+   "timing": {
+    "month-end": "हर महीने के अंत में",
+    "month-start": "हर महीने की शुरुआत में",
+    "year-end": "हर साल के अंत में"
+   },
+   "chart": {
+    "year": "साल",
+    "tableOf": "मानों की तालिका"
+   },
+   "empty": "दिखाने के लिए कोई कार्ड नहीं।",
+   "error": "यह कार्ड लोड नहीं हो सका।",
+   "checks": {
+    "title": "कुछ करने से पहले जाँचें",
+    "why": "क्यों",
+    "badge": "जाँच",
+    "button": "पहले जाँचें",
+    "story": "असली ज़िंदगी में"
+   },
+   "checksNote": "ये देखने की बातें हैं, कोई सलाह नहीं।"
+  },
+  "story": {
+   "watch": "कहानी देखें",
+   "hide": "कहानी छिपाएँ",
+   "title": "4 कदम में कहानी",
+   "step": "कदम {{n}} / {{total}}",
+   "prev": "पीछे",
+   "next": "आगे",
+   "play": "चलाएँ",
+   "pause": "रोकें",
+   "replay": "फिर से",
+   "sound": "संगीत",
+   "off": "बंद",
+   "calm": "शांत",
+   "lively": "तेज़",
+   "soundUnavailable": "इस ब्राउज़र में आवाज़ उपलब्ध नहीं है।",
+   "note": "कहानी इस कार्ड के उदाहरण वाले आँकड़े इस्तेमाल करती है। ये बात समझाने के लिए बनाए गए हैं, अनुमान नहीं।",
+   "chartAria": "{{name}} के लिए चलता चार्ट",
+   "readout": "अभी दिख रहा है",
+   "character": "मीरा, गाइड",
+   "scene": "दृश्य {{n}} / {{total}}",
+   "nextStep": "अगला कदम",
+   "start": "शुरू करें",
+   "opening": "शुरुआत",
+   "ending": "कहानी संक्षेप में",
+   "again": "फिर देखें",
+   "remember": "याद रखें",
+   "endingSay": "शाबाश! यही पूरी कहानी है। ये बातें याद रखिए।"
+  },
+  "real": {
+   "kicker": "असली डेटा",
+   "title": "असली फंड इतिहास",
+   "sub": "बाकी कार्ड बनाए हुए आँकड़े इस्तेमाल करते हैं। यह हिस्सा फंड कंपनियों के AMFI को बताए असली रोज़ के भाव (NAV) इस्तेमाल करता है। कोई फंड चुनें और देखें कि हर महीने की SIP ने पहले असल में क्या किया।",
+   "searchLabel": "म्यूचुअल फंड खोजें",
+   "placeholder": "फंड का नाम लिखें…",
+   "searchBtn": "खोजें",
+   "hintsLabel": "खोज के उदाहरण",
+   "hints": [
+    "Nifty 50 index",
+    "Flexi cap",
+    "Small cap",
+    "Liquid",
+    "Gold"
+   ],
+   "hintNote": "ये सिर्फ खोज के उदाहरण हैं, सलाह नहीं। जिस फंड के बारे में जानना हो, वही चुनें।",
+   "tooShort": "कम से कम 3 अक्षर लिखें।",
+   "searching": "खोज रहे हैं…",
+   "none": "कोई फंड नहीं मिला। कम या दूसरे शब्द आज़माएँ।",
+   "found": "{{n}} मिले। असली भाव का इतिहास खोलने के लिए फंड पर टैप करें।",
+   "foundMore": "{{n}} में से {{shown}} दिख रहे हैं। असली भाव का इतिहास खोलने के लिए फंड पर टैप करें।",
+   "payout": "पेआउट प्लान: यहाँ उपलब्ध नहीं",
+   "loading": "असली भाव का इतिहास आ रहा है…",
+   "loaded": "आ गया। डेटा में सबसे नया NAV {{date}} का है।",
+   "offline": "भाव सेवा से जुड़ नहीं पाए। असली डेटा अभी उपलब्ध नहीं है। हम खाली जगह बनाए हुए आँकड़ों से नहीं भरेंगे। इंटरनेट देखकर फिर कोशिश करें।",
+   "tooLittle": "इस फंड का भाव इतिहास दिखाने लायक नहीं है।",
+   "meta": "पहला NAV {{first}} · सबसे नया NAV ₹{{nav}}, {{last}} को",
+   "stale": "{{date}} के बाद कोई नया भाव नहीं। यह फंड मर्ज या बंद हो चुका हो सकता है, इसलिए नीचे सब कुछ उसी तारीख पर खत्म होता है।",
+   "periods": {
+    "1": "1 साल",
+    "3": "3 साल",
+    "5": "5 साल",
+    "10": "10 साल",
+    "max": "पूरा डेटा",
+    "covid": "2020 की गिरावट",
+    "gfc": "2008 की गिरावट"
+   },
+   "periodsLabel": "जल्दी अवधि",
+   "from": "से",
+   "to": "तक",
+   "sipDate": "हर महीने SIP की तारीख",
+   "amount": "मासिक रकम",
+   "noDataForFall": "इस फंड का भाव इतिहास {{date}} से शुरू होता है, इसलिए उस गिरावट का डेटा नहीं है। दूसरा फंड या अवधि चुनें।",
+   "shortHistory": "इस फंड का इतिहास {{n}} साल से कम है, इसलिए पूरा दिखाया गया है।",
+   "badDates": "\"तक\" वाला महीना \"से\" वाले महीने से पहले है। तारीखें ठीक करें।",
+   "noInstalments": "इस अवधि में कोई किस्त नहीं बैठती (फंड तब शायद था ही नहीं)। दूसरी तारीखें आज़माएँ।",
+   "skipped": "{{n}} महीने छोड़े गए क्योंकि SIP तारीख के 10 दिन के अंदर फंड का कोई भाव नहीं था।",
+   "period": "हर किस्त SIP तारीख का NAV इस्तेमाल करती है, या अगला दिन जिसका NAV हो। अवधि: {{a}} से {{b}}।",
+   "putIn": "लगाया",
+   "worth": "आखिर में मूल्य",
+   "gain": "फायदा / नुकसान",
+   "units": "कुल यूनिट",
+   "avgCost": "औसत लागत / यूनिट",
+   "xirr": "सालाना दर (XIRR)",
+   "xirrNA": "लागू नहीं",
+   "xirrNote": "सिर्फ एक साल या ज़्यादा की अवधि के लिए दिखाई जाती है।",
+   "navChart": "एक यूनिट का भाव (NAV)। हरे बिंदु आपकी किस्तें हैं।",
+   "moneyChart": "आपका पैसा: लगाया (बिंदीदार) बनाम मूल्य (ऊपर हो तो हरा, नीचे हो तो लाल)।",
+   "navAria": "चुनी अवधि में {{name}} का असली NAV इतिहास",
+   "moneyAria": "चुनी अवधि में लगाया पैसा और SIP का मूल्य",
+   "replay": "महीने-दर-महीने फिर चलाएँ",
+   "showFall": "सबसे बड़ी गिरावट दिखाएँ",
+   "hideFall": "गिरावट छिपाएँ",
+   "peak": "शिखर",
+   "low": "निचला",
+   "fallNone": "इस अवधि में भाव किसी ऊँचाई से 1% से ज़्यादा कभी नहीं गिरा।",
+   "fall": "इस अवधि की सबसे बड़ी गिरावट: एक यूनिट का भाव {{peakDate}} (₹{{peakNav|d2}}) से {{lowDate}} (₹{{lowNav|d2}}) तक {{days}} दिन में {{pct|d1}}% गिरा।",
+   "fallBack": "वह उस ऊँचाई पर {{date}} को लौटा, निचले स्तर के लगभग {{months}} महीने बाद।",
+   "fallNotBack": "डेटा में, जो {{date}} पर खत्म होता है, वह उस ऊँचाई पर नहीं लौटा था।",
+   "fallSip": "निचले स्तर पर SIP में {{inv|inr}} लगे थे और मूल्य {{val|inr}} था।",
+   "fallMaths": "{{pct|n}}% की गिरावट से लौटने के लिए {{need|n}}% की बढ़त चाहिए। यह वही गणित है जो बाकी कार्डों में है, अब असली आँकड़ों के साथ।",
+   "tableTitle": "हर किस्त",
+   "tableSub": "हर महीने इस्तेमाल हुआ NAV, और उस महीने के पैसे से कितनी यूनिट आईं।",
+   "tHead": [
+    "NAV की तारीख",
+    "NAV",
+    "खरीदी यूनिट",
+    "कुल यूनिट"
+   ],
+   "howTitle": "यह कैसे निकाला गया?",
+   "how": "खरीदी यूनिट = मासिक रकम ÷ किस्त के दिन का NAV। अगर वह दिन छुट्टी या वीकेंड था, तो अगला दिन जिसका NAV हो वह लिया जाता है। मूल्य = कुल यूनिट × आखिरी तारीख का NAV। फायदा या नुकसान = मूल्य − लगाया पैसा। XIRR वह एक सालाना दर है जो तारीख वाले सारे नकद प्रवाह से मेल खाती है। शामिल नहीं: एग्ज़िट लोड, टैक्स, स्टाम्प ड्यूटी और दूसरे शुल्क। फंड का चलाने का खर्च NAV के अंदर पहले से है।",
+   "payoutTitle": "पेआउट (IDCW) फंड क्यों नहीं चुन सकते?",
+   "payoutBody": "ये फंड पैसा बाहर देते हैं और हर बार NAV गिर जाता है। तब यूनिट × NAV वाला सीधा गणित गलत जवाब देगा, इसलिए सिर्फ दूसरे प्लान (जैसे ग्रोथ) चलते हैं।",
+   "summary": "{{a}} से {{b}} तक इस SIP ने {{n}} किस्तों में {{inv|inr}} लगाए। {{end}} को उसका मूल्य {{val|inr}} था ({{pct}})। यह वही है जो हुआ, आगे क्या होगा उसका वादा नहीं।",
+   "source": "स्रोत: AMFI के रोज़ के NAV, मुफ़्त mfapi.in सेवा से लिए गए (यह एक सामुदायिक प्रति है, AMFI नहीं चलाता)। उसे सिर्फ वही भेजा जाता है जो आप खोज बॉक्स में लिखते हैं। बीता प्रदर्शन इतिहास है, वादा या भविष्यवाणी नहीं। यह किसी फंड की सिफारिश नहीं है।"
+  }
+ }
 }

@@ -1,13 +1,18 @@
 import { useMemo, useState } from 'react';
-import { Link2, ListChecks, SlidersHorizontal, X } from 'lucide-react';
+import { Film, Link2, ListChecks, SlidersHorizontal, X } from 'lucide-react';
 import { computeCard } from '../../samajh/cardMath';
 import { fill, formatInr, formatNum, formatDec } from '../../samajh/format';
 import { LEVELS, pick } from '../../samajh/content';
 import { TIMINGS } from '../../samajh/finance';
 import { LineChartSvg, BarChartSvg } from './SvgCharts';
+import CardStory from './CardStory';
+import HypeCheck from './HypeCheck';
+import { hypeUi } from '../../samajh/analyse';
 import ui from '../../content/samajh/ui.json';
 
 const BLOCK_ORDER = ['explain', 'example', 'steps', 'positive', 'negative', 'wrong', 'influencers', 'takeaway'];
+/** Hype Check lives inside the cards it relates to, with only the claims about that card. */
+const HYPE_FOR = { sip: ['sip-crore', 'double-25'], fd: ['fd-dead'], swp: ['swp-salary'], stocks: ['stock-10x', 'double-25'] };
 const CELL = { n: formatNum, inr: (v, lang) => formatInr(v, lang), d2: (v) => formatDec(v, 2) };
 
 /** One opened Money Card: level switch, the 8 teaching blocks, a chart, and "try it yourself" controls. */
@@ -16,6 +21,8 @@ export default function MoneyCard({ card, lang, onClose, onOpenChecks }) {
   const other = lang === 'hi' ? 'en' : 'hi';
   const [level, setLevel] = useState('basic');
   const [inputs, setInputs] = useState(card.inputs);
+  const [storyOpen, setStoryOpen] = useState(false);
+  const S = ui[lang]?.story || ui.en.story;
 
   const calc = useMemo(() => computeCard(card.id, inputs, lang, formatInr), [card.id, inputs, lang]);
   const f = (text) => fill(text, calc.vars, lang);
@@ -66,6 +73,9 @@ export default function MoneyCard({ card, lang, onClose, onOpenChecks }) {
       </header>
 
       {card.methodNote && <p className="samajh-method" role="note"><Link2 size={14} aria-hidden="true" /> {pick(card.methodNote, lang)}</p>}
+
+      <button type="button" className="sstory-open" aria-expanded={storyOpen} onClick={() => setStoryOpen((v) => !v)}><Film size={16} aria-hidden="true" /> {storyOpen ? S.hide : S.watch}</button>
+      {storyOpen && <CardStory key={`${card.id}-${lang}`} card={card} lang={lang} />}
 
       <div className="samajh-levels" role="tablist" aria-label="Level">
         {LEVELS.map((l) => (
@@ -134,6 +144,14 @@ export default function MoneyCard({ card, lang, onClose, onOpenChecks }) {
             )))}
           </div>
           <button type="button" className="samajh-reset" onClick={() => setInputs(card.inputs)}>↺ {lang === 'hi' ? 'शुरुआती मान' : 'Reset'}</button>
+        </section>
+      )}
+
+      {HYPE_FOR[card.id] && (
+        <section className="samajh-block samajh-hypeblock">
+          <h5>{(hypeUi[lang] || hypeUi.en).title}</h5>
+          <p className="samajh-hint">{(hypeUi[lang] || hypeUi.en).tagline}</p>
+          <HypeCheck lang={lang} presetIds={HYPE_FOR[card.id]} />
         </section>
       )}
 

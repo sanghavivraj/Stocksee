@@ -35,6 +35,18 @@ tests/                   backend tests
 docs/screenshots/        images used below
 ```
 
+## What makes the design unique
+
+- **Meera, a story guide with a "5-layer emotion lock".** Every mood change (calm, happy, proud, amazed, worried) changes five things at once, within 300 ms: her eyes, her mouth, her body (arms and a small dance or shake), the glow behind her, and the chart or numbers on the scene. The feeling is never only a face; it is tied to the data.
+- **A different story inside every Money Card.** Each of the 8 cards has its own 3 to 5 scenes about its own topic (a jar that fills, a pot that drains, tap-to-buy units, a what-if fall, jewellery against a gold ETF), plus an opening and a "story in short" ending. You do something in each scene (press Play, tap, drag a slider) instead of reading.
+- **A picture and weather for every card.** A tree (SIP, PPF), a bank vault (FD), a pot with a tap (SWP), a price board (stocks), a basket (mutual funds, ETF) and gold bars (gold). The picture follows the mood: rain and lightning when Meera is worried, floating coins when she is happy. Switched off for people who ask for less motion.
+- **Music that follows the story, made live in the browser.** No audio files: real chords (pad, bass, arpeggio, bell). Bright and quick for good moments, soft and slow (minor) for falls, then it lifts again. Starts on Calm, one tap to silence. Coin, cheer and thunder sounds on top.
+- **Real fund history, not made-up charts.** The SIP and Mutual funds stories can run a real SIP on a real fund's AMFI NAV history (XIRR, biggest fall and recovery), and say "unavailable" when the data is not there. No fallback numbers.
+- **Facts, not tips.** No buy or sell calls, no targets, no direction predictions. Examples are labelled as made-up; history is never shown as a promise.
+- **A simple page.** Samajh is only the 8 Money Cards. Hype Check and the guides live inside the card they belong to, so nothing is confusing.
+- **Built for a phone and for night.** Night theme, text of at least 12 px, tap targets of at least 40 px, English and Hindi, measured and fixed at 390 px width.
+- **Watch-only and anonymous.** No sign-up, no holdings, no buying or selling.
+
 ## Screenshots
 
 | | |
@@ -49,6 +61,8 @@ docs/screenshots/        images used below
 | Samajh: money education with no tips, only understanding | Money Card (Fixed Deposit): a real-life story, then the numbers step by step |
 | ![Check before you act: what to check first, and why](docs/screenshots/samajh-check-first.png) | ![Hype Check: the maths behind a viral claim](docs/screenshots/samajh-hype-check.png) |
 | "Check first": what to check before acting, and why, with a real-life story | Hype Check: a claim like "₹5,000 SIP = ₹1 crore" tested with an adjustable calculator |
+| ![SWP story: the jar drains, Meera is worried](docs/screenshots/samajh-story.png) | ![Real fund history: real NAVs, a real SIP and the biggest fall highlighted](docs/screenshots/samajh-real-history.png) |
+| **A story inside every card** (SWP: the pot drains over the years; Meera's face, body and glow follow the numbers) | **Real fund history** (inside the SIP and Mutual funds stories): what a monthly SIP actually did, from real AMFI NAVs |
 
 ## Setup
 
@@ -111,12 +125,41 @@ tip-check, backtest and every route that saves data.
   compares a number with a list you load (`npm run advisers:import -- file.csv`, from the official SEBI / BSE source; SEBI says adviser and analyst
   registration is now handled by BSE). With no list loaded it says "not checked" and links to the official lookup. A real number can be copied, so a match only shows the registered name to compare. A message that names no listed stock is checked on its
   wording only, and a loose search result is never accepted as the stock (it must be a listed Indian company whose name or ticker really matches).
-- **Samajh** (`/samajh`, English and Hindi; Gujarati shows the English text with a "coming soon" notice): money education with no tips. *Money Cards* explain FD, SIP, SWP,
-  stocks, mutual funds, ETFs, gold and PPF with a real-life story and step-by-step maths (the maths runs in the browser;
-  the words live in JSON files; AI only explains and every AI answer goes through the answer guard). *Hype Check* tests
-  viral claims such as "₹5,000 SIP = ₹1 crore in 10 years" with adjustable assumptions. The *Money-Time Guide* starts from how long
-  you can leave the money (under 1 year, 1–3, 3–5, 5+). **Check first** (floating button, and a small icon on each card) lists what to check before
-  acting, and why.
+- **Samajh** (`/samajh`, English and Hindi; Gujarati shows the English text with a "coming soon" notice): money education with no tips.
+  The page is just the 8 *Money Cards* (FD, SIP, SWP, stocks, mutual funds, ETFs, gold, PPF). Open a card and everything about that topic is
+  inside it: a real-life story, the step-by-step maths with a chart, the story, and (where it fits) Hype Check. The maths runs in the browser;
+  the words live in JSON files; AI only explains and every AI answer goes through the answer guard. **Check first** (floating button, and a
+  small icon on each card) lists what to check before acting, and why.
+  - **Every story has an opening, its own picture and an ending.** Each story starts with an opening screen and finishes with "The story in short"
+    (3 things to remember, then *Watch again*). Each card has its own picture that follows Meera's mood: a tree (SIP, PPF), a bank vault (FD),
+    a pot with a tap (SWP), a price board (stocks), a basket (mutual funds, ETF), gold bars (gold). Weather follows the mood too: rain and
+    lightning when Meera is worried, floating coins when she is happy, proud or amazed (switched off for people who ask for less motion).
+    The music is made live in the browser from real chords (a warm pad, bass, a soft arpeggio and a bell): it starts on *Calm* when a story is opened
+    (one tap on *Off* silences it), happy / proud / amazed moods turn it brighter and quicker, and worried turns it soft and minor, slower and quieter,
+    then it lifts again as soon as the mood improves. There are also coin, cheer and thunder sounds. ETF and gold now have 4 scenes each (ETF: the gap between buy and sell
+    price; gold: the same gold as jewellery and as an ETF). Words for the opening and ending are in `frontend/src/content/samajh/storyFrames.json`.
+  - **A different animated story inside every card** (the *Watch the story* button): a guide called Meera takes you through 3 to 5 scenes
+    about *that card's* topic, and in each scene you do something: press Play, tap, or drag a slider.
+    FD: lend to the bank and watch the years, the tax bite, prices rising (a shrinking basket), how much deposit insurance covers.
+    SIP: set it and forget it, tap to practice-buy units (average cost drops below average price), time and growth, a what-if fall with three
+    paths, then real fund history. SWP: watch the pot drain over the years, change the earnings, change the withdrawal.
+    Stocks: a tiny slice of a business, the price moves, how far it must rise to get back, dividends are not promised.
+    Mutual funds: the cost leak, can the costlier fund catch up, real fund history. ETF: price vs NAV, buying and selling costs, if the index moves.
+    Gold: what you pay for (gold + making + GST), getting back what you paid, jewellery vs gold ETF. PPF: year by year, if the rate changes, what it can buy.
+  - **Five-layer emotion lock:** every change of mood changes Meera's eyes, mouth, body (arms, a small dance or tremble) and the glow behind
+    her, and the numbers or chart on the scene change with it. The numbers come from the card's own maths with its example inputs; nothing is
+    invented. No video files: plain SVG and CSS. Words: `frontend/src/content/samajh/stories.json`; numbers: `frontend/src/samajh/storyScenes.js`.
+    A test plays every scene of every card in English and Hindi (no missing number, no unused line, no advice words).
+  - **Music** (off by default, one tap): *Calm* (slow plucked notes on a five-note scale over a soft drone) or *Lively* (quicker notes with a
+    light drum pulse), made live with the Web Audio API (no audio files); it follows the mood. Code: `frontend/src/samajh/storyAudio.js`.
+  - **Hype Check inside the cards it fits** (SIP, FD, SWP, stocks), with only the claims about that card.
+  - **Real fund history** (the last scene of the SIP and Mutual funds stories): search any mutual fund, pick a period (1/3/5/10 years, all data,
+    the 2020 or 2008 fall, or your own months), SIP date and amount. It shows the real NAV used for each instalment, units bought, money put in,
+    worth, gain or loss, average cost, XIRR (only for periods of a year or more), a price chart, a money chart, a replay, and the **biggest real
+    fall** with when it recovered. Source: daily NAV published by AMFI, read through the free [mfapi.in](https://www.mfapi.in) service (a community
+    copy, not run by AMFI; only the search text is sent). Payout (IDCW) plans are blocked; funds that stopped reporting are flagged. If the
+    service cannot be reached it says so and shows nothing instead of made-up numbers. History is never shown as a forecast.
+    Maths: `frontend/src/samajh/realSip.js`, checked against an independent calculation.
 - **Unusual** (`/unusual`): stocks that moved or traded in an unusual way today, shown as facts with no recommendation.
 - **Promised-return flag** (Tip Check): a promise such as "300% in 15 days" is read from the message and put next to real prices, in a box
   at the top of the result. With a stock named it uses that stock's own 5-year history; with none named it uses the NIFTY 50 index. When
@@ -194,7 +237,9 @@ Search suggestions use the bundled NSE list (`npm run symbols:update` refreshes 
 - **Tip Check is a warning-sign screen, not proof.** NSE surveillance (ASM / GSM) lists are used only once they are loaded, and the result shows the list date.
 - **No accounts by design.** Data is tied to a browser cookie, so clearing cookies or switching browser starts a fresh watchlist.
 - **Run the scheduled jobs on one server instance**, otherwise each instance sends the messages.
-- **Frontend tests cover logic only** (stock selection rules); there are no component or end-to-end tests yet.
+- **Frontend tests cover logic only** (stock selection rules, Samajh maths, story scripts, the music engine); there are no component or end-to-end tests yet. The Samajh stories and real-history screen were checked in a real browser by script (emotion layers, sound, 390px layout, Hindi), but not on a real low-end phone.
+- **Real fund history depends on mfapi.in**, a free third-party copy of AMFI data. If it is slow or down, that section says "unavailable". Exit load, tax and other charges are not in the maths. The 2008-fall button works only for funds that existed then.
+- **Gujarati** is not yet in Samajh (it shows English with a notice); the stories, music labels and real-history screen are English and Hindi.
 
 ## Compliance
 

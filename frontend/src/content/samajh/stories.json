@@ -1,0 +1,1222 @@
+{
+ "sip": {
+  "auto": {
+   "title": {
+    "en": "Set it and forget it",
+    "hi": "एक बार लगाइए, चलता रहे"
+   },
+   "intro": {
+    "mood": "calm",
+    "en": "Meera sets up a SIP: {{monthly|inr}} goes in on the 5th of every month by itself. Press Play to watch one year.",
+    "hi": "मीरा एक SIP शुरू करती है: हर महीने की 5 तारीख को {{monthly|inr}} अपने आप लगते हैं। एक साल देखने के लिए चलाएँ दबाएँ।"
+   },
+   "says": {
+    "done": {
+     "mood": "happy",
+     "en": "In 12 months {{yearTotal|inr}} went in without Meera doing anything. Same amount, same date, on autopilot: that is a SIP.",
+     "hi": "12 महीनों में {{yearTotal|inr}} लग गए और मीरा को कुछ करना नहीं पड़ा। वही रकम, वही तारीख, अपने आप: यही SIP है।"
+    }
+   },
+   "labels": {
+    "putin": {
+     "en": "Put in so far",
+     "hi": "अब तक लगाया"
+    },
+    "month": {
+     "en": "Month",
+     "hi": "महीना"
+    }
+   }
+  },
+  "units": {
+   "title": {
+    "en": "What the money buys",
+    "hi": "पैसे से क्या मिलता है"
+   },
+   "intro": {
+    "mood": "calm",
+    "en": "Where does the money go? Into units of a fund. The price of one unit (NAV) changes every month. Tap to practice-buy for 6 months.",
+    "hi": "पैसा कहाँ जाता है? फंड की यूनिट में। एक यूनिट का भाव (NAV) हर महीने बदलता है। 6 महीने के लिए अभ्यास-खरीद पर टैप करें।"
+   },
+   "says": {
+    "first": {
+     "mood": "happy",
+     "en": "{{monthly|inr}} ÷ NAV ₹{{nav|d2}} = {{units|d2}} units. Meera's first slice of the fund.",
+     "hi": "{{monthly|inr}} ÷ NAV ₹{{nav|d2}} = {{units|d2}} यूनिट। फंड का मीरा का पहला टुकड़ा।"
+    },
+    "fell": {
+     "mood": "wow",
+     "en": "The price fell to ₹{{nav|d2}}. The same {{monthly|inr}} now buys {{units|d2}} units, more than last month.",
+     "hi": "भाव गिरकर ₹{{nav|d2}} हुआ। वही {{monthly|inr}} अब {{units|d2}} यूनिट खरीदते हैं, पिछले महीने से ज़्यादा।"
+    },
+    "rose": {
+     "mood": "calm",
+     "en": "The price rose to ₹{{nav|d2}}, so the same money buys {{units|d2}} units, fewer than last month. The units already owned are worth more.",
+     "hi": "भाव बढ़कर ₹{{nav|d2}} हुआ, इसलिए वही पैसा {{units|d2}} यूनिट खरीदता है, पिछले महीने से कम। पहले से मौजूद यूनिट की कीमत बढ़ गई।"
+    },
+    "done": {
+     "mood": "proud",
+     "en": "After 6 months: average cost ₹{{avgCost|d2}} per unit, while the average price was ₹{{avgNav|d2}}. More units were bought in the cheaper months. (These prices are made up.)",
+     "hi": "6 महीने बाद: औसत लागत ₹{{avgCost|d2}} प्रति यूनिट, जबकि औसत भाव ₹{{avgNav|d2}} था। सस्ते महीनों में ज़्यादा यूनिट खरीदी गईं। (ये भाव बनावटी हैं।)"
+    }
+   },
+   "labels": {
+    "nav": {
+     "en": "Price of one unit (NAV)",
+     "hi": "एक यूनिट का भाव (NAV)"
+    },
+    "owned": {
+     "en": "Units you own",
+     "hi": "आपकी यूनिट"
+    },
+    "buy": {
+     "en": "Practice-buy · month",
+     "hi": "अभ्यास-खरीद · महीना"
+    },
+    "again": {
+     "en": "Start again",
+     "hi": "फिर से शुरू करें"
+    },
+    "avg": {
+     "en": "Your average cost per unit",
+     "hi": "आपकी औसत लागत प्रति यूनिट"
+    },
+    "avgprice": {
+     "en": "Average price",
+     "hi": "औसत भाव"
+    }
+   }
+  },
+  "grow": {
+   "title": {
+    "en": "Time and growth",
+    "hi": "समय और बढ़त"
+   },
+   "intro": {
+    "mood": "calm",
+    "en": "Drag the sliders. This is an illustration with an assumed rate: nobody can promise a return.",
+    "hi": "स्लाइडर खिसकाइए। यह मान ली गई दर वाला उदाहरण है: रिटर्न का वादा कोई नहीं कर सकता।"
+   },
+   "says": {
+    "big": {
+     "mood": "happy",
+     "en": "Over {{years}} years, {{inv|inr}} put in could become about {{value|inr}} at an assumed {{rate}}% a year. Growth builds on earlier growth: that is compounding.",
+     "hi": "{{years}} साल में, मान ली गई {{rate}}% सालाना दर पर, लगाए {{inv|inr}} लगभग {{value|inr}} बन सकते हैं। बढ़त पिछली बढ़त पर बनती है: यही चक्रवृद्धि है।"
+    },
+    "small": {
+     "mood": "calm",
+     "en": "At an assumed {{rate}}% a year, {{inv|inr}} becomes about {{value|inr}}. Fewer years or a lower rate means less growth.",
+     "hi": "मान ली गई {{rate}}% सालाना दर पर {{inv|inr}} लगभग {{value|inr}} बनते हैं। कम साल या कम दर से बढ़त कम होती है।"
+    }
+   },
+   "labels": {
+    "years": {
+     "en": "Years",
+     "hi": "साल"
+    },
+    "rate": {
+     "en": "Assumed yearly growth (a guess)",
+     "hi": "मान ली गई सालाना बढ़त (अंदाज़ा)"
+    },
+    "invested": {
+     "en": "Money you put in",
+     "hi": "आपका लगाया पैसा"
+    },
+    "value": {
+     "en": "What it could be worth",
+     "hi": "इसका संभावित मूल्य"
+    },
+    "read": {
+     "en": "Could be worth",
+     "hi": "संभावित मूल्य"
+    }
+   }
+  },
+  "fall": {
+   "title": {
+    "en": "What if prices fall?",
+    "hi": "अगर भाव गिरें तो?"
+   },
+   "intro": {
+    "mood": "worried",
+    "en": "A what-if: after 5 years of {{monthly|inr}} a month, the made-up market falls. Choose how big the fall is and a path to see what each did in this model.",
+    "hi": "एक अगर-तो: 5 साल हर महीने {{monthly|inr}} लगाने के बाद बनावटी बाज़ार गिरता है। गिरावट कितनी बड़ी हो और कौन सा रास्ता चुनें, फिर देखें इस मॉडल में हर रास्ते ने क्या किया।"
+   },
+   "says": {
+    "top": {
+     "mood": "proud",
+     "en": "This path ended highest, at about {{final|inr}} at year 15. In this model prices climbed back. In real life nobody knows if or when they will.",
+     "hi": "यह रास्ता सबसे ऊपर रहा, 15वें साल लगभग {{final|inr}}। इस मॉडल में भाव वापस चढ़े। असल ज़िंदगी में कोई नहीं जानता कि वे कब या चढ़ेंगे भी या नहीं।"
+    },
+    "mid": {
+     "mood": "calm",
+     "en": "This path ended between the other two, at about {{final|inr}}.",
+     "hi": "यह रास्ता बाकी दोनों के बीच रहा, लगभग {{final|inr}}।"
+    },
+    "low": {
+     "mood": "worried",
+     "en": "This path ended lowest, at about {{final|inr}}, against {{top|inr}} for the highest path in this model.",
+     "hi": "यह रास्ता सबसे नीचे रहा, लगभग {{final|inr}}, जबकि इस मॉडल में सबसे ऊँचा रास्ता {{top|inr}} पर था।"
+    }
+   },
+   "labels": {
+    "drop": {
+     "en": "Size of the fall",
+     "hi": "गिरावट कितनी बड़ी"
+    },
+    "path": {
+     "en": "Path",
+     "hi": "रास्ता"
+    },
+    "stay": {
+     "en": "Keep the SIP going",
+     "hi": "SIP चलने दें"
+    },
+    "pause": {
+     "en": "Pause for 2 years",
+     "hi": "2 साल रोकें"
+    },
+    "sell": {
+     "en": "Move all to savings (4% assumed)",
+     "hi": "सब बचत में डालें (4% मान्य)"
+    },
+    "read": {
+     "en": "Worth at year 15",
+     "hi": "15वें साल मूल्य"
+    }
+   }
+  },
+  "real": {
+   "title": {
+    "en": "Now the real thing",
+    "hi": "अब असली चीज़"
+   },
+   "intro": {
+    "mood": "happy",
+    "en": "Everything so far was made up. Now real prices: search a fund and see what a monthly SIP actually did. It is history, never a promise.",
+    "hi": "अब तक सब बनावटी था। अब असली भाव: कोई फंड खोजें और देखें कि हर महीने की SIP ने असल में क्या किया। यह इतिहास है, वादा नहीं।"
+   },
+   "says": {},
+   "labels": {}
+  }
+ },
+ "fd": {
+  "lend": {
+   "title": {
+    "en": "Lending to the bank",
+    "hi": "बैंक को उधार"
+   },
+   "intro": {
+    "mood": "calm",
+    "en": "Meera lends {{principal|inr}} to a bank for {{years}} years at {{rate}}%. Press Play to watch the years pass.",
+    "hi": "मीरा {{principal|inr}} बैंक को {{years}} साल के लिए {{rate}}% पर उधार देती है। सालों को गुज़रते देखने के लिए चलाएँ दबाएँ।"
+   },
+   "says": {
+    "done": {
+     "mood": "happy",
+     "en": "After {{years}} years the bank's figure is {{maturity|inr}}: {{interest|inr}} of interest. The rate was fixed from day one.",
+     "hi": "{{years}} साल बाद बैंक का आँकड़ा {{maturity|inr}} है: {{interest|inr}} ब्याज। दर पहले दिन से तय थी।"
+    }
+   },
+   "labels": {
+    "bal": {
+     "en": "Bank's figure",
+     "hi": "बैंक का आँकड़ा"
+    },
+    "int": {
+     "en": "Interest so far",
+     "hi": "अब तक का ब्याज"
+    },
+    "year": {
+     "en": "Year",
+     "hi": "साल"
+    }
+   }
+  },
+  "tax": {
+   "title": {
+    "en": "The tax bite",
+    "hi": "टैक्स की कटौती"
+   },
+   "intro": {
+    "mood": "calm",
+    "en": "Interest is taxed as income. Slide the tax rate to match a tax slab. This example starts at {{tax}}%; your slab may be different.",
+    "hi": "ब्याज पर आय की तरह टैक्स लगता है। टैक्स स्लैब के हिसाब से दर खिसकाइए। यह उदाहरण {{tax}}% से शुरू होता है; आपका स्लैब अलग हो सकता है।"
+   },
+   "says": {
+    "high": {
+     "mood": "worried",
+     "en": "At {{tax}}% tax, {{taxPaid|inr}} of the {{interest|inr}} interest goes to tax. {{kept|inr}} is left.",
+     "hi": "{{tax}}% टैक्स पर {{interest|inr}} ब्याज में से {{taxPaid|inr}} टैक्स में जाते हैं। {{kept|inr}} बचते हैं।"
+    },
+    "low": {
+     "mood": "calm",
+     "en": "At {{tax}}% tax, Meera keeps {{kept|inr}} of the {{interest|inr}} interest.",
+     "hi": "{{tax}}% टैक्स पर मीरा {{interest|inr}} ब्याज में से {{kept|inr}} रखती है।"
+    },
+    "none": {
+     "mood": "happy",
+     "en": "With no tax, all {{interest|inr}} of interest stays with Meera.",
+     "hi": "बिना टैक्स के पूरा {{interest|inr}} ब्याज मीरा के पास रहता है।"
+    }
+   },
+   "labels": {
+    "tax": {
+     "en": "Tax rate",
+     "hi": "टैक्स दर"
+    },
+    "interest": {
+     "en": "Interest earned",
+     "hi": "कमाया ब्याज"
+    },
+    "taxpaid": {
+     "en": "Goes to tax",
+     "hi": "टैक्स में गया"
+    },
+    "kept": {
+     "en": "You keep",
+     "hi": "आपके पास बचा"
+    },
+    "read": {
+     "en": "Interest you keep",
+     "hi": "बचा हुआ ब्याज"
+    }
+   }
+  },
+  "shrink": {
+   "title": {
+    "en": "Prices rise too",
+    "hi": "दाम भी बढ़ते हैं"
+   },
+   "intro": {
+    "mood": "calm",
+    "en": "Prices of things rise every year. Slide inflation and watch what the same money can buy.",
+    "hi": "चीज़ों के दाम हर साल बढ़ते हैं। महँगाई खिसकाइए और देखिए वही पैसा क्या खरीद पाता है।"
+   },
+   "says": {
+    "lose": {
+     "mood": "worried",
+     "en": "With prices rising {{inflation}}% a year, the {{afterTax|inr}} Meera gets back buys only about {{todays|inr}} worth of things in today's money, less than the {{principal|inr}} she lent.",
+     "hi": "दाम हर साल {{inflation}}% बढ़ने पर मीरा को मिले {{afterTax|inr}} आज के पैसे में लगभग {{todays|inr}} की चीज़ें ही खरीदते हैं, जो उसके उधार दिए {{principal|inr}} से कम है।"
+    },
+    "keep": {
+     "mood": "happy",
+     "en": "With prices rising only {{inflation}}% a year, the {{afterTax|inr}} buys about {{todays|inr}} worth of things in today's money, more than the {{principal|inr}} she lent.",
+     "hi": "दाम सिर्फ {{inflation}}% सालाना बढ़ने पर {{afterTax|inr}} आज के पैसे में लगभग {{todays|inr}} की चीज़ें खरीदते हैं, जो उसके उधार दिए {{principal|inr}} से ज़्यादा है।"
+    }
+   },
+   "labels": {
+    "inflation": {
+     "en": "Yearly price rise (inflation)",
+     "hi": "सालाना दाम बढ़ना (महँगाई)"
+    },
+    "put": {
+     "en": "Lent",
+     "hi": "उधार दिया"
+    },
+    "aftertax": {
+     "en": "Got back after tax",
+     "hi": "टैक्स के बाद मिला"
+    },
+    "todays": {
+     "en": "Worth in today's money",
+     "hi": "आज के पैसे में मूल्य"
+    },
+    "read": {
+     "en": "Buying power left",
+     "hi": "बची खरीद-शक्ति"
+    }
+   }
+  },
+  "insured": {
+   "title": {
+    "en": "How safe is the deposit?",
+    "hi": "जमा कितना सुरक्षित?"
+   },
+   "intro": {
+    "mood": "calm",
+    "en": "If a bank fails, deposit insurance (DICGC) covers up to {{insured|inr}} per depositor per bank. Slide how much Meera keeps in one bank.",
+    "hi": "अगर कोई बैंक डूबे, तो जमा बीमा (DICGC) हर जमाकर्ता को हर बैंक में {{insured|inr}} तक देता है। खिसकाइए कि मीरा एक बैंक में कितना रखती है।"
+   },
+   "says": {
+    "over": {
+     "mood": "worried",
+     "en": "{{dep|inr}} is in one bank. The cover is {{insured|inr}} per depositor per bank, so {{notIns|inr}} is above the cover.",
+     "hi": "{{dep|inr}} एक बैंक में है। कवर हर जमाकर्ता को हर बैंक में {{insured|inr}} है, इसलिए {{notIns|inr}} कवर से ऊपर है।"
+    },
+    "under": {
+     "mood": "happy",
+     "en": "{{dep|inr}} is within the {{insured|inr}} cover per depositor per bank.",
+     "hi": "{{dep|inr}} हर जमाकर्ता को हर बैंक में मिलने वाले {{insured|inr}} के कवर के अंदर है।"
+    }
+   },
+   "labels": {
+    "dep": {
+     "en": "Kept in one bank",
+     "hi": "एक बैंक में रखा"
+    },
+    "covered": {
+     "en": "Covered by insurance",
+     "hi": "बीमे से कवर"
+    },
+    "notcovered": {
+     "en": "Above the cover",
+     "hi": "कवर से ऊपर"
+    },
+    "read": {
+     "en": "Covered",
+     "hi": "कवर्ड"
+    }
+   }
+  }
+ },
+ "swp": {
+  "drain": {
+   "title": {
+    "en": "The pot over the years",
+    "hi": "सालों में जमा पूँजी"
+   },
+   "intro": {
+    "mood": "calm",
+    "en": "Meera keeps {{corpus|inr}} invested and takes out {{withdraw|inr}} every month. The rest earns an assumed {{rate}}% a year. Press Play to watch the years.",
+    "hi": "मीरा {{corpus|inr}} लगाकर रखती है और हर महीने {{withdraw|inr}} निकालती है। बाकी पर मान ली गई {{rate}}% सालाना कमाई होती है। सालों को देखने के लिए चलाएँ दबाएँ।"
+   },
+   "says": {
+    "out": {
+     "mood": "worried",
+     "en": "In year {{year}} the money ran out. {{withdrawn|inr}} was taken out in total.",
+     "hi": "{{year}}वें साल पैसा खत्म हो गया। कुल {{withdrawn|inr}} निकाले गए।"
+    }
+   },
+   "labels": {
+    "left": {
+     "en": "Money left",
+     "hi": "बचा पैसा"
+    },
+    "taken": {
+     "en": "Taken out so far",
+     "hi": "अब तक निकाला"
+    },
+    "year": {
+     "en": "Year",
+     "hi": "साल"
+    }
+   }
+  },
+  "rate": {
+   "title": {
+    "en": "If the earnings change",
+    "hi": "अगर कमाई बदले"
+   },
+   "intro": {
+    "mood": "calm",
+    "en": "Slide the assumed yearly earning. Nobody can promise it. See how long the money lasts.",
+    "hi": "मान ली गई सालाना कमाई खिसकाइए। इसका वादा कोई नहीं कर सकता। देखिए पैसा कितना चलता है।"
+   },
+   "says": {
+    "out": {
+     "mood": "worried",
+     "en": "At an assumed {{rate}}% a year, {{outcome}}.",
+     "hi": "मान ली गई {{rate}}% सालाना दर पर, {{outcome}}।"
+    },
+    "lasts": {
+     "mood": "happy",
+     "en": "At an assumed {{rate}}% a year, {{outcome}}.",
+     "hi": "मान ली गई {{rate}}% सालाना दर पर, {{outcome}}।"
+    }
+   },
+   "labels": {
+    "rate": {
+     "en": "Assumed yearly earning",
+     "hi": "मान ली गई सालाना कमाई"
+    },
+    "y10": {
+     "en": "Left after 10 years",
+     "hi": "10 साल बाद बचा"
+    },
+    "y20": {
+     "en": "Left after 20 years",
+     "hi": "20 साल बाद बचा"
+    },
+    "y30": {
+     "en": "Left after 30 years",
+     "hi": "30 साल बाद बचा"
+    },
+    "read": {
+     "en": "Result",
+     "hi": "नतीजा"
+    }
+   }
+  },
+  "withdraw": {
+   "title": {
+    "en": "If the withdrawal changes",
+    "hi": "अगर निकासी बदले"
+   },
+   "intro": {
+    "mood": "calm",
+    "en": "Slide the monthly withdrawal and compare it with what the money earns each month.",
+    "hi": "मासिक निकासी खिसकाइए और उसकी तुलना इससे कीजिए कि पैसा हर महीने कितना कमाता है।"
+   },
+   "says": {
+    "over": {
+     "mood": "worried",
+     "en": "Taking {{withdraw|inr}} a month is more than the {{interestOnly|inr}} the money earns each month in this example, so the pot shrinks: {{outcome}}.",
+     "hi": "हर महीने {{withdraw|inr}} निकालना इस उदाहरण में पैसे की मासिक कमाई {{interestOnly|inr}} से ज़्यादा है, इसलिए जमा पूँजी घटती है: {{outcome}}।"
+    },
+    "under": {
+     "mood": "happy",
+     "en": "Taking {{withdraw|inr}} a month is no more than the {{interestOnly|inr}} the money earns each month in this example: {{outcome}}.",
+     "hi": "हर महीने {{withdraw|inr}} निकालना इस उदाहरण में पैसे की मासिक कमाई {{interestOnly|inr}} से ज़्यादा नहीं है: {{outcome}}।"
+    }
+   },
+   "labels": {
+    "withdraw": {
+     "en": "Monthly withdrawal",
+     "hi": "मासिक निकासी"
+    },
+    "peryear": {
+     "en": "Taken out in a year",
+     "hi": "साल में निकाला"
+    },
+    "earns": {
+     "en": "Money earns in a year",
+     "hi": "पैसा साल में कमाता है"
+    },
+    "read": {
+     "en": "Result",
+     "hi": "नतीजा"
+    }
+   }
+  }
+ },
+ "stocks": {
+  "own": {
+   "title": {
+    "en": "A tiny slice of a business",
+    "hi": "एक कारोबार का छोटा टुकड़ा"
+   },
+   "intro": {
+    "mood": "calm",
+    "en": "A share is a tiny slice of a company. Meera buys {{shares}} shares at ₹{{price}}. Slide to change how many.",
+    "hi": "शेयर किसी कंपनी का छोटा टुकड़ा है। मीरा ₹{{price}} पर {{shares}} शेयर खरीदती है। कितने, यह खिसकाकर बदलिए।"
+   },
+   "says": {
+    "tiny": {
+     "mood": "calm",
+     "en": "{{shares}} shares out of {{totalShares|n}} is {{own}}% of the company. The price moves with what people think the business is worth.",
+     "hi": "{{totalShares|n}} में से {{shares}} शेयर कंपनी का {{own}}% है। भाव इस पर चलता है कि लोग कारोबार की कीमत क्या मानते हैं।"
+    }
+   },
+   "labels": {
+    "shares": {
+     "en": "Shares bought",
+     "hi": "खरीदे शेयर"
+    },
+    "cost": {
+     "en": "You pay",
+     "hi": "आप देते हैं"
+    },
+    "read": {
+     "en": "Share of the company you own",
+     "hi": "आपके पास कंपनी का हिस्सा"
+    }
+   }
+  },
+  "move": {
+   "title": {
+    "en": "The price moves",
+    "hi": "भाव चलता है"
+   },
+   "intro": {
+    "mood": "calm",
+    "en": "Slide the price change and see what Meera's shares would be worth.",
+    "hi": "भाव में बदलाव खिसकाइए और देखिए मीरा के शेयरों की कीमत क्या होगी।"
+   },
+   "says": {
+    "up": {
+     "mood": "happy",
+     "en": "If the price rises {{move}}%, {{paid|inr}} becomes {{worth|inr}}.",
+     "hi": "अगर भाव {{move}}% बढ़े, तो {{paid|inr}} बनते हैं {{worth|inr}}।"
+    },
+    "down": {
+     "mood": "worried",
+     "en": "If the price falls {{absMove}}%, {{paid|inr}} becomes {{worth|inr}}, which is {{loss|inr}} less. Nobody knows which way it will go.",
+     "hi": "अगर भाव {{absMove}}% गिरे, तो {{paid|inr}} बनते हैं {{worth|inr}}, यानी {{loss|inr}} कम। किस तरफ जाएगा, यह कोई नहीं जानता।"
+    },
+    "flat": {
+     "mood": "calm",
+     "en": "If the price does not move, the shares stay worth {{paid|inr}}.",
+     "hi": "अगर भाव न हिले, तो शेयर {{paid|inr}} के ही रहते हैं।"
+    }
+   },
+   "labels": {
+    "move": {
+     "en": "Price change",
+     "hi": "भाव में बदलाव"
+    },
+    "paid": {
+     "en": "You paid",
+     "hi": "आपने दिया"
+    },
+    "worth": {
+     "en": "Shares worth",
+     "hi": "शेयरों का मूल्य"
+    },
+    "read": {
+     "en": "Gain or loss",
+     "hi": "फायदा या नुकसान"
+    }
+   }
+  },
+  "recover": {
+   "title": {
+    "en": "Getting back",
+    "hi": "वापस आना"
+   },
+   "intro": {
+    "mood": "wow",
+    "en": "After a fall, how far must the price rise to get back? Slide the fall.",
+    "hi": "गिरावट के बाद भाव को वापस आने के लिए कितना बढ़ना पड़ता है? गिरावट खिसकाइए।"
+   },
+   "says": {
+    "need": {
+     "mood": "wow",
+     "en": "After a {{fall}}% fall the price must rise {{need|n}}% just to get back to where it started.",
+     "hi": "{{fall}}% गिरने के बाद भाव को वहीं लौटने के लिए ही {{need|n}}% बढ़ना पड़ता है जहाँ से वह चला था।"
+    },
+    "small": {
+     "mood": "calm",
+     "en": "After a {{fall}}% fall the price must rise {{need|n}}% to get back to where it started.",
+     "hi": "{{fall}}% गिरने के बाद भाव को वहीं लौटने के लिए {{need|n}}% बढ़ना पड़ता है जहाँ से वह चला था।"
+    }
+   },
+   "labels": {
+    "fall": {
+     "en": "Size of the fall",
+     "hi": "गिरावट कितनी"
+    },
+    "fallbar": {
+     "en": "Fall",
+     "hi": "गिरावट"
+    },
+    "rise": {
+     "en": "Rise needed to get back",
+     "hi": "वापस आने को बढ़त"
+    },
+    "read": {
+     "en": "Rise needed",
+     "hi": "ज़रूरी बढ़त"
+    }
+   }
+  },
+  "dividend": {
+   "title": {
+    "en": "Dividends are not promised",
+    "hi": "लाभांश का वादा नहीं"
+   },
+   "intro": {
+    "mood": "calm",
+    "en": "Some companies share part of their profit as a dividend. Switch between the two cases.",
+    "hi": "कुछ कंपनियाँ मुनाफे का हिस्सा लाभांश के रूप में बाँटती हैं। दोनों हालात बदलकर देखिए।"
+   },
+   "says": {
+    "paid": {
+     "mood": "happy",
+     "en": "If the company pays ₹{{dividend}} a share, Meera gets {{total|inr}}. The share price usually adjusts down by about that amount on the day it is paid.",
+     "hi": "अगर कंपनी ₹{{dividend}} प्रति शेयर देती है, तो मीरा को {{total|inr}} मिलते हैं। जिस दिन यह मिलता है, उस दिन शेयर का भाव आमतौर पर लगभग उतना ही नीचे समायोजित हो जाता है।"
+    },
+    "skipped": {
+     "mood": "calm",
+     "en": "If the company skips its dividend, Meera gets nothing from it. Dividends are the company's choice, never a promise.",
+     "hi": "अगर कंपनी लाभांश छोड़ दे, तो मीरा को उससे कुछ नहीं मिलता। लाभांश कंपनी का फैसला है, वादा नहीं।"
+    }
+   },
+   "labels": {
+    "case": {
+     "en": "What the company does",
+     "hi": "कंपनी क्या करती है"
+    },
+    "paid": {
+     "en": "Pays a dividend",
+     "hi": "लाभांश देती है"
+    },
+    "skipped": {
+     "en": "Skips it",
+     "hi": "छोड़ देती है"
+    },
+    "div": {
+     "en": "Dividend received",
+     "hi": "मिला लाभांश"
+    },
+    "read": {
+     "en": "Dividend received",
+     "hi": "मिला लाभांश"
+    }
+   }
+  }
+ },
+ "mutual-funds": {
+  "leak": {
+   "title": {
+    "en": "The cost leak",
+    "hi": "खर्च का रिसाव"
+   },
+   "intro": {
+    "mood": "calm",
+    "en": "Two funds earn the same {{gross}}% before costs. One charges {{indexCost}}% a year, the other {{activeCost}}%. Slide the years and watch the gap.",
+    "hi": "दो फंड खर्च से पहले एक ही {{gross}}% कमाते हैं। एक सालाना {{indexCost}}% लेता है, दूसरा {{activeCost}}%। साल खिसकाइए और अंतर देखिए।"
+   },
+   "says": {
+    "drag": {
+     "mood": "worried",
+     "en": "After {{years}} years the {{activeCost}}%-cost fund is worth about {{active|inr}} and the {{indexCost}}%-cost fund about {{index|inr}}. That is {{drag|inr}} less, only because of costs.",
+     "hi": "{{years}} साल बाद {{activeCost}}% खर्च वाला फंड लगभग {{active|inr}} का है और {{indexCost}}% खर्च वाला लगभग {{index|inr}} का। यह {{drag|inr}} कम है, सिर्फ खर्च की वजह से।"
+    },
+    "small": {
+     "mood": "calm",
+     "en": "After {{years}} years the gap from costs is still small: {{drag|inr}}. It grows with time.",
+     "hi": "{{years}} साल बाद खर्च की वजह से अंतर अभी छोटा है: {{drag|inr}}। यह समय के साथ बढ़ता है।"
+    }
+   },
+   "labels": {
+    "years": {
+     "en": "Years",
+     "hi": "साल"
+    },
+    "index": {
+     "en": "Low-cost fund",
+     "hi": "कम खर्च वाला फंड"
+    },
+    "active": {
+     "en": "Higher-cost fund",
+     "hi": "ज़्यादा खर्च वाला फंड"
+    },
+    "read": {
+     "en": "Lost to extra cost",
+     "hi": "अतिरिक्त खर्च में गया"
+    }
+   }
+  },
+  "edge": {
+   "title": {
+    "en": "Can the costlier fund catch up?",
+    "hi": "क्या महँगा फंड बराबरी कर सकता है?"
+   },
+   "intro": {
+    "mood": "calm",
+    "en": "Slide how much more the costlier fund earns before costs. Nobody can promise any extra.",
+    "hi": "खिसकाइए कि महँगा फंड खर्च से पहले कितना ज़्यादा कमाता है। किसी अतिरिक्त का वादा कोई नहीं कर सकता।"
+   },
+   "says": {
+    "ahead": {
+     "mood": "happy",
+     "en": "If the costlier fund earns {{edge}}% a year more before costs, it ends {{diff|inr}} ahead.",
+     "hi": "अगर महँगा फंड खर्च से पहले हर साल {{edge}}% ज़्यादा कमाए, तो वह {{diff|inr}} आगे रहता है।"
+    },
+    "behind": {
+     "mood": "worried",
+     "en": "With {{edge}}% extra before costs, the costlier fund ends {{diff|inr}} behind the low-cost fund. It needs about {{need|d1}}% extra just to catch up.",
+     "hi": "खर्च से पहले {{edge}}% अतिरिक्त के साथ भी महँगा फंड कम खर्च वाले फंड से {{diff|inr}} पीछे रहता है। बराबरी के लिए उसे लगभग {{need|d1}}% अतिरिक्त चाहिए।"
+    }
+   },
+   "labels": {
+    "edge": {
+     "en": "Extra yearly earning of the costlier fund",
+     "hi": "महँगे फंड की अतिरिक्त सालाना कमाई"
+    },
+    "index": {
+     "en": "Low-cost fund ends at",
+     "hi": "कम खर्च वाला फंड अंत में"
+    },
+    "active": {
+     "en": "Costlier fund ends at",
+     "hi": "महँगा फंड अंत में"
+    },
+    "read": {
+     "en": "Difference",
+     "hi": "अंतर"
+    }
+   }
+  },
+  "real": {
+   "title": {
+    "en": "Now the real thing",
+    "hi": "अब असली चीज़"
+   },
+   "intro": {
+    "mood": "happy",
+    "en": "Everything so far was made up. Now real prices: search a fund and see what a monthly SIP actually did. It is history, never a promise.",
+    "hi": "अब तक सब बनावटी था। अब असली भाव: कोई फंड खोजें और देखें कि हर महीने की SIP ने असल में क्या किया। यह इतिहास है, वादा नहीं।"
+   },
+   "says": {},
+   "labels": {}
+  }
+ },
+ "etf": {
+  "nav": {
+   "title": {
+    "en": "Price vs real value",
+    "hi": "भाव बनाम असली कीमत"
+   },
+   "intro": {
+    "mood": "calm",
+    "en": "An ETF has a real value per unit (NAV, ₹{{nav}}) and a market price. They can differ a little. Slide the market price.",
+    "hi": "ETF की हर यूनिट की एक असली कीमत (NAV, ₹{{nav}}) होती है और एक बाज़ार भाव। दोनों में थोड़ा फर्क हो सकता है। बाज़ार भाव खिसकाइए।"
+   },
+   "says": {
+    "above": {
+     "mood": "worried",
+     "en": "At ₹{{price}} the market price is {{pct|d2}}% above the NAV of ₹{{nav}}. On {{units}} units that is {{extra|inr}} paid above real value.",
+     "hi": "₹{{price}} पर बाज़ार भाव NAV ₹{{nav}} से {{pct|d2}}% ऊपर है। {{units}} यूनिट पर यह असली कीमत से {{extra|inr}} ज़्यादा देना है।"
+    },
+    "same": {
+     "mood": "happy",
+     "en": "At ₹{{price}} the market price is at or below the NAV of ₹{{nav}}.",
+     "hi": "₹{{price}} पर बाज़ार भाव NAV ₹{{nav}} के बराबर या कम है।"
+    }
+   },
+   "labels": {
+    "price": {
+     "en": "Market price per unit",
+     "hi": "बाज़ार भाव प्रति यूनिट"
+    },
+    "extra": {
+     "en": "Paid above real value",
+     "hi": "असली कीमत से ऊपर दिया"
+    },
+    "read": {
+     "en": "Price above NAV",
+     "hi": "भाव NAV से ऊपर"
+    }
+   }
+  },
+  "cost": {
+   "title": {
+    "en": "Buying and selling costs",
+    "hi": "खरीद-बिक्री का खर्च"
+   },
+   "intro": {
+    "mood": "calm",
+    "en": "Each buy and each sell has brokerage and a small spread. Slide how many units Meera trades.",
+    "hi": "हर खरीद और हर बिक्री में ब्रोकरेज और थोड़ा स्प्रेड लगता है। खिसकाइए कि मीरा कितनी यूनिट का लेन-देन करती है।"
+   },
+   "says": {
+    "big": {
+     "mood": "worried",
+     "en": "Buying and selling {{invested|inr}} costs about {{total|inr}} in all ({{pct|d2}}%). Small amounts feel the fixed brokerage most.",
+     "hi": "{{invested|inr}} की खरीद और बिक्री में कुल लगभग {{total|inr}} ({{pct|d2}}%) खर्च होते हैं। छोटी रकम पर तय ब्रोकरेज सबसे ज़्यादा चुभता है।"
+    },
+    "small": {
+     "mood": "calm",
+     "en": "Buying and selling {{invested|inr}} costs about {{total|inr}} in all ({{pct|d2}}%).",
+     "hi": "{{invested|inr}} की खरीद और बिक्री में कुल लगभग {{total|inr}} ({{pct|d2}}%) खर्च होते हैं।"
+    }
+   },
+   "labels": {
+    "units": {
+     "en": "Units traded",
+     "hi": "लेन-देन की यूनिट"
+    },
+    "invested": {
+     "en": "You pay for the units",
+     "hi": "यूनिट के लिए आप देते हैं"
+    },
+    "costs": {
+     "en": "Buy + sell costs",
+     "hi": "खरीद + बिक्री खर्च"
+    },
+    "read": {
+     "en": "Costs as a share of the amount",
+     "hi": "रकम में खर्च का हिस्सा"
+    },
+    "brokerage": {
+     "en": "Brokerage (buy + sell)",
+     "hi": "ब्रोकरेज (खरीद + बिक्री)"
+    },
+    "spread": {
+     "en": "Spread (buy + sell)",
+     "hi": "स्प्रेड (खरीद + बिक्री)"
+    },
+    "total": {
+     "en": "Total costs",
+     "hi": "कुल खर्च"
+    }
+   }
+  },
+  "move": {
+   "title": {
+    "en": "If the index moves",
+    "hi": "अगर इंडेक्स चले"
+   },
+   "intro": {
+    "mood": "calm",
+    "en": "Slide how much the index moves and see what Meera gets back after costs.",
+    "hi": "खिसकाइए कि इंडेक्स कितना चलता है और देखिए खर्च के बाद मीरा को कितना वापस मिलता है।"
+   },
+   "says": {
+    "flat": {
+     "mood": "worried",
+     "en": "Even if the index does not move, buying and selling cost about {{roundTrip|inr}}, so Meera gets back {{back|inr}}.",
+     "hi": "इंडेक्स न भी चले, तो खरीद-बिक्री में लगभग {{roundTrip|inr}} खर्च होते हैं, इसलिए मीरा को {{back|inr}} वापस मिलते हैं।"
+    },
+    "up": {
+     "mood": "happy",
+     "en": "If the index rises {{move}}%, Meera gets back about {{back|inr}} after costs.",
+     "hi": "अगर इंडेक्स {{move}}% बढ़े, तो खर्च के बाद मीरा को लगभग {{back|inr}} वापस मिलते हैं।"
+    },
+    "down": {
+     "mood": "worried",
+     "en": "If the index falls {{absMove}}%, Meera gets back about {{back|inr}} after costs.",
+     "hi": "अगर इंडेक्स {{absMove}}% गिरे, तो खर्च के बाद मीरा को लगभग {{back|inr}} वापस मिलते हैं।"
+    }
+   },
+   "labels": {
+    "move": {
+     "en": "Index change",
+     "hi": "इंडेक्स में बदलाव"
+    },
+    "paid": {
+     "en": "You paid",
+     "hi": "आपने दिया"
+    },
+    "back": {
+     "en": "You get back after costs",
+     "hi": "खर्च के बाद वापस मिला"
+    },
+    "read": {
+     "en": "Gain or loss",
+     "hi": "फायदा या नुकसान"
+    }
+   }
+  },
+  "gap": {
+   "title": {
+    "en": "The gap between two prices",
+    "hi": "दो भावों का फ़ासला"
+   },
+   "intro": {
+    "mood": "calm",
+    "en": "A gold ETF shows one price to buy and a slightly lower one to sell. Slide the gap and see what Meera gets back if she sells straight away.",
+    "hi": "ETF में खरीदने का भाव और बेचने का भाव थोड़ा अलग होता है। फ़ासला खिसकाइए और देखिए कि तुरंत बेचने पर मीरा को कितना वापस मिलता है।"
+   },
+   "says": {
+    "tight": {
+     "mood": "calm",
+     "en": "With a {{spread}}% gap, selling straight away gives back less than she paid by {{lost|inr}} (brokerage and the gap, buy and sell together).",
+     "hi": "{{spread}}% फ़ासले पर तुरंत बेचने से मीरा को दिए पैसे से {{lost|inr}} कम मिलते हैं (खरीद और बिक्री का ब्रोकरेज और फ़ासला मिलाकर)।"
+    },
+    "wide": {
+     "mood": "worried",
+     "en": "A wider {{spread}}% gap means {{lost|inr}} less comes back, even though the price itself did not move.",
+     "hi": "{{spread}}% का बड़ा फ़ासला यानी {{lost|inr}} कम वापस आता है, भले ही भाव बिल्कुल न हिला हो।"
+    }
+   },
+   "labels": {
+    "spread": {
+     "en": "Gap between buy and sell price",
+     "hi": "खरीद और बिक्री भाव का फ़ासला"
+    },
+    "paid": {
+     "en": "Meera pays",
+     "hi": "मीरा देती है"
+    },
+    "back": {
+     "en": "Back if sold at once",
+     "hi": "तुरंत बेचने पर वापस"
+    },
+    "read": {
+     "en": "Lost to costs",
+     "hi": "खर्च में गया"
+    }
+   }
+  }
+ },
+ "gold": {
+  "layers": {
+   "title": {
+    "en": "What you pay for",
+    "hi": "आप किसके पैसे देते हैं"
+   },
+   "intro": {
+    "mood": "calm",
+    "en": "Meera buys {{grams}} g of gold jewellery. Press Next step to see what she pays for.",
+    "hi": "मीरा {{grams}} ग्राम सोने के गहने खरीदती है। वह किसके पैसे देती है, यह देखने के लिए अगला कदम दबाएँ।"
+   },
+   "says": {
+    "metal": {
+     "mood": "calm",
+     "en": "{{grams}} g × ₹{{pricePerGram|n}} = {{metal|inr}}. That is the gold itself.",
+     "hi": "{{grams}} ग्राम × ₹{{pricePerGram|n}} = {{metal|inr}}। यह सोने की अपनी कीमत है।"
+    },
+    "making": {
+     "mood": "worried",
+     "en": "Making charges ({{making}}%) add {{makingAmt|inr}}. That pays for the craftsmanship, not for gold.",
+     "hi": "मेकिंग चार्ज ({{making}}%) से {{makingAmt|inr}} जुड़ते हैं। यह कारीगरी का पैसा है, सोने का नहीं।"
+    },
+    "gst": {
+     "mood": "worried",
+     "en": "GST ({{gst}}%) brings the total to {{paid|inr}}. {{extraPaid|inr}} of it is not gold.",
+     "hi": "GST ({{gst}}%) से कुल {{paid|inr}} हो जाता है। इसमें {{extraPaid|inr}} सोना नहीं है।"
+    }
+   },
+   "labels": {
+    "paid": {
+     "en": "Total paid",
+     "hi": "कुल दिया"
+    },
+    "s0": {
+     "en": "Gold itself",
+     "hi": "सोने की कीमत"
+    },
+    "s1": {
+     "en": "+ making charges",
+     "hi": "+ मेकिंग चार्ज"
+    },
+    "s2": {
+     "en": "+ GST",
+     "hi": "+ GST"
+    }
+   }
+  },
+  "grams": {
+   "title": {
+    "en": "Same gold, two ways",
+    "hi": "वही सोना, दो तरीके"
+   },
+   "intro": {
+    "mood": "calm",
+    "en": "Slide how many grams Meera buys. See how much of what she pays is not gold: as jewellery, and as a gold ETF.",
+    "hi": "खिसकाइए कि मीरा कितने ग्राम खरीदती है। देखिए कि जो वह देती है उसमें सोना कितना नहीं है: गहनों में और गोल्ड ETF में।"
+   },
+   "says": {
+    "diff": {
+     "mood": "worried",
+     "en": "For {{grams}} g, {{jewExtra|inr}} of the jewellery price is not gold. In a gold ETF it is {{etfExtra|inr}}. The difference is {{diff|inr}}.",
+     "hi": "{{grams}} ग्राम पर गहनों की कीमत में {{jewExtra|inr}} सोना नहीं है। गोल्ड ETF में यह {{etfExtra|inr}} है। फ़र्क {{diff|inr}} का है।"
+    }
+   },
+   "labels": {
+    "grams": {
+     "en": "Grams of gold",
+     "hi": "सोने के ग्राम"
+    },
+    "jew": {
+     "en": "Jewellery: making + GST",
+     "hi": "गहने: मेकिंग + GST"
+    },
+    "etf": {
+     "en": "Gold ETF: yearly cost",
+     "hi": "गोल्ड ETF: सालाना खर्च"
+    },
+    "read": {
+     "en": "Difference",
+     "hi": "फ़र्क"
+    }
+   }
+  },
+  "breakeven": {
+   "title": {
+    "en": "Getting back what you paid",
+    "hi": "जो दिया वह वापस पाना"
+   },
+   "intro": {
+    "mood": "calm",
+    "en": "Slide the change in the gold price. Here a shop pays only for the gold itself when Meera sells.",
+    "hi": "सोने के भाव में बदलाव खिसकाइए। यहाँ मीरा के बेचने पर दुकान सिर्फ सोने की कीमत देती है।"
+   },
+   "says": {
+    "below": {
+     "mood": "worried",
+     "en": "At {{change}}% the gold is worth {{worth|inr}}, which is {{short|inr}} less than Meera paid. Gold must rise about {{breakEven|d1}}% to get back what she paid.",
+     "hi": "{{change}}% पर सोने की कीमत {{worth|inr}} है, जो मीरा के दिए पैसे से {{short|inr}} कम है। जो दिया वह वापस पाने के लिए सोने को लगभग {{breakEven|d1}}% बढ़ना होगा।"
+    },
+    "above": {
+     "mood": "happy",
+     "en": "At +{{change}}% the gold is worth {{worth|inr}}, above the {{paid|inr}} Meera paid.",
+     "hi": "+{{change}}% पर सोने की कीमत {{worth|inr}} है, जो मीरा के दिए {{paid|inr}} से ऊपर है।"
+    }
+   },
+   "labels": {
+    "change": {
+     "en": "Change in gold price",
+     "hi": "सोने के भाव में बदलाव"
+    },
+    "paid": {
+     "en": "Meera paid",
+     "hi": "मीरा ने दिया"
+    },
+    "worth": {
+     "en": "Gold worth",
+     "hi": "सोने का मूल्य"
+    },
+    "read": {
+     "en": "Gain or loss",
+     "hi": "फायदा या नुकसान"
+    }
+   }
+  },
+  "etf": {
+   "title": {
+    "en": "Jewellery vs gold ETF",
+    "hi": "गहने बनाम गोल्ड ETF"
+   },
+   "intro": {
+    "mood": "calm",
+    "en": "Slide the making charge and compare how much gold must rise to get back the cost.",
+    "hi": "मेकिंग चार्ज खिसकाइए और तुलना कीजिए कि लागत वापस पाने के लिए सोने को कितना बढ़ना होगा।"
+   },
+   "says": {
+    "cmp": {
+     "mood": "calm",
+     "en": "With {{making}}% making charges, gold must rise about {{jew|d1}}% to get back the cost. A gold ETF with a {{etfCost}}% yearly cost needs about {{etf|d1}}%.",
+     "hi": "{{making}}% मेकिंग चार्ज पर लागत वापस पाने के लिए सोने को लगभग {{jew|d1}}% बढ़ना होगा। {{etfCost}}% सालाना खर्च वाले गोल्ड ETF को लगभग {{etf|d1}}% चाहिए।"
+    }
+   },
+   "labels": {
+    "making": {
+     "en": "Making charge",
+     "hi": "मेकिंग चार्ज"
+    },
+    "jew": {
+     "en": "Jewellery: rise needed",
+     "hi": "गहने: ज़रूरी बढ़त"
+    },
+    "etf": {
+     "en": "Gold ETF: rise needed",
+     "hi": "गोल्ड ETF: ज़रूरी बढ़त"
+    },
+    "read": {
+     "en": "Jewellery rise needed",
+     "hi": "गहनों के लिए ज़रूरी बढ़त"
+    }
+   }
+  }
+ },
+ "ppf": {
+  "ladder": {
+   "title": {
+    "en": "Year by year",
+    "hi": "साल दर साल"
+   },
+   "intro": {
+    "mood": "calm",
+    "en": "Meera puts {{yearly|inr}} into a PPF account every year for {{years}} years at {{rate}}%. Press Play to watch the account grow.",
+    "hi": "मीरा {{years}} साल तक हर साल PPF खाते में {{yearly|inr}} डालती है, {{rate}}% पर। खाता बढ़ते देखने के लिए चलाएँ दबाएँ।"
+   },
+   "says": {
+    "seven": {
+     "mood": "calm",
+     "en": "From year {{withdrawFrom}} part of the balance can be withdrawn. The account itself runs for {{years}} years.",
+     "hi": "{{withdrawFrom}}वें साल से बैलेंस का एक हिस्सा निकाला जा सकता है। खाता खुद {{years}} साल चलता है।"
+    },
+    "done": {
+     "mood": "happy",
+     "en": "After {{years}} years: {{invested|inr}} put in and about {{maturity|inr}} in the account at {{rate}}%.",
+     "hi": "{{years}} साल बाद: {{invested|inr}} लगे और {{rate}}% पर खाते में लगभग {{maturity|inr}}।"
+    }
+   },
+   "labels": {
+    "bal": {
+     "en": "Account balance",
+     "hi": "खाते का बैलेंस"
+    },
+    "put": {
+     "en": "Put in so far",
+     "hi": "अब तक लगाया"
+    },
+    "year": {
+     "en": "Year",
+     "hi": "साल"
+    }
+   }
+  },
+  "rate": {
+   "title": {
+    "en": "If the government changes the rate",
+    "hi": "अगर सरकार दर बदले"
+   },
+   "intro": {
+    "mood": "calm",
+    "en": "The PPF rate is set by the government and can change. Slide the rate and see the end amount.",
+    "hi": "PPF की दर सरकार तय करती है और बदल सकती है। दर खिसकाइए और अंत की रकम देखिए।"
+   },
+   "says": {
+    "lower": {
+     "mood": "worried",
+     "en": "At {{rate}}% instead of {{baseRate}}%, the account ends at about {{maturity|inr}}, which is {{diff|inr}} less.",
+     "hi": "{{baseRate}}% की जगह {{rate}}% पर खाता लगभग {{maturity|inr}} पर खत्म होता है, यानी {{diff|inr}} कम।"
+    },
+    "higher": {
+     "mood": "happy",
+     "en": "At {{rate}}% instead of {{baseRate}}%, the account ends at about {{maturity|inr}}, which is {{diff|inr}} more.",
+     "hi": "{{baseRate}}% की जगह {{rate}}% पर खाता लगभग {{maturity|inr}} पर खत्म होता है, यानी {{diff|inr}} ज़्यादा।"
+    },
+    "same": {
+     "mood": "calm",
+     "en": "At {{rate}}% the account ends at about {{maturity|inr}}.",
+     "hi": "{{rate}}% पर खाता लगभग {{maturity|inr}} पर खत्म होता है।"
+    }
+   },
+   "labels": {
+    "rate": {
+     "en": "Yearly rate",
+     "hi": "सालाना दर"
+    },
+    "invested": {
+     "en": "Put in",
+     "hi": "लगाया"
+    },
+    "maturity": {
+     "en": "Account at the end",
+     "hi": "अंत में खाता"
+    },
+    "read": {
+     "en": "Account at the end",
+     "hi": "अंत में खाता"
+    }
+   }
+  },
+  "inflation": {
+   "title": {
+    "en": "What it can buy",
+    "hi": "यह क्या खरीद पाएगा"
+   },
+   "intro": {
+    "mood": "calm",
+    "en": "Prices rise too. Slide inflation and see what the end amount buys in today's money.",
+    "hi": "दाम भी बढ़ते हैं। महँगाई खिसकाइए और देखिए अंत की रकम आज के पैसे में क्या खरीदती है।"
+   },
+   "says": {
+    "less": {
+     "mood": "worried",
+     "en": "At {{inflation}}% price rise a year, {{maturity|inr}} after {{years}} years buys about as much as {{todays|inr}} does today, less than the {{invested|inr}} put in.",
+     "hi": "दाम हर साल {{inflation}}% बढ़ने पर {{years}} साल बाद {{maturity|inr}} उतना ही खरीदते हैं जितना आज लगभग {{todays|inr}}, जो लगाए {{invested|inr}} से कम है।"
+    },
+    "more": {
+     "mood": "happy",
+     "en": "At {{inflation}}% price rise a year, {{maturity|inr}} after {{years}} years buys about as much as {{todays|inr}} does today, more than the {{invested|inr}} put in.",
+     "hi": "दाम हर साल {{inflation}}% बढ़ने पर {{years}} साल बाद {{maturity|inr}} उतना ही खरीदते हैं जितना आज लगभग {{todays|inr}}, जो लगाए {{invested|inr}} से ज़्यादा है।"
+    }
+   },
+   "labels": {
+    "inflation": {
+     "en": "Yearly price rise (inflation)",
+     "hi": "सालाना दाम बढ़ना (महँगाई)"
+    },
+    "maturity": {
+     "en": "Account at the end",
+     "hi": "अंत में खाता"
+    },
+    "todays": {
+     "en": "Worth in today's money",
+     "hi": "आज के पैसे में मूल्य"
+    },
+    "read": {
+     "en": "Worth in today's money",
+     "hi": "आज के पैसे में मूल्य"
+    }
+   }
+  }
+ }
+}

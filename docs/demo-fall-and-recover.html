@@ -1,0 +1,313 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Samajh demo: Fall and recover</title>
+<style>
+  :root { --bg:#1b1325; --card:#261a33; --ink:#f6efe6; --muted:#b9a9c9; --amber:#f5b041; --red:#ef6f6c; --green:#4cc38a; --line:#3b2b4d; --skin:#f1c27d; --shirt:#4b7bec; --pants:#8e7cc3; }
+  * { box-sizing:border-box; }
+  body { margin:0; min-height:100vh; background:var(--bg); color:var(--ink); font:18px/1.5 system-ui,-apple-system,"Segoe UI",sans-serif; display:flex; justify-content:center; padding:16px; }
+  .wrap { width:100%; max-width:560px; }
+  .top { display:flex; justify-content:space-between; align-items:center; gap:8px; margin-bottom:10px; flex-wrap:wrap; }
+  .top h1 { font-size:1rem; margin:0; color:var(--amber); letter-spacing:.04em; }
+  .tools { display:flex; gap:6px; flex-wrap:wrap; }
+  .tools button { min-width:44px; min-height:40px; padding:0 12px; border-radius:999px; border:1px solid var(--line); background:transparent; color:var(--ink); font-size:.9rem; cursor:pointer; }
+  .tools button[aria-pressed=true] { background:var(--amber); color:#241606; border-color:var(--amber); font-weight:700; }
+  .stage { position:relative; background:var(--card); border:1px solid var(--line); border-radius:18px; padding:18px 18px 10px; overflow:hidden; }
+
+  .scene { position:relative; min-height:250px; display:flex; align-items:flex-end; justify-content:center; gap:14px; }
+  .axis { position:absolute; left:0; right:0; bottom:0; height:2px; background:var(--line); }
+  .col { position:relative; width:110px; height:250px; display:flex; align-items:flex-end; justify-content:center; }
+  .bar { width:84px; border-radius:10px 10px 0 0; background:var(--amber); height:200px; transition:height 1.4s ease, background-color .6s ease; position:relative; }
+  .bar.red { background:var(--red); } .bar.green { background:var(--green); }
+  .price { position:absolute; top:calc(-34px - var(--lift,0px)); transition:top 1s ease; left:50%; transform:translateX(-50%); font-size:1.5rem; font-weight:800; white-space:nowrap; }
+  .gap { position:absolute; width:84px; left:50%; margin-left:-42px; border:2px dashed var(--amber); border-bottom:0; border-radius:10px 10px 0 0; opacity:0; transition:opacity .6s ease, height 1.2s ease; }
+  .gap.show { opacity:1; }
+  .badge { position:absolute; right:-6px; top:42%; transform:translateX(100%); opacity:0; transition:opacity .5s ease; font-weight:800; font-size:1.15rem; white-space:nowrap; }
+  .badge.show { opacity:1; } .badge.amber { color:var(--amber); } .badge.red { color:var(--red); } .badge.green { color:var(--green); }
+  .table { display:none; width:100%; border-collapse:collapse; font-size:1.05rem; }
+  .table td, .table th { padding:7px 8px; border-bottom:1px solid var(--line); text-align:left; }
+  .table td:last-child { text-align:right; color:var(--green); font-weight:800; }
+  .table th { color:var(--muted); font-weight:600; font-size:.85rem; }
+  .showTable .scene { flex-direction:column; align-items:center; justify-content:flex-start; gap:2px; }
+  .showTable .table { display:table; } .showTable .col { display:none; }
+  .showTable .person { width:78px; height:110px; }
+
+  /* ---------- the person ---------- */
+  .person { width:104px; height:146px; flex:0 0 auto; overflow:visible; }
+  .person .skin { fill:var(--skin); } .person .shirt { fill:var(--shirt); } .person .hair { fill:#2b1d1a; }
+  .person .limb { stroke:var(--skin); stroke-width:9; stroke-linecap:round; fill:none; }
+  .person .leg { stroke:var(--pants); stroke-width:11; stroke-linecap:round; }
+  .person .arm, .person .legg, .person .figure { transition:transform .5s ease; }
+  .arm.l { transform-origin:44px 68px; } .arm.r { transform-origin:76px 68px; }
+  .legg.l { transform-origin:52px 112px; } .legg.r { transform-origin:68px 112px; }
+  .figure { transform-origin:60px 166px; }
+  .person .eye { fill:#2b1d1a; }
+  .person .brow, .person .mouth { stroke:#2b1d1a; stroke-width:2.6; stroke-linecap:round; fill:none; }
+  .person .m-big { fill:#7a1f1f; }
+  .person .m, .person .brows, .person .tears, .person .bulb, .person .qmark { display:none; }
+  .tear { fill:#6ec1ff; }
+  .bulb circle { fill:var(--amber); } .bulb rect { fill:#b9a9c9; }
+  .qmark text { fill:var(--amber); font-weight:800; font-size:26px; }
+
+  .mood-neutral .m-neutral, .mood-think .m-neutral, .mood-sad .m-frown, .mood-happy .m-big, .mood-smart .m-smile { display:inline; }
+  .mood-sad .brows, .mood-sad .tears, .mood-smart .bulb, .mood-think .qmark { display:inline; }
+  .mood-neutral .arm.l { transform:rotate(8deg); } .mood-neutral .arm.r { transform:rotate(-8deg); }
+  .mood-think .arm.l { transform:rotate(8deg); } .mood-think .arm.r { transform:rotate(143deg) scaleY(.55); }
+  .mood-sad .arm.l { transform:rotate(-158deg) scaleY(.7); } .mood-sad .arm.r { transform:rotate(158deg) scaleY(.7); }
+  .mood-smart .arm.l { transform:rotate(8deg); } .mood-smart .arm.r { transform:rotate(-150deg); }
+  .mood-happy .arm.l { transform:rotate(145deg); } .mood-happy .arm.r { transform:rotate(-145deg); }
+
+  .mood-neutral .figure, .mood-think .figure { animation:idle 3s ease-in-out infinite; }
+  .mood-sad .figure { animation:sob .7s ease-in-out infinite; }
+  .mood-happy .figure { animation:dance .46s ease-in-out infinite alternate; }
+  .mood-happy .arm.l { animation:wavel .46s ease-in-out infinite alternate; }
+  .mood-happy .arm.r { animation:waver .46s ease-in-out infinite alternate; }
+  .mood-happy .legg.l { animation:kickl .46s ease-in-out infinite alternate; }
+  .mood-happy .legg.r { animation:kickr .46s ease-in-out infinite alternate; }
+  .mood-smart .arm.r { animation:point 1s ease-in-out infinite alternate; }
+  .mood-smart .bulb { animation:glow 1.1s ease-in-out infinite alternate; transform-origin:92px 20px; }
+  .mood-sad .tear { animation:drip 1s ease-in infinite; }
+  .mood-sad .tear.b { animation-delay:.45s; }
+  @keyframes idle { 50% { transform:translateY(-2px); } }
+  @keyframes sob { 0%,100% { transform:translateY(0) rotate(0); } 25% { transform:translateY(2px) rotate(-1.5deg); } 75% { transform:translateY(3px) rotate(1.5deg); } }
+  @keyframes dance { from { transform:translateY(-4px) rotate(-5deg); } to { transform:translateY(-16px) rotate(5deg); } }
+  @keyframes wavel { from { transform:rotate(138deg); } to { transform:rotate(172deg); } }
+  @keyframes waver { from { transform:rotate(-172deg); } to { transform:rotate(-138deg); } }
+  @keyframes kickl { from { transform:rotate(-14deg); } to { transform:rotate(10deg); } }
+  @keyframes kickr { from { transform:rotate(10deg); } to { transform:rotate(-14deg); } }
+  @keyframes point { from { transform:rotate(-142deg); } to { transform:rotate(-160deg); } }
+  @keyframes glow { from { transform:scale(.9); opacity:.75; } to { transform:scale(1.15); opacity:1; } }
+  @keyframes drip { 0% { transform:translateY(0); opacity:0; } 15% { opacity:1; } 100% { transform:translateY(44px); opacity:0; } }
+
+  .confetti { position:absolute; inset:0; pointer-events:none; overflow:hidden; display:none; }
+  .stage.party .confetti { display:block; }
+  .confetti i { position:absolute; top:-24px; font-style:normal; font-weight:800; animation:fall linear infinite; }
+  @keyframes fall { to { transform:translateY(340px) rotate(360deg); } }
+
+  .caption { min-height:92px; margin:14px 2px 6px; font-size:1.2rem; font-weight:600; line-height:1.45; }
+  .caption.fade { animation:pop .5s ease; }
+  @keyframes pop { from { opacity:0; transform:translateY(6px); } to { opacity:1; transform:none; } }
+  .progress { height:4px; background:var(--line); border-radius:2px; overflow:hidden; margin:4px 0 12px; }
+  .progress i { display:block; height:100%; width:0; background:var(--amber); }
+  .controls { display:flex; align-items:center; gap:8px; flex-wrap:wrap; }
+  .controls button { min-height:44px; min-width:44px; padding:0 16px; border-radius:12px; border:1px solid var(--line); background:transparent; color:var(--ink); font-size:1rem; cursor:pointer; }
+  .controls .primary { background:var(--amber); color:#241606; border-color:var(--amber); font-weight:800; }
+  .dots { display:flex; gap:6px; margin-left:auto; }
+  .dots button { min-width:44px; padding:0; font-size:.9rem; }
+  .dots button[aria-current=true] { border-color:var(--amber); color:var(--amber); font-weight:800; }
+  .note { margin:14px 2px 0; font-size:.85rem; color:var(--muted); }
+  button:focus-visible { outline:3px solid #fff; outline-offset:2px; }
+  @media (max-width: 430px) {
+    .stage { padding:14px 12px 10px; }
+    .scene { gap:4px; }
+    .person { width:78px; height:110px; }
+    .col { width:92px; }
+    .bar { width:70px; } .gap { width:70px; margin-left:-35px; }
+    .badge { font-size:1rem; right:-4px; }
+    .price { font-size:1.3rem; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .person *, .confetti i { animation:none !important; }
+    .bar, .price, .gap, .badge, .arm, .legg, .figure { transition:none !important; }
+    .stage.party .confetti { display:none; }
+  }
+</style>
+</head>
+<body>
+<main class="wrap">
+  <div class="top">
+    <h1>SAMAJH · DEMO</h1>
+    <div class="tools">
+      <button type="button" id="snd" aria-pressed="false"></button>
+      <span class="langs" role="group" aria-label="Language" style="display:flex;gap:6px">
+        <button type="button" data-l="en" aria-pressed="true">EN</button>
+        <button type="button" data-l="hi" aria-pressed="false">हिन्दी</button>
+        <button type="button" data-l="gu" aria-pressed="false">ગુજરાતી</button>
+      </span>
+    </div>
+  </div>
+
+  <div class="stage" id="stage">
+    <div class="confetti" id="confetti" aria-hidden="true"></div>
+    <div class="scene" id="scene" aria-hidden="true">
+      <div class="axis"></div>
+
+      <svg class="person mood-neutral" id="person" viewBox="0 0 120 170">
+        <ellipse cx="60" cy="166" rx="26" ry="4" fill="#000" opacity=".3"/>
+        <g class="figure">
+          <g class="legg l"><line class="leg" x1="52" y1="112" x2="52" y2="158"/></g>
+          <g class="legg r"><line class="leg" x1="68" y1="112" x2="68" y2="158"/></g>
+          <rect class="shirt" x="40" y="60" width="40" height="56" rx="14"/>
+          <g class="arm l"><line class="limb" x1="44" y1="68" x2="44" y2="106"/></g>
+          <g class="arm r"><line class="limb" x1="76" y1="68" x2="76" y2="106"/></g>
+          <circle class="skin" cx="60" cy="38" r="21"/>
+          <path class="hair" d="M38 36 Q40 13 60 13 Q80 13 82 36 Q72 25 60 25 Q48 25 38 36Z"/>
+          <circle class="eye" cx="52" cy="38" r="2.6"/><circle class="eye" cx="68" cy="38" r="2.6"/>
+          <g class="brows"><line class="brow" x1="46" y1="33" x2="56" y2="28"/><line class="brow" x1="74" y1="33" x2="64" y2="28"/></g>
+          <path class="mouth m m-neutral" d="M54 48 L66 48"/>
+          <path class="mouth m m-smile" d="M52 46 Q60 55 68 46"/>
+          <path class="mouth m m-frown" d="M52 53 Q60 44 68 53"/>
+          <path class="mouth m m-big" d="M50 45 Q60 64 70 45 Z"/>
+          <g class="tears"><circle class="tear a" cx="50" cy="44" r="3.4"/><circle class="tear b" cx="70" cy="44" r="3.4"/></g>
+          <g class="bulb"><circle cx="94" cy="18" r="9"/><rect x="90" y="26" width="8" height="6" rx="2"/></g>
+          <g class="qmark"><text x="86" y="22">?</text></g>
+        </g>
+      </svg>
+
+      <div class="col">
+        <div class="gap" id="gap"></div>
+        <div class="bar" id="bar"><div class="price" id="price">₹100</div></div>
+        <div class="badge" id="badge"></div>
+      </div>
+      <table class="table" id="table"></table>
+    </div>
+    <p class="caption" id="caption" role="status" aria-live="polite"></p>
+    <div class="progress" aria-hidden="true"><i id="prog"></i></div>
+    <div class="controls">
+      <button type="button" class="primary" id="play"></button>
+      <button type="button" id="replay"></button>
+      <div class="dots" id="dots"></div>
+    </div>
+  </div>
+  <p class="note" id="note"></p>
+</main>
+
+<script>
+const T = {
+  en: { play:'Pause', resume:'Play', replay:'Replay', scene:'Scene', sndOn:'🔊 Sound on', sndOff:'🔇 Sound off',
+    s:['A stock costs ₹100.','Then it falls 20%. Now it costs ₹80.','To get back to ₹100, it must gain ₹20.','But ₹20 is 25% of ₹80, not 20%. So it needs a 25% rise.','A bigger fall needs an even bigger climb.'],
+    th:['Falls by','Must rise by'], note:'Made-up numbers and a made-up person. This only shows how percentages work. It is not advice.' },
+  hi: { play:'रोकें', resume:'चलाएँ', replay:'फिर से', scene:'दृश्य', sndOn:'🔊 आवाज़ चालू', sndOff:'🔇 आवाज़ बंद',
+    s:['एक शेयर ₹100 का है।','फिर वह 20% गिरता है। अब वह ₹80 का है।','वापस ₹100 पर आने के लिए उसे ₹20 बढ़ना होगा।','लेकिन ₹20, ₹80 का 25% है, 20% नहीं। इसलिए उसे 25% चढ़ना पड़ेगा।','जितनी बड़ी गिरावट, उतनी ही बड़ी चढ़ाई चाहिए।'],
+    th:['गिरावट','चढ़ना होगा'], note:'ये काल्पनिक संख्याएँ और काल्पनिक व्यक्ति हैं। इसका मकसद प्रतिशत का हिसाब समझाना है, सलाह देना नहीं।' },
+  gu: { play:'અટકાવો', resume:'ચલાવો', replay:'ફરીથી', scene:'દૃશ્ય', sndOn:'🔊 અવાજ ચાલુ', sndOff:'🔇 અવાજ બંધ',
+    s:['એક શેરનો ભાવ ₹100 છે.','પછી તે 20% ઘટે છે. હવે તે ₹80 છે.','પાછા ₹100 પર આવવા માટે તેને ₹20 વધવું પડે.','પણ ₹20 એ ₹80ના 25% છે, 20% નહીં. એટલે તેને 25% વધવું પડે.','જેટલો મોટો ઘટાડો, એટલો જ મોટો વધારો જોઈએ.'],
+    th:['ઘટાડો','વધારો જોઈએ'], note:'આ કાલ્પનિક આંકડા અને કાલ્પનિક વ્યક્તિ છે. હેતુ ટકાવારીની ગણતરી સમજાવવાનો છે, સલાહ આપવાનો નહીં.' }
+};
+const DUR = [2800, 3800, 3600, 5200, 5200];
+const MOOD = ['neutral', 'sad', 'think', 'happy', 'smart'];   // the person in each scene
+const MUSIC = ['calm', 'sad', 'calm', 'happy', 'calm'];       // the tune in each scene
+const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+const $ = (id) => document.getElementById(id);
+let lang = 'en', idx = 0, playing = !reduce, timer = null, raf = null, started = 0, shown = 100;
+let soundOn = false, userPaused = false, finished = false;
+
+/* ---------- music: made live in the browser, so there is no song file and no copyright ---------- */
+let ac = null, master = null, musicMood = null, musicTimer = null, step = 0;
+function ensureAudio() {
+  if (!ac) {
+    const C = window.AudioContext || window.webkitAudioContext;
+    if (!C) return false;
+    ac = new C(); master = ac.createGain(); master.gain.value = 0.5; master.connect(ac.destination);
+  }
+  if (ac.state === 'suspended') ac.resume();
+  return true;
+}
+function tone(freq, t, dur, type, vol, slideTo) {
+  const o = ac.createOscillator(), g = ac.createGain();
+  o.type = type; o.frequency.setValueAtTime(freq, t);
+  if (slideTo) o.frequency.exponentialRampToValueAtTime(slideTo, t + dur);
+  g.gain.setValueAtTime(0.0001, t); g.gain.exponentialRampToValueAtTime(vol, t + 0.02); g.gain.exponentialRampToValueAtTime(0.0001, t + dur);
+  o.connect(g); g.connect(master); o.start(t); o.stop(t + dur + 0.05);
+}
+const PATTERNS = {
+  happy: { every: 0.2, play(t, n) {                       // bouncy C-major tune with a beat
+    const mel = [523.25, 659.25, 783.99, 1046.5, 783.99, 659.25, 880, 783.99];
+    tone(mel[n % 8], t, 0.16, 'square', 0.05);
+    if (n % 2 === 0) tone(130.81, t, 0.18, 'sine', 0.16, 50);
+    if (n % 4 === 2) tone(1800, t, 0.05, 'square', 0.02);
+  } },
+  sad: { every: 0.85, play(t, n) {                        // slow falling minor notes that sag at the end
+    const mel = [440, 392, 349.23, 329.63];
+    const f = mel[n % 4];
+    tone(f, t, 1.3, 'triangle', 0.11, n % 4 === 3 ? f * 0.82 : null);
+    if (n % 4 === 0) tone(110, t, 1.6, 'sine', 0.08);
+  } },
+  calm: { every: 0.6, play(t, n) {                        // soft, gentle notes
+    const mel = [392, 440, 523.25, 587.33, 659.25];
+    tone(mel[[0, 2, 1, 3, 2, 4, 3, 1][n % 8]], t, 0.9, 'sine', 0.07);
+  } },
+};
+function stopMusic() { clearTimeout(musicTimer); musicTimer = null; musicMood = null; }
+function startMusic(mood) {
+  stopMusic();
+  if (!ensureAudio()) return;
+  musicMood = mood; step = 0;
+  const pat = PATTERNS[mood];
+  const run = () => { pat.play(ac.currentTime + 0.03, step++); musicTimer = setTimeout(run, pat.every * 1000); };
+  run();
+}
+function syncMusic() {
+  const want = soundOn && !userPaused && !finished && !document.hidden ? MUSIC[idx] : null;
+  if (!want) { stopMusic(); return; }
+  if (musicMood !== want) startMusic(want);
+}
+
+/* ---------- picture ---------- */
+function pct(f) { return Math.round((f / (100 - f)) * 1000) / 10; }
+function setBar(value, cls) { $('bar').style.height = value * 2 + 'px'; $('bar').style.setProperty('--lift', '0px'); $('bar').className = 'bar ' + (cls || ''); countTo(value); }
+function countTo(target) {
+  cancelAnimationFrame(raf);
+  if (reduce) { shown = target; $('price').textContent = '₹' + Math.round(target); return; }
+  const from = shown, t0 = performance.now(), d = 1300;
+  const step = (now) => { const k = Math.min(1, (now - t0) / d); shown = from + (target - from) * (1 - Math.pow(1 - k, 3)); $('price').textContent = '₹' + Math.round(shown); if (k < 1) raf = requestAnimationFrame(step); };
+  raf = requestAnimationFrame(step);
+}
+function badge(text, cls) { const b = $('badge'); b.textContent = text || ''; b.className = 'badge ' + (text ? 'show ' + cls : ''); }
+function gap(on) { const g = $('gap'); g.className = 'gap' + (on ? ' show' : ''); g.style.height = on ? '40px' : '0'; g.style.bottom = on ? '160px' : '0'; $('bar').style.setProperty('--lift', on ? '40px' : '0px'); }
+function buildConfetti() {
+  const c = $('confetti'), bits = ['₹', '■', '●', '₹', '▲'], cols = ['#f5b041', '#4cc38a', '#6ec1ff', '#ef6f6c', '#f6efe6'];
+  c.innerHTML = Array.from({ length: 18 }, (_, i) => `<i style="left:${(i * 37) % 100}%;color:${cols[i % 5]};font-size:${14 + (i % 3) * 5}px;animation-duration:${2.2 + (i % 5) * 0.45}s;animation-delay:${-(i % 7) * 0.5}s">${bits[i % 5]}</i>`).join('');
+}
+
+function render() {
+  const t = T[lang];
+  document.documentElement.lang = lang;
+  $('caption').textContent = t.s[idx];
+  $('caption').classList.remove('fade'); void $('caption').offsetWidth; $('caption').classList.add('fade');
+  $('stage').classList.toggle('showTable', idx === 4);
+  $('stage').classList.toggle('party', MOOD[idx] === 'happy');
+  $('person').setAttribute('class', 'person mood-' + MOOD[idx]);
+  $('table').innerHTML = `<tr><th>${t.th[0]}</th><th style="text-align:right">${t.th[1]}</th></tr>` + [10, 20, 50, 80].map((f) => `<tr><td>${f}%</td><td>${pct(f)}%</td></tr>`).join('');
+  $('note').textContent = t.note;
+  $('play').textContent = playing ? '⏸ ' + t.play : '▶ ' + t.resume;
+  $('replay').textContent = '↺ ' + t.replay;
+  $('snd').textContent = soundOn ? t.sndOn : t.sndOff;
+  $('snd').setAttribute('aria-pressed', String(soundOn));
+  document.querySelectorAll('.langs button').forEach((b) => b.setAttribute('aria-pressed', String(b.dataset.l === lang)));
+  $('dots').innerHTML = T.en.s.map((_, i) => `<button type="button" aria-label="${t.scene} ${i + 1}" ${i === idx ? 'aria-current="true"' : ''} data-i="${i}">${i + 1}</button>`).join('');
+  if (idx === 0) { setBar(100, ''); badge(''); gap(false); }
+  if (idx === 1) { setBar(80, 'red'); badge('−20%', 'red'); gap(false); }
+  if (idx === 2) { setBar(80, 'red'); badge('+₹20', 'amber'); gap(true); }
+  if (idx === 3) { setBar(100, 'green'); badge('+25%', 'green'); gap(false); }
+  if (idx === 4) { badge('', ''); gap(false); }
+  started = performance.now();
+  syncMusic();
+  tick();
+}
+function tick() {
+  clearTimeout(timer); cancelAnimationFrame(tick.r);
+  const loop = () => { const k = Math.min(1, (performance.now() - started) / DUR[idx]); $('prog').style.width = ((idx + (playing ? k : 1)) / DUR.length) * 100 + '%'; if (playing && k < 1) tick.r = requestAnimationFrame(loop); };
+  loop();
+  if (playing && idx < DUR.length - 1) timer = setTimeout(() => go(idx + 1), DUR[idx]);
+  if (playing && idx === DUR.length - 1) timer = setTimeout(() => { playing = false; finished = true; render(); }, DUR[idx]);
+}
+function go(i) { idx = i; render(); }
+
+$('play').onclick = () => {
+  if (!playing && idx === DUR.length - 1) { idx = 0; shown = 100; }
+  playing = !playing; userPaused = !playing; finished = false; render();
+};
+$('replay').onclick = () => { shown = 100; playing = true; userPaused = false; finished = false; idx = 0; setBar(100, ''); render(); };
+$('dots').onclick = (e) => { const b = e.target.closest('button'); if (b) { playing = false; finished = false; go(Number(b.dataset.i)); } };
+$('snd').onclick = () => { soundOn = !soundOn; if (soundOn) ensureAudio(); render(); };
+document.querySelector('.langs').onclick = (e) => { const b = e.target.closest('button'); if (b) { lang = b.dataset.l; render(); } };
+document.addEventListener('keydown', (e) => { if (e.key === 'ArrowRight' && idx < DUR.length - 1) { playing = false; go(idx + 1); } if (e.key === 'ArrowLeft' && idx > 0) { playing = false; go(idx - 1); } });
+document.addEventListener('visibilitychange', syncMusic);
+buildConfetti();
+render();
+</script>
+</body>
+</html>

@@ -57,7 +57,7 @@ docs/screenshots/        images used below
 | Tip Check: warning signs from real market data | Watchlist: gold in ₹ per 10 g (international price, converted) |
 | ![Intro animation: scan line clearing the noise](docs/screenshots/intro-scan.png) | ![Intro animation tagline in Hindi](docs/screenshots/intro-hindi.png) |
 | Intro: a scan line clears the noise | Intro: tagline in Hindi |
-| ![Samajh home: Money Cards, Hype Check and the Money-Time Guide](docs/screenshots/samajh-home.png) | ![A Money Card: a real-life story and the step-by-step maths with a chart](docs/screenshots/samajh-fd-card.png) |
+| ![Samajh home: the eight Money Cards](docs/screenshots/samajh-home.png) | ![A Money Card: a real-life story and the step-by-step maths with a chart](docs/screenshots/samajh-fd-card.png) |
 | Samajh: money education with no tips, only understanding | Money Card (Fixed Deposit): a real-life story, then the numbers step by step |
 | ![Check before you act: what to check first, and why](docs/screenshots/samajh-check-first.png) | ![Hype Check: the maths behind a viral claim](docs/screenshots/samajh-hype-check.png) |
 | "Check first": what to check before acting, and why, with a real-life story | Hype Check: a claim like "₹5,000 SIP = ₹1 crore" tested with an adjustable calculator |
@@ -187,8 +187,15 @@ tip-check, backtest and every route that saves data.
 - **Gold, silver and crude in rupees**: these are international USD futures, so they are converted at the live USD/INR
   rate (gold per 10 g, silver per kg, crude per barrel) and labelled as converted. They are **not** MCX or jeweller prices
   (import duty, GST and premiums differ). If the exchange rate is unavailable the original USD price is shown.
-- **Intro animation** ("Noise to Signal"): plays once per session and on logo click; skippable, respects
-  reduced-motion, tagline follows the language switcher (EN / HI / GU).
+- **Intro animation, "The Investor's Journey"** (about 12 seconds): the gold SS logo tile is the character. It enters the market excited, gets
+  scared when the market falls (the camera zooms and shakes, the screen turns red), closes its eyes and stays calm and patient while time
+  passes (a sun rises), grows confident, then its face blinks away and it becomes the StockSee logo, and the tagline types out.
+  The message is "Markets fluctuate. Understand what you own. Think long term." It says on screen that the chart is an illustration and that
+  patience does not guarantee profit. Every mood change moves the eyes, mouth, body, glow and chart together.
+  Plays once per session and on logo click; skip with a tap, click or any key; respects reduced-motion (one still frame); follows the
+  language switcher (English and Hindi captions; Gujarati shows the Gujarati tagline with English captions until a native reader has
+  checked Gujarati captions). It is one SVG animated by code (`frontend/src/components/journey/`), no video, no image files, no sound.
+  A stand-alone demo with controls is in `docs/demo-investors-journey-v2.html`.
 
 ## No sign-up (watch-only)
 

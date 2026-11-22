@@ -1,0 +1,17 @@
+/* The Investor's Journey opening. The drawing is an SVG animated from journeyEngine.js; this file only sets the stage. */
+.jny {
+  position: fixed;
+  inset: 0;
+  z-index: 200;
+  overflow: hidden;
+  cursor: pointer;
+  background: linear-gradient(#1f0f40, #0d0620);
+  opacity: 0;
+  transition: opacity 350ms ease-out;
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
+}
+.jny.is-in { opacity: 1; }
+.jny.is-leaving { opacity: 0; transition: opacity var(--jny-exit, 500ms) ease-in; }
+.jny-host, .jny-host svg { position: absolute; inset: 0; width: 100%; height: 100%; display: block; }
+.jny-host svg { overflow: visible; }

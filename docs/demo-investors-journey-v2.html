@@ -1,0 +1,312 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>StockSee: The Investor's Journey v2 (logo animation demo)</title>
+<style>
+  :root { --gold:#D4AF37; --ink:#f4efff; --mute:#9b8bc4; }
+  * { box-sizing:border-box; }
+  html, body { margin:0; height:100%; background:radial-gradient(90% 70% at 50% 30%, #1d0f3d, #0a0418); color:var(--ink); font-family: Inter, system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif; }
+  body { display:flex; flex-direction:column; align-items:center; justify-content:center; gap:14px; min-height:100dvh; padding:12px 16px 14px; }
+  .stage { flex:1 1 auto; min-height:0; width:100%; display:flex; justify-content:center; }
+  svg#s { height:100%; max-height:calc(100dvh - 132px); width:auto; max-width:100%; aspect-ratio:360/640; display:block; border-radius:26px; box-shadow:0 0 0 1px rgba(255,255,255,.1), 0 24px 60px rgba(0,0,0,.55); }
+  .bar { flex:none; width:min(100%, 360px); display:flex; align-items:center; gap:10px; padding:8px 10px; border-radius:999px; background:rgba(255,255,255,.07); border:1px solid rgba(255,255,255,.14); backdrop-filter:blur(8px); }
+  .ib { flex:none; width:44px; height:44px; padding:0; border-radius:50%; border:0; background:transparent; color:var(--ink); display:grid; place-items:center; cursor:pointer; transition:background .15s, transform .15s; }
+  .ib:hover { background:rgba(255,255,255,.12); }
+  .ib:active { transform:scale(.94); }
+  .ib svg { width:20px; height:20px; fill:currentColor; }
+  .ib.main { background:var(--gold); color:#2B1650; box-shadow:0 4px 14px rgba(212,175,55,.35); }
+  .ib.main:hover { background:#e2bf4a; }
+  .track { position:relative; flex:1; min-width:0; height:44px; display:flex; align-items:center; }
+  .track input { position:absolute; inset:0; width:100%; height:100%; margin:0; opacity:0; cursor:pointer; }
+  .rail { position:relative; width:100%; height:5px; border-radius:3px; background:rgba(255,255,255,.18); }
+  .fill { position:absolute; left:0; top:0; bottom:0; width:0; border-radius:3px; background:var(--gold); }
+  .knob { position:absolute; top:50%; width:14px; height:14px; margin:-7px 0 0 -7px; border-radius:50%; background:#fff; box-shadow:0 0 0 3px rgba(212,175,55,.45); left:0; }
+  .track:focus-within .knob { box-shadow:0 0 0 4px var(--gold); }
+  .lang { flex:none; display:flex; padding:3px; border-radius:999px; background:rgba(0,0,0,.28); }
+  .lang button { min-width:44px; height:38px; padding:0 8px; border:0; border-radius:999px; background:transparent; color:var(--mute); font:700 13px/1 inherit; cursor:pointer; }
+  .lang button.on { background:rgba(255,255,255,.92); color:#2B1650; }
+  button:focus-visible { outline:3px solid var(--gold); outline-offset:2px; }
+  .note { flex:none; font-size:12px; color:var(--mute); text-align:center; margin:0; max-width:360px; }
+  text { font-family: Inter, system-ui, sans-serif; }
+  .serif { font-family: 'Fraunces', Georgia, 'Times New Roman', serif; }
+  @media (max-width:420px) { body { padding:0 0 10px; gap:10px; } svg#s { border-radius:0 0 22px 22px; max-height:calc(100dvh - 104px); box-shadow:none; } .bar { width:calc(100% - 20px); } .note { display:none; } }
+</style>
+</head>
+<body>
+<div class="stage">
+<svg id="s" viewBox="0 0 360 640" role="img" aria-label="Animated story: the gold SS tile, as a little character, enters the market excited, gets scared when it falls, stays calm and patient, grows confident, then its face turns into the StockSee logo.">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#1f0f40"/><stop offset="1" stop-color="#0d0620"/></linearGradient>
+    <radialGradient id="rg"><stop id="rg0" offset="0" stop-color="#fff" stop-opacity="1"/><stop id="rg1" offset="1" stop-color="#fff" stop-opacity="0"/></radialGradient>
+    <radialGradient id="sunG"><stop offset="0" stop-color="#ffe9a0"/><stop offset=".55" stop-color="#ffc83d"/><stop offset="1" stop-color="#ffc83d" stop-opacity="0"/></radialGradient>
+    <linearGradient id="lineG" gradientUnits="userSpaceOnUse" x1="0" y1="200" x2="0" y2="480"><stop offset="0" stop-color="#3ee6a8"/><stop id="gA" offset=".46" stop-color="#3ee6a8"/><stop id="gB" offset=".46" stop-color="#ff6b6b"/><stop offset="1" stop-color="#ff6b6b"/></linearGradient>
+    <linearGradient id="tileG" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#f6dc7c"/><stop offset="1" stop-color="#D4AF37"/></linearGradient>
+    <linearGradient id="vigR" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#ff2d2d" stop-opacity="0"/><stop offset="1" stop-color="#ff2d2d" stop-opacity=".55"/></linearGradient>
+    <clipPath id="tileClip"><rect x="-26" y="-66" width="52" height="52" rx="13"/></clipPath>
+  </defs>
+
+  <rect width="360" height="640" fill="url(#bg)"/>
+  <g id="root">
+    <g id="stars"></g>
+    <circle id="sun" cx="180" cy="760" r="120" fill="url(#sunG)" opacity="0"/>
+    <rect id="vig" x="0" y="0" width="360" height="640" fill="url(#vigR)" opacity="0"/>
+    <circle id="glow" cx="150" cy="390" r="150" fill="url(#rg)" opacity=".5"/>
+
+    <g id="world">
+      <line id="base" x1="-400" x2="1200" y1="330" y2="330" stroke="#b9a9dd" stroke-width="1.4" stroke-dasharray="3 7" opacity=".55"/>
+      <text id="entry" x="26" y="350" font-size="12" fill="#b9a9dd">entry</text>
+      <path id="area" fill="url(#lineG)" opacity=".16"/>
+      <path id="lineGlow" fill="none" stroke="url(#lineG)" stroke-width="12" stroke-linecap="round" stroke-linejoin="round" opacity=".18"/>
+      <path id="line" fill="none" stroke="url(#lineG)" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+    </g>
+
+    <g id="shards"></g><g id="dust"></g>
+
+    <!-- the character: the StockSee tile -->
+    <g id="who">
+      <ellipse id="shadow" cx="0" cy="2" rx="26" ry="5" fill="#000" opacity=".3"/>
+      <g id="legs"><rect id="legL" x="-14" y="-16" width="9" height="19" rx="4.5" fill="#b58a1e"/><rect id="legR" x="5" y="-16" width="9" height="19" rx="4.5" fill="#b58a1e"/></g>
+      <g id="armL"><rect x="-8" y="-4" width="9" height="24" rx="4.5" fill="#b58a1e" transform="translate(-26 -42) translate(-1 0)"/></g>
+      <g id="armR"><rect x="-1" y="-4" width="9" height="24" rx="4.5" fill="#b58a1e" transform="translate(26 -42)"/></g>
+      <rect x="-26" y="-66" width="52" height="52" rx="13" fill="url(#tileG)"/>
+      <rect id="tint" x="-26" y="-66" width="52" height="52" rx="13" fill="#ff4d4d" opacity="0"/>
+      <g clip-path="url(#tileClip)"><rect id="shine" x="-60" y="-80" width="16" height="90" fill="#fff" opacity="0" transform="rotate(20)"/></g>
+      <g id="ss" opacity="0"><text x="0" y="-27" font-size="30" font-weight="800" text-anchor="middle" fill="#2B1650" class="serif">SS</text></g>
+      <g id="face">
+        <g fill="none" stroke="#2b1650" stroke-width="2.6" stroke-linecap="round"><path id="bl"/><path id="br"/></g>
+        <g id="eW"><circle cx="-11" cy="-44" r="8.5" fill="#fff" stroke="#2b1650" stroke-width="1.6"/><circle cx="11" cy="-44" r="8.5" fill="#fff" stroke="#2b1650" stroke-width="1.6"/><circle cx="-10" cy="-44" r="4.2" fill="#2b1650"/><circle cx="12" cy="-44" r="4.2" fill="#2b1650"/><circle cx="-8.6" cy="-46" r="1.5" fill="#fff"/><circle cx="13.4" cy="-46" r="1.5" fill="#fff"/></g>
+        <g id="eS"><circle cx="-11" cy="-43" r="3.6" fill="#2b1650"/><circle cx="11" cy="-43" r="3.6" fill="#2b1650"/><circle cx="-10" cy="-44.2" r="1.2" fill="#fff"/><circle cx="12" cy="-44.2" r="1.2" fill="#fff"/></g>
+        <g id="eH" fill="none" stroke="#2b1650" stroke-width="3" stroke-linecap="round"><path d="M-17 -41q6-9 12 0"/><path d="M5 -41q6-9 12 0"/></g>
+        <g id="eC" fill="none" stroke="#2b1650" stroke-width="3" stroke-linecap="round"><path d="M-17 -45q6 6 12 0"/><path d="M5 -45q6 6 12 0"/></g>
+        <g id="eO"><circle cx="-11" cy="-44" r="6.6" fill="#fff" stroke="#2b1650" stroke-width="1.4"/><circle cx="11" cy="-44" r="6.6" fill="#fff" stroke="#2b1650" stroke-width="1.4"/><g id="look"><circle cx="-11" cy="-44" r="3.3" fill="#2b1650"/><circle cx="11" cy="-44" r="3.3" fill="#2b1650"/></g></g>
+        <ellipse cx="-19" cy="-33" rx="4.4" ry="2.6" fill="#ff7a6b" opacity=".5"/><ellipse cx="19" cy="-33" rx="4.4" ry="2.6" fill="#ff7a6b" opacity=".5"/>
+        <path id="sweat" d="M22 -62q-4 6 0 9q4-3 0-9z" fill="#8fb8ff" opacity="0"/>
+        <path id="mouth" stroke="#5a1f1a" stroke-width="2.6" stroke-linecap="round"/>
+      </g>
+      <g id="spk" fill="#ffe9a0" opacity="0"><path d="M36 -70l2 5 5 2-5 2-2 5-2-5-5-2 5-2z"/><path d="M-38 -60l1.6 4 4 1.6-4 1.6-1.6 4-1.6-4-4-1.6 4-1.6z"/></g>
+    </g>
+
+    <g id="conf"></g>
+
+    <!-- words -->
+    <g id="hud">
+      <text id="cap1" x="180" y="58" font-size="16" font-weight="600" text-anchor="middle" fill="#f4efff" opacity="0"></text>
+      <text id="cap2" x="180" y="80" font-size="16" font-weight="600" text-anchor="middle" fill="#f4efff" opacity="0"></text>
+      <text id="portL" x="180" y="112" font-size="12" text-anchor="middle" fill="#b9a9dd">Portfolio · example</text>
+      <text id="num" x="180" y="154" font-size="40" font-weight="800" text-anchor="middle" fill="#3ee6a8">+0.0%</text>
+      <g id="dots"></g>
+    </g>
+    <g id="logoText" opacity="0">
+      <text id="word" x="180" y="354" font-size="42" font-weight="700" text-anchor="middle" fill="#fff" class="serif">StockSee</text>
+      <text id="tag1" x="180" y="390" font-size="17" text-anchor="middle" fill="#e6dcff"></text>
+      <text id="tag2" x="180" y="414" font-size="17" font-weight="700" text-anchor="middle" fill="#D4AF37"></text>
+      <text id="end1" x="180" y="490" font-size="14.5" text-anchor="middle" fill="#cdbff0" opacity="0"></text>
+      <text id="end2" x="180" y="510" font-size="14.5" text-anchor="middle" fill="#cdbff0" opacity="0"></text>
+    </g>
+    <rect id="flash" x="0" y="0" width="360" height="640" fill="#ff3030" opacity="0"/>
+    <text id="foot" x="180" y="624" font-size="12" text-anchor="middle" fill="#9b8bc4"></text>
+  </g>
+</svg>
+</div>
+
+<div class="bar" role="group" aria-label="Animation controls">
+  <button id="play" class="ib main" aria-label="Pause"><svg id="playIc" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 5h4v14H6zM14 5h4v14h-4z"/></svg></button>
+  <button id="replay" class="ib" aria-label="Replay"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 5V2L7 6.5 12 11V8a5 5 0 1 1-5 5H5a7 7 0 1 0 7-8z"/></svg></button>
+  <div class="track"><div class="rail"><div class="fill" id="fill"></div><div class="knob" id="knob"></div></div><input id="scrub" type="range" min="0" max="12000" step="10" value="0" aria-label="Timeline"></div>
+  <div class="lang" role="group" aria-label="Language"><button id="en" class="on" aria-pressed="true">EN</button><button id="hi" aria-pressed="false">हिं</button></div>
+</div>
+<p class="note">Demo. The numbers are an illustration, not real data. Patience does not guarantee profit.</p>
+
+<script>
+(function () {
+  const $ = (id) => document.getElementById(id);
+  const clamp = (v, a = 0, b = 1) => Math.min(b, Math.max(a, v));
+  const lerp = (a, b, p) => a + (b - a) * p;
+  const easeOut = (p) => 1 - Math.pow(1 - p, 3);
+  const easeInOut = (p) => (p < 0.5 ? 4 * p * p * p : 1 - Math.pow(-2 * p + 2, 3) / 2);
+  const backOut = (p) => { const c = 1.7; return 1 + (c + 1) * Math.pow(p - 1, 3) + c * Math.pow(p - 1, 2); };
+  const TOTAL = 12000, F = 0.94;
+
+  const TEXT = {
+    en: { caps: [['Excited. A new investor', 'steps into the market.'], ['The market falls.', 'The portfolio turns red.'], ['Pause. Breathe.', 'Look at what you own.'], ['Time passes.', 'Markets keep moving.'], ['Calm. Informed.', 'Still here.']],
+      end: ['Markets fluctuate. Understand what you own.', 'Think long term.'], tag: ['Markets in your language.', 'Facts, not tips.'],
+      foot: 'Illustration only. Patience does not guarantee profit.', entry: 'entry', port: 'Portfolio · example', play: 'Play', pause: 'Pause', replay: 'Replay' },
+    hi: { caps: [['उत्साह में नया निवेशक', 'बाज़ार में कदम रखता है।'], ['बाज़ार गिरता है।', 'पोर्टफ़ोलियो लाल हो जाता है।'], ['रुकिए। साँस लीजिए।', 'देखिए आपके पास क्या है।'], ['समय बीतता है।', 'बाज़ार चलता रहता है।'], ['शांत। समझदार।', 'अब भी डटे हुए।']],
+      end: ['बाज़ार ऊपर-नीचे होता है। समझिए आपके पास क्या है।', 'लंबे समय की सोचिए।'], tag: ['आपकी भाषा में बाज़ार।', 'टिप्स नहीं, तथ्य।'],
+      foot: 'सिर्फ़ चित्रण। धैर्य से मुनाफ़े की गारंटी नहीं होती।', entry: 'शुरुआत', port: 'पोर्टफ़ोलियो · उदाहरण', play: 'चलाएँ', pause: 'रोकें', replay: 'फिर से' },
+  };
+  let lang = 'en';
+
+  // ---- the market (illustrative % from entry) ----
+  const KEYS = [[0, 0], [1000, 6], [2000, 14], [2250, 14], [3000, -14], [3400, -18], [4200, -15], [4800, -17], [5400, -13], [6000, -15], [6400, -9], [6900, -10], [7300, -3], [7800, 6], [8300, 11]].map(([t, v]) => [t * F, v]);
+  const END = 8300 * F;
+  const wob = (t) => { const k = clamp((t - 3400 * F) / 500) * clamp((7400 * F - t) / 500); return k * (1.0 * Math.sin(t / 95) + 0.7 * Math.sin(t / 41 + 1)); };
+  function price(t) {
+    t = clamp(t, 0, END);
+    let i = 0; while (i < KEYS.length - 2 && t > KEYS[i + 1][0]) i++;
+    const [t0, v0] = KEYS[i], [t1, v1] = KEYS[i + 1];
+    const s = clamp((t - t0) / (t1 - t0)); return lerp(v0, v1, (1 - Math.cos(Math.PI * s)) / 2) + wob(t);
+  }
+  const WX = (t) => 20 + (clamp(t, 0, END) / END) * 700, WY = (t) => 330 - price(t) * 7.5;
+  const BASEF = (330 - 200) / 280; $('gA').setAttribute('offset', BASEF); $('gB').setAttribute('offset', BASEF);
+
+  // camera: zoom follows the story (in for the fall, out for the finish)
+  const ZK = [[0, 1], [1900 * F, 1], [2500 * F, 1.3], [3700 * F, 1.3], [4600 * F, 1.12], [7000 * F, 1.08], [8300 * F, 0.92]];
+  function zoom(t) { let i = 0; while (i < ZK.length - 2 && t > ZK[i + 1][0]) i++; const [a, za] = ZK[i], [b, zb] = ZK[i + 1]; return lerp(za, zb, easeInOut(clamp((t - a) / (b - a)))); }
+
+  // ---- moods ----
+  const MOODS = {
+    excited: { arm: [150, -150], eW: 1, eS: 0, eH: 0, eC: 0, eO: 0, sweat: 0, tint: 0, spk: 1, g: [255, 200, 61], mouth: 'M-9 -29Q0 -14 9 -29Z', fill: 1, bl: 'M-18 -57q7-5 14-1', br: 'M4 -58q7-4 14 1' },
+    worried: { arm: [-18, 18], eW: 0, eS: 1, eH: 0, eC: 0, eO: 0, sweat: 1, tint: 0.35, spk: 0, g: [255, 80, 80], mouth: 'M-8 -22Q0 -31 8 -22', fill: 0, bl: 'M-18 -52q7-1 13-7', br: 'M5 -59q7 6 13 7' },
+    patient: { arm: [-34, 34], eW: 0, eS: 0, eH: 0, eC: 1, eO: 0, sweat: 0, tint: 0, spk: 0, g: [110, 150, 255], mouth: 'M-7 -26Q0 -22 7 -26', fill: 0, bl: 'M-18 -53q7-2 13 0', br: 'M5 -53q7-2 13 0' },
+    focused: { arm: [-14, 14], eW: 0, eS: 0, eH: 0, eC: 0, eO: 1, sweat: 0, tint: 0, spk: 0, g: [70, 200, 190], mouth: 'M-6 -26Q0 -22.5 6 -26', fill: 0, bl: 'M-18 -54q7-3 13-1', br: 'M5 -55q7-2 13 1' },
+    proud: { arm: [125, -125], eW: 0, eS: 0, eH: 1, eC: 0, eO: 0, sweat: 0, tint: 0, spk: 1, g: [60, 215, 130], mouth: 'M-10 -29Q0 -13 10 -29Z', fill: 1, bl: 'M-18 -55q7-4 14-1', br: 'M4 -56q7-3 14 1' },
+  };
+  const BEATS = [['excited', 0], ['worried', 2250 * F], ['patient', 3600 * F], ['focused', 5200 * F], ['proud', 7000 * F]];
+  const idxAt = (t) => { let i = 0; BEATS.forEach((b, k) => { if (t >= b[1]) i = k; }); return i; };
+  const KEYSN = ['eW', 'eS', 'eH', 'eC', 'eO', 'sweat', 'tint', 'spk'];
+
+  function setFace(t) {
+    const i = idxAt(t), cur = MOODS[BEATS[i][0]], prev = MOODS[BEATS[Math.max(0, i - 1)][0]];
+    const k = i === 0 ? 1 : easeOut(clamp((t - BEATS[i][1]) / 260)); // all five layers change inside 300 ms
+    KEYSN.forEach((n) => { const v = lerp(prev[n], cur[n], k); $(n === 'sweat' || n === 'tint' || n === 'spk' ? n : n).setAttribute('opacity', v.toFixed(2)); });
+    $('tint').setAttribute('opacity', (lerp(prev.tint, cur.tint, k) * 1).toFixed(2));
+    $('armL').setAttribute('transform', `rotate(${lerp(prev.arm[0], cur.arm[0], k).toFixed(1)} -26 -42)`);
+    $('armR').setAttribute('transform', `rotate(${lerp(prev.arm[1], cur.arm[1], k).toFixed(1)} 26 -42)`);
+    const M = k < 0.5 && i > 0 ? prev : cur;
+    $('mouth').setAttribute('d', M.mouth); $('mouth').setAttribute('fill', M.fill ? '#5a1f1a' : 'none'); $('bl').setAttribute('d', M.bl); $('br').setAttribute('d', M.br);
+    const g = [0, 1, 2].map((j) => lerp(prev.g[j], cur.g[j], k) | 0); const rgb = `rgb(${g})`;
+    $('rg0').setAttribute('stop-color', rgb); $('rg1').setAttribute('stop-color', rgb);
+    return { mood: BEATS[i][0], rgb };
+  }
+
+  // ---- scenery ----
+  (function () {
+    let a = 11; const r = () => { a = (a * 16807) % 2147483647; return a / 2147483647; };
+    let h = ''; for (let i = 0; i < 40; i++) h += `<circle class="st" cx="${(r() * 360).toFixed(1)}" cy="${(r() * 560).toFixed(1)}" r="${(0.6 + r() * 1.1).toFixed(1)}" fill="#fff" data-p="${(r() * 6).toFixed(2)}" opacity=".3"/>`;
+    $('stars').innerHTML = h;
+    $('shards').innerHTML = Array.from({ length: 16 }, () => '<path d="M0 0l5 12-7 3z" fill="#ff6b6b"/>').join('');
+    $('dust').innerHTML = Array.from({ length: 16 }, () => '<circle r="2" fill="#bcd0ff"/>').join('');
+    $('conf').innerHTML = Array.from({ length: 30 }, (_, i) => `<rect width="6" height="10" rx="1.5" fill="${['#ffd54a', '#fff', '#3ee6a8', '#ffb938'][i % 4]}"/>`).join('');
+    $('dots').innerHTML = [0, 1, 2, 3, 4].map((i) => `<circle cx="${156 + i * 12}" cy="592" r="3.4" fill="#fff" opacity=".3"/>`).join('');
+  })();
+  const stars = Array.from(document.querySelectorAll('.st')), shards = Array.from($('shards').children), dust = Array.from($('dust').children), conf = Array.from($('conf').children), dots = Array.from($('dots').children);
+  const seed = (i, k) => { const x = Math.sin(i * 127.1 + k * 311.7) * 43758.5453; return x - Math.floor(x); };
+
+  function graphemes(s) { return typeof Intl !== 'undefined' && Intl.Segmenter ? Array.from(new Intl.Segmenter(lang, { granularity: 'grapheme' }).segment(s), (x) => x.segment) : Array.from(s); }
+  let lastCap = '';
+
+  function render(t) {
+    t = clamp(t, 0, TOTAL);
+    const { mood, rgb } = setFace(t);
+    const LP0 = 7900, lp = easeInOut(clamp((t - LP0) / 800));
+
+    // camera
+    const z = zoom(t), lag = Math.max(0, t - 350);
+    const camX = 150 - WX(lag) * z, camY = 392 - WY(lag) * z;
+    const sh = clamp(1 - (t - 2250 * F) / 600) * (t >= 2250 * F ? 1 : 0);
+    const sx = Math.sin(t / 15) * 3.2 * sh, sy = Math.cos(t / 21) * 2.6 * sh;
+    $('root').setAttribute('transform', `translate(${sx.toFixed(2)} ${sy.toFixed(2)})`);
+    $('world').setAttribute('transform', `translate(${camX.toFixed(1)} ${camY.toFixed(1)}) scale(${z.toFixed(3)})`);
+    $('world').setAttribute('opacity', (1 - lp).toFixed(2));
+    $('flash').setAttribute('opacity', (0.16 * sh).toFixed(3));
+    $('vig').setAttribute('opacity', (clamp((t - 2250 * F) / 300) * clamp((5000 * F - t) / 1400) * 0.9).toFixed(2));
+
+    // the line
+    const tt = Math.min(t, END); const pts = [];
+    for (let u = 0; u <= tt; u += 25) pts.push([WX(u), WY(u)]);
+    pts.push([WX(tt), WY(tt)]);
+    const d = pts.map((p, i) => `${i ? 'L' : 'M'}${p[0].toFixed(1)} ${p[1].toFixed(1)}`).join('');
+    $('line').setAttribute('d', d); $('lineGlow').setAttribute('d', d);
+    $('area').setAttribute('d', `${d}L${pts[pts.length - 1][0].toFixed(1)} 330L${pts[0][0].toFixed(1)} 330Z`);
+    $('line').setAttribute('stroke-width', (4 / z).toFixed(2)); $('lineGlow').setAttribute('stroke-width', (13 / z).toFixed(2));
+
+    // readout
+    const v = price(tt), up = v >= 0;
+    $('num').textContent = `${up ? '+' : '−'}${Math.abs(v).toFixed(1)}%`; $('num').setAttribute('fill', up ? '#3ee6a8' : '#ff6b6b');
+    const hudA = 1 - clamp((t - 7700) / 400); $('num').setAttribute('opacity', hudA.toFixed(2)); $('portL').setAttribute('opacity', (0.9 * hudA).toFixed(2));
+    const bi = idxAt(t); dots.forEach((c, i) => c.setAttribute('opacity', (hudA * (i === bi ? 1 : 0.3)).toFixed(2))); dots.forEach((c, i) => c.setAttribute('fill', i === bi ? '#D4AF37' : '#fff'));
+
+    // sunrise (time passing) and stars
+    const rise = easeInOut(clamp((t - 3400 * F) / (4600 * F)));
+    $('sun').setAttribute('cy', (770 - rise * 250 - lp * 20).toFixed(1)); $('sun').setAttribute('r', (110 + rise * 40 + lp * 60).toFixed(1));
+    $('sun').setAttribute('opacity', (0.38 * rise * (1 - 0.6 * clamp((t - 8800) / 600))).toFixed(2));
+    stars.forEach((s) => s.setAttribute('opacity', ((0.25 + 0.25 * Math.sin(t / 700 + +s.dataset.p)) * (1 - 0.7 * rise)).toFixed(2)));
+
+    // character pose
+    const ang = Math.atan2(WY(t + 120) - WY(t - 120), (240 / END) * 700 * 1);
+    const slope = (mood === 'patient' || mood === 'focused' ? 0.35 : 1) * clamp(ang, -0.62, 0.62);
+    const entering = 1 - easeOut(clamp(t / 900));
+    const cs = (0.9 + 0.1 * z) * (1 + 0.0 * lp);
+    let cx = WX(t) * z + camX - entering * 170, cy = WY(t) * z + camY;
+    let rot = slope, scale = cs;
+    // movement style
+    let hop = 0, tremble = 0, breathe = 1, sway = 0, legSwing = 0;
+    if (t < 900) { hop = -Math.abs(Math.sin(t / 85)) * 7; legSwing = Math.sin(t / 85); }
+    else if (mood === 'excited') { hop = -Math.abs(Math.sin(t / 105)) * 12; legSwing = Math.sin(t / 105); }
+    else if (mood === 'worried') { tremble = Math.sin(t / 19) * 2.2; legSwing = Math.sin(t / 30) * 0.35; }
+    else if (mood === 'patient') { breathe = 1 + 0.03 * Math.sin(t / 480); }
+    else if (mood === 'focused') { sway = Math.sin(t / 650) * 0.05; legSwing = Math.sin(t / 260) * 0.35; }
+    else { hop = -Math.abs(Math.sin(t / 170)) * 7; legSwing = Math.sin(t / 170) * 0.8; }
+    // to the logo
+    const px = lerp(cx + tremble, 180, lp), py = lerp(cy + hop, 296, lp); // tile centre at (180,250): feet 46 below
+    rot = lerp(rot + sway, 0, lp); scale = lerp(scale, 2.0, lp);
+    $('who').setAttribute('transform', `translate(${px.toFixed(1)} ${py.toFixed(1)}) rotate(${(rot * 57.3).toFixed(2)}) scale(${(scale * lerp(breathe, 1, lp)).toFixed(3)})`);
+    $('legL').setAttribute('transform', `rotate(${(legSwing * 25).toFixed(1)} -9.5 -16)`); $('legR').setAttribute('transform', `rotate(${(-legSwing * 25).toFixed(1)} 9.5 -16)`);
+    $('legs').setAttribute('opacity', (1 - lp).toFixed(2)); $('armL').parentNode; $('shadow').setAttribute('opacity', (0.3 * (1 - lp)).toFixed(2));
+    $('look').setAttribute('transform', `translate(${(Math.sin(t / 420) * 3.2).toFixed(2)} 0)`);
+    // glow follows
+    const gx = lerp(cx, 180, lp), gy = lerp(cy - 40 * cs, 250, lp);
+    $('glow').setAttribute('cx', gx.toFixed(1)); $('glow').setAttribute('cy', gy.toFixed(1)); $('glow').setAttribute('r', (150 + lp * 40).toFixed(0));
+    $('glow').setAttribute('opacity', ((0.5 + 0.12 * Math.sin(t / 280)) * (t > 9000 ? 0.8 : 1)).toFixed(2));
+    if (t > 8700) { $('rg0').setAttribute('stop-color', '#ffd54a'); $('rg1').setAttribute('stop-color', '#ffd54a'); }
+
+    // face -> SS
+    const fOp = 1 - clamp((t - 8900) / 280), sOp = clamp((t - 9150) / 300);
+    $('face').setAttribute('opacity', fOp.toFixed(2)); $('spk').setAttribute('opacity', Math.min(+$('spk').getAttribute('opacity'), fOp).toFixed(2));
+    $('ss').setAttribute('opacity', sOp.toFixed(2)); $('ss').setAttribute('transform', `translate(0 -40) scale(${(0.7 + 0.3 * backOut(sOp)).toFixed(3)}) translate(0 40)`);
+    const arm = 1 - clamp((t - 8100) / 500); $('armL').parentNode; $('armL').setAttribute('opacity', arm.toFixed(2)); $('armR').setAttribute('opacity', arm.toFixed(2));
+    const sh2 = clamp((t - 9500) / 700); $('shine').setAttribute('opacity', (sh2 > 0 && sh2 < 1 ? 0.55 : 0).toFixed(2)); $('shine').setAttribute('x', (-60 + sh2 * 130).toFixed(1));
+
+    // particles
+    shards.forEach((p, i) => { const s = clamp((t - 2250 * F - i * 40) / 1100), x = 30 + seed(i, 1) * 300, y = -20 + s * 520; p.setAttribute('transform', `translate(${x.toFixed(1)} ${y.toFixed(1)}) rotate(${(s * 360 * (seed(i, 2) + 0.5)).toFixed(0)})`); p.setAttribute('opacity', (s > 0 && s < 1 ? 0.8 * (1 - s * 0.5) : 0).toFixed(2)); });
+    const dk = clamp((t - 3600 * F) / 300) * clamp((5200 * F - t) / 400);
+    dust.forEach((p, i) => { const x = 20 + seed(i, 3) * 320 + Math.sin(t / 900 + i) * 12, y = 200 + seed(i, 4) * 300 - ((t / 40 + i * 20) % 120); p.setAttribute('transform', `translate(${x.toFixed(1)} ${y.toFixed(1)})`); p.setAttribute('opacity', (0.5 * dk * (0.4 + 0.6 * Math.abs(Math.sin(t / 500 + i)))).toFixed(2)); });
+    conf.forEach((p, i) => { const s = clamp((t - 8900) / 1500), a = (i / conf.length) * Math.PI * 2 + seed(i, 5), r = easeOut(s) * (110 + seed(i, 6) * 110), x = 180 + Math.cos(a) * r, y = 250 + Math.sin(a) * r + s * s * 70; p.setAttribute('transform', `translate(${x.toFixed(1)} ${y.toFixed(1)}) rotate(${(s * 540 * (seed(i, 7) + 0.4)).toFixed(0)})`); p.setAttribute('opacity', (s > 0 && s < 1 ? 1 - s * s : 0).toFixed(2)); });
+
+    // captions
+    const L = TEXT[lang], starts = [0, 2250 * F, 3600 * F, 5200 * F, 7000 * F];
+    let lines = null, a = 0;
+    if (t < 7900) { lines = L.caps[bi]; const end = bi < 4 ? starts[bi + 1] : 7900; a = Math.min(clamp((t - starts[bi]) / 250), clamp((end - t) / 250)); }
+    const key = (lines || []).join('|'); if (key !== lastCap) { $('cap1').textContent = lines ? lines[0] : ''; $('cap2').textContent = lines ? lines[1] : ''; lastCap = key; }
+    $('cap1').setAttribute('opacity', a.toFixed(2)); $('cap2').setAttribute('opacity', a.toFixed(2));
+
+    // logo text
+    $('logoText').setAttribute('opacity', 1);
+    const wa = easeOut(clamp((t - 9400) / 450)); $('word').setAttribute('opacity', wa.toFixed(2)); $('word').setAttribute('transform', `translate(0 ${(12 * (1 - wa)).toFixed(1)})`);
+    const g1 = graphemes(L.tag[0]), g2 = graphemes(L.tag[1]);
+    const n = Math.floor(clamp((t - 9800) / 1500) * (g1.length + g2.length));
+    $('tag1').textContent = g1.slice(0, n).join(''); $('tag2').textContent = g2.slice(0, Math.max(0, n - g1.length)).join('');
+    const ea = easeOut(clamp((t - 11000) / 450)); $('end1').textContent = L.end[0]; $('end2').textContent = L.end[1]; $('end1').setAttribute('opacity', ea.toFixed(2)); $('end2').setAttribute('opacity', ea.toFixed(2));
+    $('scrub').value = t; const pc = (t / TOTAL) * 100; $('fill').style.width = pc + '%'; $('knob').style.left = pc + '%';
+  }
+
+  let t = 0, playing = true, last = 0;
+  const reduced = window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches;
+  function frame(now) { if (playing) { t += now - last; if (t >= TOTAL) { t = TOTAL; playing = false; syncBtn(); } render(t); } last = now; requestAnimationFrame(frame); }
+  const PLAY_IC = 'M8 5v14l11-7z', PAUSE_IC = 'M6 5h4v14H6zM14 5h4v14h-4z';
+  function syncBtn() { const L = TEXT[lang]; $('playIc').firstElementChild.setAttribute('d', playing ? PAUSE_IC : PLAY_IC); $('play').setAttribute('aria-label', playing ? L.pause : L.play); $('replay').setAttribute('aria-label', L.replay); }
+  function setLang(l) { lang = l; const L = TEXT[l]; $('foot').textContent = L.foot; $('entry').textContent = L.entry; $('portL').textContent = L.port; document.documentElement.lang = l; lastCap = ''; ['en', 'hi'].forEach((k) => { $(k).classList.toggle('on', l === k); $(k).setAttribute('aria-pressed', l === k); }); syncBtn(); render(t); }
+  $('play').onclick = () => { if (t >= TOTAL) t = 0; playing = !playing; syncBtn(); };
+  $('replay').onclick = () => { t = 0; playing = true; syncBtn(); };
+  $('scrub').oninput = (e) => { playing = false; t = +e.target.value; syncBtn(); render(t); };
+  $('en').onclick = () => setLang('en'); $('hi').onclick = () => setLang('hi');
+  window.__seek = (ms) => { playing = false; t = ms; syncBtn(); render(t); };
+  if (reduced) { playing = false; t = TOTAL; }
+  setLang('en'); requestAnimationFrame((n) => { last = n; frame(n); });
+})();
+</script>
+</body>
+</html>

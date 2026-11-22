@@ -16,7 +16,7 @@ import { UserContext } from '../context/UserContext';
 import { t } from '../utils/i18n';
 import marketService from '../services/marketService';
 import AskAssistant from './AskAssistant';
-import NoiseToSignalSplash from './NoiseToSignalSplash';
+import InvestorJourneySplash from './InvestorJourneySplash';
 import { formatPrice, formatPercent, hasValue } from '../utils/formatPrice';
 
 const benchmarkKeys = [
@@ -136,7 +136,7 @@ const Layout = ({ children }) => {
 
   return (
     <div className="app-shell">
-      {splash && <NoiseToSignalSplash language={language} onDone={closeSplash} />}
+      {splash && <InvestorJourneySplash language={language} onDone={closeSplash} />}
       {/* Lets keyboard and screen-reader users jump past the menu */}
       <a
         href="#main-content"

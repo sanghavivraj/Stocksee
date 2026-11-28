@@ -1,4 +1,4 @@
-import { lazy, Suspense, useContext, useEffect, useState } from 'react';
+import { lazy, Suspense, useContext, useEffect, useRef, useState } from 'react';
 import { tr } from '../utils/uiStrings';
 import { Link } from 'react-router-dom';
 import {
@@ -55,11 +55,15 @@ const Dashboard = () => {
   const [selectedStock, setSelectedStock] = useState(null);
   const [briefOpen, setBriefOpen] = useState(false);
   const [overviewOpen, setOverviewOpen] = useState(false);
-  // First-time setup: decided once, when we know this browser has saved nothing yet (then it stays until finished)
-  const [showSetup, setShowSetup] = useState(null);
+  // First-time setup. It is there from the first paint (adding it later pushed the whole page down), then checked once:
+  // if the server already knows this visitor it is removed, otherwise it stays until finished.
+  const [showSetup, setShowSetup] = useState(() => !setupAlreadyDone());
+  const setupChecked = useRef(false);
   useEffect(() => {
-    if (showSetup === null && !watchlist.loading) setShowSetup(!visitor && !setupAlreadyDone());
-  }, [showSetup, watchlist.loading, visitor]);
+    if (setupChecked.current || watchlist.loading) return;
+    setupChecked.current = true;
+    if (visitor) setShowSetup(false);
+  }, [watchlist.loading, visitor]);
   const insights = useInsights(watchlist.symbols);
   const popular = usePopular(4);
   const daySummary = daySentence(insights.items, language);

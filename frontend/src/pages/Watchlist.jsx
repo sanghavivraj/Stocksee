@@ -349,7 +349,7 @@ const Watchlist = () => {
                     <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline', marginBottom: '1.25rem' }}>
                       <div style={{ fontSize: '1.35rem', fontWeight: 800, fontFamily: 'var(--font-mono)' }}>
                         {hasPrice ? formatPrice(price, quote?.currency) : 'Unavailable'}
-                        {hasPrice && quote?.unit && <small style={{ fontSize: '0.7rem', fontWeight: 600, color: 'var(--fg-text-muted)', marginLeft: '4px' }}>{quote.unit}</small>}
+                        {hasPrice && quote?.unit && <small style={{ fontSize: '0.75rem', fontWeight: 600, color: 'var(--fg-text-muted)', marginLeft: '4px' }}>{quote.unit}</small>}
                       </div>
 
                       {hasValue(changePercent) && (() => {

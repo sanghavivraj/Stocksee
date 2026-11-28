@@ -93,6 +93,8 @@ const FirstTimeSetup = ({ onClose }) => {
 
       <p className="setup-step">{T.s2(picked.length)}</p>
       <div className="setup-chips" role="group" aria-label={T.s2(picked.length)}>
+        {/* Empty places of the same size while the list loads, so nothing below jumps */}
+        {popular.loading && Array.from({ length: 10 }, (_, i) => <span key={i} className="setup-chip setup-chip-wait" aria-hidden="true">RELIANCE</span>)}
         {popular.items.map(({ symbol: sym, name }) => {
           const on = picked.includes(sym);
           return (
@@ -102,7 +104,7 @@ const FirstTimeSetup = ({ onClose }) => {
           );
         })}
       </div>
-      <p className="briefing-muted">{popular.items.length ? T.popularNote : (popular.loading ? '…' : T.noSuggestions)}</p>
+      <p className="briefing-muted">{popular.items.length || popular.loading ? T.popularNote : T.noSuggestions}</p>
 
       <p className="setup-step">{T.s3}</p>
       <p className="briefing-muted">{T.s3text} <Link to="/settings" onClick={markSetupDone}>{T.s3btn}</Link></p>

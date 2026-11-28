@@ -33,7 +33,7 @@ const StockScorecard = ({ scorecard }) => {
       {/* Header */}
       <div style={{ display: 'flex', justifyContent: 'space-between', gap: '12px', flexWrap: 'wrap', marginBottom: '1rem' }}>
         <div>
-          <div style={{ display: 'flex', alignItems: 'center', gap: '6px', fontSize: '0.72rem', fontWeight: 700, letterSpacing: '0.05em', color: 'var(--fg-text-muted)' }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '6px', fontSize: '0.75rem', fontWeight: 700, letterSpacing: '0.05em', color: 'var(--fg-text-muted)' }}>
             <BarChart2 size={13} /> PRICE SNAPSHOT
           </div>
           <div style={{ fontWeight: 700, fontSize: '1.05rem', marginTop: '4px' }}>{instrumentName}</div>
@@ -43,8 +43,8 @@ const StockScorecard = ({ scorecard }) => {
         </div>
         <div style={{ textAlign: 'right' }}>
           <div className="mono-number" style={{ fontWeight: 800, fontSize: '1.25rem' }}>{formatPrice(currentPrice, currency)}</div>
-          {unit && <div style={{ fontSize: '0.74rem', color: 'var(--fg-text-muted)' }}>{unit}</div>}
-          {stale && <div style={{ fontSize: '0.72rem', color: 'var(--fg-negative)' }}>Last known price — may be outdated</div>}
+          {unit && <div style={{ fontSize: '0.75rem', color: 'var(--fg-text-muted)' }}>{unit}</div>}
+          {stale && <div style={{ fontSize: '0.75rem', color: 'var(--fg-negative)' }}>Last known price — may be outdated</div>}
         </div>
       </div>
 
@@ -52,7 +52,7 @@ const StockScorecard = ({ scorecard }) => {
       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '8px', marginBottom: '1rem' }}>
         {rows.map((r) => (
           <div key={r.label} style={{ border: '1px solid var(--fg-border)', borderRadius: '8px', padding: '8px 10px' }}>
-            <div style={{ fontSize: '0.72rem', color: 'var(--fg-text-muted)' }}>{r.label}</div>
+            <div style={{ fontSize: '0.75rem', color: 'var(--fg-text-muted)' }}>{r.label}</div>
             <div className="mono-number" style={{ fontWeight: 700, color: tone(r.value) }}>{formatPercent(r.value)}</div>
           </div>
         ))}

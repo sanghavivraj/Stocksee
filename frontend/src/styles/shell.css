@@ -1,0 +1,103 @@
+/* ============================================================ */
+/* Design v3: header, menu, ticker, bottom bar and page motion.  */
+/* Everything reads the colour tokens, so light, dark and the five accent colours all work. */
+/* ============================================================ */
+
+/* ---- Header ---- */
+.top-navbar { background-color: color-mix(in srgb, var(--fg-surface) 90%, transparent); -webkit-backdrop-filter: blur(12px); backdrop-filter: blur(12px); border-bottom: 1px solid var(--fg-border); }
+.brand-stamp { position: relative; border-radius: 12px; background-color: var(--fg-accent); color: var(--fg-accent-btn-text); box-shadow: var(--shadow-md); transition: transform 0.25s cubic-bezier(0.2, 0.7, 0.2, 1); }
+.navbar-brand-wrap:hover .brand-stamp, .navbar-brand-wrap:focus-visible .brand-stamp { transform: rotate(-5deg) scale(1.08); }
+.brand-title { color: var(--fg-text); }
+.brand-subtitle { color: var(--fg-text-muted); }
+
+/* ---- Menu: a pill with the page you are on filled in ---- */
+.desktop-navbar-links { flex: 0 1 auto; margin: 0 auto; gap: 2px; padding: 4px; border: 1px solid var(--fg-border); border-radius: 999px; background: var(--fg-surface-muted); }
+.desktop-nav-item { border-radius: 999px; color: var(--fg-text-secondary); font-weight: 600; transition: background-color 0.2s, color 0.2s, transform 0.2s; }
+.desktop-nav-item:hover { background-color: var(--fg-surface); color: var(--fg-text); }
+.desktop-nav-item.active { background-color: var(--fg-accent); color: var(--fg-accent-btn-text); }
+.desktop-nav-item:active { transform: scale(0.97); }
+
+/* ---- Language and theme ---- */
+.lang-button-group { border: 1px solid var(--fg-border); border-radius: 999px; background-color: var(--fg-surface-muted); }
+.lang-btn { border-radius: 999px; color: var(--fg-text-secondary); }
+.lang-btn:hover { color: var(--fg-text); }
+.lang-btn.active { background-color: var(--fg-accent); color: var(--fg-accent-btn-text); box-shadow: none; }
+.theme-toggle-btn { border-radius: 50%; background-color: var(--fg-surface-muted); border: 1px solid var(--fg-border); color: var(--fg-text); }
+.theme-toggle-btn:hover { background-color: var(--fg-surface-raised); color: var(--fg-text); border-color: var(--fg-accent); }
+
+/* ---- Ticker ---- */
+.market-pulse-ribbon { background-color: var(--fg-surface); border-bottom: 1px solid var(--fg-border); scrollbar-color: var(--fg-border) transparent; }
+.market-pulse-ribbon::-webkit-scrollbar-track { background: transparent; }
+.pulse-header, .pulse-loading-text, .pulse-symbol { color: var(--fg-text-muted); }
+.pulse-price { color: var(--fg-text); }
+.pulse-dot { background-color: var(--fg-positive); box-shadow: 0 0 0 0 color-mix(in srgb, var(--fg-positive) 50%, transparent); animation: ssPulse 2s ease-out infinite; }
+@keyframes ssPulse { 70% { box-shadow: 0 0 0 7px transparent; } 100% { box-shadow: 0 0 0 0 transparent; } }
+.pulse-change { border-radius: 999px; padding: 1px 8px; }
+.pulse-change.up { color: var(--fg-positive); background-color: var(--fg-positive-bg); }
+.pulse-change.down { color: var(--fg-negative); background-color: var(--fg-negative-bg); }
+
+/* ---- Bottom bar on phones ---- */
+.mobile-bottom-nav { background-color: color-mix(in srgb, var(--fg-surface) 94%, transparent); -webkit-backdrop-filter: blur(14px); backdrop-filter: blur(14px); border-top: 1px solid var(--fg-border); box-shadow: 0 -8px 24px rgba(15, 17, 21, 0.08); }
+.mobile-nav-tab { position: relative; color: var(--fg-text-muted); }
+.mobile-nav-tab.active { color: var(--fg-accent-text); }
+.mobile-nav-tab.active::after { content: ''; position: absolute; top: 0; left: 28%; right: 28%; height: 3px; border-radius: 0 0 4px 4px; background: var(--fg-accent); }
+
+/* ---- One clear keyboard focus ring everywhere ---- */
+:focus-visible { outline: 2px solid var(--fg-accent); outline-offset: 2px; }
+
+/* ---- Cards and rows lift a little when you point at them ---- */
+.market-overview-row, .yst-row, .editorial-stock-card, .settings-card { transition: background-color 0.2s, border-color 0.2s, box-shadow 0.2s, transform 0.2s; }
+@media (hover: hover) {
+  .yst-row:hover, .editorial-stock-card:hover { box-shadow: var(--shadow-md); transform: translateY(-1px); }
+  .market-overview-row:hover { background-color: var(--fg-surface-muted); }
+}
+
+/* ---- Changing page: the old page fades up and away, the new one rises into place (see App.jsx) ---- */
+.page-view { transition: opacity 0.22s ease, transform 0.22s ease; }
+.page-view.is-leaving { opacity: 0; transform: translateY(-10px); pointer-events: none; }
+/* "backwards" only: nothing stays transformed afterwards, so pop-up windows inside a page still cover the whole screen */
+.page-view > * { animation: ssPageIn 0.35s cubic-bezier(0.2, 0.7, 0.2, 1) backwards; }
+@keyframes ssPageIn { from { opacity: 0; transform: translateY(16px); } to { opacity: 1; transform: none; } }
+
+/* ---- Loading shimmer ---- */
+.skeleton { background: linear-gradient(90deg, var(--fg-surface-muted) 25%, color-mix(in srgb, var(--fg-surface-muted) 55%, var(--fg-bg)) 50%, var(--fg-surface-muted) 75%); background-size: 200% 100%; animation: ssShimmer 1.2s linear infinite; }
+@keyframes ssShimmer { to { background-position: -200% 0; } }
+
+@media (prefers-reduced-motion: reduce) {
+  .page-view > *, .skeleton, .pulse-dot { animation: none !important; }
+  .page-view { transition: none; }
+  .brand-stamp, .desktop-nav-item, .yst-row, .editorial-stock-card { transition: none !important; }
+}
+
+/* ---- Settings: choose the accent colour ---- */
+.accent-picker { margin-top: 1.25rem; padding-top: 1.1rem; border-top: 1px solid var(--fg-border); }
+.accent-title { margin: 0 0 0.2rem; font-weight: 700; color: var(--fg-text); }
+.accent-note { margin: 0 0 0.75rem; font-size: 0.875rem; color: var(--fg-text-secondary); max-width: 60ch; }
+.accent-swatches { display: flex; flex-wrap: wrap; gap: 8px; }
+.accent-swatch { display: inline-flex; align-items: center; gap: 8px; min-height: 44px; padding: 0 16px 0 10px; border-radius: 999px; border: 2px solid var(--fg-border); background: var(--fg-surface); color: var(--fg-text); font: inherit; font-weight: 600; font-size: 0.875rem; cursor: pointer; transition: border-color 0.2s, transform 0.15s; }
+.accent-swatch:hover { border-color: var(--fg-text-muted); }
+.accent-swatch:active { transform: scale(0.97); }
+.accent-swatch.active { border-color: var(--fg-text); }
+.accent-dot { width: 24px; height: 24px; border-radius: 50%; box-shadow: 0 0 0 1px color-mix(in srgb, var(--fg-text) 30%, transparent); }
+
+/* ---- Headings: bold, tight and clean (the approved design) ---- */
+h1, h2, h3, .lead-headline, .flow-title { font-weight: 700; letter-spacing: -0.02em; }
+
+/* ---- Light / dark: the half-filled circle button ---- */
+.theme-toggle-btn, .theme-toggle-btn:hover { padding: 0; overflow: hidden; background-color: #000; border: 1px solid var(--fg-border); transition: transform 0.3s, border-color 0.3s; }
+.theme-toggle-btn:active { transform: scale(0.95); }
+.theme-icon { width: 100%; height: 100%; display: block; }
+.theme-icon-core, .theme-icon-ring { transform-origin: 120px 120px; transition: transform 0.5s ease-in-out; }
+.theme-icon.is-dark .theme-icon-core { transform: rotate(-180deg); }
+.theme-icon.is-dark .theme-icon-ring { transform: rotate(180deg); }
+
+/* ---- Light / dark: the new colours spread in a circle from the top-right corner (see utils/themeTransition.js) ---- */
+html.theme-reveal::view-transition-group(root) { animation-duration: 1s; }
+html.theme-reveal::view-transition-old(root) { animation: none; mix-blend-mode: normal; z-index: -1; }
+html.theme-reveal::view-transition-new(root) { animation: ssThemeReveal 1s ease both; mix-blend-mode: normal; }
+@keyframes ssThemeReveal { from { clip-path: circle(0% at 100% 0%); } to { clip-path: circle(150% at 100% 0%); } }
+@media (prefers-reduced-motion: reduce) { .theme-icon-core, .theme-icon-ring { transition: none; } }
+
+/* ---- The header and ticker are as wide as the page under them: no empty space on the left and right ---- */
+.navbar-container, .pulse-inner { max-width: none; padding-left: 1rem; padding-right: 1rem; }
+@media (min-width: 768px) { .navbar-container, .pulse-inner { padding-left: 1.5rem; padding-right: 1.5rem; } }

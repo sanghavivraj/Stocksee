@@ -7,6 +7,7 @@ import './index.css'
 import './styles/features.css'
 import './styles/samajh.css'
 import './styles/polish.css'
+import './styles/shell.css'
 
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>

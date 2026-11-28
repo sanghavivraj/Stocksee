@@ -9,6 +9,7 @@ import CardStory from './CardStory';
 import HypeCheck from './HypeCheck';
 import { hypeUi } from '../../samajh/analyse';
 import ui from '../../content/samajh/ui.json';
+import { canPlay3D } from '../../utils/webgl';
 
 const BLOCK_ORDER = ['explain', 'example', 'steps', 'positive', 'negative', 'wrong', 'influencers', 'takeaway'];
 /** Hype Check lives inside the cards it relates to, with only the claims about that card. */
@@ -16,12 +17,12 @@ const HYPE_FOR = { sip: ['sip-crore', 'double-25'], fd: ['fd-dead'], swp: ['swp-
 const CELL = { n: formatNum, inr: (v, lang) => formatInr(v, lang), d2: (v) => formatDec(v, 2) };
 
 /** One opened Money Card: level switch, the 8 teaching blocks, a chart, and "try it yourself" controls. */
-export default function MoneyCard({ card, lang, onClose, onOpenChecks }) {
+export default function MoneyCard({ card, lang, onClose, onOpenChecks, startStory = false }) {
   const T = ui[lang]?.cards || ui.en.cards;
   const other = lang === 'hi' ? 'en' : 'hi';
   const [level, setLevel] = useState('basic');
   const [inputs, setInputs] = useState(card.inputs);
-  const [storyOpen, setStoryOpen] = useState(false);
+  const [storyOpen, setStoryOpen] = useState(startStory);
   const S = ui[lang]?.story || ui.en.story;
 
   const calc = useMemo(() => computeCard(card.id, inputs, lang, formatInr), [card.id, inputs, lang]);
@@ -74,7 +75,7 @@ export default function MoneyCard({ card, lang, onClose, onOpenChecks }) {
 
       {card.methodNote && <p className="samajh-method" role="note"><Link2 size={14} aria-hidden="true" /> {pick(card.methodNote, lang)}</p>}
 
-      <button type="button" className="sstory-open" aria-expanded={storyOpen} onClick={() => setStoryOpen((v) => !v)}><Film size={16} aria-hidden="true" /> {storyOpen ? S.hide : S.watch}</button>
+      {!canPlay3D() && <button type="button" className="sstory-open" aria-expanded={storyOpen} onClick={() => setStoryOpen((v) => !v)}><Film size={16} aria-hidden="true" /> {storyOpen ? S.hide : S.watch}</button>}
       {storyOpen && <CardStory key={`${card.id}-${lang}`} card={card} lang={lang} />}
 
       <div className="samajh-levels" role="tablist" aria-label="Level">

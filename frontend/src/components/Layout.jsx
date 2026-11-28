@@ -1,4 +1,4 @@
-import { useState, useEffect, useContext, useCallback } from 'react';
+import { lazy, Suspense, useState, useEffect, useContext, useCallback } from 'react';
 import { tr } from '../utils/uiStrings';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import {
@@ -6,8 +6,6 @@ import {
   Eye,
   Bell,
   SlidersHorizontal,
-  Sun,
-  Moon,
   ShieldAlert,
   Radar,
   BookOpenCheck,
@@ -17,6 +15,12 @@ import { t } from '../utils/i18n';
 import marketService from '../services/marketService';
 import AskAssistant from './AskAssistant';
 import InvestorJourneySplash from './InvestorJourneySplash';
+import { canPlay3D } from '../utils/webgl';
+import Safe3D from './Safe3D';
+import ThemeIcon from './ThemeIcon';
+
+// The 3D opening film carries the 3D library, so it downloads only when it is going to play.
+const InvestorJourney3D = lazy(() => import('./InvestorJourney3D'));
 import { formatPrice, formatPercent, hasValue } from '../utils/formatPrice';
 
 const benchmarkKeys = [
@@ -136,7 +140,13 @@ const Layout = ({ children }) => {
 
   return (
     <div className="app-shell">
-      {splash && <InvestorJourneySplash language={language} onDone={closeSplash} />}
+      {splash && (canPlay3D()
+        ? (
+          <Safe3D fallback={<InvestorJourneySplash language={language} onDone={closeSplash} />}>
+            <Suspense fallback={<div className="jny is-in" aria-hidden="true" onPointerDown={closeSplash} />}><InvestorJourney3D language={language} onDone={closeSplash} /></Suspense>
+          </Safe3D>
+        )
+        : <InvestorJourneySplash language={language} onDone={closeSplash} />)}
       {/* Lets keyboard and screen-reader users jump past the menu */}
       <a
         href="#main-content"
@@ -149,7 +159,7 @@ const Layout = ({ children }) => {
       <header className="top-navbar">
         <div className="navbar-container">
           {/* Brand Logo & Stamp */}
-          <Link to="/" className="navbar-brand-wrap" aria-label="StockSee Home" onClick={onLogoClick}>
+          <Link to="/" className="navbar-brand-wrap" aria-label="StockSee Home. Press the SS symbol to play the story" onClick={onLogoClick}>
             <div className="brand-stamp">SS</div>
             <div className="brand-info">
               <span className="brand-title">StockSee</span>
@@ -225,7 +235,7 @@ const Layout = ({ children }) => {
               title={`Switch to ${theme === 'dark' ? 'Light' : 'Dark'} Mode`}
               aria-label="Toggle Theme"
             >
-              {theme === 'dark' ? <Sun size={15} /> : <Moon size={15} />}
+              <ThemeIcon dark={theme === 'dark'} />
             </button>
           </div>
         </div>

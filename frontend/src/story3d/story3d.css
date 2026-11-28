@@ -1,0 +1,61 @@
+/* ============================================================ */
+/* The 3D Money Card story. It keeps its own dark, cinematic look in both themes (it is a film, not a page). */
+/* ============================================================ */
+.s3-overlay { position: fixed; inset: 0; z-index: 400; overflow: auto; background: #050812; color: #fff; font-family: var(--font-sans); }
+.s3-wrap { max-width: 1040px; min-height: 100%; margin: 0 auto; padding: 12px; display: flex; flex-direction: column; gap: 12px; }
+.s3-head { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
+.s3-kicker { font-size: 0.75rem; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: #ffc83d; }
+.s3-title { margin: 0; font-size: 1.35rem; font-weight: 700; color: #fff; }
+.s3-close { width: 44px; height: 44px; display: grid; place-items: center; border-radius: 50%; border: 1px solid rgba(255, 255, 255, 0.22); background: transparent; color: #fff; cursor: pointer; }
+.s3-close:hover { background: rgba(255, 255, 255, 0.1); }
+.s3-stage { position: relative; width: 100%; aspect-ratio: 16 / 9; max-height: 58vh; overflow: hidden; border-radius: 16px; border: 1px solid rgba(255, 255, 255, 0.1); box-shadow: 0 24px 60px rgba(0, 0, 0, 0.5); }
+.s3-host { position: absolute; inset: 0; }
+.s3-hud { position: absolute; right: 12px; top: 12px; max-width: 62%; padding: 8px 14px; text-align: right; border-radius: 16px; background: rgba(0, 0, 0, 0.5); -webkit-backdrop-filter: blur(8px); backdrop-filter: blur(8px); pointer-events: none; }
+.s3-hud-label, .s3-hud-sub { font-size: 0.75rem; color: rgba(255, 255, 255, 0.72); }
+.s3-hud-big { font-size: 1.7rem; font-weight: 800; line-height: 1.15; font-variant-numeric: tabular-nums; }
+.s3-hud-sub b { color: #fff; }
+.s3-chips { position: absolute; right: 12px; bottom: 12px; max-width: 72%; display: flex; flex-wrap: wrap; justify-content: flex-end; gap: 8px; pointer-events: none; }
+.s3-chip { padding: 4px 12px; border-radius: 999px; background: rgba(0, 0, 0, 0.55); font-size: 0.75rem; -webkit-backdrop-filter: blur(8px); backdrop-filter: blur(8px); }
+.s3-chip span { color: rgba(255, 255, 255, 0.68); }
+.s3-end { position: absolute; left: 12px; right: 12px; bottom: 12px; display: grid; gap: 8px; list-style: none; margin: 0; padding: 0; }
+.s3-end li { padding: 8px 12px; border-radius: 12px; background: rgba(0, 0, 0, 0.58); font-size: 0.875rem; -webkit-backdrop-filter: blur(8px); backdrop-filter: blur(8px); }
+@media (min-width: 640px) { .s3-end { left: auto; max-width: 380px; } }
+.s3-line { margin: 0; padding: 12px 16px; border-radius: 16px; border: 1px solid rgba(255, 255, 255, 0.14); background: rgba(255, 255, 255, 0.05); font-size: 0.95rem; line-height: 1.55; color: #fff; }
+.s3-panel { padding: 16px; border-radius: 16px; border: 1px solid rgba(255, 255, 255, 0.1); background: rgba(255, 255, 255, 0.03); color: rgba(255, 255, 255, 0.85); font-size: 0.875rem; }
+.s3-hidden { display: none; }
+.s3-grid { display: grid; gap: 16px; }
+@media (min-width: 640px) { .s3-grid { grid-template-columns: 1fr 1fr; } }
+.s3-slider { display: block; }
+.s3-slider input { display: block; width: 100%; height: 44px; margin-top: 4px; cursor: pointer; accent-color: #ffc83d; }
+.s3-slider b { color: #fff; }
+.s3-choices { border: 0; padding: 0; margin: 0; }
+.s3-choices legend { padding: 0; margin-bottom: 4px; }
+.s3-row { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; }
+.s3-btn { display: inline-flex; align-items: center; justify-content: center; gap: 8px; min-height: 44px; padding: 0 20px; border-radius: 999px; font: inherit; font-size: 0.875rem; font-weight: 700; cursor: pointer; border: 1px solid transparent; background: #ffc83d; color: #2b1a00; }
+.s3-btn:hover { background: #ffd866; }
+.s3-btn.ghost { background: transparent; border-color: rgba(255, 255, 255, 0.22); color: #fff; }
+.s3-btn.ghost:hover { background: rgba(255, 255, 255, 0.1); }
+.s3-ticks { display: flex; gap: 4px; }
+.s3-ticks i { height: 6px; width: 12px; border-radius: 999px; background: rgba(255, 255, 255, 0.2); }
+.s3-ticks i.on { background: #ffc83d; }
+.s3-input { flex: 1; min-height: 44px; padding: 0 16px; border-radius: 999px; border: 1px solid rgba(255, 255, 255, 0.22); background: rgba(255, 255, 255, 0.06); color: #fff; font: inherit; }
+.s3-input:focus { outline: none; border-color: #ffc83d; }
+.s3-list { list-style: none; margin: 0; padding: 0; display: grid; gap: 4px; }
+.s3-list button { width: 100%; min-height: 44px; padding: 0 12px; text-align: left; border: 0; border-radius: 12px; background: transparent; color: #fff; font: inherit; cursor: pointer; }
+.s3-list button:hover:not(:disabled) { background: rgba(255, 255, 255, 0.1); }
+.s3-list button:disabled { opacity: 0.4; cursor: not-allowed; }
+.s3-note, .s3-fine { font-size: 0.75rem; color: rgba(255, 255, 255, 0.55); margin: 0; }
+.s3-facts { display: grid; gap: 6px; margin: 8px 0; }
+.s3-facts p { margin: 0; }
+.s3-facts b { color: #fff; }
+.s3-bar { margin-top: auto; display: flex; flex-wrap: wrap; align-items: center; gap: 8px; padding: 8px; border-radius: 24px; border: 1px solid rgba(255, 255, 255, 0.1); background: rgba(255, 255, 255, 0.06); }
+.s3-play { width: 48px; height: 48px; display: grid; place-items: center; border-radius: 50%; border: 0; background: #ffc83d; color: #2b1a00; cursor: pointer; box-shadow: 0 6px 18px rgba(0, 0, 0, 0.35); }
+.s3-play:hover { background: #ffd866; }
+.s3-progress { position: relative; flex: 1; min-width: 96px; height: 44px; cursor: pointer; }
+.s3-progress::before { content: ''; position: absolute; left: 0; right: 0; top: 50%; height: 6px; transform: translateY(-50%); border-radius: 999px; background: rgba(255, 255, 255, 0.2); }
+.s3-progress-fill { position: absolute; left: 0; top: 50%; height: 6px; transform: translateY(-50%); border-radius: 999px; background: #ffc83d; transition: width 80ms linear; }
+.s3-music { display: flex; align-items: center; gap: 4px; font-size: 0.875rem; color: rgba(255, 255, 255, 0.72); }
+.s3-music button { min-height: 40px; padding: 0 12px; border: 0; border-radius: 999px; background: transparent; color: inherit; font: inherit; font-weight: 600; cursor: pointer; }
+.s3-music button:hover { background: rgba(255, 255, 255, 0.1); }
+.s3-music button[aria-pressed='true'] { background: rgba(255, 255, 255, 0.2); color: #fff; }
+.s3-overlay :focus-visible { outline: 2px solid #ffc83d; outline-offset: 2px; }

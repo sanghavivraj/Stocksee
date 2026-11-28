@@ -68,6 +68,7 @@
 /* ---- Dark theme details that need more than the colour tokens ---- */
 [data-theme='dark'] .samajh-block-takeaway { background: var(--fg-surface-raised); border: 1px solid var(--fg-accent); }
 [data-theme='dark'] .samajh-block-takeaway p { color: var(--fg-text); }
+[data-theme='dark'] .samajh-block-takeaway h5 { color: var(--fg-accent-text); }
 
 /* ---- Header: the menu fits next to the logo on laptop-sized screens ---- */
 @media (min-width: 768px) and (max-width: 1499px) {
@@ -98,9 +99,22 @@ small { font-size: 0.75rem; }
 .desktop-nav-item { min-height: 40px; }
 
 /* Skip link: hidden until a keyboard user tabs to it */
-.skip-link { position: fixed; left: 12px; top: -80px; z-index: 10000; display: inline-flex; align-items: center; min-height: 40px; padding: 0 16px; border-radius: 8px; background: var(--fg-accent); color: #2E1A47; font-weight: 700; text-decoration: none; }
+.skip-link { position: fixed; left: 12px; top: -80px; z-index: 10000; display: inline-flex; align-items: center; min-height: 40px; padding: 0 16px; border-radius: 8px; background: var(--fg-accent); color: var(--fg-accent-btn-text); font-weight: 700; text-decoration: none; }
 .skip-link:focus { top: 12px; }
 .main-content:focus { outline: none; }
 
 /* Close buttons are easy to hit on a phone */
 .detail-close-btn, .assistant-close-btn { min-width: 40px; min-height: 40px; display: inline-flex; align-items: center; justify-content: center; }
+
+/* Design v3: every button is at least 40px tall */
+.floating-assistant-btn { min-height: 44px; }
+.checkfirst-btn { min-height: 40px; }
+
+/* Opened windows (stock window, assistant, Money Card, "Check first"): every control is at least 40px tall */
+.samajh-close, .samajh-checks-mini { min-width: 40px; min-height: 40px; }
+.samajh-level, .checkfirst-chip { min-height: 40px; }
+.timeframe-btn { min-width: 40px; min-height: 40px; }
+.assistant-preset-btn { min-height: 40px; }
+.assistant-send-btn { min-width: 40px; min-height: 40px; }
+/* the chart library's own credit link (required by its licence): easier to tap */
+#tv-attr-logo { display: flex; align-items: flex-end; min-width: 40px; min-height: 40px; }

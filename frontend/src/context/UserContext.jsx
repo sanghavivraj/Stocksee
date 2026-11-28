@@ -1,6 +1,9 @@
 import { createContext, useState, useEffect, useCallback, useMemo, useRef } from 'react';
+import { flushSync } from 'react-dom';
+import { revealTheme } from '../utils/themeTransition';
 import visitorService from '../services/visitorService';
 import { detectLanguage, browserLanguages } from '../utils/detectLanguage';
+import { safePalette } from '../utils/palettes';
 
 /**
  * App-wide state for "this browser". There are no accounts: the server recognises the browser by an
@@ -17,6 +20,7 @@ const UserProvider = ({ children }) => {
   const [visitor, setVisitor] = useState(null); // null until this browser has saved something
   const [loading, setLoading] = useState(true);
   const [theme, setTheme] = useState(() => storage.get('stocksee_theme') || 'light');
+  const [palette, setPaletteState] = useState(() => safePalette(storage.get('stocksee_palette')));
   const [language, setLanguage] = useState(() => storage.get('stocksee_lang') || detectLanguage(browserLanguages()));
   const [toasts, setToasts] = useState([]);
   const toastId = useRef(0);
@@ -32,6 +36,13 @@ const UserProvider = ({ children }) => {
     document.documentElement.setAttribute('data-theme', theme);
     storage.set('stocksee_theme', theme);
   }, [theme]);
+
+  // The accent colour: stored, and set on the page so every colour in the app follows it
+  useEffect(() => {
+    document.documentElement.setAttribute('data-palette', palette);
+    storage.set('stocksee_palette', palette);
+  }, [palette]);
+  const setPalette = useCallback((id) => setPaletteState(safePalette(id)), []);
 
   const dismissToast = useCallback((id) => setToasts((prev) => prev.filter((t) => t.id !== id)), []);
 
@@ -77,12 +88,22 @@ const UserProvider = ({ children }) => {
     }
   }, [visitor, addToast]);
 
-  const toggleTheme = useCallback(() => setTheme((prev) => (prev === 'light' ? 'dark' : 'light')), []);
+  const themeRef = useRef(theme);
+  themeRef.current = theme;
+  const toggleTheme = useCallback(() => {
+    const next = themeRef.current === 'light' ? 'dark' : 'light';
+    themeRef.current = next;
+    // the page must be repainted inside the call, so the circle can reveal the new colours
+    revealTheme(() => {
+      document.documentElement.setAttribute('data-theme', next);
+      flushSync(() => setTheme(next));
+    });
+  }, []);
 
   const value = useMemo(() => ({
     visitor, loading, refreshVisitor,
-    theme, toggleTheme, language, updateUserLanguage, addToast,
-  }), [visitor, loading, refreshVisitor, theme, toggleTheme, language, updateUserLanguage, addToast]);
+    theme, toggleTheme, palette, setPalette, language, updateUserLanguage, addToast,
+  }), [visitor, loading, refreshVisitor, theme, toggleTheme, palette, setPalette, language, updateUserLanguage, addToast]);
 
   return (
     <UserContext.Provider value={value}>

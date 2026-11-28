@@ -2,7 +2,7 @@
 
 ## Overview
 
-StockSee is a mobile-first financial companion for Indian retail investors that turns market noise around Gold, Crude, Stocks, and relevant Indian market context into simple, personalized, native-language insights.
+StockSee is a web app: a watch-only financial companion for Indian retail investors that turns market noise around Gold, Crude, Stocks, and relevant Indian market context into simple, personalized, native-language insights. It is not deployed yet: today it runs on a development computer.
 
 ## Architecture
 
@@ -11,7 +11,7 @@ StockSee is a mobile-first financial companion for Indian retail investors that 
 | Runtime | Node.js 18.17+ |
 | Backend | Express 4, zod validation, central error middleware, express-rate-limit |
 | Database | PostgreSQL via Prisma (committed migrations) |
-| Frontend | React 18, Vite, React Router, lightweight-charts |
+| Frontend | React 18, Vite, React Router, lightweight-charts, three.js (3D stories, loaded when needed) |
 | Telegram | Telegraf |
 | AI | Google Gemini, Groq fallback, then verified templates |
 | Market data | yahoo-finance2 + Yahoo chart API (development) |
@@ -43,26 +43,30 @@ docs/screenshots/        images used below
 - **Music that follows the story, made live in the browser.** No audio files: real chords (pad, bass, arpeggio, bell). Bright and quick for good moments, soft and slow (minor) for falls, then it lifts again. Starts on Calm, one tap to silence. Coin, cheer and thunder sounds on top.
 - **Real fund history, not made-up charts.** The SIP and Mutual funds stories can run a real SIP on a real fund's AMFI NAV history (XIRR, biggest fall and recovery), and say "unavailable" when the data is not there. No fallback numbers.
 - **Facts, not tips.** No buy or sell calls, no targets, no direction predictions. Examples are labelled as made-up; history is never shown as a promise.
+- **A fast, steady dashboard.** The first-time setup card is on the page from the start so nothing jumps, and fonts load without holding back the first view.
 - **A simple page.** Samajh is only the 8 Money Cards. Hype Check and the guides live inside the card they belong to, so nothing is confusing.
-- **Built for a phone and for night.** Night theme, text of at least 12 px, tap targets of at least 40 px, English and Hindi, measured and fixed at 390 px width.
+- **A look of its own, in light and dark.** A calm neutral canvas, one accent colour the visitor picks (sky blue, sunshine, rose, teal, or black and white; Settings), and market moves that are always green for a rise and red for a fall, with an arrow and a sign as well so colour is never the only signal. Gains and falls never change with the accent. Switching light / dark spreads the new colours in a circle from the top-right corner while the half-filled circle button turns (browsers without this, and people who asked for less motion, switch at once). Every colour comes from tokens in `frontend/src/index.css`, so light, dark and the five accents all work everywhere.
+- **Smooth page changes.** The old page fades up and away and the new one rises into place from the top (`frontend/src/hooks/usePageSwitch.js`); people who asked for less motion get an instant change. The header and ticker are as wide as the page.
+- **3D stories and a 3D opening film.** The Money Card stories and the opening film are real 3D scenes (three.js) that play by themselves from one start: pressing a card's symbol, or the SS logo, is the only thing to press. One yellow line shows the time like a video bar. People whose device cannot draw 3D, or who asked for less motion, get the calm 2D version instead.
+- **Readable in both themes.** Text of at least 12 px, tap targets of at least 40 px, contrast of at least 4.5 : 1, English and Hindi, checked in a real browser at 390 px and 1280 px width in light and dark (every page with the default accent, the main pages with the other four).
 - **Watch-only and anonymous.** No sign-up, no holdings, no buying or selling.
 
 ## Screenshots
 
 | | |
 |---|---|
-| ![Dashboard with the live market brief](docs/screenshots/dashboard.png) | ![Stock search with highlighted matches and keyboard selection](docs/screenshots/stock-search.png) |
-| Dashboard: live brief; gold and crude converted to rupees | Typeahead search: highlighted matches, keyboard selection |
-| ![Tip Check on a single stock](docs/screenshots/tip-check.png) | ![Watchlist showing gold in rupees per 10 g](docs/screenshots/watchlist-gold-inr.png) |
-| Tip Check: warning signs from real market data | Watchlist: gold in ₹ per 10 g (international price, converted) |
-| ![Intro animation: scan line clearing the noise](docs/screenshots/intro-scan.png) | ![Intro animation tagline in Hindi](docs/screenshots/intro-hindi.png) |
-| Intro: a scan line clears the noise | Intro: tagline in Hindi |
-| ![Samajh home: the eight Money Cards](docs/screenshots/samajh-home.png) | ![A Money Card: a real-life story and the step-by-step maths with a chart](docs/screenshots/samajh-fd-card.png) |
-| Samajh: money education with no tips, only understanding | Money Card (Fixed Deposit): a real-life story, then the numbers step by step |
-| ![Check before you act: what to check first, and why](docs/screenshots/samajh-check-first.png) | ![Hype Check: the maths behind a viral claim](docs/screenshots/samajh-hype-check.png) |
-| "Check first": what to check before acting, and why, with a real-life story | Hype Check: a claim like "₹5,000 SIP = ₹1 crore" tested with an adjustable calculator |
-| ![SWP story: the jar drains, Meera is worried](docs/screenshots/samajh-story.png) | ![Real fund history: real NAVs, a real SIP and the biggest fall highlighted](docs/screenshots/samajh-real-history.png) |
-| **A story inside every card** (SWP: the pot drains over the years; Meera's face, body and glow follow the numbers) | **Real fund history** (inside the SIP and Mutual funds stories): what a monthly SIP actually did, from real AMFI NAVs |
+| ![Dashboard](docs/screenshots/dashboard.png) | ![Stock search with highlighted matches](docs/screenshots/stock-search.png) |
+| Dashboard: your stocks today and the next trading day | Typeahead search: highlighted matches, keyboard selection |
+| ![Tip Check result](docs/screenshots/tip-check.png) | ![Market overview with gold and crude in rupees](docs/screenshots/watchlist-gold-inr.png) |
+| Tip Check: warning signs, with the promise compared to real prices | Gold and crude in rupees (international prices, converted) |
+| ![3D opening film: calm while the market is down](docs/screenshots/intro-fall.png) | ![3D opening film: the StockSee logo](docs/screenshots/intro-logo.png) |
+| Opening film: pause and look at what you own | Opening film: the logo and tagline |
+| ![Samajh home: the eight Money Cards](docs/screenshots/samajh-home.png) | ![An open Fixed Deposit card with a chart](docs/screenshots/samajh-fd-card.png) |
+| Samajh: money education with no tips | Money Card (Fixed Deposit): a real-life story, then the numbers step by step |
+| ![Check before you act](docs/screenshots/samajh-check-first.png) | ![Hype Check: the maths behind a claim](docs/screenshots/samajh-hype-check.png) |
+| "Check first": what to check before acting, and why | Hype Check: a viral claim tested with an adjustable calculator |
+| ![3D story of the SWP card](docs/screenshots/samajh-story.png) | |
+| A 3D story inside every card (here SWP) | |
 
 ## Setup
 
@@ -138,11 +142,11 @@ tip-check, backtest and every route that saves data.
     (one tap on *Off* silences it), happy / proud / amazed moods turn it brighter and quicker, and worried turns it soft and minor, slower and quieter,
     then it lifts again as soon as the mood improves. There are also coin, cheer and thunder sounds. ETF and gold now have 4 scenes each (ETF: the gap between buy and sell
     price; gold: the same gold as jewellery and as an ETF). Words for the opening and ending are in `frontend/src/content/samajh/storyFrames.json`.
-  - **A different animated story inside every card** (the *Watch the story* button): a guide called Meera takes you through 3 to 5 scenes
-    about *that card's* topic, and in each scene you do something: press Play, tap, or drag a slider.
+  - **A different 3D story inside every card** (press the card's symbol): a guide called Meera tells one continuous story about
+    *that card's* topic. It plays by itself from the first moment (nothing to press); touching anything pauses it so you can explore with the sliders and buttons.
     FD: lend to the bank and watch the years, the tax bite, prices rising (a shrinking basket), how much deposit insurance covers.
     SIP: set it and forget it, tap to practice-buy units (average cost drops below average price), time and growth, a what-if fall with three
-    paths, then real fund history. SWP: watch the pot drain over the years, change the earnings, change the withdrawal.
+    paths, then real fund history. SWP is told as one film: meet the pot, the monthly income leaves it coin by coin, the key idea (she takes more than the pot earns), the years pass, a smaller salary, and what if earnings change. All its numbers come from the app's own SWP maths (`frontend/src/story3d/swpStory.ts` is covered by tests).
     Stocks: a tiny slice of a business, the price moves, how far it must rise to get back, dividends are not promised.
     Mutual funds: the cost leak, can the costlier fund catch up, real fund history. ETF: price vs NAV, buying and selling costs, if the index moves.
     Gold: what you pay for (gold + making + GST), getting back what you paid, jewellery vs gold ETF. PPF: year by year, if the rate changes, what it can buy.
@@ -187,14 +191,14 @@ tip-check, backtest and every route that saves data.
 - **Gold, silver and crude in rupees**: these are international USD futures, so they are converted at the live USD/INR
   rate (gold per 10 g, silver per kg, crude per barrel) and labelled as converted. They are **not** MCX or jeweller prices
   (import duty, GST and premiums differ). If the exchange rate is unavailable the original USD price is shown.
-- **Intro animation, "The Investor's Journey"** (about 12 seconds): the gold SS logo tile is the character. It enters the market excited, gets
+- **Intro film, "The Investor's Journey"** (about 12 seconds, in 3D; pressing the SS logo plays it again, and the 2D version is the fallback): the gold SS logo tile is the character. It enters the market excited, gets
   scared when the market falls (the camera zooms and shakes, the screen turns red), closes its eyes and stays calm and patient while time
   passes (a sun rises), grows confident, then its face blinks away and it becomes the StockSee logo, and the tagline types out.
   The message is "Markets fluctuate. Understand what you own. Think long term." It says on screen that the chart is an illustration and that
   patience does not guarantee profit. Every mood change moves the eyes, mouth, body, glow and chart together.
   Plays once per session and on logo click; skip with a tap, click or any key; respects reduced-motion (one still frame); follows the
   language switcher (English and Hindi captions; Gujarati shows the Gujarati tagline with English captions until a native reader has
-  checked Gujarati captions). It is one SVG animated by code (`frontend/src/components/journey/`), no video, no image files, no sound.
+  checked Gujarati captions). The 3D film is `frontend/src/story3d/journey3d.ts`; the 2D version is one SVG animated by code (`frontend/src/components/journey/`). No video files.
   A stand-alone demo with controls is in `docs/demo-investors-journey-v2.html`.
 
 ## No sign-up (watch-only)
@@ -261,6 +265,11 @@ npm test                      # backend (Jest + Supertest)
 cd frontend && npm test       # frontend unit tests (Vitest)
 ```
 
+Browser checks used before release (a real Chrome, light and dark, 1280 px and 390 px): no console errors, no sideways scrolling, text of at least 12 px, tap targets of at least 40 px, contrast of at least 4.5 : 1 on every page, every 3D story opens and plays, the yellow line only moves forward, Space pauses and Escape closes, and the accent colour and theme survive a reload.
+
+> **"EADDRINUSE: address already in use :::3001"** means another copy of the server is already running. Close that terminal, or run
+> `lsof -ti :3001 | xargs kill` (macOS / Linux), then type `rs` in the nodemon window.
+
 Run a scheduled Telegram job right now (preview with `--dry-run`, no bot token needed):
 
 ```bash
@@ -268,6 +277,18 @@ npm run job morning -- --dry-run
 npm run job alerts  -- --dry-run
 npm run job weekly  -- --dry-run
 ```
+
+### Load, speed and secret checks
+
+Last run on 2026-11-28 on a development Mac (a hosted server will give different numbers). Tests: 250 backend, 349 frontend.
+
+| Check | Command | Result |
+|---|---|---|
+| Load | `npx autocannon -c 50 -d 10 http://localhost:3001/health` (and the market routes) | no failed requests; rate limits hold |
+| Speed and SEO (use the built app) | `cd frontend && npm run build && npx vite preview`, then `npx lighthouse http://localhost:4173` | dashboard on phone: speed 83, layout shift 0.001, SEO 100 |
+| Secrets | `gitleaks git . --redact` | one false alarm (an empty key in `.env.example`) |
+
+Load-test a copy of the server you can afford to rate-limit, not one people are using.
 
 ## Linting
 

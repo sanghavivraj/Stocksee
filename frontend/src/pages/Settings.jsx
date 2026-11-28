@@ -10,9 +10,10 @@ import {
 import { UserContext } from '../context/UserContext';
 import telegramService from '../services/telegramService';
 import { t } from '../utils/i18n';
+import { PALETTES } from '../utils/palettes';
 
 const Settings = () => {
-  const { visitor, language, updateUserLanguage, theme, toggleTheme, addToast, refreshVisitor } = useContext(UserContext);
+  const { visitor, language, updateUserLanguage, theme, toggleTheme, palette, setPalette, addToast, refreshVisitor } = useContext(UserContext);
   const [selectedLang, setSelectedLang] = useState(language || 'en');
   const [saving, setSaving] = useState(false);
 
@@ -171,8 +172,8 @@ const Settings = () => {
               >
                 <Sun size={20} className="theme-option-icon" />
                 <div className="theme-option-info">
-                  <span className="theme-option-title">{tr("Aubergine & Warm Cream (Light)", language)}</span>
-                  <span className="theme-option-desc">{tr("Deep aubergine navigation with warm cream paper canvas", language)}</span>
+                  <span className="theme-option-title">{tr("Light", language)}</span>
+                  <span className="theme-option-desc">{tr("Bright and clean, easy to read in daylight", language)}</span>
                 </div>
               </button>
 
@@ -183,10 +184,28 @@ const Settings = () => {
               >
                 <Moon size={20} className="theme-option-icon" />
                 <div className="theme-option-info">
-                  <span className="theme-option-title">{tr("Night: Aubergine & Amber (Dark)", language)}</span>
-                  <span className="theme-option-desc">{tr("Deep aubergine background with warm cream text and amber accents, easy on the eyes at night", language)}</span>
+                  <span className="theme-option-title">{tr("Dark", language)}</span>
+                  <span className="theme-option-desc">{tr("Easy on the eyes at night", language)}</span>
                 </div>
               </button>
+            </div>
+            <div className="accent-picker">
+              <p className="accent-title">{tr("Accent colour", language)}</p>
+              <p className="accent-note">{tr("The colour of buttons, links and the page you are on. Gains are always green and falls are always red.", language)}</p>
+              <div className="accent-swatches" role="group" aria-label={tr("Accent colour", language)}>
+                {PALETTES.map((p) => (
+                  <button
+                    key={p.id}
+                    type="button"
+                    className={`accent-swatch ${palette === p.id ? 'active' : ''}`}
+                    aria-pressed={palette === p.id}
+                    onClick={() => setPalette(p.id)}
+                  >
+                    <span className="accent-dot" style={{ background: p.dot }} aria-hidden="true" />
+                    <span>{tr(p.label, language)}</span>
+                  </button>
+                ))}
+              </div>
             </div>
           </div>
         </section>
@@ -210,7 +229,7 @@ const Settings = () => {
                       CONNECTED{telegram.username ? ` • @${telegram.username}` : ''}
                     </span>
                   ) : waitingForTelegram ? (
-                    <span className="telegram-status-pill" style={{ background: 'rgba(255, 185, 56, 0.15)', color: 'var(--fg-accent)' }}>
+                    <span className="telegram-status-pill" style={{ background: 'var(--fg-accent-subtle)', color: 'var(--fg-accent-text)' }}>
                       {tr("WAITING FOR TELEGRAM…", language)}
                     </span>
                   ) : (

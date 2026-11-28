@@ -3,26 +3,27 @@ import { createChart, createSeriesMarkers, CandlestickSeries, ColorType } from '
 import { UserContext } from '../context/UserContext';
 import { currencySymbol } from '../utils/formatPrice';
 
+// The chart is drawn on a canvas, so it cannot read the CSS tokens: these match them (see index.css).
 const THEME_COLORS = {
   dark: {
-    background: '#171C26',
-    textColor: '#9CA3AF',
+    background: '#171A20',
+    textColor: '#A3A9B5',
     gridLines: 'rgba(255, 255, 255, 0.06)',
-    candleUp: '#10B981',
+    candleUp: '#4ADE80',
     candleDown: '#F87171',
     crosshair: 'rgba(255, 255, 255, 0.25)',
-    border: '#27272a',
-    title: '#FFFFFF',
+    border: '#2A2E37',
+    title: '#F2F3F5',
   },
   light: {
     background: '#FFFFFF',
-    textColor: '#5E4A78',
-    gridLines: 'rgba(46, 26, 71, 0.06)',
-    candleUp: '#1E8A4F',
-    candleDown: '#C73535',
-    crosshair: 'rgba(46, 26, 71, 0.25)',
-    border: '#E8D9BF',
-    title: '#2E1A47',
+    textColor: '#5F6168',
+    gridLines: 'rgba(22, 24, 29, 0.06)',
+    candleUp: '#0E7A43',
+    candleDown: '#AA2A24',
+    crosshair: 'rgba(22, 24, 29, 0.25)',
+    border: '#E7E4DC',
+    title: '#16181D',
   },
 };
 
@@ -177,7 +178,7 @@ const StockChart = ({ candles = NO_ITEMS, markers = NO_ITEMS, currency = 'INR', 
             <span>Hover candles for OHLC</span>
           )}
         </div>
-        {source && <span style={{ fontSize: '0.7rem' }}>Source: {source}</span>}
+        {source && <span style={{ fontSize: '0.75rem' }}>Source: {source}</span>}
       </div>
 
       <div ref={chartContainerRef} style={{ width: '100%', height: `${height}px`, position: 'relative' }} />

@@ -4,13 +4,23 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="StockSee is a free watch-only companion for Indian stock markets: your watchlist, price alerts, a scam tip checker and simple money lessons. No buying, selling or advice." />
   <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
   <link rel="alternate icon" href="/favicon.ico" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link
-    href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;1,6..72,400&family=JetBrains+Mono:wght@400;500;600&family=Noto+Sans+Devanagari:wght@400;600;700&family=Noto+Sans+Gujarati:wght@400;600;700&display=swap"
-    rel="stylesheet" />
+  <!-- Fonts load beside the page instead of holding back the first paint -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;1,6..72,400&family=JetBrains+Mono:wght@400;500;600&family=Noto+Sans+Devanagari:wght@400;600;700&family=Noto+Sans+Gujarati:wght@400;600;700&display=swap"
+    rel="stylesheet" media="print" onload="this.media='all'" />
+  <noscript><link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;1,6..72,400&family=JetBrains+Mono:wght@400;500;600&family=Noto+Sans+Devanagari:wght@400;600;700&family=Noto+Sans+Gujarati:wght@400;600;700&display=swap" rel="stylesheet" /></noscript>
+  <script>
+    // Set the saved theme and accent colour before the page paints, so there is no flash of the wrong colours.
+    try {
+      var d = document.documentElement, t = localStorage.getItem('stocksee_theme'), p = localStorage.getItem('stocksee_palette');
+      d.setAttribute('data-theme', t === 'dark' ? 'dark' : 'light');
+      if (['sky', 'sun', 'rose', 'teal', 'mono'].indexOf(p) > -1) d.setAttribute('data-palette', p);
+    } catch (e) { /* storage blocked: the defaults apply */ }
+  </script>
   <title>StockSee — Vernacular Market Intelligence & Watchlist</title>
 </head>
 

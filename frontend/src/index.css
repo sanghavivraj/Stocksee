@@ -1,53 +1,57 @@
 /* ============================================================ */
-/* StockSee — Signature Design System (Mobile-First)            */
+/* StockSee — Design System v3 (light + dark, five accent colours) */
+/* Neutral canvas, one accent the visitor chooses, fixed green / red for market moves. */
 /* ============================================================ */
 
 :root {
   --font-sans: 'Inter', 'Noto Sans Devanagari', 'Noto Sans Gujarati', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-  --font-serif: 'Newsreader', Georgia, 'Times New Roman', serif;
+  --font-serif: var(--font-sans); /* headings use the same clean sans as the rest (design v3) */
   --font-mono: 'JetBrains Mono', 'SF Mono', Consolas, monospace;
 
-  /* --- StockSee Signature Palette (Aubergine & Warm Cream) --- */
-  --fg-primary: #2E1A47;
-  --fg-primary-soft: #3F2760;
+  /* Accent colour (the visitor picks one in Settings). Sky blue is the default. */
+  --pal: #1d6fd6;
+  --pal-fg: #ffffff;
+  --pal-tint: #e8f1fc;
+  --pal-text: #1a62b8;
+  --pal-hover: #1759b0;
 
-  --fg-bg: #FFF7EA;
-  --fg-surface: #FFFFFF;
-  --fg-surface-muted: #F8EFE0;
-  --fg-surface-raised: #FFFFFF;
-  --fg-input: #FFFFFF;
-  --fg-card: #FFFFFF;
+  --fg-primary: #16181d;
+  --fg-primary-soft: #2a2e37;
 
-  --fg-text: #2E1A47;
-  --fg-text-secondary: #5E4A78;
-  --fg-text-muted: #6F5C87;
-  --fg-text-inverse: #FFF7EA;
+  --fg-bg: #fbfaf7;
+  --fg-surface: #ffffff;
+  --fg-surface-muted: #f3f1ea;
+  --fg-surface-raised: #ffffff;
+  --fg-input: #ffffff;
+  --fg-card: #ffffff;
 
-  --fg-border: #E8D9BF;
-  --fg-border-subtle: #F2E6D2;
-  --fg-border-focus: #FFB938;
+  --fg-text: #16181d;
+  --fg-text-secondary: #3d4049;
+  --fg-text-muted: #5f6168;
+  --fg-text-inverse: #fbfaf7;
 
-  --fg-accent: #FFB938;
-  --fg-accent-hover: #EAA425;
-  --fg-accent-subtle: #FFF0D4;
-  --fg-accent-text: #8A4F00;
-  --fg-accent-btn-text: #2E1A47;
+  --fg-border: #e7e4dc;
+  --fg-border-subtle: #efece4;
+  --fg-border-focus: var(--pal);
 
-  /* Market data on cream / light cards */
-  --fg-positive: #17703F;
-  --fg-positive-bg: #E7F6ED;
-  --fg-positive-subtle: rgba(30, 138, 79, 0.12);
+  --fg-accent: var(--pal);
+  --fg-accent-hover: var(--pal-hover);
+  --fg-accent-subtle: var(--pal-tint);
+  --fg-accent-text: var(--pal-text);
+  --fg-accent-btn-text: var(--pal-fg);
 
-  --fg-negative: #B42A2A;
-  --fg-negative-bg: #FDECEE;
-  --fg-negative-subtle: rgba(199, 53, 53, 0.12);
+  /* Market moves: always green and red, whatever accent is chosen. The arrow and the sign are shown too. */
+  --fg-positive: #0e7a43;
+  --fg-positive-bg: rgba(14, 122, 67, 0.1);
+  --fg-positive-subtle: rgba(14, 122, 67, 0.12);
+  --fg-negative: #aa2a24;
+  --fg-negative-bg: rgba(170, 42, 36, 0.1);
+  --fg-negative-subtle: rgba(170, 42, 36, 0.12);
+  --fg-positive-on-dark: #4ade80;
+  --fg-negative-on-dark: #f87171;
 
-  /* Market data on dark aubergine band */
-  --fg-positive-on-dark: #6BE59A;
-  --fg-negative-on-dark: #FF8A8A;
-
-  --fg-warning: #FFB938;
-  --fg-warning-bg: #FFF0D4;
+  --fg-warning: #b7791f;
+  --fg-warning-bg: #fff4d6;
 
   /* Aliases */
   --bg-page: var(--fg-bg);
@@ -67,91 +71,70 @@
   --negative-bg: var(--fg-negative-bg);
 
   /* Elevation & Rhythm */
-  --shadow-sm: 0 1px 3px rgba(46, 26, 71, 0.05);
-  --shadow-md: 0 4px 14px rgba(46, 26, 71, 0.08);
-  --shadow-floating: 0 10px 30px rgba(46, 26, 71, 0.18);
-  --radius-sm: 4px;
-  --radius-md: 8px;
-  --radius-lg: 12px;
-  --radius-sheet: 18px;
+  --shadow-sm: 0 1px 3px rgba(22, 24, 29, 0.06);
+  --shadow-md: 0 6px 18px rgba(22, 24, 29, 0.08);
+  --shadow-floating: 0 14px 36px rgba(22, 24, 29, 0.18);
+  --radius-sm: 6px;
+  --radius-md: 10px;
+  --radius-lg: 14px;
+  --radius-sheet: 20px;
   --radius-full: 9999px;
 
-  --header-height: 54px;
-  --bottom-nav-height: 58px;
+  --header-height: 60px;
+  --bottom-nav-height: 62px;
   --transition: all 0.18s ease-in-out;
 }
 
-/* --- Dark Theme: the same brand at night (deep aubergine canvas, warm cream text, amber accent) --- */
+/* --- Dark theme --- */
 [data-theme='dark'] {
-  --fg-primary: #FFB938;
-  --fg-primary-soft: #32244D;
+  --pal: #6db3ff;
+  --pal-fg: #0b1a2e;
+  --pal-tint: rgba(109, 179, 255, 0.14);
+  --pal-text: #7fc1ff;
+  --pal-hover: #8cc4ff;
 
-  --fg-bg: #140D20;                  /* deep aubergine canvas */
-  --fg-surface: #1E1530;             /* cards */
-  --fg-surface-muted: #281C3E;       /* quiet panels */
-  --fg-surface-raised: #32244D;      /* hover, modals */
-  --fg-input: #170F26;
-  --fg-card: #1E1530;
+  --fg-primary: #f2f3f5;
+  --fg-primary-soft: #232830;
 
-  --fg-text: #FBF3E4;                /* warm cream (same family as the light canvas) */
-  --fg-text-secondary: #D2C6E6;
-  --fg-text-muted: #B3A5CC;          /* still 7:1 on cards, never grey-on-grey */
-  --fg-text-inverse: #2E1A47;
+  --fg-bg: #0f1115;
+  --fg-surface: #171a20;
+  --fg-surface-muted: #1d2128;
+  --fg-surface-raised: #232830;
+  --fg-input: #12151a;
+  --fg-card: #171a20;
 
-  --fg-border: #3B2D57;
-  --fg-border-subtle: #2A1F40;
-  --fg-border-focus: #FFB938;
+  --fg-text: #f2f3f5;
+  --fg-text-secondary: #c9ced8;
+  --fg-text-muted: #a3a9b5;
+  --fg-text-inverse: #0f1115;
 
-  --fg-accent: #FFB938;              /* the same amber as the light theme */
-  --fg-accent-hover: #FFC95E;
-  --fg-accent-subtle: rgba(255, 185, 56, 0.14);
-  --fg-accent-text: #FFC95E;
-  --fg-accent-btn-text: #2E1A47;
+  --fg-border: #2a2e37;
+  --fg-border-subtle: #20242b;
 
-  --fg-positive: #4ADE80;
+  --fg-positive: #4ade80;
   --fg-positive-bg: rgba(74, 222, 128, 0.13);
   --fg-positive-subtle: rgba(74, 222, 128, 0.13);
-  --fg-positive-on-dark: #4ADE80;
+  --fg-negative: #f87171;
+  --fg-negative-bg: rgba(248, 113, 113, 0.13);
+  --fg-negative-subtle: rgba(248, 113, 113, 0.13);
 
-  --fg-negative: #FF8A8A;
-  --fg-negative-bg: rgba(255, 138, 138, 0.13);
-  --fg-negative-subtle: rgba(255, 138, 138, 0.13);
-  --fg-negative-on-dark: #FF8A8A;
-
-  --fg-warning: #FFB938;
-  --fg-warning-bg: rgba(255, 185, 56, 0.14);
+  --fg-warning: #f2b705;
+  --fg-warning-bg: rgba(242, 183, 5, 0.14);
 
   --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.4);
-  --shadow-md: 0 4px 16px rgba(0, 0, 0, 0.5);
-  --shadow-floating: 0 16px 40px rgba(0, 0, 0, 0.65);
+  --shadow-md: 0 6px 20px rgba(0, 0, 0, 0.5);
+  --shadow-floating: 0 18px 44px rgba(0, 0, 0, 0.65);
 }
 
-/* Dark mode: header, ribbon, navigation (everything else follows the tokens above) */
-[data-theme='dark'] .top-navbar { background-color: #1E1530; border-bottom: 1px solid #3B2D57; }
-[data-theme='dark'] .brand-title { color: #FBF3E4; }
-[data-theme='dark'] .brand-subtitle { color: #B3A5CC; }
-[data-theme='dark'] .brand-stamp { background-color: #FFB938; color: #2E1A47; }
-[data-theme='dark'] .lang-button-group { background-color: #170F26; border-color: #3B2D57; }
-[data-theme='dark'] .lang-btn { color: #D2C6E6; }
-[data-theme='dark'] .lang-btn.active { background-color: #FFB938; color: #2E1A47; }
-[data-theme='dark'] .theme-toggle-btn { background-color: #281C3E; border-color: #3B2D57; color: #FFC95E; }
-[data-theme='dark'] .theme-toggle-btn:hover { background-color: #32244D; color: #FFD98A; }
-[data-theme='dark'] .market-pulse-ribbon { background-color: #170F26; border-bottom: 1px solid #2A1F40; }
-[data-theme='dark'] .pulse-header { color: #B3A5CC; }
-[data-theme='dark'] .pulse-dot { background-color: #4ADE80; box-shadow: 0 0 8px rgba(74, 222, 128, 0.55); }
-[data-theme='dark'] .pulse-symbol { color: #D2C6E6; }
-[data-theme='dark'] .pulse-price { color: #FBF3E4; }
-[data-theme='dark'] .pulse-change.up { color: #4ADE80; background-color: rgba(74, 222, 128, 0.13); }
-[data-theme='dark'] .pulse-change.down { color: #FF8A8A; background-color: rgba(255, 138, 138, 0.13); }
-[data-theme='dark'] .mobile-bottom-nav { background-color: #1E1530; border-top: 1px solid #3B2D57; }
-[data-theme='dark'] .mobile-nav-tab { color: #B3A5CC; }
-[data-theme='dark'] .mobile-nav-tab.active { color: #FFB938; }
-[data-theme='dark'] .desktop-nav-item { color: #D2C6E6; }
-[data-theme='dark'] .desktop-nav-item:hover { color: #FBF3E4; background-color: #281C3E; }
-[data-theme='dark'] .desktop-nav-item.active { color: #2E1A47; background-color: #FFB938; font-weight: 700; }
-[data-theme='dark'] .floating-assistant-btn { background-color: #FFB938; color: #2E1A47; border-color: #EAA425; box-shadow: 0 4px 16px rgba(255, 185, 56, 0.3); }
-[data-theme='dark'] .floating-assistant-btn:hover { background-color: #FFC95E; color: #2E1A47; }
-[data-theme='dark'] .floating-assistant-btn.active { background-color: #1E1530; color: #FFB938; border-color: #3B2D57; }
+/* --- The five accent colours (light, then dark) --- */
+[data-palette='sun'] { --pal: #f2b705; --pal-fg: #1b1500; --pal-tint: #fff6d6; --pal-text: #946400; --pal-hover: #dca604; }
+[data-palette='rose'] { --pal: #d6336c; --pal-fg: #ffffff; --pal-tint: #fde8ef; --pal-text: #c0245c; --pal-hover: #bd2a60; }
+[data-palette='teal'] { --pal: #0c7c7c; --pal-fg: #ffffff; --pal-tint: #def4f3; --pal-text: #0a6b6b; --pal-hover: #0a6a6a; }
+[data-palette='mono'] { --pal: #16181d; --pal-fg: #ffffff; --pal-tint: #eeeeee; --pal-text: #16181d; --pal-hover: #2f333c; }
+[data-theme='dark'][data-palette='sun'] { --pal: #ffcf3d; --pal-fg: #1b1500; --pal-tint: rgba(255, 207, 61, 0.14); --pal-text: #ffcf3d; --pal-hover: #ffd966; }
+[data-theme='dark'][data-palette='rose'] { --pal: #ff7aa2; --pal-fg: #2a0614; --pal-tint: rgba(255, 122, 162, 0.14); --pal-text: #ff8fb0; --pal-hover: #ff9bb9; }
+[data-theme='dark'][data-palette='teal'] { --pal: #4fd1c5; --pal-fg: #04201e; --pal-tint: rgba(79, 209, 197, 0.14); --pal-text: #5fe0d4; --pal-hover: #74ddd3; }
+[data-theme='dark'][data-palette='mono'] { --pal: #f2f3f5; --pal-fg: #0f1115; --pal-tint: rgba(242, 243, 245, 0.1); --pal-text: #f2f3f5; --pal-hover: #ffffff; }
 
 /* ============================================================ */
 /* Base & Global Resets                                         */
@@ -234,8 +217,8 @@ textarea {
 /* --- Top Header Bar --- */
 .top-navbar {
   height: var(--header-height);
-  background-color: #2E1A47;
-  border-bottom: 1px solid #3F2760;
+  background-color: var(--fg-surface);
+  border-bottom: 1px solid var(--fg-border);
   position: sticky;
   top: 0;
   z-index: 60;
@@ -270,8 +253,8 @@ textarea {
   font-family: var(--font-mono);
   font-size: 0.76rem;
   font-weight: 800;
-  color: #2E1A47;
-  background-color: #FFB938;
+  color: var(--fg-accent-btn-text);
+  background-color: var(--fg-accent);
 }
 
 .brand-info {
@@ -283,13 +266,13 @@ textarea {
   font-size: 0.98rem;
   font-weight: 700;
   letter-spacing: -0.02em;
-  color: #FFF7EA;
+  color: var(--fg-text);
   line-height: 1.15;
 }
 
 .brand-subtitle {
   font-size: 0.75rem;
-  color: #B8A8D0;
+  color: var(--fg-text-muted);
   text-transform: uppercase;
   letter-spacing: 0.05em;
   font-weight: 600;
@@ -310,9 +293,9 @@ textarea {
 .lang-button-group {
   display: flex;
   align-items: center;
-  border: 1px solid #3F2760;
+  border: 1px solid var(--fg-border);
   border-radius: var(--radius-sm);
-  background-color: #201133;
+  background-color: var(--fg-input);
   padding: 2px;
 }
 
@@ -320,7 +303,7 @@ textarea {
   padding: 2px 6px;
   font-size: 0.75rem;
   font-weight: 600;
-  color: #D1C2E6;
+  color: var(--fg-text-secondary);
   background: transparent;
   border: none;
   border-radius: 2px;
@@ -329,8 +312,8 @@ textarea {
 }
 
 .lang-btn.active {
-  background-color: #FFB938;
-  color: #2E1A47;
+  background-color: var(--fg-accent);
+  color: var(--fg-accent-btn-text);
   font-weight: 700;
   box-shadow: var(--shadow-sm);
 }
@@ -338,10 +321,10 @@ textarea {
 .theme-toggle-btn {
   width: 28px;
   height: 28px;
-  border: 1px solid #3F2760;
+  border: 1px solid var(--fg-border);
   border-radius: var(--radius-sm);
-  background-color: #3F2760;
-  color: #FFB938;
+  background-color: var(--fg-surface-raised);
+  color: var(--fg-accent-text);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -350,15 +333,15 @@ textarea {
 }
 
 .theme-toggle-btn:hover {
-  background-color: #4F3276;
-  color: #FFF7EA;
-  border-color: #5E4A78;
+  background-color: var(--fg-surface-raised);
+  color: var(--fg-text);
+  border-color: var(--fg-border);
 }
 
 /* --- Market Pulse Tape Strip --- */
 .market-pulse-ribbon {
-  background-color: #26153B;
-  border-bottom: 1px solid #3F2760;
+  background-color: var(--fg-surface-muted);
+  border-bottom: 1px solid var(--fg-border);
   font-size: 0.78rem;
   overflow-x: auto;
   scrollbar-width: none;
@@ -387,7 +370,7 @@ textarea {
   font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 0.06em;
-  color: #B8A8D0;
+  color: var(--fg-text-muted);
   display: flex;
   align-items: center;
   gap: 5px;
@@ -398,7 +381,7 @@ textarea {
   width: 5px;
   height: 5px;
   border-radius: 50%;
-  background-color: #6BE59A;
+  background-color: var(--fg-positive);
   display: inline-block;
 }
 
@@ -409,7 +392,7 @@ textarea {
 }
 
 .pulse-loading-text {
-  color: #B8A8D0;
+  color: var(--fg-text-muted);
   font-size: 0.75rem;
 }
 
@@ -421,14 +404,14 @@ textarea {
 
 .pulse-symbol {
   font-weight: 600;
-  color: #D1C2E6;
+  color: var(--fg-text-secondary);
   font-size: 0.75rem;
 }
 
 .pulse-price {
   font-family: var(--font-mono);
   font-weight: 600;
-  color: #FFF7EA;
+  color: var(--fg-text);
   font-size: 0.76rem;
 }
 
@@ -441,13 +424,13 @@ textarea {
 }
 
 .pulse-change.up {
-  color: #6BE59A;
-  background-color: rgba(107, 229, 154, 0.16);
+  color: var(--fg-positive);
+  background-color: color-mix(in srgb, var(--fg-positive) 16%, transparent);
 }
 
 .pulse-change.down {
-  color: #FF8A8A;
-  background-color: rgba(255, 138, 138, 0.16);
+  color: var(--fg-negative);
+  background-color: color-mix(in srgb, var(--fg-negative) 16%, transparent);
 }
 
 /* --- Mobile Fixed Bottom Navigation Bar --- */
@@ -457,8 +440,8 @@ textarea {
   left: 0;
   right: 0;
   height: var(--bottom-nav-height);
-  background-color: #2E1A47;
-  border-top: 1px solid #3F2760;
+  background-color: var(--fg-surface);
+  border-top: 1px solid var(--fg-border);
   display: flex;
   align-items: center;
   justify-content: space-around;
@@ -475,13 +458,13 @@ textarea {
   justify-content: center;
   gap: 2px;
   height: 100%;
-  color: #B8A8D0;
+  color: var(--fg-text-muted);
   transition: var(--transition);
   user-select: none;
 }
 
 .mobile-nav-tab.active {
-  color: #FFB938;
+  color: var(--fg-accent-text);
 }
 
 .tab-icon-wrap {
@@ -919,7 +902,7 @@ textarea {
 }
 
 .standard-action-icon-btn:hover {
-  color: var(--fg-accent);
+  color: var(--fg-accent-text);
   border-color: var(--fg-accent);
   background-color: var(--fg-accent-subtle);
 }
@@ -973,7 +956,7 @@ textarea {
   font-family: var(--font-mono);
   font-size: 0.75rem;
   font-weight: 700;
-  color: var(--fg-accent);
+  color: var(--fg-accent-text);
   background-color: var(--fg-accent-subtle);
   padding: 1px 6px;
   border-radius: 2px;
@@ -1054,14 +1037,14 @@ textarea {
 .detail-sentiment-badge.mild-bullish {
   color: var(--fg-positive);
   background-color: var(--fg-positive-subtle);
-  border: 1px solid rgba(40, 122, 80, 0.25);
+  border: 1px solid color-mix(in srgb, var(--fg-positive) 25%, transparent);
 }
 
 .detail-sentiment-badge.bearish,
 .detail-sentiment-badge.mild-bearish {
   color: var(--fg-negative);
   background-color: var(--fg-negative-subtle);
-  border: 1px solid rgba(182, 74, 69, 0.25);
+  border: 1px solid color-mix(in srgb, var(--fg-negative) 25%, transparent);
 }
 
 /* Interactive Visual Chart */
@@ -1088,7 +1071,7 @@ textarea {
 }
 
 .chart-icon {
-  color: var(--fg-accent);
+  color: var(--fg-accent-text);
 }
 
 .chart-title {
@@ -1123,7 +1106,7 @@ textarea {
 
 .timeframe-btn.active {
   background-color: var(--fg-surface);
-  color: var(--fg-accent);
+  color: var(--fg-accent-text);
   box-shadow: var(--shadow-sm);
 }
 
@@ -1202,7 +1185,7 @@ textarea {
   font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 0.06em;
-  color: var(--fg-accent);
+  color: var(--fg-accent-text);
   display: flex;
   align-items: center;
   gap: 5px;
@@ -1256,7 +1239,7 @@ textarea {
 }
 
 .inquire-star {
-  color: var(--fg-accent);
+  color: var(--fg-accent-text);
   flex-shrink: 0;
 }
 
@@ -1337,7 +1320,7 @@ textarea {
 }
 
 .stock-action-pill-btn:hover {
-  color: var(--fg-accent);
+  color: var(--fg-accent-text);
   border-color: var(--fg-accent);
   background-color: var(--fg-accent-subtle);
 }
@@ -1487,7 +1470,7 @@ textarea {
 .quick-chip-btn:hover,
 .quick-chip-btn.selected {
   border-color: var(--fg-accent);
-  color: var(--fg-accent);
+  color: var(--fg-accent-text);
   background-color: var(--fg-accent-subtle);
 }
 
@@ -1511,7 +1494,7 @@ textarea {
 }
 
 .theme-glyph {
-  color: var(--fg-accent);
+  color: var(--fg-accent-text);
   padding-top: 2px;
   flex-shrink: 0;
 }
@@ -1657,11 +1640,11 @@ textarea {
 }
 
 .language-selection-card.active .lang-name {
-  color: var(--fg-accent);
+  color: var(--fg-accent-text);
 }
 
 .lang-check-icon {
-  color: var(--fg-accent);
+  color: var(--fg-accent-text);
 }
 
 .lang-desc {
@@ -1714,7 +1697,7 @@ textarea {
 }
 
 .theme-option-icon {
-  color: var(--fg-accent);
+  color: var(--fg-accent-text);
   flex-shrink: 0;
 }
 
@@ -1771,7 +1754,7 @@ textarea {
 }
 
 .highlight-code {
-  color: var(--fg-accent);
+  color: var(--fg-accent-text);
   font-weight: 600;
 }
 
@@ -1798,9 +1781,9 @@ textarea {
   /* Above mobile bottom nav */
   right: 16px;
   z-index: 85;
-  background-color: #FFB938;
-  color: #2E1A47;
-  border: 1px solid #EAA425;
+  background-color: var(--fg-accent);
+  color: var(--fg-accent-btn-text);
+  border: 1px solid var(--fg-accent-hover);
   border-radius: var(--radius-full);
   padding: 8px 14px;
   font-size: 0.82rem;
@@ -1808,21 +1791,21 @@ textarea {
   display: inline-flex;
   align-items: center;
   gap: 6px;
-  box-shadow: 0 4px 16px rgba(46, 26, 71, 0.25);
+  box-shadow: 0 4px 16px rgba(15, 17, 21, 0.25);
   cursor: pointer;
   transition: transform 0.2s ease, background-color 0.2s ease;
   outline: none;
 }
 
 .floating-assistant-btn:hover {
-  background-color: #EAA425;
-  color: #2E1A47;
+  background-color: var(--fg-accent-hover);
+  color: var(--fg-text);
 }
 
 .floating-assistant-btn.active {
-  background-color: #2E1A47;
-  color: #FFB938;
-  border-color: #3F2760;
+  background-color: var(--fg-surface);
+  color: var(--fg-accent-text);
+  border-color: var(--fg-border);
 }
 
 .assistant-btn-sparkle {
@@ -1934,7 +1917,7 @@ textarea {
   font-size: 0.75rem;
   font-weight: 700;
   text-transform: uppercase;
-  color: var(--fg-accent);
+  color: var(--fg-accent-text);
   background-color: var(--fg-accent-subtle);
   padding: 1px 4px;
   border-radius: 2px;
@@ -1975,7 +1958,7 @@ textarea {
 
 .assistant-intro-star {
   font-size: 1.15rem;
-  color: var(--fg-accent);
+  color: var(--fg-accent-text);
 }
 
 .assistant-intro-brand {
@@ -2032,7 +2015,7 @@ textarea {
 
 .assistant-preset-btn:hover {
   border-color: var(--fg-accent);
-  color: var(--fg-accent);
+  color: var(--fg-accent-text);
   background-color: var(--fg-accent-subtle);
 }
 
@@ -2221,7 +2204,7 @@ textarea {
 
 .assistant-send-btn {
   background-color: var(--fg-accent);
-  color: #2E1A47;
+  color: var(--fg-accent-btn-text);
   font-weight: 700;
   border: none;
   border-radius: var(--radius-sm);
@@ -2315,13 +2298,13 @@ textarea {
 .list-num-badge {
   font-family: var(--font-mono);
   font-weight: 700;
-  color: var(--fg-accent);
+  color: var(--fg-accent-text);
   min-width: 16px;
   font-size: 0.82rem;
 }
 
 .list-bullet-symbol {
-  color: var(--fg-accent);
+  color: var(--fg-accent-text);
   font-weight: bold;
   font-size: 0.85rem;
 }
@@ -2351,7 +2334,7 @@ textarea {
 
 .btn-editorial-primary {
   background-color: var(--fg-accent);
-  color: var(--fg-accent-btn-text, #2E1A47);
+  color: var(--fg-accent-btn-text, var(--fg-accent-btn-text));
   border-color: var(--fg-accent);
   font-weight: 700;
 }
@@ -2359,7 +2342,7 @@ textarea {
 .btn-editorial-primary:hover {
   background-color: var(--fg-accent-hover);
   border-color: var(--fg-accent-hover);
-  color: var(--fg-accent-btn-text, #2E1A47);
+  color: var(--fg-accent-btn-text, var(--fg-text));
 }
 
 .btn-editorial-secondary {
@@ -2385,7 +2368,7 @@ textarea {
 }
 
 .banner-icon-wrap {
-  color: var(--fg-accent);
+  color: var(--fg-accent-text);
 }
 
 .banner-content {
@@ -2603,20 +2586,20 @@ textarea {
     padding: 0.4rem 0.75rem;
     font-size: 0.84rem;
     font-weight: 500;
-    color: #D1C2E6;
+    color: var(--fg-text-secondary);
     border-radius: var(--radius-sm);
     transition: var(--transition);
   }
 
   .desktop-nav-item:hover {
     color: #FFFFFF;
-    background-color: #3F2760;
+    background-color: var(--fg-surface-raised);
   }
 
   .desktop-nav-item.active {
-    color: #2E1A47;
+    color: var(--fg-accent-btn-text);
     font-weight: 700;
-    background-color: #FFB938;
+    background-color: var(--fg-accent);
   }
 
   .main-content {

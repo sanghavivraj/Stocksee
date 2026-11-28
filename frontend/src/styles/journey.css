@@ -5,7 +5,7 @@
   z-index: 200;
   overflow: hidden;
   cursor: pointer;
-  background: linear-gradient(#1f0f40, #0d0620);
+  background: #060a14;
   opacity: 0;
   transition: opacity 350ms ease-out;
   -webkit-tap-highlight-color: transparent;

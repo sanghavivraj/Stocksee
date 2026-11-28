@@ -1,4 +1,5 @@
 import { lazy, Suspense } from 'react';
+import usePageSwitch from './hooks/usePageSwitch';
 import { BrowserRouter as Router, Routes, Route, Navigate, useLocation } from 'react-router-dom';
 import Dashboard from './pages/Dashboard';
 import Layout from './components/Layout';
@@ -16,28 +17,31 @@ const Samajh = lazy(() => import('./pages/Samajh'));
 const PageLoading = () => <div className="skeleton" style={{ height: 240, margin: '1rem 0' }} role="status" aria-label="Loading" />;
 
 function AppRoutes() {
-  const location = useLocation();
+  // while leaving, the old page stays on screen for a moment; then the new one comes in
+  const [view, leaving] = usePageSwitch(useLocation());
   return (
     <Layout>
-      <ErrorBoundary resetKey={location.pathname}>
-        <Suspense fallback={<PageLoading />}>
-          <Routes>
-            <Route path="/" element={<Dashboard />} />
-            <Route path="/watchlist" element={<Watchlist />} />
-            <Route path="/alerts" element={<Alerts />} />
-            <Route path="/tip-check" element={<TipCheck />} />
-            <Route path="/unusual" element={<Unusual />} />
-            <Route path="/compare" element={<Compare />} />
-            <Route path="/samajh" element={<Samajh />} />
-            <Route path="/settings" element={<Settings />} />
-            <Route path="/login" element={<Navigate to="/" replace />} />
-            <Route path="/portfolio" element={<Navigate to="/watchlist" replace />} />
-            <Route path="/markets" element={<Navigate to="/" replace />} />
-            <Route path="/ask" element={<Navigate to="/" replace />} />
-            <Route path="*" element={<Navigate to="/" replace />} />
-          </Routes>
-        </Suspense>
-      </ErrorBoundary>
+      <div key={view.pathname} className={`page-view ${leaving ? 'is-leaving' : ''}`}>
+        <ErrorBoundary resetKey={view.pathname}>
+          <Suspense fallback={<PageLoading />}>
+            <Routes location={view}>
+              <Route path="/" element={<Dashboard />} />
+              <Route path="/watchlist" element={<Watchlist />} />
+              <Route path="/alerts" element={<Alerts />} />
+              <Route path="/tip-check" element={<TipCheck />} />
+              <Route path="/unusual" element={<Unusual />} />
+              <Route path="/compare" element={<Compare />} />
+              <Route path="/samajh" element={<Samajh />} />
+              <Route path="/settings" element={<Settings />} />
+              <Route path="/login" element={<Navigate to="/" replace />} />
+              <Route path="/portfolio" element={<Navigate to="/watchlist" replace />} />
+              <Route path="/markets" element={<Navigate to="/" replace />} />
+              <Route path="/ask" element={<Navigate to="/" replace />} />
+              <Route path="*" element={<Navigate to="/" replace />} />
+            </Routes>
+          </Suspense>
+        </ErrorBoundary>
+      </div>
     </Layout>
   );
 }

@@ -30,3 +30,6 @@ local/
 
 # Local data files (may contain personal data)
 src/data/*.json
+
+design-lab/
+docs/demo-design-options.html
